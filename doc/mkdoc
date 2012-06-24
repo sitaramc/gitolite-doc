@@ -1,19 +1,18 @@
 #!/usr/bin/perl
 
-#   cd <g3 clone>/doc; ./mkdoc     # --> creates ../html/*.html
+#   cd <g3 book>; ./mkdoc       # --> creates *.html in html branch
 
 my $MKD = "./Markdown.pl";
 
 use 5.10.0;
 use strict;
 use warnings;
-use lib '../src/lib/Gitolite/Test';
+use lib '../gitolite/src/lib/Gitolite/Test';
 use Tsh;
 
 $ENV{TSH_ERREXIT} = 1;
 
 try "
-    mkdir ../html;                      ok
     git status -s -uno;                 !/./
     git log --oneline -1
 " or die 1;
@@ -23,15 +22,15 @@ my $head = (lines())[0];
 main();
 
 try "
-    git checkout gh-pages;              ok
-    git reset --hard github/gh-pages;   ok
-    cd ..;                              ok
+    mkdir html;                         ok
+    mv *.html html;                     ok
+    git checkout -f html;               ok
     git rm *.html;                      ok
     mv html/*.html .;                   ok
+    rmdir html;                         ok
     git add *.html;                     ok
     git commit -m '$head';              ok
     git checkout master;                ok
-    rmdir html;                         ok
 " or die 2;
 
 sub main {
@@ -85,14 +84,14 @@ sub main {
         my $css = $css_block;
         $css =~ s/%TITLE/$title{$b} || $b/e;
 
-        open($fh, ">", "../html/$b.html")
+        open($fh, ">", "$b.html")
           and print $fh $css
           and close $fh;
 
         my $mkt = `cat $mkd`;
         $mkt =~ s/^(#+) #(\S+) /$1 <a name="$2"><\/a> /mg;
         $mkt =~ s/^\[\[TOC\]\]/$ct{$b}/mg;
-        open($fh, "|-", "$MKD >> ../html/$b.html")
+        open($fh, "|-", "$MKD >> $b.html")
           and print $fh $mkt, "\n\n", $mf
           and close $fh;
     }

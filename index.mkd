@@ -59,8 +59,18 @@ most people see:
 
 ## #license license
 
-The gitolite *code* is released under GPL v2.  See COPYING for details.
-
-The gitolite documentation is provided under a [Creative Commons
+This documentation, which is maintained separately from the main gitolite
+source code, is provided under a [Creative Commons
 Attribution-NonCommercial-ShareAlike 3.0 Unported
 License](http://creativecommons.org/licenses/by-nc-sa/3.0/).
+
+However, of necessity, there are code examples within those documents.  I
+believe that the principle of fair use should cover use of those snippets; see
+especially factors 3 and 4 in the list of factors
+[here](http://en.wikipedia.org/wiki/Fair_use#Fair_use_under_United_States_law).
+
+However, if you're not convinced that it would be fair use, then you may
+consider those code snippets, as well as associated "comments" if any, to be
+under the GPLv2 license.  Licensing is about intent, and the intent of these
+examples is that you use them wherever and however you can use gitolite
+itself.

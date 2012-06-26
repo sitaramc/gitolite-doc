@@ -1,5 +1,8 @@
 # putty and msysgit
 
+Copyright: Thomas Berezansky (tsbere (at) mvlc (dot) org).  Licensed under
+CC-BY-SA unported 3.0, http://creativecommons.org/licenses/by-sa/3.0/
+
 This document is intended for those who wish to use Putty/Plink with msysgit.
 
 If you need more help with putty or component programs I suggest looking at [the official putty documentation](http://the.earth.li/~sgtatham/putty/latest/htmldoc/).

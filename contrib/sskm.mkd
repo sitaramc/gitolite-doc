@@ -1,5 +1,8 @@
 # changing keys -- self service key management
 
+Copyright: Jeff Mitchell (jmitchell@kde.org).  Licensed under CC-BY-NC-SA
+unported 3.0, http://creativecommons.org/licenses/by-nc-sa/3.0/
+
 [Note on g3 version: this has been manually spot-tested; there is no test suite.  Changes from g2 version are minimal so it should all work fine but please report errors!]
 
 Follow this guide to add keys to or remove keys from your account. Note that you cannot use this method to add your *first* key to the account; you must still email your initial key to your admin.

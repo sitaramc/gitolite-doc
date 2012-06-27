@@ -105,6 +105,7 @@
   * ([link][partial-copy]: faking selective READ control)
   * using pubkeys obtained [from elsewhere][keysonly]
   * ([link][pushcode]: updating code via the admin repo)
+  * giving users [their own repos][gh]
 
 ## interfacing with [external][] tools
 
@@ -140,6 +141,7 @@
           * commands
           * trigger programs
           * sugar
+      * (appendix 1) notes on the INPUT trigger
 
 ## [non-core][] programs shipped with gitolite
 

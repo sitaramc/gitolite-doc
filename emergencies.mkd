@@ -146,6 +146,9 @@ the answer, but here's a list of files you should blow away.
 
   * having the home directory in a partition that is mounted noexec.
 
+  * having the default shell be something like /bin/false, and/or not having
+    the default shell be part of /etc/shells.
+
 ## #ngp things that are not gitolite problems
 
 There are several things that appear to be gitolite problems but are not.  I

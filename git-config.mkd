@@ -37,7 +37,9 @@ examples).  Other forms of the `git config` command (`--add`, the
 
 >   ----
 
-You can also use the special value `%GL_REPO` in the string to save typing:
+You can also use the special values `%GL_REPO` and `%GL_CREATOR` in the
+string.  The former is available to all repos, while the latter is only
+available to [wild][] repos.
 
     repo foo bar baz
         config hooks.mailinglist = %GL_REPO-commits@example.tld

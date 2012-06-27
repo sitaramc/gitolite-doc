@@ -29,7 +29,7 @@ a detailed log of every command you typed, and the complete response you got.
 I do not ask for this information to help you -- that's only a front.  I
 *know* these instructions work (at least on any Linux that already has git
 installed), so the real reason is to find where you mistyped something and
-mock you for that,
+mock you for that.
 
 ### Assumptions
 

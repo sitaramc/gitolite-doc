@@ -51,12 +51,19 @@ most people see:
 
 ## #contact contact
 
+**NOTE** Unless you have very good reasons, please use the mailing list below
+instead of mailing me personally.  If you have to mail me, use the gmail
+address instead of my work address.
+
   * author: sitaramc@gmail.com, sitaram@atc.tcs.com
 
-  * general discussion list: gitolite@googlegroups.com
-      * list subscribe address: gitolite+subscribe@googlegroups.com
-  * announcements and notices list: gitolite-announce@googlegroups.com
-      * list subscribe address: gitolite-announce+subscribe@googlegroups.com
+  * mailing list for questions and general discussion:
+      * gitolite@googlegroups.com
+      * subscribe address: gitolite+subscribe@googlegroups.com
+
+  * mailing list for announcements and notices:
+      * gitolite-announce@googlegroups.com
+      * subscribe address: gitolite-announce+subscribe@googlegroups.com
 
   * IRC: #git and #gitolite on freenode.  Note that I live in India (UTC+0530
     time zone).

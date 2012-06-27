@@ -90,9 +90,10 @@ Some of them have links where there is more detail than I want to put here.
 
   * `GIT_PATH` **dropped**, **requires presetting**.
 
-    If you need its functionality, add these lines to the end of the rc file:
+    If you need this, manipulate the PATH environment variable directly.  Just
+    put something like this at the end of the rc file:
 
-        $ENV{PATH}="...whatever you want...";
+        $ENV{PATH} = "/some/non-standard/path:$ENV{PATH}";
         1;
 
 ### medium impact

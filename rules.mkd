@@ -34,6 +34,11 @@ There are also other, less commonly used, [types of permissions][write-types].
 A refex is an expression that matches the ref (i.e., branch or tag) being
 pushed.  See [this][refex] for more info.
 
+You can also use [virtual refs][vref] to perform extra checks and controls
+that you can't do with just the normal ref (like refs/heads/master) being
+pushed.  The most common example is restricting pushes by dir/file name, but
+there are lots of other possibilities.
+
 ### when are the rules checked?
 
 There are 2 places where access rules are checked.

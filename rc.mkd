@@ -1,9 +1,9 @@
 # the "rc" file (`$HOME/.gitolite.rc`)
 
 **NOTE**: if you're migrating from g2, there are some settings that MUST be
-dealt with **before** running `gitolite setup`; please read the [g2
-migration][g2migr] page and linked pages, and especially the one on
-[presetting the rc file][rc-preset].
+dealt with **before** running `gitolite setup`; please read the
+[migration][migr] page and linked pages, and especially the one on "presetting
+the rc file"
 
 ----
 

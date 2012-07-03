@@ -1,4 +1,4 @@
-# #g2migr migrating from g2
+# #g2migr pre-migration checklist
 
 <font color="red"> **This document is a *MUST* read if you are currently using
 g2 and want to move to g3.** </font>

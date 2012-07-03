@@ -191,7 +191,7 @@ are the steps:
 1.  Check the [dev-status][] page to make sure all the features you want have
     been implemented in g3.
 
-2.  Read the [g2 migration][g2migr] page to see what changes affect you and
+2.  Read the [pre-migration][g2migr] page to see what changes affect you and
     your users, and how much time it might take you to migrate.  (The closer
     you were to a default install of the old gitolite, the less time a
     migration will take.)

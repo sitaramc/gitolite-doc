@@ -1,7 +1,7 @@
 # #g2incompat incompatibility with g2
 
 This page expands on some incompatibilities that were only briefly mentioned
-in the [migration][g2migr] page.
+in the [pre-migration][g2migr] page.
 
 ## #g2i-name NAME rules
 

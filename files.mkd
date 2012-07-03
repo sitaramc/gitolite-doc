@@ -21,7 +21,8 @@ Now you have
     ./  ../  check-g2-compat*  doc/  dot.pl  .git/  install*  src/  t/
 
 If we were an existing user, we'd run the migration checker 'check-g2-compat'
-(see [here][g2migr]).  For now we're only interested in "gitolite/src", so:
+(start [here][migr] for all migration info).  For now we're only interested in
+"gitolite/src", so:
 
     $ ls -aF gitolite/src
     ./  ../  commands/  gitolite*  Gitolite/  gitolite-shell*  syntactic-sugar/  triggers/  VREF/

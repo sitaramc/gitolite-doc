@@ -92,8 +92,9 @@ This is a quick and dirty program to catch some of the big issues.
                 or that might end up giving *more* access to someone if migrated as-is.
                 It does NOT attempt to catch all the differences described in the docs.
 
-    INFO        'see docs' usually means doc/g2migr.mkd
-                (online at http://sitaramc.github.com/gitolite/g2migr.html)
+    INFO        'see docs' usually means the pre-migration checklist in
+                "g2migr.html"; to get there, start from the main migration
+                page at http://sitaramc.github.com/gitolite/install.html#migr
 
     checking rc file...
     NOTE        GL_ADMINDIR is in the right place; assuming you did not mess with

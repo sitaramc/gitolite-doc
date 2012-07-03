@@ -16,6 +16,7 @@
   * [clean][]ing out a botched install
   * [common][ce] errors
   * [uncommon][ue] errors
+  * [non-standard configs][nonstd] that'll trip you up
   * things that are [not gitolite problems][ngp]
 
 ## [WARNINGS][]

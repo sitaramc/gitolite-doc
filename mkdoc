@@ -1,26 +1,71 @@
 #!/usr/bin/perl
 
-#   cd <g3 book>; ./mkdoc       # --> creates *.html in html branch
+=for usage
 
-my $MKD = "./Markdown.pl";
+    NOTE: If you want to turn this into a generic mkd -> html convertor, the
+    only part you need is the subroutine called main().  See comments to get a
+    feel for what else is happening though...
+
+Recursively find all the *.mkd files in $PWD and convert them to *.html.  The
+html files will all be in the current directory; the directory structure of
+the mkd files is not replicated.  This is by design.
+
+Over and above plain markdown, this allows three extra features:
+
+  * This program generates a "master footer" which gets added to *all* mkd
+    files before being processed by Markdown.pl.
+
+    This means that any file, say foo/bar.mkd, can be linked to as [some
+    text][bar] in any (other) mkd file.
+
+  * In addition, a line like
+
+        ##  #foo some description of foo
+
+    results in (1) a <a name="foo"> tag at that point and (2) the word "foo"
+    being added to the master footer so that any (other) mkd can say:
+
+        [some text][foo]
+
+  * A line starting with
+
+        [[TOC]]
+
+    becomes an inline, indented, TOC just for that file.
+
+Copyright: Sitaram Chamarty, sitaramc@gmail.com, sitaram@atc.tcs.com
+License: GPL v2
+
+=cut
+
+my $MKD = "./Markdown.pl";  # Markdown.pl is not mine; look inside it for a URL
 
 use 5.10.0;
 use strict;
 use warnings;
+
+# Tsh is just one way of running external commands, capturing their exit codes
+# and statuses, etc.  Feel free to substitute your own or even drop those
+# calls if you don't need that stuff.  Or lift 'em out into a shell script and
+# use this program only for "main()".
 use lib '../gitolite/src/lib/Gitolite/Test';
 use Tsh;
-
 $ENV{TSH_ERREXIT} = 1;
 
+# remove if you don't care about dirty tree or replace with eqvt code if you
+# do care but are not using Tsh.
 try "
     git status -s -uno;                 !/./
     git log --oneline -1
 " or die 1;
-
 my $head = (lines())[0];
 
+# this is the only part a generic convertor should need
 main();
 
+# conversion done; save 'em all into 'html' directory, switch to 'html'
+# branch, and restore the files from 'html' directory, completely overwriting
+# existing *.html files.  Commit the new html branch and switch to master.
 try "
     mkdir html;                         ok
     mv *.html html;                     ok
@@ -33,55 +78,60 @@ try "
     git checkout master;                ok
 " or die 2;
 
+# ----------------------------------------------------------------------
+
 sub main {
     chomp(@ARGV = `find . -name "*.mkd" | cut -c3-`) if not @ARGV;
     @ARGV = grep { /./ } @ARGV;
     my @save = @ARGV;
     my $css_block = join("", <DATA>);
 
-    my %ct; # chapter tocs
+    my %ct;         # chapter tocs
     my %title;
-    my $mf = '';
+    my $mf = '';    # master footer
     my $fh;
 
     while (<>) {
         $ARGV =~ /^(?:.*\/)?([^\/]+)\.mkd$/;
-        my $b = $1;
+        my $b = $1;     # basename of mkd/html file
 
         if (/^(#+) (?:#(\S+) )?(.*)/) {
             $title{$b} ||= $3;
             if ( length($1) == 1 ) {
+                # top level headings (single '#' character) are added to the
+                # chapter toc, as well as get entered into the master footer
                 $ct{$b} .= "\n";
                 $ct{$b} .= "  * [$3][$b]\n";
                 $mf .= "[$b]: $b.html\n";
             } else {
                 $ct{$b} .= " " x ( 4 * ( length($1) - 1 ) );
                 $ct{$b} .= "  * ";
+                # if the link has an explicitly supplied name ($2) use that in
+                # the chapter TOC being built.
                 $ct{$b} .= (
                     $2
                     ? "[$3][$2]"
                     : "$3"
                 );
                 $ct{$b} .= "\n";
+                # add entry to the master footer if the link has a name
                 $mf .= "[$2]: $b.html" . ($2 ne $b ? "#$2" : "") . "\n" if $2;
             }
         }
     }
 
-    # open($fh, ">", "master-toc.mk2")
-    #   and print $fh $mt
-    #   and close $fh;
-
-    # after this, do this for every mkd (including the master-toc.mkd)
-
+    # master footer generated, now process every mkd.  What we do here is
+    # loosely equivalent to:
     #       cat $css_block > $base.html
-    #       cat $base.mkd $mf | $MKD >> $base.html
+    #       cat $base.mkd $mf | Markdown.pl >> $base.html
+    # where $mf is the master footer lines generated earlier.
 
     for my $mkd (@save) {
         $mkd =~ /^(?:.*\/)?([^\/]+)\.mkd$/;
         my $b = $1;
 
         my $css = $css_block;
+        # add a title for the title tag
         $css =~ s/%TITLE/$title{$b} || $b/e;
 
         open($fh, ">", "$b.html")
@@ -89,7 +139,9 @@ sub main {
           and close $fh;
 
         my $mkt = `cat $mkd`;
+        # the name tags are actually created here
         $mkt =~ s/^(#+) #(\S+) /$1 <a name="$2"><\/a> /mg;
+        # and the chapter toc is spliced in, if [[TOC]] exists
         $mkt =~ s/^\[\[TOC\]\]/$ct{$b}/mg;
         open($fh, "|-", "$MKD >> $b.html")
           and print $fh $mkt, "\n\n", $mf

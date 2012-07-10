@@ -52,8 +52,12 @@ most people see:
 ## #contact contact
 
   * author: sitaramc@gmail.com, sitaram@atc.tcs.com
-  * mailing list: gitolite@googlegroups.com
-  * list subscribe address : gitolite+subscribe@googlegroups.com
+
+  * general discussion list: gitolite@googlegroups.com
+      * list subscribe address: gitolite+subscribe@googlegroups.com
+  * announcements and notices list: gitolite-announce@googlegroups.com
+      * list subscribe address: gitolite-announce+subscribe@googlegroups.com
+
   * IRC: #git and #gitolite on freenode.  Note that I live in India (UTC+0530
     time zone).
 

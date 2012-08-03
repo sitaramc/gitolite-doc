@@ -6,6 +6,7 @@
   * [quick links][ql]
   * [what][] is gitolite
   * [why][] might you need it
+  * [who][] is using it
   * [contact][] info, mailing list, IRC channel
   * [license][] info
 

@@ -1,0 +1,85 @@
+# who uses gitolite
+
+[Note that most of the users who are listed in this document are still using
+v2.x, presumably because it's working fine for them and there's no compelling
+reason to upgrade, and I still support v2 at least for critical issues].
+
+>   >   If you're using gitolite and find it very useful in some way, I would
+>   >   love to describe your use of it or add a link to your own description
+>   >   of it here.  Of course, you can anonymise it as much as you need to.
+
+The **Fedora Project** controls access to over 10,000 package management
+repositories accessed by over 1,000 package maintainers [using
+gitolite][fedora].  This is probably the largest *confirmed* gitolite
+installation anywhere.  The whole [big-config][bc] thing was initially done
+for them (their config file was so big that without the big-config changes
+gitolite would just run out of memory and die!).
+
+[fedora]: http://lists.fedoraproject.org/pipermail/devel-announce/2010-July/000647.html
+
+The **KDE project** [uses][kde] gitolite (in combination with redmine for
+issue tracking and reviewboard for code review).  Apart from the usual access
+control, the KDE folks are heavy users of the "ad hoc repo creation" features
+enabled by wildrepos and the accompanying commands.  Several of the changes to
+the "admin defined commands" were also inspired by KDE's needs.  See [section
+5][s5] and [section 6][s6] of the above linked page for details.
+
+[kde]: http://community.kde.org/Sysadmin/GitKdeOrgManual
+[s5]: http://community.kde.org/Sysadmin/GitKdeOrgManual#Server-side_commands
+[s6]: http://community.kde.org/Sysadmin/GitKdeOrgManual#Personal_repositories
+[kdera]: http://permalink.gmane.org/gmane.comp.kde.scm-interest/1437
+
+**Prof. Hiren Patel** of the University of Waterloo is responsible for the
+existence of the fairly popular "[wildrepos][wild]" feature.  The
+documentation was pretty much written with his use case in mind, but of course
+it turns out to be useful for a lot of people, as you can see from the
+previous para on KDE's use of gitolite.
+
+In fact, he surprised the heck out of me recently by saying that if it hadn't
+been for this feature, he might not have used git itself -- which is a pretty
+serious compliment if you think about the magnitude of the git project and my
+little one-man show!
+
+He explains his use of it [here][hiren].
+
+[hiren]: http://ece.uwaterloo.ca/~hdpatel/uwhtml/wildrepos-in-gitolite/
+
+**Gentoo Linux** has [just moved][gentoo1] their git repositories from gitosis
+to gitolite. There are about 200 repositories, some of them are the so called
+[overlays][gentoo2], official and unofficial/user overlays, plus several
+developer and project repositories, used by more than 1000 people. That number
+will be increased in the near future, as they are going to migrate some of
+their CVS/SVN repositories there, plus they are offering overlays hosting for
+users as well.
+
+[gentoo1]: http://archives.gentoo.org/gentoo-dev/msg_2812c9b9e768f64b46360ab17b9d0024.xml
+[gentoo2]: http://www.gentoo.org/proj/en/overlays/
+
+**Nokia MeeGo** uses Gitolite internally, and has also contributed LDAP
+specific code (see [contrib/ldap][ldap] directory for details).
+
+[ldap]: http://github.com/sitaramc/gitolite/blob/pu/contrib/ldap
+
+**kernel.org**, the official distribution point for the Linux kernel, is the
+latest (as of 2011-10) high-visibility installation.  According to [this
+email][ko-ann] to the lkml, kernel.org decided to use gitolite for access
+controlling their git repos.  Their [FAQ entry][ko-why] describes at a high
+level why they chose gitolite.
+
+This move also prompted the first ever security audit of gitolite by an
+outside party.  Gitolite did great; see [here][audit] for details.
+
+In addition, kernel.org was responsible for a serious rethink of a few rough
+edges in gitolite, and smoothing them out was fun (the "playing with gitolite"
+stuff, making the test suite simpler, "deny" rules for the entire repo).
+
+[ko-ann]: http://lkml.org/lkml/2011/9/23/357
+[ko-why]: http://www.kernel.org/faq/#whygitolite
+[audit]: http://groups.google.com/group/gitolite/browse_thread/thread/8dc5242052b16d0f
+
+----
+
+A general note: if you see the list of high-profile users above, you will see
+that gitolite benefits as much as they do; possibly more.
+
+color me happy...

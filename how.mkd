@@ -1,0 +1,95 @@
+# how does gitolite work
+
+You'll appreciate this more if you first read the [try it and see][tias] page
+(don't worry, it's very short and quick).
+
+[tias]: http://sitaramc.github.com/1-basic-usage/tias.html
+
+## conventions used
+
+    --//-->     network connection
+    ------>     exec() or system() call
+    --??-->     conditional exec() or system() call
+
+"Conditional" means some checks done by the caller may result in caller
+deciding not to make the call and abort instead.
+
+## git over plain ssh
+
+If you have used rsync or any similar program with a remote host using ssh,
+then you already understand the basics of git over ssh.
+
+Here is a little more detail on what is happening:
+
+    # for read operations
+    git clone ------> ssh --//--> sshd ------> git-upload-pack
+    git fetch ------> ssh --//--> sshd ------> git-upload-pack
+
+    # for write operations
+    git push  ------> ssh --//--> sshd ------> git-receive-pack
+
+The local git client just runs something like `ssh git@host git-receive-pack
+'path/to/reponame.git'` (using the push example), and when that connection is
+established the local git-push and the remote git-receive-pack communicate
+over this connection.
+
+## git over gitolite
+
+Installing gitolite only adds an extra layer in between the sshd and the
+git-receive-pack (or git-upload-pack, for read operations), to check if the
+access is allowed and abort if needed.
+
+Using the push as an example, this is what it looks like:
+
+    git push  ------> ssh --//--> sshd ------> gitolite-shell --??--> git-receive-pack
+
+Note that the git *client* does not change at all; in fact it doesn't even
+know that something called gitolite exists!
+
+Here's how we get the server side behaviour shown above:
+
+  * we make sshd invoke 'gitolite-shell', even though the git client asked it
+    to invoke 'git-receive-pack' (or 'git-upload-pack' for reads).
+
+  * we also make sshd supply an argument to 'gitolite-shell'.  This is the
+    name of the gitolite user.  (Remember this is a virtual user, not a real
+    "unix" userid).
+
+  * finally, sshd itself supplies the original command that the git *client*
+    wanted to run (`git-receive-pack 'path/to/reponame.git'`) in a special
+    environment variable called `SSH_ORIGINAL_COMMAND`.
+
+(<font color="gray">All this is done using various ssh features; see the
+[gitolite and ssh][glssh] page for details</font>).
+
+### gitolite-shell
+
+So gitolite-shell has two pieces of information.  From argument-1 it knows the
+username, and from that env var it knows what repo and what operation (i.e.,
+is it a read or a write) is requested.
+
+At this point, it checks the user's access and decides if the access is
+allowed or not.
+
+(<font color="gray">For details see the [rules][] page, especially the
+sections "when are the rules checked" and "how are the rules matched"</font>).
+
+For read operations this is the end of gitolite's interference.  If the access
+is allowed, git-upload-pack runs, does its job, and exits.
+
+### update hook
+
+For write operations, git itself runs an update hook, if one is available,
+before allowing the ref to be updated.  All of gitolite's "fine-grained access
+control" happens via this hook, which gitolite installs on every repo that it
+is managing.
+
+When git calls the update hook, it supplies 3 critical pieces of information
+as arguments.  Together with what we already know (user, repo), these 3 pieces
+of information (refname being updated, the old SHA, and the new SHA) tell us
+all we need to implement whatever access control you want to, like "only alice
+and dilbert can push the master branch", "wally can only push branches
+starting with 'wally/'", or "only dilbert can push changes to 'license.txt',
+etc.
+
+(<font color="gray">Again, details are in the [rules][] page</font>).

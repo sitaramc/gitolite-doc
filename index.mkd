@@ -3,7 +3,8 @@
 Gitolite allows you to setup git hosting on a central server, with
 fine-grained access control and many more powerful features.
 
-Here's more on [what][] it is and [why][] you might need it.
+Here's more on [what][] it is, [how][] it works, [why][] you might need it,
+and [who][] else is using it.
 
 <font color="gray">
 

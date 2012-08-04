@@ -4,9 +4,10 @@
 
   * (for [older][g2] gitolite (v1 or v2) users)
   * [quick links][ql]
-  * [what][] is gitolite
-  * [why][] might you need it
-  * [who][] is using it
+  * [what][] is gitolite?
+  * [how][] does it work?
+  * [why][] might you need it?
+  * [who][] is using it?
   * [contact][] info, mailing list, IRC channel
   * [license][] info
 

@@ -4,6 +4,18 @@
 
 ----
 
+Git by itself does not do any access control -- it relies on the transport
+medium to do authentication ("who are you?"), and on OS file permissions to do
+authorisation ("what are you allowed to do?").
+
+Git also comes with a program called "git-shell" which can act as a restricted
+login shell if you don't want users getting a proper shell.  Using this and
+judicious use of Unix groups, you can allow some people read-only access while
+others get read-write access, etc.  This is probably sufficient if your needs
+are simple and don't change too often.
+
+However, gitolite does this much better, and offers many more features.
+
 ## basic use case
 
 Gitolite is useful in any server that is going to host multiple git
@@ -88,8 +100,12 @@ of the About page, in the License section].
 
 ### gitlab
 
-Gitlab is built on top of gitolite, but I don't know more than that as yet.
-Patches welcome.
+Gitlab is built on top of gitolite, but it does not allow branch-level access
+control which pretty much defeats the purpose of their switching from gitosis
+to gitolite if you ask me.
+
+If you like web-based management, issue tracker, wiki, and so on, you might
+like it.
 
 ### others
 

@@ -187,7 +187,7 @@ Now go to your old clone, and push it:
     To /home/g3/repositories/gitolite-admin.git
      + 7eb8163...1474770 master -> master (forced update)
 
-Aaha!  I forgot to set `CONFIG_KEYS` (new name for `GL_GIT_CONFIG_KEYS`) in
+Aaha!  I forgot to set `CONFIG_KEYS` (new name for `GL_GITCONFIG_KEYS`) in
 the new rc file so fix that:
 
     $ vim ~/.gitolite.rc

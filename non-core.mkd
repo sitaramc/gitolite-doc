@@ -1,5 +1,10 @@
 # non-core programs shipped with gitolite
 
+**NOTE**: This doc describes *only some* of the non-core programs that come
+with gitolite.  If you don't find what you want here, look in the appropriate
+directory (see the "locations" section in the [customisation][cust] document).
+Who knows, you might find some other cool feature you did not know about!
+
 ----
 
 [[TOC]]

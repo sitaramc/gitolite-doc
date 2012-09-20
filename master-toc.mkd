@@ -34,15 +34,15 @@
 ## [install][]
 
   * notes and naming conventions
-  * requirements
+  * [requirements][req]
       * your skills
       * server
       * client
   * getting the software
   * the actual install
   * upgrading
-  * packaging gitolite
-  * [migr][]ating
+  * [packaging][package] gitolite
+  * [migrating][migr] from v2
 
 ## [setup][]
 

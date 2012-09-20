@@ -5,6 +5,16 @@ You'll appreciate this more if you first read the [try it and see][tias] page
 
 [tias]: http://sitaramc.github.com/1-basic-usage/tias.html
 
+## what does a "gitolite repo" look like?
+
+A gitolite repo looks just like a normal bare repo on any normal git server.
+There are a few extra files placed in the repo directory whose names start
+with "gl-", and there is also an update hook placed in the hooks subdirectory,
+but that's about it, for the most part.
+
+In other words, you can treat a gitolite-managed repo just like any other bare
+repo as long as you leave those files alone.
+
 ## conventions used
 
     --//-->     network connection

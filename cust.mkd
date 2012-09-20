@@ -128,10 +128,13 @@ You can install any hooks except these:
 
   * (gitolite-admin repo only) gitolite reserves the `post-update` hook.
 
+**NOTE**: if you want to install a hook in only a few specific repositories,
+do it directly on the server.
+
 How/where to install them is described in detail in the "locations" section
 above, especially [this][localcode] and [this][pushcode].  The summary is that
 you put them in the "hooks/common" sub-directory within the directory whose
-name is given in the `LOCAL_CODE` rc variable.
+name is given in the `LOCAL_CODE` rc variable, then run `gitolite setup`.
 
 ### #sugar syntactic sugar
 

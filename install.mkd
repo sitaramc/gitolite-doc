@@ -199,6 +199,9 @@ are the steps:
     This includes at least running `check-g2-compat` to see what are the big
     issues you might need to address during the migration.
 
+    In particular, note if you use any variables that the pre-migration
+    checklist describes as "requires presetting".
+
 ### the actual migration
 
 (Note: You may also like the [example migration][g2migr-example] page).
@@ -242,22 +245,23 @@ workstation**.
 
           * Delete `~/.gitolite`.
 
-2.  Read about [presetting][rc-preset] the rc file; if you're using any
-    variables listed as requiring preset, follow those instructions to create
-    your new rc file.
+2.  Install gitolite g3; see [install][].
 
-3.  Install gitolite g3; see [quick install and setup][qi] or [install][]
-    followed by [setup][].  However, the 'setup' step need not supply a
-    private key.  You can run it as `gitolite setup -a admin`.
+3.  If you're using any rc variables that the pre-migration checklist said
+    would "require presetting", then read about [presetting][rc-preset] the rc
+    file, and follow those instructions to create your new rc file.
+
+4.  Setup gitolite; see [setup][].  However, the 'setup' step need not supply
+    a private key.  You can run it as `gitolite setup -a admin`.
 
     NOTE: ignore any 'split conf not set, gl-conf present...' errors at this
     time.  You may see none, some, or many.  It does not matter right now.
 
-4.  Make sure your gitolite-admin clone has the correct pubkey for the
+5.  Make sure your gitolite-admin clone has the correct pubkey for the
     administrator in its `keydir` directory, then run [`gitolite push
     -f`][bypass] to overwrite the "default" admin repo created by the install.
 
-5.  Handle any errors, look for migration issues, etc., as described in the
+6.  Handle any errors, look for migration issues, etc., as described in the
     links at the top of this page.
 
     This also includes building up your new `~/.gitolite.rc` file.

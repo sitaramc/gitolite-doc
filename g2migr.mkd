@@ -264,7 +264,7 @@ file will get clobbered**.
 The actual rc settings that require presetting are listed in the "high
 impact" section above.  This section tells you how to do the presetting.
 
-  * save your old (g2) rc file somewhere, just in case
+  * rename (not just copy) your old (g2) rc file to something else
 
   * run
 

@@ -21,6 +21,9 @@ Edit your .gitolite.rc and add
 
 at the very top (as described in `t/smart-http.root-setup`).
 
+Also add an option like this inside your "%RC = (" section:
+    HTTP_ANON_USER  => 'gitweb',
+
 Next, check which document root your Apache's suexec accepts:
 
     # suexec -V

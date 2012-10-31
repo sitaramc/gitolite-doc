@@ -100,7 +100,8 @@ you should start with [appendix 1][stsapp1].  If that doesn't fix the problem, c
 with the other appendices in sequence.
 
   * Running any git clone/fetch/ls-remote or just `ssh git@server info` asks
-    you for a password.
+    you for a password.  (Or, if your sshd is set to use keys only, it just
+    disconnects without doing anything).
 
 The following problem(s) indicate that your pubkey is bypassing gitolite and
 going straight to a shell.  You should start with [appendix 2][sshkeys-lint]

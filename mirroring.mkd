@@ -90,7 +90,9 @@ On **each** server:
     repo on your workstation so you can admin them all from one place.
 
   * Give the server a short, simple, "hostname" and set the HOSTNAME in the
-    rc file to this name, for example 'mars'.
+    rc file to this name, for example 'mars'.  *Note: this has nothing to do
+    with the hostname of the server in networking or DNS terms, or in OS
+    terms.  This is internal to gitolite*.
 
   * Run ssh-keygen if needed and get an ssh key pair for the server.  Copy the
     public key to a common area and name it after the host, but with 'server-'

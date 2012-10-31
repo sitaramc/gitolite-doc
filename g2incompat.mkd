@@ -60,6 +60,10 @@ There are several changes with regard to mirroring:
     g3's [triggers][] mechanism.  Gitolite triggers are enabled by adding (or
     uncommenting, in this case) appropriate lines in the rc file.
 
+    You need to either remove these files (actually symlinks) from each repo's
+    'hooks' directory, or remove the old (v2) sources so they become broken
+    symlinks.
+
   * The `GL_HOSTNAME` variable is now `HOSTNAME`.  (Note that the rc file
     syntax itself has changed quite a bit; to be accurate, HOSTNAME is not a
     variable but a hash key with an associated value).

@@ -1,9 +1,20 @@
 # non-core programs shipped with gitolite
 
-**NOTE**: This doc describes *only some* of the non-core programs that come
-with gitolite.  If you don't find what you want here, look in the appropriate
-directory (see the "locations" section in the [customisation][cust] document).
-Who knows, you might find some other cool feature you did not know about!
+**IMPORTANT NOTES**:
+
+1.  This document describes *only some* of the non-core programs that come
+    with gitolite.  If you don't find what you want here, look in the
+    appropriate directory (see the "locations" section in the
+    [customisation][cust] document).  Who knows, you might find some other
+    cool feature you did not know about!
+
+2.  Most commands should show a usage message when run with '-h' as the only
+    argument.  For other types of code (VREFs, triggers, etc.), if you don't
+    find documentation somewhere here, look inside the source code itself.
+
+3.  By definition, non-core code is **meant** to be [localised for your
+    site][localcode] if you don't like what the shipped version does.  You can
+    even maintain it [within your gitolite-admin repo][pushcode] if you wish.
 
 ----
 

@@ -13,6 +13,7 @@
 
 ## help for [emergencies][]
 
+  * **install/setup issues caused by [ssh][]**
   * [lost][lost-key] admin key/access
   * [bypass][]ing gitolite
   * [clean][]ing out a botched install

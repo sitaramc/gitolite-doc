@@ -5,7 +5,7 @@ you're using the default ssh mode (i.e., not [http][] mode), ssh is a
 necessary skill.  Please take the time to learn at least enough to get
 passwordless access working.
 
-There are two documents you need to read, in order:
+You **must** read both these documents before asking for help:
 
   * [Gitolite and ssh][glssh] explains how gitolite uses openssh features to
     create any number of virtual users over just one actual (unix) user, and

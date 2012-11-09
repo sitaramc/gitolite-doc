@@ -163,6 +163,7 @@
       * getting user group info from [LDAP][ldap]
   * [ssh][]
   * [regular expressions][regex]
+  * [gitolite performance][perf] and optional [caching][cache]
 
 ## contributed software, tools, and documentation
 

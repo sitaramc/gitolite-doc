@@ -1,0 +1,71 @@
+# gitolite performance
+
+Gitolite is pretty efficient in most cases, and generally nothing needs to be
+done.  But if you think you have a performance problem, this document should
+help you determine where that may be and how to fix it.
+
+*Note*: All times in this document are measured on my laptop.  A real server
+would be much better, obviously.
+
+## what, me worry?
+
+To start with, **most sites don't need to worry about this at all**.
+
+Here's what you can expect in terms of gitolite overhead with a thousand repos
+in the conf:
+
+  * Normal git operations on existing repos: 0.2 seconds for read, 0.4 seconds
+    for write.   The ssh connection itself takes 0.2 seconds, so this is not
+    really a big deal.  (And that's not even counting the time git takes to do
+    its stuff, which in most non-trivial cases is far longer).
+
+    And this is pretty much constant, regardless of how many repos you have.
+    It actually depends on how many rulesets you have in the conf file for
+    repo *groups* and repo *patterns* (i.e., things like `repo foo/..*` or
+    `repo @group1`).  If you have an unusually high number of them, then this
+    may go up a little.
+
+  * Creating a new wild repo takes about 28 seconds.  That's a long time, but
+    how often do you create new wild repos?
+
+    Anyway, the real heavy hitters here are the scripts that update the gitweb
+    and git-daemon access.  If you don't need to worry about those two, your
+    admin should comment out the appropriate entries in the `POST_CREATE` and
+    `POST_COMPILE` lists in the rc file.
+
+    And then the 28 seconds will drop to 0.5 seconds!
+
+  * Pushing the admin repo takes about 35 seconds.  If you do what the
+    previous point said (comment out the entries from both the lists), this
+    drops to 7 seconds.
+
+## mine is bigger than yours
+
+OK so your setup has 5,000 or 10,000 repos and you also need gitweb and
+git-daemon.  What do you do?
+
+  * Make those two scripts run in the background.  See src/triggers/bg.
+
+  * If you're more concerned about your users' time when they create a new
+    wild repo (and not so much about the admin push taking time), fix those
+    two scripts and send me a patch :)
+
+    Scripts invoked via `POST_CREATE` *do* get information about what repo has
+    just been created.  However, the gitweb and daemon scripts are not set to
+    take advantage of this, only the git-config one is.  So use the git-config
+    script as an example, and/or read the [triggers][] documentation, and fix
+    the other two programs.
+
+    (This should be easy enough for the daemon update, but the gitweb update
+    may be a little more tricky, since it may involve *deleting* lines from
+    the "projects.list" file.)
+
+## a millisecond here, a millisecond there...
+
+Let's ignore the infrequent 'new repo creation' events and think about the
+much more frequent load of normal repo access.  Even if gitolite only takes
+0.2 seconds for a read and 0.4 for a write, can we do something about that?
+
+Well, if you're interested, there's a version of gitolite that uses the redis
+database as a cache to speed things up.  You can get it from the branch
+'redis', and the documentation is [here][cache].

@@ -1,10 +1,13 @@
 ## #rules access rules
 
-This is arguably the most complex part of day-to-day gitolite.  There are
-several interconnected ideas that make this hard to lay out easily if you're
-totally new to this, so read carefully.
+In the following description, "user" means "user or a [group][groups] that
+he/she is a member of", and "repo" means "repo, or a group that it is a member
+of, or a ([wild][] repo) pattern that matches it, or a group that contains a
+pattern that matches it".
 
-We will use this as a running example:
+### what do rules look like
+
+Here's an example ruleset.
 
     @staff          =   dilbert alice wally bob
 
@@ -15,13 +18,11 @@ We will use this as a running example:
         RW  temp/   =   @staff      # line 4
         R           =   ashok       # line 5
 
-### what does a rule look like?
-
 A rule line has the structure
 
     <permission> <zero or more refexes> = <one or more users/user groups>
 
-The most common permissions used are:
+The most commonly used permissions are:
 
   * R, for read only
   * RW, for push existing ref or create new ref
@@ -31,120 +32,153 @@ The most common permissions used are:
 
 There are also other, less commonly used, [types of permissions][write-types].
 
-A refex is an expression that matches the ref (i.e., branch or tag) being
-pushed.  See [this][refex] for more info.
+A [refex][] is an expression that matches the ref (i.e., branch or tag) being
+pushed.
 
-You can also use [virtual refs][vref] to perform extra checks and controls
-that you can't do with just the normal ref (like refs/heads/master) being
-pushed.  The most common example is restricting pushes by dir/file name, but
-there are lots of other possibilities.
+<font color="gray">You can also use [virtual refs][vref] to perform extra
+checks and controls that you can't do with just the normal ref (like
+refs/heads/master) being pushed.  The most common example is restricting
+pushes by dir/file name, but there are lots of other possibilities.</font>
 
-### when are the rules checked?
+### how are the rules checked
 
-There are 2 places where access rules are checked.
+Note that gitolite first [accumulates the rules][rule-accum] before checking
+access.
 
-The "pre-git" check happens before git is invoked.  Gitolite knows the repo
-name, user name, and attempted access (R or W), but no ref name.
+#### read access -- clone, fetch, archive
 
-The "update" check happens only for write operations, and it is just before
-git updates a ref.  This time gitolite knows the refname also.
+Read access is checked once, just before passing control to git-upload-pack or
+git-archive-pack.  At this point gitolite only knows the repo name, the user
+name, and the fact that it is a read operation.
 
-### how are the rules matched?
+If the set of rules for this user on this repo has at least one rule where the
+permission field contains an "R", access is granted.  If there are none,
+access is denied.
 
-For the **pre-git check**, any permission that contains "R" matches a read
-operation, and any permission that contains "W" matches a write operation.
-This is because we simply don't know enough to make finer distinctions at this
-point.
+The [refex][] field is ignored for this check.  (Git does not allow
+distinguishing one ref from another for access control during read
+operations).
 
-Note that *gitolite ignores deny rules during the pre-git check*.  This means
-line 3 is ignored, and so Wally in our example will pass the pre-git check.
-<font color="gray">(You can [change this][deny-rules] if you wish, though it's
-rarely needed)</font>.
+Deny rules (the "-" permission) are ignored for this check.  In our example,
+line 3 does not prevent wally from cloning the repo, because line 4 permits
+it.  (This is the default behaviour.  You can change that by using the
+[deny-rules][] option).
 
-For the **update check**, git gives us all the information we need.  Then:
+#### write access -- push
 
-  * All the rules for a repo are [accumulated][rule-accum].
+Write access is checked twice, once before passing control to
+git-receive-pack, and once from within the update hook.
 
-  * The rules pertaining to this repo *and* this user (or to a group to which
-    they belong, respectively) are kept; the rest are ignored.
+The **first check** is identical to the one for read access, except of course
+the permission field must contain a "W".  As before, deny rules are ignored,
+(line 3 does not prevent wally from trying to push because line 4 allows it),
+and you can override that using the [deny-rules][] option.
 
-  * These rules are examined *in the sequence they appeared in the conf file*.
-    For each rule:
+The [refex][] field is ignored for this check, because at this point we don't
+know what refs are going to be pushed.
+
+The **second check** happens from within the update hook.  This check is much
+more complex because deny rules are considered, which in turn means the
+*sequence* of the rules makes a difference now.
+
+Also, this time, git supplies us with three more pieces of information: the
+name of the ref being updated (like "refs/heads/master"), the old SHA, and the
+new SHA.  This information is sufficient to determine whether this is a normal
+push or a forced, (a.k.a rewind), push.  A normal push requires the permission
+field to contain a "W", while a forced push requires it to contain a "+".
+
+Here's how the actual rule matching happens:
+
+  * all the rules for this user and this repo are [collected][rule-accum] and
+    examined *in the sequence* they appear in the conf file
+
+  * for each rule:
 
       * If the ref does not match the [refex][], the rule is skipped.
-      * If it's a deny rule (the permissions field is a `-`), access is
-        **rejected** and the matching stops.
+      * If it's a deny rule, access is denied and the matching stops.
       * If the permission field matches the specific [type of
-        write][write-types] operation, access is **allowed** and the matching
+        write][write-types] operation, access is allowed and the matching
         stops.
 
-  * If no rule ends with a decision, ("fallthru"), access is **rejected**.
+  * If no rule ends with a decision, ("fallthru"), access is denied.
 
-Now you need to understand how [refex][] matching happens and how the
+Now all you need is to understand how [refex][] matching happens and how the
 permissions match the various [types of write operations][write-types].
-
-Using these, you can see, in our example, that:
-
-  * Everyone, even wally, can read the repo.
-  * Dilbert can push, rewind, or delete any ref.
-  * Alice can push, rewind, or delete any ref whose name starts with 'dev';
-    see [refex][] for details.
-  * Alice can also push (but not rewind or delete) any ref whose name starts
-    with 'temp/'.  This applies to bob also.
-  * If it weren't for line 3, the previous statement would apply to wally
-    also.
-
-Interestingly, wally can get past the pre-git check because gitolite ignores
-deny rules for pre-git, but having got past it, he can't actually do anything.
-That's by design, and as I said if you don't like it you can ask gitolite to
-[deny at pre-git][deny-rules].
 
 ### #permsum summary of permissions
 
-The full set of permissions, in regex syntax: `-|R|RW+?C?D?M?`.  This expands
-to one of `-`, `R`, `RW`, `RW+`, `RWC`, `RW+C`, `RWD`, `RW+D`, `RWCD`, or
-`RW+CD`, all but the first two optionally followed by an `M`.  And by now you
-know what they all mean.
+The full set of permissions, in regex syntax, is `-|R|RW+?C?D?M?`.  This
+expands to one of `-`, `R`, `RW`, `RW+`, `RWC`, `RW+C`, `RWD`, `RW+D`, `RWCD`,
+or `RW+CD`, all but the first two optionally followed by an `M`.  And by now
+you know what they all mean.
 
 ## additional topics
 
 ### #rule-accum rule accumulation
 
 Gitolite was meant to collect rules from multiple places and apply them all.
-For example, this:
+For example:
 
-    repo foo
-        RW  =   u1
+    # we have 3 specifically named FOSS projects, but we also consider any
+    # project in the foss/ directory to be FOSS.
+    @FOSS-projects  =   git gitolite linux foss/..*
 
-    @gr1 = foo bar
+    # similarly for proprietary projects
+    @prop-projects  =   foo bar baz prop/..*
 
-    repo @gr1
-        RW  =   u2
-        R   =   u3
+    # our users are divided into staff, interns, and bosses
+    @staff          =   alice dilbert wally
+    @interns        =   ashok
+    @bosses         =   PHB
 
+    # we have certain policies.  The first is that FOSS projects are readable
+    # by everyone
+    repo @FOSS-projects
+        R   =   @all
+
+    # the second is that bosses can read any repo if they wish to
     repo @all
-        R   =   gitweb
+        R   =   @bosses
 
-is effectively the same as this, for repo foo:
+    # now we have specific rules for specific projects
+    repo git
+        ...some rules...
 
-    repo foo
-        RW  =   u1
-        RW  =   u2
-        R   =   u3
-        R   =   gitweb
+    ...etc...
 
-This extends to patterns also, but I'll leave an example for later.
+As you can see, for each user+repo combination, several rules will apply.
+Gitolite combines them all into one list (in the sequence they are found in
+the conf file), before applying the access checks.
 
-### #deny-rules applying deny rules during the pre-git check
+This extends to patterns also.  For example, if you have this:
 
-The access rules section above describes the problem in one scenario.  Here's
-another.  Let's say you have this at the end of your gitolite.conf file:
+    repo foss/apache
+        ...some rules...
+
+then, because this repo fits the pattern `foss/..*`, it is considered part of
+the @FOSS-projects group, so all the rules that apply to that group are in
+play when someone accesses foss/apache.
+
+This is what we meant by "repo, or a group that it is a member of, or a
+([wild][] repo) pattern that matches it, or a group that contains a pattern
+that matches it", up at the top of this document.
+
+### #deny-rules applying deny rules during the first check
+
+The access rules above show that you cannot make an exception to a group for
+the first check, i.e., you cannot lock Wally out of read access that other
+members of @staff have.
+
+Here's another situation.  Let's say you have this at the end of your
+gitolite.conf file:
 
     repo @all
         R   =   gitweb daemon
 
-but you don't want the gitolite-admin repo showing up on gitweb.  How do you
-do that?  Here's how:
+but you don't want the gitolite-admin repo showing up on gitweb.  This is the
+same situation -- you want to make an exception in '@all' this time.
+
+Here's how to do that:
 
     repo gitolite-admin
         -   =   gitweb daemon
@@ -153,4 +187,10 @@ do that?  Here's how:
     repo @all
         R   =   gitweb daemon
 
-Note that the order matters; the `-` rule must come *before* the `R` rule.
+When you set the 'deny-rules' option for a repo, you're telling the pre-git
+checks (i.e., the read access check and the first write access check), to pay
+attention to the deny rules, which otherwise they ignore.
+
+Note that, any time deny rules are in play, the order matters; the `-` rule
+must come *before* the `R` rule.  Also, as a reminder, refexes are ignored for
+the first check.

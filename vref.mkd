@@ -100,6 +100,10 @@ perfectly easy to turn this around if, instead of having a list of people who
     the real ref does, with the same logic except for the fact that fallthru
     is success here.
 
+    This happens after the "real" ref (i.e., refs/heads/master or whatever)
+    has already passed all the access rules that apply to it.  If the real ref
+    gets rejected, VREF processing doesn't even happen.
+
 ### how are vrefs "created"
 
 As we know, the one and only real ref is sent in by git, so where do the

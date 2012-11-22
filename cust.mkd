@@ -31,7 +31,7 @@ There are 5 basic types of non-core programs.
 [Here][non-core] is a list of non-core programs shipped with gitolite, with
 some description of each.
 
-## locations
+## #ncloc locations
 
 ### default/primary location of non-core programs
 
@@ -96,7 +96,7 @@ running `gitolite setup --hooks-only` when you change any hooks and push.
 **However, if you do this, anyone who can push changes to the admin repo will
 effectively be able to run any arbitrary command on the server.**
 
-## types of non-core programs
+## #nctypes types of non-core programs
 
 ### #commands gitolite "commands"
 
@@ -147,6 +147,9 @@ lines), while the parser in the core gitolite engine does not change.
 
 If you want to write your own sugar scripts, please read the "your own sugar"
 section in [dev-notes][] first then email me.
+
+You enable a sugar script by adding it to the `SYNTACTIC_SUGAR` list in the rc
+file.
 
 ### triggers
 

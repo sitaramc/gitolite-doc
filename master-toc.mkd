@@ -96,18 +96,18 @@
 ## what your [user][]s need to know
 
 
-## [special][] features/setups
+## [special][] features in core gitolite
+
+**NOTE: [non-core][] features are listed in a [separate document][non-core]
+since there are so many of them**.
 
   * putting 'repositories' and '.gitolite' [somewhere else][elsewhere]
   * [disabling pushes][writable] to take backups
   * [personal][pers] branches
-  * ([link][votes]: voting on commits)
   * [delegating][deleg] access control responsibilities
       * ([link][NAME]: the NAME VREF)
       * the [subconf][] command
-  * ([link][partial-copy]: faking selective READ control)
   * using pubkeys obtained [from elsewhere][keysonly]
-  * ([link][pushcode]: updating code via the admin repo)
   * giving users [their own repos][gh]
 
 ## interfacing with [external][] tools
@@ -126,8 +126,9 @@
 
 ## [customisation][cust]
 
-  * where do you put custom code?
-  * types of non-core programs
+  * [where][ncloc] do you put custom code?
+      * ([link][pushcode]: updating code via the admin repo)
+  * [types][nctypes] of non-core programs
       * [commands][]
       * [hooks][]
       * syntactic [sugar][]
@@ -145,15 +146,6 @@
           * trigger programs
           * sugar
       * (appendix 1) notes on the INPUT trigger
-
-## [non-core][] programs shipped with gitolite
-
-  * commands
-  * syntactic sugar
-  * triggers
-  * ([link][vref]: VREFs)
-  * special cases
-      * [partial-copy][]: selective read control for branches
 
 ## background info
 

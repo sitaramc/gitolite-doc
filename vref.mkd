@@ -69,7 +69,7 @@ Here's how to think about this whole vref thing.
 
 ## #vref-fallthru why is fallthru considered success with VREFs
 
-Virtual refs are **best used** [1] as additional "deny" rules, performing
+Virtual refs are **best used** (1) as additional "deny" rules, performing
 extra checks that core gitolite cannot.  You usually want such extra checks
 only for some people.
 
@@ -85,12 +85,15 @@ every user who was not already mentioned in the context of that vref:
 Worse, since every virtual ref involves calling an external program, many of
 these calls may be wasted.
 
-[1] "best used as..." does not mean "only used as...".  For example it's
-perfectly easy to turn this around if, instead of having a list of people who
-*do* need extra checks, all you have is the complementary list:
+<font color="gray">(1) "best used as..." does not mean "only used as...".  For
+example it's perfectly easy to turn this around if, instead of having a list
+of people who *do* need extra checks, all you have is the complementary
+list:
 
     RW+ VREF/NAME/Makefile      =   @senior-devs
     -   VREF/NAME/Makefile      =   @all
+
+</font>
 
 ## how does it work
 
@@ -261,7 +264,7 @@ CHANGELOG and any files in a directory called ReleaseNotes:
             RW+ VREF/NAME/ReleaseNotes/     =   QA-guy
             -   VREF/NAME/                  =   QA-guy
 
-### number of new files
+### #COUNT number of changed or new files
 
 The COUNT VREF is used like this:
 

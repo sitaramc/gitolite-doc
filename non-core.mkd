@@ -39,6 +39,7 @@ Also note that not all of these commands are available remotely.
 (The more common/important commands are in bold).
 
   * *access* -- print or test access rights for repo/user
+  * *create* -- create a wild repo
   * *creator* -- print or test creator name for wild repo
   * *D* -- lets you *D*elete wild repos created using the *C* permission :)
   * **desc** -- show/set description for wild repo
@@ -85,6 +86,7 @@ Here's a list of **features** that are enabled by [triggers][], or a
 combination of a trigger and something else, like a command.
 
   * *Alias* -- allow repos to have aliases
+  * *AutoCreate* -- deny auto-create of wild repos on R or RW access
   * *bg* -- allow long running post-compile/post-create jobs to be
     backgrounded
   * *CpuTime* -- CPU and elapsed times for gitolite+git

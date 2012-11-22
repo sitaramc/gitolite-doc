@@ -11,7 +11,7 @@ The key management is done using a command called `sskm`.  This command must be 
 
 ----
 
-[[TOC]]
+TOC
 
 ----
 

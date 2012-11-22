@@ -27,9 +27,9 @@ Over and above plain markdown, this allows three extra features:
 
         [some text][foo]
 
-  * A line starting with
+  * A line containing just
 
-        [[TOC]]
+        TOC
 
     becomes an inline, indented, TOC just for that file.
 
@@ -141,8 +141,8 @@ sub main {
         my $mkt = `cat $mkd`;
         # the name tags are actually created here
         $mkt =~ s/^(#+) #(\S+) /$1 <a name="$2"><\/a> /mg;
-        # and the chapter toc is spliced in, if [[TOC]] exists
-        $mkt =~ s/^\[\[TOC\]\]/$ct{$b}/mg;
+        # and the chapter toc is spliced in, if TOC exists
+        $mkt =~ s/^\s*TOC\s*$/$ct{$b}/mg;
         open($fh, "|-", "$MKD >> $b.html")
           and print $fh $mkt, "\n\n", $mf
           and close $fh;

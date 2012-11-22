@@ -1,6 +1,6 @@
 # #glssh how gitolite uses ssh
 
-[[TOC]]
+TOC
 
 ----
 

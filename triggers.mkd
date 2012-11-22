@@ -1,6 +1,6 @@
 # gitolite triggers
 
-[[TOC]]
+TOC
 
 ## intro and sample rc excerpt
 

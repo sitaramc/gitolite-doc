@@ -11,7 +11,7 @@ followed by [setup][], then [clone][].
 
 ----
 
-[[TOC]]
+TOC
 
 ----
 

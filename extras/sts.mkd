@@ -10,7 +10,7 @@ tricks that gitolite can do.
 
 ----
 
-[[TOC]]
+TOC
 
 ----
 

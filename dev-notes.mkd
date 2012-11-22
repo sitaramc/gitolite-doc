@@ -1,6 +1,6 @@
 # notes for developers
 
-[[TOC]]
+TOC
 
 ----
 

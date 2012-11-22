@@ -2,7 +2,7 @@
 
 This shows what a typical migration would look like, using a test setup.
 
-[[TOC]]
+TOC
 
 ## existing setup
 

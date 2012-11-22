@@ -21,7 +21,7 @@ containing source code.
 
 ----
 
-[[TOC]]
+TOC
 
 ## problem description
 

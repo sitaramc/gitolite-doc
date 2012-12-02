@@ -31,8 +31,8 @@ examples).  Other forms of the `git config` command (`--add`, the
 >   ----
 
 >   **WARNING**: simply deleting the config line from the `conf/gitolite.conf`
->   file will *not* delete the variable from `repo.git/config`.  The syntax in
->   the last example is the *only* way to make gitolite execute a
+>   file will *not* delete the variable from `repo.git/config`.  You have to
+>   use the syntax in either of the last 2 examples to make gitolite execute a
 >   `--unset-all` operation on the given key.
 
 >   ----

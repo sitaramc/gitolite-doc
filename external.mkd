@@ -23,6 +23,7 @@ The following repos are deemed to be readable by gitweb:
 
   * any repos readable by the special user `gitweb`
   * any repos containing one or more of the following types of lines:
+    (actually, any config variable starting with `gitweb.`).
 
         config gitweb.owner         =   owner name
         config gitweb.description   =   some description

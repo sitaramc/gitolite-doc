@@ -139,7 +139,7 @@ the answer, but here's a list of files you should blow away.
 ## #nonstd non-standard configs that'll trip you up
 
   * having sshd setup to put the authorized\_keys file somewhere other than
-    the default (which is in .ssh in the hosting user's home directory).
+    the default (which is in .ssh in the [hosting user][nnc]'s home directory).
 
   * having sshd setup to not allow incoming ssh for the hosting user.  Check
     things like 'Allowusers' setting in /etc/ssh/sshd\_config etc.

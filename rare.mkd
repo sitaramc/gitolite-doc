@@ -11,7 +11,7 @@ On the server:
       * They are all *bare* repos.
       * All the repo names end in ".git".
       * All the files and directories are owned and writable by the gitolite
-        hosting user (especially true if you copied them as root).
+        [hosting user][nnc] (especially true if you copied them as root).
 
   * Run `gitolite setup`.  **If you forget this step, you can also forget
     about write access control!**

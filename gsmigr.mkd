@@ -30,7 +30,7 @@ Here are the steps on the server:
     uses the update hook for checking write access.
 
   * (as 'root' on the server) copy all of `~/repositories` to the gitolite
-    hosting user's home directory.  Something like
+    [hosting user][nnc]'s home directory.  Something like
 
         cp -a /home/gitosis/repositories /home/git
         chown -R git.git /home/git/repositories

@@ -12,7 +12,7 @@
 
   * "your-name.pub" is your public key from your workstation.
       * Also, this key does not already have shell access to this gitolite
-        hosting user.
+        [hosting user][nnc].
 
   * The setup command does not generate any warnings.
       * If it does, please see [common errors][ce] and fix things before
@@ -20,7 +20,7 @@
 
 ## instructions
 
-On the server, as the hosting user (e.g., 'git'):
+On the server, as the [hosting user][nnc] (e.g., 'git'):
 
     # get the software
     git clone git://github.com/sitaramc/gitolite

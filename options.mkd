@@ -3,6 +3,10 @@
 Some gitolite features are enabled, or gitolite's behaviour changed, by
 setting "options".
 
+A line like 'option foo = 1' is really just syntactic sugar for 'config
+gitolite-options.foo = 1', so everything in the [git-config][] page also
+applies here.
+
 Options are set by repo.  The syntax is very simple:
 
     option  foo.bar     =   baz
@@ -18,3 +22,19 @@ Here are the currently recognised options:
 
   * [mirroring][] related options -- tell gitolite who is the master server,
     and who are the slaves, for each repo.
+
+  * the optional post-compile trigger 'update-gitweb-daemon-from-options'
+    allows you to use options instead of special usernames gitweb and daemon
+    to determine access for those tools.
+
+Here's how to disable an option from a single repo if it was enabled earlier
+in a group (which you might guess from reading the [git-config][] page):
+
+    @g = r1 r2 r3
+
+    repo @g
+        option gitweb = 1
+
+    # but repo r2 should not be accessible by gitweb
+    repo r2
+        option gitweb = ""

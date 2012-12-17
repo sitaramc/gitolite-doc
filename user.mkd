@@ -21,6 +21,28 @@ document), or an ssh command (like `ssh git@server info`).
 Note that you do *not* get a shell on the server -- the whole point of
 gitolite is to prevent that!
 
+**Note to people (\*) who think gitolite requires or can only handle a
+specific syntax of URL**: Gitolite is designed in such a way that, unless
+there is an access violation, the *client* need not even *know* that something
+called gitolite is sitting between it and git on the server.  In particular,
+this means *any* URL syntax listed in 'man git-clone' for ssh and/or http will
+work.  The only things to note are:
+
+  * in ssh mode, you *must* use key-based authentication (i.e., passwords
+    won't work; see the [ssh][] documents for why)
+  * the path of the repo is what you put into the conf file (e.g., "testing",
+    and not "repositories/testing" or "/home/git/repositories/testing" or
+    such).  A good rule of thumb is to use the exact name the `info` command
+    (see below) shows you.
+  * the ".git" at the end is optional for **git** commands (i.e., you can use
+    "testing.git" instead of "testing" for clone, fetch, push, etc., if you
+    like) but **gitolite** commands in general (see below) will not like the
+    additional ".git" at the end.
+
+<font color="gray">(\*): A curious, but decidedly non-scientific, observation:
+this appears to happen mostly to Mac people; I don't recall many Windows
+people getting confused, and almost none who use Unix doing so).</font>
+
 ## #info the info command
 
 The only command that is *always* available to every user is the `info`

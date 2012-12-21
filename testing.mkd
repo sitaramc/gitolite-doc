@@ -1,5 +1,9 @@
 # testing gitolite
 
+The test suite should run fine on most recent Linuxes and Unixes.  Although
+gitolite itself should work fine with any git after 1.6.6 or so, the test
+suite requires git 1.7.8 or later.
+
 Here's how to *run* the tests.
 
 <font color="red">**WARNING: they will clobber lots of things in your `$HOME`,

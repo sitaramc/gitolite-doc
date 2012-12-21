@@ -5,9 +5,16 @@ not considered "core".  This keeps the core simpler, and allows you to enhance
 gitolite for your own purposes without too much fuss.  (As an extreme example,
 even mirroring is not in core now!)
 
-This document will tell you about the types of non-core programs, and
-how/where to install your own.  (Actually *writing* the code is described in
-the [developer notes][dev-notes] page).
+Here's how to find out more:
+
+  * this document describes the types of non-core programs and how/where to
+    install your own
+
+  * the [developer notes][dev-notes] page tells you how to write your own
+    non-core programs
+
+  * the [list of non-core programs][non-core] talks about what's already
+    shipped with gitolite, with a brief description of each
 
 ----
 
@@ -27,9 +34,6 @@ There are 5 basic types of non-core programs.
   * *Triggers* are to gitolite what hooks are to git.  I just chose a
     different name to avoid confusion and constant disambiguation in the docs.
   * **VREFs** are extensions to the access control check part of gitolite.
-
-[Here][non-core] is a list of non-core programs shipped with gitolite, with
-some description of each.
 
 ## #ncloc locations
 
@@ -111,6 +115,8 @@ while on the server you can run
 
 Very few commands are designed to be run both ways, but it can be done, by
 checking for the presence of env var `GL_USER`.
+
+All commands respond to a single `-h` option with a suitable message.
 
 You can get a **list of available commands** by using the `help` command.
 Naturally, a remote user will see a much smaller list than the server user.

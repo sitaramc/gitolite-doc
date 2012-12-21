@@ -11,6 +11,9 @@ over.  Plus you may want to write your own programs to interact with it.
 scripts.  *Installing* them, including "where and how", is described
 [here][localcode]**.
 
+Note: the [customisation][cust] document is the starting point for all
+information about customising gitolite.
+
 ## environment variables and other inputs
 
 In general, the following environment variables should always be available:

@@ -124,18 +124,20 @@ since there are so many of them**.
   * moving [existing][] repos into gitolite
   * [moving][] servers
 
-## [customisation][cust]
+## customising gitolite
 
-  * [where][ncloc] do you put custom code?
-      * ([link][pushcode]: updating code via the admin repo)
-  * [types][nctypes] of non-core programs
-      * [commands][]
-      * [hooks][]
-      * syntactic [sugar][]
-      * ([link][triggers]: triggers)
-      * ([link][vref]: VREFs)
-  * ([link][non-core]: non-core programs shipped with gitolite)
-  * [developer notes][dev-notes] -- writing custom code
+  * [customisation][cust] overview
+      * introduction
+      * [where][ncloc] do you put custom code?
+          * ([link][pushcode]: updating code via the admin repo)
+      * [types][nctypes] of non-core programs
+          * [commands][]
+          * [hooks][]
+          * syntactic [sugar][]
+          * ([link][triggers]: triggers)
+          * ([link][vref]: VREFs)
+
+  * [developer notes][dev-notes] -- writing your own custom code
       * environment variables and other inputs
       * APIs
           * the shell API
@@ -146,6 +148,8 @@ since there are so many of them**.
           * trigger programs
           * sugar
       * (appendix 1) notes on the INPUT trigger
+
+  * [list of non-core programs][non-core] shipped with gitolite
 
 ## background info
 

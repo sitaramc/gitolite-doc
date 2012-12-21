@@ -2,25 +2,27 @@
 
 **Important Notes on "non-core" features**:
 
-1.  If information about a non-core feature is not found in the documentation,
-    it can be found within the source code; please look there.
+1.  The [customisation][cust] document is the starting point for all
+    information about customising gitolite.
+
+2.  If a non-core feature is shipped with gitolite, but information about it
+    is not found in this document, it can be found within the source code;
+    please look there.
 
     [Commands][], however, have some extra magic, which is not available to
     the other types of non-core programs:
 
-      * running 'help', (either as `gitolite help` if you're logged into the
-        server, or `ssh git@host help` if you're a remote user), will give you
-        a list of commands you are allowed to run.
+      * running the command with a single `-h` option (i.e., `gitolite
+        <command> -h` or `ssh git@host <command> -h`), will display a suitable
+        message.  Please report a bug to me if one of them doesn't.
 
-      * every command will respond to being run with a single `-h` option with
-        a suitable message.  Please report a bug to me if one of them doesn't.
+      * running 'help', (either as `gitolite help` on the server, or `ssh
+        git@host help` remotely), will give you a list of commands you are
+        allowed to run.
 
-2.  The [customisation][cust] document has details about the various types of
-    non-core programs that you can add to gitolite, and how to write your own.
-
-    In particular, non-core code is **meant** to be [localised for your
-    site][localcode] if you don't like what the shipped version does.  You can
-    even maintain it [within your gitolite-admin repo][pushcode] if you wish.
+3.  Non-core code is **meant** to be [localised for your site][localcode] if
+    you don't like what the shipped version does.  You can even maintain it
+    [within your gitolite-admin repo][pushcode] if you wish.
 
 ----
 

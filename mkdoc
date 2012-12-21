@@ -1,10 +1,9 @@
 #!/usr/bin/perl
 
-=for usage
+=for notes and quirks
 
-    NOTE: If you want to turn this into a generic mkd -> html convertor, the
-    only part you need is the subroutine called main().  See comments to get a
-    feel for what else is happening though...
+NOTES
+=====
 
 Recursively find all the *.mkd files in $PWD and convert them to *.html.  The
 html files will all be in the current directory; the directory structure of
@@ -36,64 +35,89 @@ Over and above plain markdown, this allows three extra features:
 Copyright: Sitaram Chamarty, sitaramc@gmail.com, sitaram@atc.tcs.com
 License: GPL v2
 
+QUIRKS
+======
+
+  * dies if the tree is dirty or has html files in tree root
+  * output branch is either 'html' or 'gh-pages' (latter preferred)
+  * custom html expected in "html/*.html"; bungs them into the root directory
+    of the output branch
+  * topbar file default name is '.topbar'
+  * have NOT tested with *deleting* an mkd to see if the corresponding html
+    also disappears
+  * do NOT use single quotes in your commit message ;-)
+  * png is hardcoded in an rm -rf to mitigate any bugs that might chew up more
+    than intended!
+
 =cut
 
-my $MKD = "./Markdown.pl";  # Markdown.pl is not mine; look inside it for a URL
+my $MKD = "./Markdown.pl";
+my $FIG = "./mk_inline_figures";
 
 use 5.10.0;
 use strict;
 use warnings;
 
-# Tsh is just one way of running external commands, capturing their exit codes
-# and statuses, etc.  Feel free to substitute your own or even drop those
-# calls if you don't need that stuff.  Or lift 'em out into a shell script and
-# use this program only for "main()".
-use lib '../gitolite/src/lib/Gitolite/Test';
-use Tsh;
-$ENV{TSH_ERREXIT} = 1;
+use Getopt::Long;
+my ( $help, $topbar, $imgdir );
+GetOptions(
+    "help|h|?" => \$help,      # this help text
+    "topbar"   => \$topbar,    # filename containing top bar text
+    "imgdir"   => \$imgdir,    # directory to take images
+) or die "option error; maybe a typo or a missing '--' somewhere?\n";
+usage() if $help;
+$imgdir ||= "images";
 
-# remove if you don't care about dirty tree or replace with eqvt code if you
-# do care but are not using Tsh.
-try "
-    git status -s -uno;                 !/./
-    git log --oneline -1
-" or die 1;
-my $head = (lines())[0];
+# sanity
+system("git status -s -uno | grep .")    or die "changed files present\n";
+system("ls *.html 2>/dev/null | grep .") or die "html files present\n";
+
+my $rh = '';
+# find the name of the rendered html branch
+$rh = 'html'     if `git rev-parse --symbolic --branches` =~ /^html$/m;
+$rh = 'gh-pages' if `git rev-parse --symbolic --branches` =~ /^gh-pages$/m;
+
+# more sanity
+die "need alt branch\n" unless $rh;
+my $cb = `git symbolic-ref --short HEAD`; chomp($cb);
+die "current branch cannot be '$rh'\n" if $cb eq $rh;
+my $cm = `git log -1 --oneline`; chomp($cm);
 
 # this is the only part a generic convertor should need
 main();
 
-# conversion done; save 'em all into 'html' directory, switch to 'html'
-# branch, and restore the files from 'html' directory, completely overwriting
-# existing *.html files.  Commit the new html branch and switch to master.
-try "
-    mkdir html;                         ok
-    mv *.html html;                     ok
-    git checkout -f html;               ok
-    git rm *.html;                      ok
-    mv html/*.html .;                   ok
-    rmdir html;                         ok
-    git add *.html;                     ok
-    git commit -m '$head';              ok
-    git checkout master;                ok
-" or die 2;
+# now a bunch of html files are lying around; pick them up, go to the other
+# branch, and commit
+system("cd html; tar cf ../.mkdoc.$$ *.html")  and die 1  if glob("html/*.html");
+system("         tar uf    .mkdoc.$$ *.html")  and die 2;
+system("         tar uf    .mkdoc.$$ $imgdir") and die 3  if -d $imgdir;
+system("git checkout -f $rh")                  and die 4;
+system("rm -rf *.html")                        and die 5;
+system("rm -rf $imgdir/*.png")                 and die 6;
+system("tar xf .mkdoc.$$")                     and die 7;
+system("rm .mkdoc.$$")                         and die 8;
+system("git add -A '*.html'")                  and die 9;
+system("git add -A $imgdir")                   and die 10 if -d $imgdir;
+system("git commit -m '$cm'")                  and die 11;
+system("git checkout -")                       and die 12;
 
 # ----------------------------------------------------------------------
 
 sub main {
-    chomp(@ARGV = `find . -name "*.mkd" | cut -c3-`) if not @ARGV;
+    my $top_block = top_block();
+
+    chomp( @ARGV = `find . -name "*.mkd" | cut -c3-` ) if not @ARGV;
     @ARGV = grep { /./ } @ARGV;
     my @save = @ARGV;
-    my $css_block = join("", <DATA>);
 
-    my %ct;         # chapter tocs
+    my %ct;    # chapter tocs
     my %title;
     my $mf = '';    # master footer
     my $fh;
 
     while (<>) {
         $ARGV =~ /^(?:.*\/)?([^\/]+)\.mkd$/;
-        my $b = $1;     # basename of mkd/html file
+        my $b = $1;    # basename of mkd/html file
 
         if (/^(#+) (?:#(\S+) )?(.*)/) {
             $title{$b} ||= $3;
@@ -102,7 +126,7 @@ sub main {
                 # chapter toc, as well as get entered into the master footer
                 $ct{$b} .= "\n";
                 $ct{$b} .= "  * [$3][$b]\n";
-                $mf .= "[$b]: $b.html\n";
+                $mf     .= "[$b]: $b.html\n";
             } else {
                 $ct{$b} .= " " x ( 4 * ( length($1) - 1 ) );
                 $ct{$b} .= "  * ";
@@ -115,14 +139,14 @@ sub main {
                 );
                 $ct{$b} .= "\n";
                 # add entry to the master footer if the link has a name
-                $mf .= "[$2]: $b.html" . ($2 ne $b ? "#$2" : "") . "\n" if $2;
+                $mf .= "[$2]: $b.html" . ( $2 ne $b ? "#$2" : "" ) . "\n" if $2;
             }
         }
     }
 
     # master footer generated, now process every mkd.  What we do here is
     # loosely equivalent to:
-    #       cat $css_block > $base.html
+    #       cat $top_block > $base.html
     #       cat $base.mkd $mf | Markdown.pl >> $base.html
     # where $mf is the master footer lines generated earlier.
 
@@ -130,12 +154,12 @@ sub main {
         $mkd =~ /^(?:.*\/)?([^\/]+)\.mkd$/;
         my $b = $1;
 
-        my $css = $css_block;
+        my $top = $top_block;
         # add a title for the title tag
-        $css =~ s/%TITLE/$title{$b} || $b/e;
+        $top =~ s/%TITLE/$title{$b} || $b/e;
 
-        open($fh, ">", "$b.html")
-          and print $fh $css
+        open( $fh, ">", "$b.html" )
+          and print $fh $top
           and close $fh;
 
         my $mkt = `cat $mkd`;
@@ -143,10 +167,69 @@ sub main {
         $mkt =~ s/^(#+) #(\S+) /$1 <a name="$2"><\/a> /mg;
         # and the chapter toc is spliced in, if TOC exists
         $mkt =~ s/^\s*TOC\s*$/$ct{$b}/mg;
-        open($fh, "|-", "$MKD >> $b.html")
+        open( $fh, "|-", "$MKD >> $b.html" )
           and print $fh $mkt, "\n\n", $mf
           and close $fh;
     }
+}
+
+sub top_block {
+    my $top_block = join( "", <DATA> );
+
+    $topbar ||= ".topbar";
+    die "'$topbar' not readable\n" unless -r $topbar;
+    my $top = `cat "$topbar"`;
+    $top_block .= $top;
+
+    return $top_block;
+}
+
+=for example topbar contents
+
+<p style="text-align:center">
+    <a href="master-toc.html">master TOC</a>
+|
+    <a href="index.html">main page</a>
+|
+    <a href="index.html#license">license</a>
+</p>
+<p style="text-align:center">
+<font color="gray">This is for gitolite "g3"; for older (v2.x) documentation click <a href="http://sitaramc.github.com/gitolite/g2/master-toc.html">here</a></font>
+</p>
+
+=cut
+
+sub usage {
+    say "
+mkdoc -- create html from mkd
+
+Usage: mkdoc [options] [files]
+
+If no files are passed, all mkd files recursively found in the current
+directory are used.
+";
+
+    @ARGV = ($0);
+    while (<>) {
+        next unless /^\s*GetOptions/ .. /^\s*\)/;
+        next if /^\s*GetOptions/ or /^\s*\)/;
+
+        my $op = '';
+        if (/"(.*?)"/) {
+            $op = "  " . join( ", ", map { s/[=:][sif]$//; /../ ? "--$_" : "-$_" } split /\|/, $1 );
+            print $op;
+        }
+        print( " " x ( 30 - length($op) ) );
+
+        s/.*#/#/;
+        print;
+    }
+
+    say "
+Note: the topbar file defaults to '.topbar' if not supplied.
+";
+
+    exit 1;
 }
 
 __DATA__
@@ -165,13 +248,3 @@ __DATA__
 </style>
 </head>
 
-<p style="text-align:center">
-    <a href="master-toc.html">master TOC</a>
-|
-    <a href="index.html">main page</a>
-|
-    <a href="index.html#license">license</a>
-</p>
-<p style="text-align:center">
-<font color="gray">This is for gitolite "g3"; for older (v2.x) documentation click <a href="http://sitaramc.github.com/gitolite/g2/master-toc.html">here</a></font>
-</p>

@@ -6,6 +6,12 @@ fine-grained access control and many more powerful features.
 Here's more on [what][] it is, [how][] it works, [why][] you might need it,
 and [who][] else is using it.
 
+**If you think there's too much documentation, try this different way of
+accessing the [basic][] stuff and the [advanced][] stuff.**
+
+[basic]: basic.html
+[advanced]: advanced.html
+
 <font color="gray">
 
 ## #g2 (for older gitolite (v1.x and v2.x) users)

@@ -6,6 +6,15 @@
 
 ----
 
+## install/setup issues
+
+Most install/setup issues are caused by lack of ssh knowledge.  Ssh is a
+complex beast, and -- unless you are using the [http][] mode -- can cause
+problems for people who are not familiar with its quirks.
+
+**Be prepared to spend some time reading the [ssh][] documentation that comes
+with gitolite**.
+
 ## #lost-key lost admin key/access
 
 If you lost your gitolite **admin** key or access, here's what you do.  We'll

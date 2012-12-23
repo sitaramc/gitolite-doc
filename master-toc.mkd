@@ -127,7 +127,7 @@ since there are so many of them**.
 ## customising gitolite
 
   * [customisation][cust] overview
-      * introduction
+      * [introduction][ncintro]
       * [where][ncloc] do you put custom code?
           * ([link][pushcode]: updating code via the admin repo)
       * [types][nctypes] of non-core programs

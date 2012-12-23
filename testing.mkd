@@ -1,17 +1,52 @@
-# testing gitolite
+# trying out gitolite safely
+
+## #trying trying out gitolite
+
+<font color="red">**WARNING: this will clobber lots of things in your `$HOME`,
+so be sure to use a throwaway userid**.</font>
+
+It's easy to take gitolite for a trial run, in ssh mode, and play with all of
+its features (except mirroring).
+
+Create a **throw-away userid**, log in to it, then run these commands:
+
+    git clone git://github.com/sitaramc/gitolite
+    cd gitolite
+    prove t/ssh*
+
+You will get an error that forces you to read `t/README` and set an env var
+before the test can proceed.  This is intentional; I've had people who don't
+pay attention to the "data loss" warning, and then complain that it was not
+prominent enough.  Forcing them to read a much smaller document appears to
+focus their attention better!
+
+If it doesn't work, read the testing section below to see if your system
+satisfies the conditions required for doing this.
+
+If it works, you get a gitolite installation with 7 gitolite users ("admin",
+and "u1" through "u6").
+
+Don't forget that the client and the server are all on the same user on the
+same machine; we're *simulating* 7 gitolite users using ssh keys!  (How?
+Maybe `~/.ssh/config` will give you a hint).
+
+URLs look like `user:repo`, so for example you can clone the admin repo by
+`git clone admin:gitolite-admin`.  Remote commands look like `ssh u1 info`.
+
+So start by cloning the admin repo, and try out whatever you want!
+
+## testing gitolite
+
+<font color="red">**WARNING: this will clobber lots of things in your `$HOME`,
+so be sure to use a throwaway userid**.</font>
+
+Trying out gitolite safely is really a subset of running the test suite.  If
+you want to run the full test suite, just do as above, except instead of
+running `prove t/ssh*` you just run `prove`.
 
 The test suite should run fine on most recent Linuxes and Unixes.  Although
 gitolite itself should work fine with any git after 1.6.6 or so, the test
 suite requires git 1.7.8 or later.
-
-Here's how to *run* the tests.
-
-<font color="red">**WARNING: they will clobber lots of things in your `$HOME`,
-so be sure to use a throwaway userid**.</font>
-
-    git clone git://github.com/sitaramc/gitolite
-    cd gitolite
-    prove
 
 Make sure:
 
@@ -20,7 +55,7 @@ Make sure:
 
 Gitolite's test suite is mostly written using [tsh][] -- the "testing shell".
 Take a look at some of the scripts and you will see what it looks like.  It
-has a few quirks and nuances; if you really care, email me.
+has a few quirks and nuances, but it's fine for what I need here.
 
 [tsh]: http://github.com/sitaramc/tsh
 
@@ -31,24 +66,3 @@ would otherwise take.
 
 If you think that defeats the purpose of the testing, you haven't read
 [this][auth] yet.
-
-## #trying trying out gitolite
-
-It's easy to take gitolite for a trial run, in ssh mode, and play with all of
-its features (except mirroring).
-
-Create a **throw-away userid**, log in to it, then do what the "testing
-gitolite" section above says, except instead of running `prove`, you run
-`prove t/ssh*`.
-
-When this is done, you get a gitolite installation with 7 gitolite users
-("admin", and "u1" through "u6").
-
-Don't forget that the client and the server are all on the same user on the
-same machine; we're *simulating* 7 gitolite users using ssh keys!  (How?
-Maybe `~/.ssh/config` will give you a hint).
-
-URLs look like `user:repo`, so for example you can clone the admin repo by
-`git clone admin:gitolite-admin`.  Remote commands look like `ssh u1 info`.
-
-So start by cloning the admin repo, and try out whatever you want!

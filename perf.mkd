@@ -1,7 +1,8 @@
 # gitolite performance
 
 Gitolite is pretty efficient in most cases, and generally nothing needs to be
-done.  But if you think you have a performance problem, here are some tips.
+done.  If you think you have a performance problem, let me know on the mailing
+list.  Meanwhile, here are some tips:
 
   * Look in the gitolite log file after any operation that you think ran
     slowly.  In particular, pushing to the admin repo, or a user creating a
@@ -32,10 +33,3 @@ done.  But if you think you have a performance problem, here are some tips.
     (This should be easy enough for the daemon update, but the gitweb update
     may be a little more tricky, since it may involve *deleting* lines from
     the "projects.list" file.)
-
-----
-
-Finally, there's still one slight bit of inefficiency that the ultra-picky
-will want to fix.  For those people, there's a version of gitolite that uses
-the redis database as a cache to speed things up even more.  You can get it
-from the branch 'redis', and the documentation is [here][cache].

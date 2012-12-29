@@ -128,9 +128,9 @@ If you want to have more than just the 2 default roles, say something like:
       R                 =   READERS
       RW+D              =   MANAGERS
 
-You can add the new names to the ROLES hash in the [rc][] file.  Be sure to
-run the 2 commands mentioned there after you have added the roles.
-file.  The rc file documentation (`doc/gitolite.rc.mkd`) explains how.
+You can add the new names to the ROLES hash in the `~/.gitolite.rc` file; see
+comments in that file for how to do that.  Be sure to run the 2 commands
+mentioned there after you have added the roles.
 
 #### #rolenamewarn **IMPORTANT WARNING ABOUT THIS FEATURE**
 

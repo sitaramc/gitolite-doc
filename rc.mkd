@@ -80,6 +80,11 @@ information.
     with regular expressions) is to allow anything and everything:
     `$GIT_CONFIG_KEYS = '.*';`
 
+  * `ROLES`, hash, default keys 'READERS' and 'WRITERS'
+
+    This specifies the role names allowed to be used by users running the
+    [perms][] command.  The [wild][] repos doc has more info on roles.
+
   * `DEFAULT_ROLE_PERMS`, string, default undef
 
     This sets default wildcard permissions for newly created wildcard repos.

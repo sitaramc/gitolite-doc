@@ -15,7 +15,7 @@ Of course this is useless if some other part of gitolite, or some external
 command, is not querying for the option key 'foo.bar'!
 
 Options are therefore documented in the section/page they belong in, not here.
-Here are the currently recognised options:
+Here are some examples, although this list is not exhaustive:
 
   * [deny-rules][] -- ask gitolite to honor deny rules during the pre-git
     check also.

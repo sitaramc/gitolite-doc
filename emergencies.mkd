@@ -110,40 +110,7 @@ the answer, but here's a list of files you should blow away.
 
 ## #ue uncommon errors
 
-  * `WARNING: split conf not set, gl-conf present for <repo>`
-
-    (Case 1) you copied a bare repo ("repo.git") from another g3 site (or g2
-    with `GL_BIG_CONFIG` on).  Then you pushed a change to "gitolite.conf" or
-    ran certain server-side commands without adding the repo to the conf.
-
-    Conversely, you removed "repo" from "gitolite.conf" but did not remove the
-    actual "repo.git" on disk.
-
-    (Case 2) This can also happen if you changed something like this
-
-        repo foo
-            ...<some rules>...
-
-    to this
-
-        @grp = foo
-        repo @grp
-            ...<some rules>...
-
-    Also, even running `gitolite setup` will not fix this.
-
-    The root cause is an internal consistency check that I do not wish to
-    disable or subvert.  It is there for a reason, and I would prefer a
-    warning that a human can investigate.
-
-    If you're sure the reasons are one of the two above, you can either add
-    the repo to the conf file in case 1, or manually remove the gl-conf file
-    from the repo.git directory in case 2.
-
-    Either way, run `gitolite setup` afterwards to make sure things are in
-    good shape.
-
-    If you think neither of those is the cause, email me.
+(This page intentionally left blank)
 
 ## #nonstd non-standard configs that'll trip you up
 

@@ -1,5 +1,15 @@
 # gitolite documentation
 
+This is the master index for all gitolite documentation.  The sequence is
+designed to go from background, to basics, to advanced, and then to more
+advanced topics.
+
+If you find this flow hard to follow, try these graphical overviews of the
+documentation: [basic][] and [advanced][].
+
+[basic]: basic.html
+[advanced]: advanced.html
+
 ## [Introduction][index]
 
   * (for [older][g2] gitolite (v1 or v2) users)

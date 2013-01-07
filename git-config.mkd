@@ -1,5 +1,9 @@
 # "git-config" keys and values
 
+TOC
+
+----
+
 Here's all you want to know about setting repo-specific git-config values.
 
 (Original version thanks to teemu dot matilainen at iki dot fi)
@@ -10,6 +14,8 @@ Here's all you want to know about setting repo-specific git-config values.
 >   please see `$GIT_CONFIG_KEYS` in the [rc file doc][rc].
 
 >   ----
+
+## basic syntax
 
 The syntax is simple:
 
@@ -27,6 +33,8 @@ examples above) or "git config --unset-all section.key" (for the last
 example).  Other forms of the `git config` command (`--add`, the
 `value_regex`, etc) are not supported.
 
+### an important warning about **deleting** a config line
+
 >   ----
 
 >   **WARNING**: simply deleting the config line from the `conf/gitolite.conf`
@@ -36,6 +44,8 @@ example).  Other forms of the `git config` command (`--add`, the
 
 >   ----
 
+## substituting the repo name and the creator name
+
 You can also use the special values `%GL_REPO` and `%GL_CREATOR` in the
 string.  The former is available to all repos, while the latter is only
 available to [wild][] repos.
@@ -43,6 +53,8 @@ available to [wild][] repos.
     repo foo bar baz
         config hooks.mailinglist = %GL_REPO-commits@example.tld
         config hooks.emailprefix = "[%GL_REPO] "
+
+## overriding config values
 
 You can repeat the 'config' line as many times as you like, and the *last*
 occurrence will be the one in effect.  This allows you to override settings
@@ -65,3 +77,47 @@ The "delete config variable" syntax can also be used, if you wish:
 As you can see, the general idea is to place the most generic ones (`repo
 @all`, or repo patterns like `repo foo.*`) first, and place more specific ones
 later to override the generic settings.
+
+## compensating for `UNSAFE_PATT`
+
+Gitolite, by default, does not allow the following characters in the value of
+a config variable: `` ` ~ # $ & ( ) | ; < > ``.  This is due to unspecified
+paranoia (and arguably only applies if your gitolite admin folks do not, and
+should not, have shell access to the server); see [this discussion][ud] for
+some context.  This restriction is enforced by a regex called `UNSAFE_PATT`,
+whose default value is ``[`~#\$\&()|;<>]``.
+
+[ud]: https://groups.google.com/d/topic/gitolite/9WNsA-Axmg4/discussion
+
+You can override this by placing a modified version in the rc file.  For
+example, if you wanted to allow this (which contais a semicolon):
+
+    config hooks.showrev = "git show -C %s; echo"
+
+you'd put the follwing line at the end of your rc file (notice there is no
+semicolon in the pattern here):
+
+    $UNSAFE_PATT          = qr([`~#\$\&()|<>]);
+
+Now, while this is fine for sites where the repo admins already have shell
+access to the server, it is too generous othewise, and may lead to a future
+compromise somewhere else that you did not anticipate.
+
+Here's a better way:
+
+  * in the rc file, add the following within the '%RC' hash (for example, just
+    after the UMASK line would do fine):
+
+        SAFE_CONFIG                 =>
+            {
+                SHOWREV             =>  "git show -C %s; echo"
+            },
+
+  * in your gitolite.conf file, add this instead of the line we saw earlier:
+
+        config hooks.showrev = %SHOWREV
+
+This mechanism allows you to add any number of **specific** violations to the
+`UNSAFE_PATT` rule instead of denaturing the pattern itself and potentially
+allowing something that could be used by a repo admin to obtain shell access
+at some later point in time.

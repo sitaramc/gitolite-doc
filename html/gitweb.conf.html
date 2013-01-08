@@ -1,0 +1,69 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<title>sample-code/gitweb.conf</title>
+<meta name="Generator" content="Vim/7.3">
+<meta name="plugin-version" content="vim7.3_v6">
+<meta name="syntax" content="conf">
+<meta name="settings" content="use_css">
+<style type="text/css">
+<!--
+pre { font-family: monospace; color: #000000; background-color: #ffffff; }
+body { font-family: monospace; color: #000000; background-color: #ffffff; }
+.Constant { color: #ff00ff; }
+.Comment { color: #0000ff; }
+-->
+</style>
+</head>
+<body>
+<pre>
+<span class="Comment"># ----------------------------------------------------------------------</span>
+
+<span class="Comment"># Per-repo authorization for gitweb using gitolite v3 access rules</span>
+<span class="Comment"># Read comments, modify code as needed, and include in gitweb.conf</span>
+
+<span class="Comment"># Please note that the author does not have personal experience with gitweb</span>
+<span class="Comment"># and does not use it.  Some testing may be required.  Patches welcome but</span>
+<span class="Comment"># please make sure they are tested against a &quot;github&quot; version of gitolite and</span>
+<span class="Comment"># not an RPM or a DEB, for obvious reasons.</span>
+
+<span class="Comment"># ----------------------------------------------------------------------</span>
+
+<span class="Comment"># First, run 'gitolite query-rc -a' (as the gitolite hosting user) to find the</span>
+<span class="Comment"># values for GL_BINDIR and GL_LIBDIR in your installation.  Then use those</span>
+<span class="Comment"># values in the code below:</span>
+
+BEGIN {
+    $ENV{HOME} = <span class="Constant">&quot;/home/git&quot;</span>;   <span class="Comment"># or whatever is the hosting user's $HOME</span>
+    $ENV{GL_BINDIR} = <span class="Constant">&quot;/full/path/to/gitolite/src&quot;</span>;
+    $ENV{GL_LIBDIR} = <span class="Constant">&quot;/full/path/to/gitolite/src/lib&quot;</span>;
+}
+
+<span class="Comment"># Pull in gitolite's perl API module.  Among other things, this also sets the</span>
+<span class="Comment"># GL_REPO_BASE environment variable.</span>
+use lib $ENV{GL_LIBDIR};
+use Gitolite::Easy;
+
+<span class="Comment"># Set projectroot for gitweb.  If you already set it earlier in gitweb.conf</span>
+<span class="Comment"># you don't need this but please make sure the path you used is the same as</span>
+<span class="Comment"># the value of GL_REPO_BASE in the 'gitolite query-rc -a' output above.</span>
+$projectroot = $ENV{GL_REPO_BASE};
+
+<span class="Comment"># Now get the user name.  Unauthenticated clients will be deemed to be the</span>
+<span class="Comment"># 'gitweb' user so make sure gitolite's conf file does not allow that user to</span>
+<span class="Comment"># see anything sensitive.</span>
+$ENV{GL_USER} = $cgi-&gt;remote_user || <span class="Constant">&quot;gitweb&quot;</span>;
+
+$export_auth_hook = sub {
+    my $repo = shift;
+    <span class="Comment"># gitweb passes us the full repo path; we need to strip the beginning and</span>
+    <span class="Comment"># the end, to get the repo name as it is specified in gitolite conf</span>
+    return unless $repo =~ s/^\Q$projectroot\E\/?(.+)\.git$/$1/;
+
+    <span class="Comment"># call Easy.pm's 'can_read' function</span>
+    return can_read($repo);
+};
+</pre>
+</body>
+</html>

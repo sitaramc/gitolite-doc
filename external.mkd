@@ -51,6 +51,24 @@ that gitolite sets make them unreadable.
 See the section on the `UMASK` variable in the documentation for the [rc
 file][rc].
 
+### repo-specific authorisation in gitweb
+
+Gitweb has a feature whereby it will call a (perl) function that you supply,
+passing it the full path to the repo being accessed.  If the remote user is
+authenticated, the username will be available, so your function can take those
+two pieces of information and return true or false to allow or deny the
+repository access.
+
+If you want to use gitolite's access rules in making this determination, you
+will first have to ensure that the HTTP username (i.e., the username known to
+apache/gitweb) is the same as the gitolite username.  If you're using
+gitolite's [http][] mode, this is probably already true, but if you're using
+the more widely used ssh mode, you'll have to make sure they match.
+
+You then need to add [this code][gwch] to your gitweb.conf.
+
+[gwch]: gitweb.conf.html
+
 ## git-daemon
 
 Any repo readable by the special user `daemon` is deemed to be readable by

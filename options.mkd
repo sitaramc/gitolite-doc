@@ -5,7 +5,8 @@ setting "options".
 
 A line like 'option foo = 1' is really just syntactic sugar for 'config
 gitolite-options.foo = 1', so everything in the [git-config][] page also
-applies here.
+applies here (especially the bit about [overriding config
+values][override_conf]).
 
 Options are set by repo.  The syntax is very simple:
 

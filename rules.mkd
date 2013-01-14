@@ -167,30 +167,56 @@ that matches it", up at the top of this document.
 
 The access rules above show that you cannot make an exception to a group for
 the first check, i.e., you cannot lock Wally out of read access that other
-members of @staff have.
+members of @staff have, because read access does not look at "deny" rules by
+default.
 
-Here's another situation.  Let's say you have this at the end of your
-gitolite.conf file:
+This section will show how to make that happen.  We'll use ['gitweb' and
+'daemon'][external] instead of Wally, but it could, of course, be any user or
+group or list (like, say, '@interns') that needs to be restricted.
+
+We'll consider two cases.  In the first case, the "secret" repos are fewer in
+number, and are enumerated in some group called @secret for convenience.
+
+    # put this at or near the top of the conf file, or at least before any
+    # rules that give 'gitweb' and 'daemon' any kind of access
+
+    repo @secret
+        -   =   gitweb daemon
+        option deny-rules = 1
+        # make sure you do not set deny-rules to 0 for these repos later
+
+Now imagine, worst case, you have this somewhere after the above:
 
     repo @all
-        R   =   gitweb daemon
+        R   =   @all
 
-but you don't want the gitolite-admin repo showing up on gitweb.  This is the
-same situation -- you want to make an exception in '@all' this time.
+The "deny-rules" option applies, as you can see, only to the secret repos.  It
+forces gitolite to pay attention to any deny rules, and since the deny rule
+for those two users appears first, access is denied to them.
 
-Here's how to do that:
+The second case is where the "open" repos are fewer.
 
-    repo gitolite-admin
+    # put this at or near the top of the conf file, or at least before any
+    # rules that give 'gitweb' and 'daemon' any access
+
+    repo @all
         -   =   gitweb daemon
         option deny-rules = 1
 
-    repo @all
+    repo @open
         R   =   gitweb daemon
+        option deny-rules = 0
+        # make sure you do not set deny-rules to 1 for these repos later
 
-When you set the 'deny-rules' option for a repo, you're telling the pre-git
-checks (i.e., the read access check and the first write access check), to pay
-attention to the deny rules, which otherwise they ignore.
+To see why this works, you need to remember that for [options][] and
+[config][git-config] lines, a later setting [overrides][override_conf] earlier
+ones.  So we set it to 1 for all repos, then selectively set it to 0 for some.
+
+This means the "deny-rules" option applies to *all the repos except the "open"
+repos*, so the deny rule kicks in and denies access to those repos for those
+users.
 
 Note that, any time deny rules are in play, the order matters; the `-` rule
-must come *before* the `R` rule.  Also, as a reminder, refexes are ignored for
-the first check.
+must come *before* the `R` rule.  That is why the comments tell you to put
+that stuff at the top of the conf.  Also, as a reminder, refexes are ignored
+for the first check.

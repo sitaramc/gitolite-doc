@@ -31,43 +31,111 @@ But VREFs have one **very important difference** from normal rules.  With
 VREFs, a **fallthru results in success**.  You'll see why this is more
 convenient as you read on.
 
-## what is a virtual ref
+## what is a virtual ref?
 
-Here's how to think about this whole vref thing.
+We know that "refs/heads/master" and such are normal git refs that are matched
+against the [rules][] to decide if the push is to be allowed or denied.
 
-  * When git calls the update hook, it passes it the name of a ref, say
-    refs/heads/master or refs/tags/v1.0.  Let's call this a **real ref**.
+A VREF is just another ref that is checked against the rules.  For example,
+VREF/COUNT/5 means "this push has more than 5 changed files".  Or
+VREF/NAME/Makefile means "the file called Makefile was changed in this push".
 
-    This ref must pass the gauntlet of the [rules][] as usual, and may be
-    allowed or rejected, as the case may be.  If it is rejected, that's the
-    end of the story.  None of the VREF code will run.
+## how do I use a VREF?
 
-    Anyway, this "real" ref is an *attribute* of the push.  We're using this
-    attribute to decide if the push should be allowed or not.
+Simple.  To disallow junior developers from changing more than five files, or
+from touching the Makefile, you do this:
 
-  * Similarly, there could be other attributes that a push has.  They could be
-    deduced from the pushed commits:
+    repo foo
+        RW+                     =   @all-devs
+        -   VREF/COUNT/5        =   @junior-devs
+        -   VREF/NAME/Makefile  =   @junior-devs
 
-      * the *name* of each file changed
-      * the *number* of new or changed files
-      * the *number* of new *binary* files
+## where do VREFs come from?
 
-    or come from the environment:
+From a VREF-maker of course!
 
-      * the time of day when the push is being made, vis-a-vis the IP address
-        it is coming from or the user it is coming from
+## ok who calls the VREF-maker?
 
-    or simply come out of the blue:
+Gitolite.  It looks at each rule that contains a VREF rule (there are 2 in the
+above example) and calls VREF-makers for each of them.
 
-      * the phase of the moon!
+## how does a VREF-maker work?
 
-    We'll call these properties **virtual** refs.
+We'll take the COUNT example rule above.
 
-  * What do they look like?  Well, you already saw a couple up top.  The NAME
-    vref is more commonly used though.  So if this push changed files foo and
-    bar/baz, the NAME vrefs would be `VREF/NAME/foo` and `VREF/NAME/bar/baz`.
+When gitolite sees that rule, it calls the "COUNT" VREF-maker.  Specifically,
+the `VREF/COUNT` program (See [here][cust] for actual locations on disk).
 
-## #vref-fallthru why is fallthru considered success with VREFs
+Gitolite passes it the string "5" as an argument (actually, as the *eighth*
+argument; details later).
+
+The program (which can be written in any language) is expected to do one of
+two things:
+
+  * if the condition is satisfied (i.e., there *are* more than 5 files in this
+    push), it should print `VREF/COUNT/5` to STDOUT.
+
+  * otherwise it should print nothing.
+
+It should exit with an exit code of zero in either case.  See next section for
+more.
+
+## mimicking a plain old update hook
+
+If it exists with a non-zero exit code, then regardless of what it prints or
+does not, the push dies.
+
+This is just like a plain 'update' hook.  Since the first 3 arguments (see
+later) are also the same that a plain 'update' hook receives, you can actually
+use any existing update hook as a VREF-maker.
+
+To repurpose an existing update hook as a VREF-maker, just copy it to the VREF
+directory (again, see [here][cust] for actual locations on disk).  Then add
+this rule to your repos:
+
+    repo foo    # or maybe even 'repo @all'
+        -   VREF/my-update-hook     =   @all
+
+That's it.
+
+## details
+
+### what if the VREF-maker prints a different VREF?
+
+Unless you know what you're upto, don't do that.
+
+But it's allowed and the behaviour is defined.  The VREF-maker for the NAME
+VREF is a good example.  It ignores the arguments and just makes VREFs out of
+the name of every file that was changed in the push.
+
+Here's another example.  Consider the problem of not allowing pushes at
+specific times.  Let's say repo 'foo' cannot be pushed between 4 and 7pm, and
+repo 'bar' can only be pushed before 9am.  And of course all this only applies
+to the junior developers, the poor guys!
+
+    repo foo
+        RW+                         =   @all
+        -   VREF/Hour/16            =   @junior-devs
+        -   VREF/Hour/17            =   @junior-devs
+        -   VREF/Hour/18            =   @junior-devs
+
+    repo bar
+        RW+                         =   @all
+        -   VREF/Hour/09            =   @junior-devs
+        -   VREF/Hour/1[0-9]        =   @junior-devs
+        -   VREF/Hour/2[0-9]        =   @junior-devs
+
+In this example, we write the "Hour" VREF-maker to *ignore the argument
+passed* and just print `VREF/Hour/NN` where NN can be between 00 to 23
+inclusive and of course represents the current hour.
+
+if foo is pushed at 6:30pm, the VREF-maker prints VREF/Hour/18, which
+satisfies the third rule and is rejected.
+
+If bar is pushed at, say, 7:20am, the vref printed is VREF/Hour/07, which does
+not match any of the rules.  And fallthru is success so it passes.
+
+### #vref-fallthru why is fallthru considered success with VREFs
 
 Virtual refs are **best used** (1) as additional "deny" rules, performing
 extra checks that core gitolite cannot.  You usually want such extra checks
@@ -95,83 +163,34 @@ list:
 
 </font>
 
-## how does it work
+### what if the VREF-maker prints something that's not even a VREF?
 
-  * something creates a bunch of virtual refs
+The VREF-maker can print anything it wants to STDOUT.  Lines not starting with
+`VREF/` are printed as is (so your VREF-maker can do mostly-normal printing to
+STDOUT).  This is especially useful if you've turned an existing update hook
+into a VREF-maker, and it prints stuff but you don't want to touch the code.
 
-  * each generated vref goes through the gauntlet of the [rules][], just like
-    the real ref does, with the same logic except for the fact that fallthru
-    is success here.
+For lines starting with `VREF/`, the first word in each such line will be
+treated as a virtual ref, while the rest, if any, is a message to be added to
+the standard "...DENIED..." message that gitolite will print if that refex
+matches and the rule is a deny rule.
 
-    This happens after the "real" ref (i.e., refs/heads/master or whatever)
-    has already passed all the access rules that apply to it.  If the real ref
-    gets rejected, VREF processing doesn't even happen.
+### in what order are VREF-makers called?
 
-### how are vrefs "created"
+VREF-makers are called in the sequence in which they appear in the conf file.
 
-As we know, the one and only real ref is sent in by git, so where do the
-virtual ones come from?
+There are some optimisations to prevent calling the same VREF-maker with the
+same arguments more than once, and the VREF-maker code for the NAME VREF
+(which is special) is called only once regardless of how many times it appears
+but these details should not concern anyone but a developer.
 
-Well, here's where you need to pay attention.  The same rule that the vref
-needs to be checked against, like:
-
-    -   VREF/COUNT/9            =   dev2 dev3
-
-or
-
-    -   VREF/NAME/Makefile       =   @junior-devs
-
-also *creates* them!  Yes.  Mind blowingly simple.  `\o/`
-
-Here's how:
-
-  * For every refex starting with `VREF/FOO/` in a rule that applies to this
-    user, a call to a program called FOO is triggered.  (See [here][cust] for
-    actual locations on disk).  Note that the program isn't even called if the
-    VREF rule doesn't apply to that user.
-
-  * This call has several arguments.  For example, a line like:
-
-           -   VREF/COUNT/3/NEWFILES    =   user
-
-    sends **nine arguments**; see later for details.
-
-  * The script can print anything it wants to STDOUT.  Lines not starting with
-    `VREF/` are printed as is (so your VREF can do mostly-normal printing to
-    STDOUT).
-
-    For lines starting with `VREF/`, the first word in each such line will be
-    treated as a virtual ref, while the rest, if any, is a message to be added
-    to the standard "...DENIED..." message that gitolite will print if that
-    refex matches and the rule is a deny rule.
-
-    Usually it only makes sense to either
-
-      * Print nothing that starts with `VREF/` -- if you don't want the rule
-        that triggered it to match (ie., whatever condition being tested was
-        not violated; like if the count of changed files did not exceed 9, in
-        our earlier example).
-
-      * Print the refex itself (plus an optional message), so that it matches
-        the line which invoked it.
-
-### in what order are these programs called
-
-Vref generating programs (as they properly should be called) are called in the
-sequence in which they appear in the conf file.
-
-There are some optimisations to prevent calling the same VREF with the same
-arguments more than once, and the NAME generating code is called only once
-regardless of how many times it appears but these details should not concern
-anyone but a developer.
-
-### #vref-args arguments passed to the vref code
+### #vref-args what arguments are passed to the vref-maker?
 
   * Arguments **1, 2, 3**: the 'ref', 'oldsha', and 'newsha' that git passed
     to the update hook (see 'man githooks').
 
     This, combined with the fact that non-zero exits are detected, mean that
-    you can simply use an existing update.secondary as a new VREF as-is, no
+    you can simply use an existing update.secondary as a VREF-maker as-is, no
     changes needed.
 
   * Arguments **4 and 5**: the 'oldtree' and 'newtree' SHAs.  These are the
@@ -196,33 +215,9 @@ anyone but a developer.
     followed by `NEWFILES`.
 
 Yes, argument 7 is redundant if you have 8 and 9.  It's meant to make it easy
-to write vref scripts in any language.  See script examples in source.
+to write vref-maker scripts in any language.  See script examples in source.
 
-### what (else) can the vref code pass back
-
-Actually, the vref code can pass anything back; each line in its output that
-starts with `VREF/` will be matched against all the rules as usual (with the
-exception that fallthru is not failure).
-
-For example, you could have a ruleset like this:
-
-    repo r1
-        # ... normal rules ...
-
-        -   VREF/TIME/WEEKEND       =   @interns
-        -   VREF/TIME/WEEKNIGHT     =   @interns
-        -   VREF/TIME/HOLIDAY       =   @interns
-
-and you could write the TIME vref code to passback any or all
-of the times that match.  Then if an intern tried to access the system, each
-rule would trigger a call to gl-bindir/VREF/TIME.
-
-The script should send back any of the applicable times (even more than one,
-or none at all, as the case may be).  So even if it was invoked using the
-first rule, it might pass back (to gitolite) a virtual ref saying
-'VREF/TIME/HOLIDAY', which would promptly cause the request to be denied.
-
-## VREFs shipped with gitolite
+## VREF-makers shipped with gitolite
 
 ### #NAME restricting pushes by dir/file name
 

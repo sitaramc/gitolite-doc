@@ -87,6 +87,10 @@ If you want to add additional `update` hook functionality, do this:
   * Now add the code as a VREF (see [here][localcode] for details).  Let's say
     you called it "foo".
 
+    NOTE: if you don't care about all the extra stuff that VREFs give you over
+    a normal update hook, you don't have to read that document at all; just
+    put the code in the right place and go to the next step.
+
   * To call your new update hook to all accesses for all repos, add this to
     the end of your conf file:
 

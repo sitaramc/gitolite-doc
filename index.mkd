@@ -66,7 +66,8 @@ most people see:
       * subscribe address: gitolite-announce+subscribe@googlegroups.com
 
   * IRC: #git and #gitolite on freenode.  Note that I live in India (UTC+0530
-    time zone).
+    time zone).  **Please do not ask questions on IRC if you cannot stay
+    connected for a few hours at least.  Use the mailing list instead.**
 
   * author: sitaramc@gmail.com, but please **DO NOT** use this for general
     support questions.  Subscribe to the list and ask there instead.

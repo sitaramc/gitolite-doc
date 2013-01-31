@@ -10,8 +10,12 @@ with an alphanumeric, but after that they can also contain `.`, `_`, or `-`.
 
 Usernames can optionally be followed by an `@` and a domainname containing at
 least one `.` (this allows you to use an email address as someone's username).
+
+**Group names** are like simple usernames (i.e., not email addresses) but
+start with an `@` sign.
+
 Reponames can contain `/` characters (this allows you to put your repos in a
-tree-structure for convenience)
+tree-structure for convenience).
 
 There are no continuation lines by default.  You do not need them; the section
 on "groups" will tell you how you can break up large lists of names in a group

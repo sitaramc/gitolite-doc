@@ -1,0 +1,182 @@
+# gitolite cookbook
+
+Documentation is meant to be as complete as possible, which means it attempts
+to cover all situations and scenarios.  That makes it harder to read.
+
+However, if you make some assumptions, remove the rationale, justification,
+exceptions and special cases, etc., and generally just say *what* is to be
+done rather than explain *why*, many tasks can be described very easily.
+
+Maybe this will help.  If you run into problems, please check the main
+documentation before asking for help.
+
+----
+
+TOC
+
+----
+
+## access
+
+### looking up repo access from external tools
+
+There are two supported interfaces for this, one in perl and one in shell.
+Other languages should probably use the shell mode.  (The shell mode has a
+very convenient "batch" mode if you need to check many repos at once).
+
+**Perl interface**: A good intro to this, including a link to code, using
+gitweb as an example can be found by looking for 'repo-specific authorisation
+in gitweb' in the page on [interfacing with external tools][external].  Some
+notes:
+
+  * be sure to read the comments in the code to learn exactly how to adapt it
+    to your needs
+  * in place of the `can_read` function in that code, you can of course use
+    `can_write`.  In fact, reading the comments in "Easy.pm" (look for it in
+    the source) shows you several other interesting tests you can make, like
+    `is_admin`, `in_group`, and `owns`.
+
+**Shell interface**: If you want to do this from shell, it's just even easier.
+The same "Easy.pm" source contains comments that show shell equivalents for
+each of the functions it exports, but here's a sample:
+
+    if gitolite access -q reponame username W
+    then
+        ...
+
+You can even test for access to specific branches:
+
+    if gitolite access -q reponame username W refs/heads/master
+    then
+        ...
+
+(note that you must use the full ref name; just 'master' won't do).
+
+### providing access to external tools
+
+Giving external tools (like apache) access to gitolite repositories involves
+making sure that the unix owner/group and permissions settings allow this.
+This is all described in the UMASK section in the documentation on the [rc
+file][rc], because that's the only setting that gitolite controls; every thing
+else is pure Unix.
+
+## hooks
+
+### adding you own update hooks
+
+You have some update hooks (for example crlf checking) that you want to
+include in gitolite.  Assuming the hook itself is tested and works as a normal
+**git** update hook does (i.e., conforms to what `man githooks` says an update
+hook should do), here's how to do this.
+
+1.  add this line in the rc file, within the $RC block, if it's not already
+    present:
+
+        LOCAL_CODE => "$ENV{HOME}/local",
+
+2.  copy your update hook to a subdirectory called VREF under this directory,
+    giving it a suitable name (let's say "crlf"):
+
+        # log on to server
+        cd $HOME
+        mkdir -p local/VREF
+        cp your-crlf-update-hook local/VREF/crlf
+        chmod +x local/VREF/crlf
+
+3.  in your gitolite-admin clone, edit conf/gitolite.conf and
+    add lines like this:
+
+            -   VREF/crlf       =   @all
+
+    to each repo that should have that "update" hook.
+
+    Alternatively, you can simply add this at the end of the
+    gitolite.conf file:
+
+        repo @all
+            -   VREF/crlf       =   @all
+
+    Either way, add/commit/push the change to the gitolite-admin repo.
+
+### adding other (non-update) hooks
+
+Say you want other hooks, like a post-receive hook.  Here's how:
+
+1.  add this line in the rc file, within the $RC block, if it's not already
+    present:
+
+        LOCAL_CODE => "$ENV{HOME}/local",
+
+2.  put your hooks into that directory, in a sub-sub-directory called
+    "hooks/common":
+
+        # log on to server
+        cd $HOME
+        mkdir -p local/hooks/common
+        cp your-post-receive-hook local/hooks/common/post-receive
+        chmod +x local/hooks/common/post-receive
+
+3.  run `gitolite setup` to have the hooks propagate to existing repos (repos
+    created after this will get them anyway).
+
+### variation: managing the hooks from gitolite-admin
+
+If your gitolite admins already have shell access to the server, (i.e., you
+don't distinguish between "someone who has shell on the server" and "someone
+who only has push rights to the gitolite-admin repo"), you may like to put
+these hooks also in the gitolite-admin repo for easier management.
+
+You do almost the same thing, except for some changes:
+
+1.  step 1 will change like so:
+
+        LOCAL_CODE => "$ENV{HOME}/.gitolite/local",
+
+2.  step 2 will change in that you create these directories (local/VREF,
+    local/common/) in your gitolite-admin *clone*, not on the server.
+
+    After doing that, and copying the files there, you add, commit, and push.
+
+    Don't forget the 'chmod +x' !
+
+3.  Step 3 is the same for VREFs, but is not required for other hooks.
+
+### variation: custom hooks only for some repos
+
+If the hook is an update hook, you implement it as a VREF, and simply change
+`repo @all` in step 3 in the update hook section above to `repo @repolist` or
+whatever.
+
+For the other hooks this is not possible.  You have to either install the
+hooks *manually* on the repos you want them on, or -- better still -- you do
+something like this:
+
+1.  in the conf file, add a groupname for the set of repos you want:
+
+        @foo = list of repos
+
+2.  write your hook code with this at the top:
+
+        # check if @foo is in the list of groups of which $GL_REPO is a member
+        gitolite list-memberships $GL_REPO | grep -x @foo >/dev/null || exit 0
+
+3.  now add your hook as described in earlier steps
+
+## moving stuff around
+
+### moving a gitolite install from one machine to another
+
+Assuming you're not making a version change, this is what you need to do:
+
+  * clone the latest gitolite-admin repo to your workstation
+
+  * install gitolite normally on the new machine, using the same public key
+    *and* name for the admin as on the old machine when running the `gitolite
+    setup -pkr` command.
+
+  * copy over your `~/.gitolite.rc` file from the old machine to the new
+
+  * run `gitolite setup` (on the server)
+
+  * go to the gitolite-admin clone you made in step 1, add or change the
+    remote to point to the new machine, and `git push -f`

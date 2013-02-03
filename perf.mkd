@@ -1,5 +1,11 @@
 # gitolite performance
 
+TOP TIP: If you have more than 2000 or so repos, then you should be using v3.2
+or later; there was a bit of code that went in there that makes a *huge*
+difference for really large sites.
+
+## tips for performance worriers
+
 Gitolite is pretty efficient in most cases, and generally nothing needs to be
 done.  If you think you have a performance problem, let me know on the mailing
 list.  Meanwhile, here are some tips:
@@ -16,7 +22,9 @@ list.  Meanwhile, here are some tips:
 
   * If you can't get rid of those scripts, and they are still taking too long,
     you can make them run in the background.  They'll eventually finish but
-    the user doesn't have to wait.  See src/triggers/bg.
+    the user doesn't have to wait.  See src/triggers/bg.  *This should not
+    normally be needed; if you feel you need it, please talk to me so I can
+    understand why and maybe help*.
 
   * If you're more concerned about your users' time when they create a new
     wild repo (and not so much about the admin push taking time), you can fix
@@ -33,3 +41,51 @@ list.  Meanwhile, here are some tips:
     (This should be easy enough for the daemon update, but the gitweb update
     may be a little more tricky, since it may involve *deleting* lines from
     the "projects.list" file.)
+
+## why there's really no need to worry!
+
+In general, gitolite has a constant overhead of about 0.2 seconds on my
+laptop.  There really is nothing to optimise, but you can comment out some
+triggers as the previous section said.
+
+Here's the big-O stuff:
+
+  * N = number of normal repos, each with its own set of rules.  In "repo r1
+    r2 r3", N = 3.  Add up all such lines.
+  * G = number of groups or wild patterns.  In "repo @g1 @g2 foo/[a-z]*", G =
+    3.
+  * M = number of members.  In "@g1 = r1 r2 <nl> @g2 = r3 r4 r5", M = 5.
+  * A = average number of rule lines in each "repo" block.  Usually about 5,
+    maybe 10 sometimes.  You may have more.
+
+Gitolite overheads compared to a normal ssh push are:
+
+1.  perl startup time.  Fairly constant and fairly small.  I have generally
+    found it pretty hard to measure, especially with a hot cache.
+2.  rule parse time.  Details below
+3.  rule interpretation time.  Fairly constant, or at least subject to much
+    smaller variations than #2.
+
+"rule parse time" is where it makes a difference.  There are 2 files gitolite
+parses on each "access": `~/.gitolite/conf/gitolite.conf-compiled.pm` and
+`~/repositories/your_repo.git/gl-conf`.  The former contains O(N + M + G*A)
+lines.  In addition, the gl-conf files contains about "A" lines (remember we
+called it an average), which is negligible.
+
+In practice, you can't measure this at a scale that a developer running a "git
+push" might even pretend to notice, unless you have more than, say, 5000 repos
+or so.  On my testbed of 11,100 repos, where the compiled.pm is almost 0.7 MB,
+it takes less than 0.2 seconds to do this.
+
+And on a busy system, when that file will be pretty much always in cache, it's
+even less.
+
+## the only thing that will take more time
+
+Literally, the only thing that will take time is something like "ssh git@host
+info" because it finds all possible repos and for each of them it tries to
+check the access.  On that same test bed, therefore, this ends up reading all
+11,100 "gl-conf" files.
+
+On my laptop this takes about 14 seconds.  In contrast, a normal git operation
+(clone, pull, push, etc) is so small it is hard to measure without software.

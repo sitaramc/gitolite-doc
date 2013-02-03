@@ -68,15 +68,15 @@ people who'd rather Ctrl-F around than click around :-)
 
 The page is loosely divided into the following sections:
 
-1.  introduction, quick links, basics, and emergency help
-2.  detailed install/setup and access rules
-3.  git-config, gitolite options, gitweb/daemon, and the rc file
-4.  wildcard repos, mirroring, and some other special features
-5.  smart http mode
-6.  customising gitolite with your own code
-7.  all things ssh
-8.  various odds and ends like how/why/who, regexes, and performance
-9.  everything to do with migration from v2.
+1.  [introduction, quick links, basics, and emergency help][s1]
+2.  [detailed install/setup and access rules][s2]
+3.  [git-config, gitolite options, gitweb/daemon, and the rc file][s3]
+4.  [wildcard repos, mirroring, and some other special features][s4]
+5.  [smart http mode][s5]
+6.  [customising gitolite with your own code][s6]
+7.  [all things ssh][s7]
+8.  [various odds and ends like how/why/who, regexes, and performance][s8]
+9.  [everything to do with migration from v2][s9]
 
 Please note that this is only the latest entry point to the documentation.
 Others are:
@@ -92,7 +92,7 @@ Enjoy!
 
 ----
 
-# basics, quick links, and help
+# #s1 basics, quick links, and help
 
 include index.mkd
 include testing.mkd
@@ -104,7 +104,7 @@ include groups.mkd
 include emergencies.mkd
 include WARNINGS.mkd
 
-# detailed installation and access rules
+# #s2 detailed installation and access rules
 
 include install.mkd
 include setup.mkd
@@ -115,14 +115,14 @@ include rules.mkd
 include refex.mkd
 include write-types.mkd
 
-# the rc file, git-config, and options
+# #s3 the rc file, git-config, and options
 
 include rc.mkd
 include git-config.mkd
 include options.mkd
 include external.mkd
 
-# wild repos, mirroring, and other features
+# #s4 wild repos, mirroring, and other features
 
 include wild.mkd
 include mirroring.mkd
@@ -130,12 +130,12 @@ include deleg.mkd
 include special.mkd
 include rare.mkd
 
-# smart http
+# #s5 smart http
 
 include http.mkd
 include contrib/ssh-and-http.mkd
 
-# customising gitolite
+# #s6 customising gitolite
 
 include cust.mkd
 include non-core.mkd
@@ -143,7 +143,7 @@ include dev-notes.mkd
 include vref.mkd
 include triggers.mkd
 
-# ssh
+# #s7 ssh
 
 include extras/ssh.mkd
 include extras/auth.mkd
@@ -151,7 +151,7 @@ include extras/glssh.mkd
 include extras/sts.mkd
 include contrib/putty.mkd
 
-# odds and ends
+# #s8 odds and ends
 
 include how.mkd
 include why.mkd
@@ -162,13 +162,25 @@ include files.mkd
 include extras/regex.mkd
 include perf.mkd
 
-# migration
+# #s9 migration
 
 include g2incompat.mkd
 include g2migr-example.mkd
 include g2migr.mkd
 include gsmigr.mkd
 
+**THE END**
+
 ----
 
 TOC
+
+[s1]: gitolite.html#s1
+[s2]: gitolite.html#s2
+[s3]: gitolite.html#s3
+[s4]: gitolite.html#s4
+[s5]: gitolite.html#s5
+[s6]: gitolite.html#s6
+[s7]: gitolite.html#s7
+[s8]: gitolite.html#s8
+[s9]: gitolite.html#s9

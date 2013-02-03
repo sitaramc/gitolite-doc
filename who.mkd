@@ -22,11 +22,11 @@ issue tracking and reviewboard for code review).  Apart from the usual access
 control, the KDE folks are heavy users of the "ad hoc repo creation" features
 enabled by wildrepos and the accompanying commands.  Several of the changes to
 the "admin defined commands" were also inspired by KDE's needs.  See [section
-5][s5] and [section 6][s6] of the above linked page for details.
+5][kdes5] and [section 6][kdes6] of the above linked page for details.
 
 [kde]: http://community.kde.org/Sysadmin/GitKdeOrgManual
-[s5]: http://community.kde.org/Sysadmin/GitKdeOrgManual#Server-side_commands
-[s6]: http://community.kde.org/Sysadmin/GitKdeOrgManual#Personal_repositories
+[kdes5]: http://community.kde.org/Sysadmin/GitKdeOrgManual#Server-side_commands
+[kdes6]: http://community.kde.org/Sysadmin/GitKdeOrgManual#Personal_repositories
 [kdera]: http://permalink.gmane.org/gmane.comp.kde.scm-interest/1437
 
 **Prof. Hiren Patel** of the University of Waterloo is responsible for the

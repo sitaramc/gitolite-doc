@@ -51,8 +51,8 @@ sub one {
 
 # apply the mapping to references [like][this] etc., although you have to fix
 # [this][] to look like [this][this] for convenience.
-$out =~ s/\[(.+?)\]\[\]/[$1][$1]/g;
-$out =~ s/\]\[(.+?)\]/"][" . ( $map{$1} || $1 ) . "]"/ge;
+$out =~ s/\[(\S+?)\]\[\]/[$1][$1]/g;
+$out =~ s/\]\[(\S+?)\]/"][" . ( $map{$1} || $1 ) . "]"/ge;
 
 print $out;
 

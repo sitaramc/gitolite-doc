@@ -114,6 +114,13 @@ the answer, but here's a list of files you should blow away.
 
 ## #nonstd non-standard configs that'll trip you up
 
+  * if your 'git' binary is in a non-PATH location, or you have more than one
+    version and want a specific one to be picked up, you will have to add a
+    line like this at the end of the rc file (outside the `%RC` hash, but
+    before the`1;` line):
+
+        $ENV{PATH} = "/your/git/path:$ENV{PATH}";
+
   * having sshd setup to put the authorized\_keys file somewhere other than
     the default (which is in .ssh in the [hosting user][nnc]'s home directory).
 

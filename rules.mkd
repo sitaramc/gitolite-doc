@@ -1,11 +1,11 @@
-## #rules access rules
+# #rules access rules
 
 In the following description, "user" means "user or a [group][groups] that
 he/she is a member of", and "repo" means "repo, or a group that it is a member
 of, or a ([wild][] repo) pattern that matches it, or a group that contains a
 pattern that matches it".
 
-### what do rules look like
+## what do rules look like
 
 Here's an example ruleset.
 
@@ -40,12 +40,12 @@ checks and controls that you can't do with just the normal ref (like
 refs/heads/master) being pushed.  The most common example is restricting
 pushes by dir/file name, but there are lots of other possibilities.</font>
 
-### how are the rules checked
+## how are the rules checked
 
 Note that gitolite first [accumulates the rules][rule-accum] before checking
 access.
 
-#### read access -- clone, fetch, archive
+### read access -- clone, fetch, archive
 
 Read access is checked once, just before passing control to git-upload-pack or
 git-archive-pack.  At this point gitolite only knows the repo name, the user
@@ -64,7 +64,7 @@ line 3 does not prevent wally from cloning the repo, because line 4 permits
 it.  (This is the default behaviour.  You can change that by using the
 [deny-rules][] option).
 
-#### write access -- push
+### write access -- push
 
 Write access is checked twice, once before passing control to
 git-receive-pack, and once from within the update hook.
@@ -105,7 +105,7 @@ Here's how the actual rule matching happens:
 Now all you need is to understand how [refex][] matching happens and how the
 permissions match the various [types of write operations][write-types].
 
-### #permsum summary of permissions
+## #permsum summary of permissions
 
 The full set of permissions, in regex syntax, is `-|R|RW+?C?D?M?`.  This
 expands to one of `-`, `R`, `RW`, `RW+`, `RWC`, `RW+C`, `RWD`, `RW+D`, `RWCD`,

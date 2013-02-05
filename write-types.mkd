@@ -1,4 +1,4 @@
-## #write-types different types of write operations
+# #write-types different types of write operations
 
 Git supplies enough information to the update hook to be able to distinguish
 several types of writes.

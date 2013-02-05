@@ -50,11 +50,11 @@ triggers as the previous section said.
 
 Here's the big-O stuff:
 
-  * N = number of normal repos, each with its own set of rules.  In "repo r1
-    r2 r3", N = 3.  Add up all such lines.
-  * G = number of groups or wild patterns.  In "repo @g1 @g2 foo/[a-z]*", G =
+  * N = number of normal repos, each with its own set of rules.  In `repo r1
+    r2 r3`, N = 3.  Add up all such lines.
+  * G = number of groups or wild patterns.  In `repo @g1 @g2 foo/[a-z]*`, G =
     3.
-  * M = number of members.  In "@g1 = r1 r2 <nl> @g2 = r3 r4 r5", M = 5.
+  * M = number of members.  In `@g1 = r1 r2 <nl> @g2 = r3 r4 r5`, M = 5.
   * A = average number of rule lines in each "repo" block.  Usually about 5,
     maybe 10 sometimes.  You may have more.
 

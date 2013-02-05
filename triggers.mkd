@@ -135,13 +135,16 @@ description of when the trigger runs:
         'git-upload-archive') being invoked.
 
   * `PRE_CREATE` and `POST_CREATE` run just before and after a new "[wild][]"
-    repo is created by user action.  Extra arguments:
+    repo is created by user action.  In addition, any command that creates a
+    repo (like 'fork') or potentially changes permissions (like 'perms') may
+    choose to run `POST_CREATE`.  Extra arguments:
       * repo
       * user
       * invoking operation
           * 'R' for fetch/clone/ls-remote, 'W' for push
           * can also be anything set by the external command running the
-            trigger (e.g., see the perms and fork commands).
+            trigger (e.g., see the perms and fork commands).  This lets the
+            trigger code know how it was invoked.
 
     They are also run when a *normal* repo is created (say by adding a "repo
     foo" line to the conf file).  This case has only one extra argument:

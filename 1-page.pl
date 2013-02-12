@@ -164,9 +164,10 @@ include perf.mkd
 
 # #s9 migration
 
+include migr.mkd
+include g2migr.mkd
 include g2incompat.mkd
 include g2migr-example.mkd
-include g2migr.mkd
 include gsmigr.mkd
 
 **THE END**

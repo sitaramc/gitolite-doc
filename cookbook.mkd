@@ -16,6 +16,29 @@ TOC
 
 ----
 
+## administration
+
+### separating "key admin" from "repo admin"
+
+In gitolite, the person who controls the keys is the most powerful -- because
+he can always add his own key in your name :-)
+
+Traditionally, the same person also administers repos and permissions.  But
+sometimes you want to separate them.  The following should work:
+
+  * put the following in conf/gitolite.conf:
+
+        repo gitolite-admin
+            RW+ = key-manager repo-manager
+
+            RW+ VREF/NAME/                    = key-manager
+            -   VREF/NAME/keydir/             = @all
+            -   VREF/NAME/conf/gitolite.conf  = @all
+
+        include "actual.conf"
+
+  * then let the repo-manager manage everything through "actual.conf".
+
 ## access
 
 ### looking up repo access from external tools

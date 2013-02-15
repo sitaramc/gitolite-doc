@@ -217,7 +217,7 @@ details.
 
 Wherever gitolite sees the word `%HOSTNAME`, it will replace it with the
 HOSTNAME supplied in the rc file, if one was supplied.  This lets you maintain
-configurations for all servers in one repo, yet havethem act differently on
+configurations for all servers in one repo, yet have them act differently on
 different servers, by saying something like:
 
     subconf "%HOSTNAME/*.conf"

@@ -4,7 +4,7 @@ TOC
 
 ----
 
-Gitolite has a huge bunch of existing features that gradually need to moved
+Gitolite has a huge bunch of existing features that gradually need to be moved
 over.  Plus you may want to write your own programs to interact with it.
 
 **This document is about *writing* hooks, commands, triggers, VREFS, and sugar

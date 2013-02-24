@@ -195,7 +195,7 @@ Assuming you're not making a version change, this is what you need to do:
 
   * install gitolite normally on the new machine, using the same public key
     *and* name for the admin as on the old machine when running the `gitolite
-    setup -pkr` command.
+    setup -pk` command.
 
   * copy over your `~/.gitolite.rc` file from the old machine to the new
 

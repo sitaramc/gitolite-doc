@@ -18,7 +18,7 @@ Reponames can contain `/` characters (this allows you to put your repos in a
 tree-structure for convenience).
 
 There are no continuation lines by default.  You do not need them; the section
-on "groups" will tell you how you can break up large lists of names in a group
+on [groups][] will tell you how you can break up large lists of names in a group
 definition into multiple lines.
 
 <font color="gray">If you *must* have them, you can optionally enable them;

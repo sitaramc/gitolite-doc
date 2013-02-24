@@ -73,7 +73,7 @@ character for an *ordinary* repo.  Therefore, a pattern like `foo/.+` does not
 look like a regex to gitolite.  Use `foo/..*` if you want that.
 
 Also, `..*` by itself is not considered a valid repo pattern.  Try
-`[a-zA-Z0-9].*`.
+`[a-zA-Z0-9].*`.  `CREATOR/..*` will also work.
 
 ### line-anchored regexes
 

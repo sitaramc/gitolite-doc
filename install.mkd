@@ -80,6 +80,9 @@ side.
 
     git clone git://github.com/sitaramc/gitolite
 
+(Do I need to mention that you can optionally check out a specific tag if you
+wish, as long as it's not too old?)
+
 ## the actual install
 
 **Note**: This section describes installing an ssh-based setup.  For smart

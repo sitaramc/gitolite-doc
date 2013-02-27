@@ -235,3 +235,32 @@ If you're paranoid enough to use mirrors, you should be paranoid enough to
 set this on each server, despite the possible CPU overhead:
 
     git config --global receive.fsckObjects true
+
+## appendix C: moving the admin repo to a different master
+
+Moving only some repos (other than the gitolite-admin repo) to a different
+master is easy.  Just make the change in the gitolite.conf file, add, commit,
+and push.
+
+Even for the gitolite-admin repo, if the current master is ok, it's the same
+thing; just make the change and push *to the current master*.  Subsequent
+pushes will go to the new master, of course.
+
+But if the current master is already dead, there's a bit of a catch-22.  You
+can't push to the master because it is dead, and you can't push to any slave
+because they won't accept updates from anywhere but the server they think is
+the master.
+
+Here's how to resolve this:
+
+1.  On *each* slave:
+
+      * edit `~/.gitolite/conf/gitolite.conf` to change the master and slave
+        options for the gitolite-admin repo.
+
+      * run `gitolite setup`
+
+2.  Now clone the admin repo from the *new* master to your workstation, change
+    the options for the rest of the repos (if needed), then add/commit/push.
+
+And that should be all you need to do.

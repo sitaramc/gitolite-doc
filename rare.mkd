@@ -18,11 +18,16 @@ On the server:
 
 Back on your workstation:
 
-  * [Add them][repos] to conf/gitolite.conf in your clone of the admin repo,
-    then commit and push the change.
+  * If the repos are normal repos, [add them][repos] to conf/gitolite.conf in
+    your clone of the admin repo, then commit and push the change.
 
-    If the repos are already covered by some [wild][] pattern, this is
-    optional.
+    If the repos are [wildcard][wild] repos that already match some pattern in
+    the conf file, you need to manually create the gl-creator file, like so:
+
+        echo username > ~/repositories/path/to/repo.git/gl-creator
+
+    I haven't yet found this to be common enough to bother wrapping it in a
+    nice interface or command.
 
 ## #moving moving servers
 

@@ -163,7 +163,7 @@ can't do this for files and directories.
 
 Here's how:
 
-1.  enable 'partial-copy' in the `PRE_GIT` section in the rc file.
+1.  enable 'partial-copy' in the ENABLE list in the rc file.
 
 2.  for each repo "foo" which has secret branches that a certain set of
     developers (we'll use a group called `@temp-emp` as an example) are not

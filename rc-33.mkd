@@ -1,10 +1,6 @@
-# the "rc" file (`$HOME/.gitolite.rc`)
+# the v3.0 to v3.3 "rc" file (`$HOME/.gitolite.rc`)
 
-**IMPORTANT**: if you have a v3.0-v3.3 rc file it will still work.  In fact
-internally the v3.4 rc file data gets converted to the v3.3 format.  So just
-because you upgraded gitolite doesn't mean you have to change your rc file!
-
-**v3.3 or before**: [this][rc-33] is the document you need.
+**NOTE 1**: if you're using v3.4 and above, see [this][rc].
 
 **NOTE 2**: if you're migrating from g2, there are some settings that MUST be
 dealt with **before** running `gitolite setup`; please read the
@@ -26,9 +22,9 @@ sure the brackets and braces stay matched up!
 Please look at the `~/.gitolite.rc` file that gets installed when you setup
 gitolite.  As you can see there are 3 types of variables in it:
 
-  * a lot of simple variables (like `UMASK`, `GIT_CONFIG_KEYS`, etc)
-  * a hash or two (like `ROLES`)
-  * and one large list of features to be enabled (`ENABLE`)
+  * simple variables (like `UMASK`)
+  * lists (like `POST_COMPILE`, `POST_CREATE`)
+  * hashes (like `ROLES`, `COMMANDS`)
 
 While some of the variables are documented in this file, many of them are not.
 Their purposes are to be found in each of their individual documentation files

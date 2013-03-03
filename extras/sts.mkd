@@ -169,12 +169,7 @@ To do this:
 
         SHELL_USERS_LIST        =>  "$ENV{HOME}/.gitolite.shell-users",
 
-  * add the line `'Shell::input',` to the `INPUT` list in the rc file.  This
-    must be the first item on the list (possibly preceded by CpuTime, if
-    you're using that).
-
-  * add the line `'post-compile/ssh-authkeys-shell-users',` to the
-    `POST_COMPILE` list, *after* the `'post-compile/ssh-authkeys',` line.
+  * enable the trigger by uncommenting the 'Shell' line in the ENABLE list.
 
 Then run `gitolite compile; gitolite trigger POST_COMPILE` or push a dummy
 change to the admin repo.
@@ -188,11 +183,11 @@ fingerprint of the key that finally matched, so normally all you have is the
 
 However, if you replace
 
-    'post-compile/ssh-authkeys',
+    'ssh-authkeys',
 
-in the `POST_COMPILE` trigger list in the rc file with
+in the ENABLE list with
 
-    'post-compile/ssh-authkeys --key-file-name',
+    'ssh-authkeys --key-file-name',
 
 then an extra argument is added after the username in the "command" variable
 of the authkeys file.  That is, instead of this:

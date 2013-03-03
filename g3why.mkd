@@ -60,15 +60,12 @@ So, briefly, here are the advantages of g3:
     write your own, though they do have to be in perl (because they're not
     standalone programs).
 
-    Once the code is written and placed in the right place, all a site has to
-    do to enable it is to uncomment some lines in the rc file:
+    Once the code is written and placed in the right place, all you have to do
+    to enable it is to uncomment some lines in the ENABLE list in the rc file:
 
-        # these will run in sequence during the conf file parse
-        SYNTACTIC_SUGAR             =>
-            [
-                # 'continuation-lines',
-                # 'keysubdirs-as-groups',
-            <etc>
+        # 'continuation-lines',
+        # 'keysubdirs-as-groups',
+        <etc>
 
   * roll your own
 

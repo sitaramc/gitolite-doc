@@ -31,8 +31,8 @@ into a "merge" situation.
 
 ## admin/setup
 
-First, someone with shell access to the server must add 'lock' to the
-"COMMANDS" list in the rc file.
+First, someone with shell access to the server must add 'lock' to the ENABLE
+list in the rc file.
 
 Next, the gitolite.conf file should have something like this:
 

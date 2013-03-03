@@ -6,7 +6,8 @@ TOC
 
 Gitolite fires off external commands at 7 different times.  The [rc][] file
 specifies what commands to run at each trigger point, but for illustration,
-here's an excerpt:
+here's an excerpt.  **Note that as of v3.4, this is *not* how the rc file
+looks like externally; please see the [rc file docs][rc] for more**.
 
     %RC = (
 
@@ -70,7 +71,7 @@ require any arguments, so it works).
 Triggers receive the following arguments:
 
 1.  any arguments mentioned in the rc file (for an example, see the renice
-    command in the PRE_GIT trigger sequence),
+    command)
 
 2.  the name of the trigger as a string (example, `"POST_COMPILE"`), so you
     can call the same program from multiple triggers and it can know where it

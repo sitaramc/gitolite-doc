@@ -71,10 +71,9 @@ Some of them have links where there is more detail than I want to put here.
   * `GL_NO_DAEMON_NO_GITWEB` **dropped**, **requires presetting**.  Default
     will clobber your projects.list file and git-daemon-export-ok files.
 
-    Comment out the appropriate lines in the rc file, in the `POST_COMPILE`
-    *and* the `POST_CREATE` trigger sections.  As a bonus, gitweb and daemon
-    can now be separately disabled, instead of both being tied to the same
-    setting.
+    Comment out the 'daemon' and 'gitweb' lines in the ENABLE list in the rc
+    file.  As you can see, gitweb and daemon can now be separately disabled,
+    instead of both being tied to the same setting.
 
   * `GL_NO_SETUP_AUTHKEYS` **dropped**, **requires presetting**.  Default will
     clobber your authkeys file.

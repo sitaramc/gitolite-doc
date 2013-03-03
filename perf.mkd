@@ -17,8 +17,7 @@ list.  Meanwhile, here are some tips:
 
   * If you don't use gitweb or git-daemon, or use them but are perfectly happy
     to control access to them from outside gitolite, you can comment out the
-    corresponding lines in the POST\_CREATE and POST\_COMPILE trigger lists in
-    the rc file.
+    corresponding lines in the ENABLE list the rc file.
 
   * If you can't get rid of those scripts, and they are still taking too long,
     you can make them run in the background.  They'll eventually finish but

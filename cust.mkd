@@ -27,7 +27,7 @@ TOC
 There are 5 basic types of non-core programs.
 
   * *Commands* can be run from the shell command line.  Among those, the ones
-    listed in the COMMANDS hash of the rc file can also be run remotely.
+    in the ENABLE list in the rc file can also be run remotely.
   * *Hooks* are standard git hooks.
   * *Sugar scripts* change the conf language for your convenience.  The word
     sugar comes from "syntactic sugar".
@@ -122,7 +122,7 @@ You can get a **list of available commands** by using the `help` command.
 Naturally, a remote user will see a much smaller list than the server user.
 
 You allow a command to be run from remote clients by adding its name to (or
-uncommenting it if it's already added but commented out) the COMMANDS hash in
+uncommenting it if it's already added but commented out) the ENABLE list in
 the [rc][] file.
 
 ### #hooks hooks and gitolite
@@ -154,8 +154,8 @@ lines), while the parser in the core gitolite engine does not change.
 If you want to write your own sugar scripts, please read the "your own sugar"
 section in [dev-notes][] first then email me.
 
-You enable a sugar script by adding it to the `SYNTACTIC_SUGAR` list in the rc
-file.
+You enable a sugar script by uncommenting the feature name in the ENABLE list
+in the rc file.
 
 ### triggers
 

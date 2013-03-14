@@ -10,65 +10,80 @@ TOC
 
 ----
 
+VREFs are a mechanism to add additional constraints to a push.
+
 Here's an example to start you off.
 
-    repo    r1
-        RW+                         =   lead_dev dev2 dev3
-        -   VREF/COUNT/9            =   dev2 dev3
-        -   VREF/COUNT/3/NEWFILES   =   dev2 dev3
-
-Now dev2 and dev3 cannot push changes that affect more than 9 files at a time,
-nor those that have more than 3 new files.
-
-----
-
-## rule matching recap
-
-You won't get any joy out of this if you don't understand at least
-[refex][]es and how [rules][] are processed.
-
-But VREFs have one **very important difference** from normal rules.  With
-VREFs, a **fallthru results in success**.  You'll see why this is more
-convenient as you read on.
-
-## what is a virtual ref?
-
-We know that "refs/heads/master" and such are normal git refs that are matched
-against the [rules][] to decide if the push is to be allowed or denied.
-
-A VREF is just another ref that is checked against the rules.  For example,
-VREF/COUNT/5 means "this push has more than 5 changed files".  Or
-VREF/NAME/Makefile means "the file called Makefile was changed in this push".
-
-## how do I use a VREF?
-
-Simple.  To disallow junior developers from changing more than five files, or
-from touching the Makefile, you do this:
+To disallow junior developers from changing more than five files, or from
+touching the Makefile, you can do this:
 
     repo foo
         RW+                     =   @all-devs
         -   VREF/COUNT/5        =   @junior-devs
         -   VREF/NAME/Makefile  =   @junior-devs
 
-## where do VREFs come from?
+----
 
-From a VREF-maker of course!
+## basic use
 
-## ok who calls the VREF-maker?
+Normally, rules deal with branches and tags (which git collectively calls
+"refs").  The "ref" is a property of the push which gitolite checks against
+the set of rules.
 
-Gitolite.  It looks at each rule that contains a VREF rule (there are 2 in the
-above example) and calls VREF-makers for each of them.
+VREFs ("virtual refs") are other properties of a push that gitolite can be
+told to check, in addition to the normal ref.  For example, "this push has
+more than 5 changed files" could be one property.  Or "this push changed the
+file called Makefile" could be another.
 
-This only happens if the "real" ref (e.g., 'refs/heads/master',
-'refs/tags/v1.0', etc) passes the access rules for the user.  If the real ref
-fails, the program dies anyway, and none of the VREF stuff runs.
+The simplest way to use them is as *additional* "deny" rules to fail a push
+that might otherwise have passed.  This is what the example at the top shows.
+Using VREFs like this does not require any great understanding of, or thinking
+about, how they work under the hood.
 
-## how does a VREF-maker work?
+## advanced use
+
+More complex uses are possible, but may be harder to understand.  You may want
+to experiment with the rules to solidify your understanding as you read this.
+
+### differences from normal refs
+
+We know where normal refs (like "refs/heads/master" or "refs/tags/v1.0") come
+from -- they are supplied by git itself when it calls the update hook.
+
+VREFs have two differences with normal refs:
+
+  * gitolite has to generate them somehow
+  * fallthru is success, not failure
+
+Here's some more detail on how it works.
+
+  * first, the normal ("real") ref is checked.
+
+    As you already know, the push dies if the ref hits a deny rule **or** it
+    falls through without hitting an allow rule.
+
+  * next, VREFs are generated and checked one by one.
+
+    We'll talk about the generaton later, but for the check, a VREF dies (and
+    kills the push) *only* if it meets an explicit deny rule ("-").  Fallthru
+    does *not* cause failure of a VREF.
+
+    [refex][] and [rules][] still apply, but several parts of the latter are
+    just not relevant to VREFs (since VREFs only run from the update hook).
+    Plus of course, as we said, fallthru is not a failure now.
+
+### generating virtual refs
+
+Gitolite uses the VREF rules themselves to help it generate the virtual refs.
+
+Specifically, it looks at each rule that contains a VREF (there are 2 in the
+above example) and calls a VREF-maker for each of them.
 
 We'll take the COUNT example rule above.
 
 When gitolite sees that rule, it calls the "COUNT" VREF-maker.  Specifically,
-the `VREF/COUNT` program (See [here][cust] for actual locations on disk).
+this is the `VREF/COUNT` program (See [here][cust] for actual locations on
+disk).
 
 Gitolite passes it the string "5" as an argument (actually, as the *eighth*
 argument; details later).
@@ -81,13 +96,17 @@ two things:
 
   * otherwise it should print nothing.
 
-It should exit with an exit code of zero in either case.  See next section for
-more.
+It should exit with an exit code of zero in either case.
 
-## mimicking a plain old update hook
+If it exits with a non-zero, the push dies regardless of what is printed (see
+"mimicking a plain old update hook" for why this is useful).
 
-If it exists with a non-zero exit code, then regardless of what it prints or
-does not, the push dies.
+## more details and nuances
+
+### mimicking a plain old update hook
+
+If the VREF maker exists with a non-zero exit code, then regardless of what it
+prints or does not, the push dies.
 
 This is just like a plain 'update' hook.  Since the first 3 arguments (see
 later) are also the same that a plain 'update' hook receives, you can actually
@@ -101,8 +120,6 @@ this rule to your repos:
         -   VREF/my-update-hook     =   @all
 
 That's it.
-
-## details
 
 ### what if the VREF-maker prints a different VREF?
 

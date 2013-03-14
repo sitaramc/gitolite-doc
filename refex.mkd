@@ -10,8 +10,9 @@ In addition:
 
         RW              =   alice
 
-  * A refex not starting with `refs/` is assumed to start with `refs/heads/`.
-    This means normal branches can be conveniently written like this:
+  * A refex not starting with `refs/` <font color="gray">(or `VREF/`)</font>
+    is assumed to start with `refs/heads/`.  This means normal branches can be
+    conveniently written like this:
 
         RW  master      =   alice
         # becomes 'refs/heads/master' internally

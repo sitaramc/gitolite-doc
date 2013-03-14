@@ -59,6 +59,10 @@ From a VREF-maker of course!
 Gitolite.  It looks at each rule that contains a VREF rule (there are 2 in the
 above example) and calls VREF-makers for each of them.
 
+This only happens if the "real" ref (e.g., 'refs/heads/master',
+'refs/tags/v1.0', etc) passes the access rules for the user.  If the real ref
+fails, the program dies anyway, and none of the VREF stuff runs.
+
 ## how does a VREF-maker work?
 
 We'll take the COUNT example rule above.

@@ -84,7 +84,7 @@ To give some flexibility to users, the admin could add rules like this:
         RW      =   WRITERS
         R       =   READERS
 
-(he could also add other roles but then he needs to read the documentation).
+(he could also add other [roles][] but then he needs to read the documentation).
 
 Once he does this, you can then use the `perms` command (run `ssh git@host
 perms -h` for help) to set permissions for other users by specifying which

@@ -106,7 +106,7 @@ Some of them have links where there is more detail than I want to put here.
   * `GL_GET_MEMBERSHIPS_PGM` -- is now `GROUPLIST_PGM`, see
     [here][ldap].
 
-  * `GL_WILDREPOS_DEFPERMS` -- is now `DEFAULT_ROLE_PERMS`.
+  * `GL_WILDREPOS_DEFPERMS` -- is gone; see [roles][] for how to do this.
 
   * `REPO_BASE` -- **dropped**, is now at a fixed location: `~/repositories`.
     If you want it somewhere else go ahead and move it, then place a symlink

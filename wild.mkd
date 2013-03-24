@@ -104,7 +104,7 @@ metacharacters.
 
 >   ----
 
-## roles
+## #roles roles
 
 The tokens READERS and WRITERS are called "role" names.  The access rules in
 the conf file decide what permissions these roles have, but they don't say
@@ -115,7 +115,7 @@ You can run `ssh git@host perms -h` for detailed help, but in brief, that
 command lets you give and take away roles to users.  [This][perms] has some
 more detail.
 
-## adding other roles
+### adding other roles
 
 If you want to have more than just the 2 default roles, say something like:
 
@@ -132,7 +132,34 @@ You can add the new names to the ROLES hash in the `~/.gitolite.rc` file; see
 comments in that file for how to do that.  Be sure to run the 2 commands
 mentioned there after you have added the roles.
 
-#### #rolenamewarn **IMPORTANT WARNING ABOUT THIS FEATURE**
+### setting default roles
+
+You can setup some default role assignments as soon as a new wild repo is
+created.
+
+Here's how:
+
+  * enable the 'set-default-roles' feature in the rc file by uncommenting it
+    if it is already present or adding it to the ENABLE list if it is not.
+
+  * supply a set of default role assignments for a wild repo pattern by adding
+    lines like this to the repo config para:
+
+        option default.roles-1  =   READERS @all
+        option default.roles-2  =   WRITERS @senior-devs
+
+This will then behave as if the [perms][] command was used immediately after
+the repo was created to add those two role assignments.
+
+If you want to simulate the old (pre v3.5) `DEFAULT_ROLE_PERMS` rc file
+variable, just add them under a `repo @all` line.  (Remember that this only
+affects newly created wild repos, despite the '@all' name).
+
+### specifying owners
+
+See the section on `OWNER_ROLENAME` in the [rc file documentation][rc].
+
+#### #rolenamewarn <font color="red">**IMPORTANT WARNING ABOUT THIS FEATURE**</font>
 
 Please make sure that none of the role names conflict with any of the user
 names or group names in the system.  For example, if you have a user called

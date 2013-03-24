@@ -181,7 +181,7 @@ something like this:
 2.  write your hook code with this at the top:
 
         # check if @foo is in the list of groups of which $GL_REPO is a member
-        gitolite list-memberships $GL_REPO | grep -x @foo >/dev/null || exit 0
+        gitolite list-memberships -r $GL_REPO | grep -x @foo >/dev/null || exit 0
 
 3.  now add your hook as described in earlier steps
 

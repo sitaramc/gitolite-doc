@@ -91,23 +91,26 @@ information.
     This specifies the role names allowed to be used by users running the
     [perms][] command.  The [wild][] repos doc has more info on roles.
 
-  * `DEFAULT_ROLE_PERMS`, string, default undef
+  * `OWNER_ROLENAME`, string, default undef
 
-    This sets default wildcard permissions for newly created wildcard repos.
+    (requires v3.5 or later)
 
-    If set, this value will be used as the default role permissions for new
-    wildcard repositories. The user can change this value with the perms
-    command as desired after repository creation; it is only a default.
+    By default, permissions on a wild repo can only be set by the *creator* of
+    the repo (using the [perms][] command).  But some sites want to allow
+    other people to do this as well.
 
-    Please be aware this is potentially a multi-line variable.  In most
-    setups, it will be left undefined.  Some installations may benefit from
-    setting it to `READERS @all`.
+    To enable this behaviour, the server admin must first set this variable to
+    some string, say 'OWNERS'.  (He must also add 'OWNERS' to the ROLES hash
+    described in the previous bullet).
 
-    If you want multiple roles to be assigned by default, here is how.  Note
-    double quotes this time, due to the embedded newline, which in turn
-    require the '@' to be escaped:
+    The creator of the repo can then add other users to the OWNERS role using
+    the [perms][] command.
 
-        DEFAULT_ROLE_PERMS  =>  "READERS \@all\nWRITERS \@senior_devs",
+    The [perms][] command, the new "owns" command, and possibly other commands
+    in future, will then give these users the same privileges that they give
+    to the creator of the repo.
+
+    (Also see the full documentation on [roles][]).
 
   * `LOCAL_CODE`, string
 

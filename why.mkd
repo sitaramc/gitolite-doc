@@ -87,27 +87,22 @@ annotated tags, nor does it check author/committer identity.  However, it is
 trivial to add your own code to do either (or if someone contributes it, to
 just "enable" what ships with gitolite in a disabled state).
 
-### gitorious
+### gitorious and others
 
 Anecdotally, gitorious is very hard to install.  Comparison with gitolite may
 be useless because I believe it doesn't have branch/tag level access control.
 However, I can't confirm or deny this because I can't find any documentation
-on the website.
+on the website.  In addition, the main website hides the source code very
+well, so you already have a challenge!  [The only link I could find was tucked
+away at the bottom of the About page, in the License section].
 
-In addition, the main website hides the source code very well, so you already
-have a challenge!  [The only link I could find was tucked away at the bottom
-of the About page, in the License section].
+Gitorious has several, much newer, competitors offering web-based management,
+issue tracker, wiki, and so on; try googling for gitlab, gitblit, and
+rhodecode.
 
-### gitlab
+However, to the best of my knowledge none of them offer branch level access
+controls (please tell me if you know different), which, since it is the main
+reason I wrote gitolite, makes them all somewhat moot.
 
-Gitlab is built on top of gitolite, but it does not allow branch-level access
-control which pretty much defeats the purpose of their switching from gitosis
-to gitolite if you ask me.
-
-If you like web-based management, issue tracker, wiki, and so on, you might
-like it.
-
-### others
-
-Please send in patches to this doc if you know of other open source git
-hosting solutions that do access control.
+They are also unlikely to be as [customisable][cust] as gitolite is, if you
+care about that sort of thing.

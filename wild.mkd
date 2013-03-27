@@ -1,5 +1,7 @@
 # "wild" repos (user created repos)
 
+TOC
+
 ## quick introduction
 
 The wildrepos feature allows you to specify access control rules using regular
@@ -132,6 +134,17 @@ You can add the new names to the ROLES hash in the `~/.gitolite.rc` file; see
 comments in that file for how to do that.  Be sure to run the 2 commands
 mentioned there after you have added the roles.
 
+#### #rolenamewarn <font color="red">**IMPORTANT WARNING ABOUT THIS FEATURE**</font>
+
+Please make sure that none of the role names conflict with any of the user
+names or group names in the system.  For example, if you have a user called
+"foo" or a group called "@foo", make sure you do not include "foo" as a valid
+role in the ROLES hash.
+
+You can keep things sane by using UPPERCASE names for roles, while keeping all
+your user and group names lowercase; then you don't have to worry about this
+problem.
+
 ### setting default roles
 
 You can setup some default role assignments as soon as a new wild repo is
@@ -158,17 +171,6 @@ affects newly created wild repos, despite the '@all' name).
 ### specifying owners
 
 See the section on `OWNER_ROLENAME` in the [rc file documentation][rc].
-
-#### #rolenamewarn <font color="red">**IMPORTANT WARNING ABOUT THIS FEATURE**</font>
-
-Please make sure that none of the role names conflict with any of the user
-names or group names in the system.  For example, if you have a user called
-"foo" or a group called "@foo", make sure you do not include "foo" as a valid
-role in the ROLES hash.
-
-You can keep things sane by using UPPERCASE names for roles, while keeping all
-your user and group names lowercase; then you don't have to worry about this
-problem.
 
 ## listing wild repos
 

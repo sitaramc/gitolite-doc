@@ -13,7 +13,10 @@ the rc file"
 
 ----
 
-The rc file for g3 is *quite* different from that of g2.
+The rc file for g3 is *quite* different from that of g2.  The change affects
+[triggers][] more than anything else, and to a very small extent [commands][].
+Please see those links for details, especially if you want to add your own
+triggers or commands.
 
 As before, it is designed to be the only thing unique to your site for most
 setups.  What is new is that it is easy to extend it when new needs come up,

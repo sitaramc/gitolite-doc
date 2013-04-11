@@ -4,10 +4,10 @@ TOC
 
 ## intro and sample rc excerpt
 
-Gitolite fires off external commands at 7 different times.  The [rc][] file
-specifies what commands to run at each trigger point, but for illustration,
-here's an excerpt.  **Note that as of v3.4, this is *not* how the rc file
-looks like externally; please see the [rc file docs][rc] for more**.
+Gitolite fires off external commands at several different times.  The [rc][]
+file specifies what commands to run at each trigger point, but for
+illustration, here's an excerpt.  **Note that as of v3.4, this is *not* how
+the rc file looks like externally.  Please see [this][addtrig] for more**.
 
     %RC = (
 
@@ -160,6 +160,68 @@ description of when the trigger runs:
     file, then all the 'git-config's, gitweb access, and daemon access.
 
     No extra arguments.
+
+## #addtrig adding your own scripts to a trigger
+
+For gitolite v3.3 or less, adding your own scripts to a trigger list was
+simply a matter of finding the trigger name in the rc file and adding an entry
+to it.  Even for gitolite v3.4 or higher, if your rc file was created before
+v3.4, *it will continue to work, and you can continue to add triggers to it
+the same way as before*.
+
+However, if you installed gitolite v3.4 or higher, you will see a different rc
+file syntax.  This new rc file does not have trigger lists, but a simple list
+of "features" within a list called "ENABLE" in the rc file; you simply comment
+out or uncomment appropriate entries, and gitolite will *internally* create
+the trigger lists correctly.
+
+...which is fine for triggers that are shipped with gitolite, but now you're
+wondering how to add your own.
+
+The answer is: same as before.
+
+Here's an example.  Let's say you wrote yourself a trigger script called
+'foo', to be invoked from the `POST_CREATE` trigger list.  With the old
+format, you'd find the following lines in the rc file:
+
+    POST_CREATE                 =>
+        [
+            'post-compile/update-git-configs',
+            'post-compile/update-gitweb-access-list',
+            'post-compile/update-git-daemon-access-list',
+        ],
+
+and you'd simply add a line for 'foo' in that list.
+
+With the new format, since there is no `POST_CREATE` trigger list defined in
+the rc file, you'll need to add all this:
+
+    POST_CREATE                 =>
+        [
+            'foo'
+        ],
+
+instead of just the 'foo' line.
+
+Since the ENABLE list pulls in the rest of the trigger entries, this will be
+*effectively* as if you had done this in a v3.3 rc file:
+
+    POST_CREATE                 =>
+        [
+            'foo',
+            'post-compile/update-git-configs',
+            'post-compile/update-gitweb-access-list',
+            'post-compile/update-git-daemon-access-list',
+        ],
+
+As you can see, the 'foo' gets added to the top of the list.
+
+### displaying the resulting trigger list
+
+You can use the 'gitolite query-rc' command to see what the trigger list
+actually looks like.  For example:
+
+    gitolite query-rc POST_CREATE
 
 ## tips
 

@@ -119,7 +119,8 @@ background info.
 
   * You are able to clone repositories but are unable to push changes back
     (the error complains about the `GL_BINDIR` environment variable not being
-    set, and the `hooks/update` failing in some way).
+    set or about not being able to locate `Gitolite/Hooks/Update.pm`, and the
+    `hooks/update` failing in some way).
 
     [If you run `git remote -v` you will find that your clone URL included the
     `repositories/` described above!]

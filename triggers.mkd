@@ -135,6 +135,10 @@ description of when the trigger runs:
       * the git command ('git-receive-pack', 'git-upload-pack', or
         'git-upload-archive') being invoked.
 
+    **NOTE** that the `POST_GIT` trigger has no way of knowing if the push
+    succeeded, because 'git-shell' (or maybe 'git-receive-pack', I don't know)
+    exits cleanly even if the update hook died.
+
   * `PRE_CREATE` and `POST_CREATE` run just before and after a new "[wild][]"
     repo is created by user action.  In addition, any command that creates a
     repo (like 'fork') or potentially changes permissions (like 'perms') may

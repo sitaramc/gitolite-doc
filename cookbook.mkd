@@ -85,6 +85,8 @@ else is pure Unix.
 
 ## hooks
 
+The main documentation for this feature starts [here][hooks].
+
 ### adding you own update hooks
 
 You have some update hooks (for example crlf checking) that you want to

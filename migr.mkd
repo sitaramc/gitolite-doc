@@ -84,6 +84,8 @@ workstation**.
     administrator in its `keydir` directory, then run [`gitolite push
     -f`][bypass] to overwrite the "default" admin repo created by the install.
 
+    **NOTE that is `gitolite push` not `git push`!**
+
 6.  Handle any errors, look for migration issues, etc., as described in the
     links at the top of this page.
 

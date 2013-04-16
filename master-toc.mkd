@@ -123,6 +123,7 @@ since there are so many of them**.
 ## interfacing with [external][] tools
 
   * gitweb
+      * setting owner, description, etc.
       * changing the [UMASK][umask]
   * git-daemon
 

@@ -6,6 +6,8 @@
 
 ----
 
+TOC
+
 ## install/setup issues
 
 Most install/setup issues are caused by lack of ssh knowledge.  Ssh is a
@@ -50,10 +52,25 @@ just rewind) and push that.  Here's how to do that:
 **NOTE**: gitolite does **no access checking** when you do this!
 </font>
 
-## #clean cleaning out a botched install
+## #botch botched something?
+
+### fixing botched repos
+
+If you copied some repos from somewhere else, or mucked with the hooks for
+some reason, or deleted any gitolite-specific files, or tried any other
+"behind the scenes" stunts, the quickest, sanest, way to fix everything up is:
+
+  * make sure any new repos you copied in are mentioned in the gitolite.conf
+    in some 'repo' line and the change pushed
+  * then run `gitolite setup` on the server
+
+If the repo you botched is a wild repo, please ask on the mailing list or on
+IRC (see [contact][]).
+
+### #clean cleaning out a botched install
 
 If you've read the [files involved in gitolite][files] page, you probably know
-the answer, but here's a list of files you should blow away.
+the answer, but here's a list of files and directories to deal with:
 
   * **Gitolite sources** -- can be found by running `which gitolite`.  If it's
     a symlink, go to its target directory.

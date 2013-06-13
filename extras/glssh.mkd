@@ -64,7 +64,8 @@ from somewhere, or maybe buy the OReilly ssh book.
     erase or overwrite the existing contents of `~/.ssh/authorized_keys` on
     the server!
 
-    But in the gitolite case, it's different; we'll get to that in a minute.
+    But with gitolite, it does this for you; see [adding and removing
+    users][users] for more.
 
     * **Troubleshooting pubkey authentication failures**: if you are unable to
       get ssh access to the server after doing all this, you'll have to look

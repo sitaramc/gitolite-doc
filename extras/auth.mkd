@@ -97,8 +97,9 @@ program in an [rc][] variable called `GROUPLIST_PGM`, like so:
 
     GROUPLIST_PGM           =>  '/home/git/bin/ldap-query-groups',
 
-Now you can use those groupnames in access rules in gitolite, just as if you
-had declared their memberships in the conf file.
+Now you can use those groupnames in access rules in gitolite, because the user
+is a member of those groups as well as any normal gitolite groups you may have
+added him to in the conf file.
 
 Caution: your program must do its own logging if you want the audit trail of
 "why/how did this user get access to this repo at this time?" to resolve

@@ -89,11 +89,11 @@ However, if you point it to someplace inside `$GL_ADMIN_BASE` (i.e.,
 `$HOME/.gitolite`), then you can version those programs using the
 gitolite-admin repo.
 
-I suggest using a directory called "local-code" within the gitolite-admin repo
+I suggest using a directory called "local" within the gitolite-admin repo
 that contains as much of the above directory structure you need.  If you do
 that, then this is what you'd have in the rc file:
 
-    LOCAL_CODE                  =>  "$ENV{HOME}/.gitolite/local-code",
+    LOCAL_CODE                  =>  "$ENV{HOME}/.gitolite/local",
 
 When you do this, gitolite takes care of everything automatically, including
 running `gitolite setup --hooks-only` when you change any hooks and push.

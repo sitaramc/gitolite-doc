@@ -1,0 +1,98 @@
+# gitolite plugins
+
+It's not hard to create a "plugin" mechanism to allow arbitrary extra features
+to be just dropped into gitolite.  All that is needed is for the code to
+respect the directory hierarchy described in the [local code][localcode]
+section of the [customisation][cust] document.
+
+Here's a sample (you'll find this specific set in `contrib/local`):
+
+    commands/
+    \-- cmd-1*
+    hooks/
+    \-- common/
+        |-- post-receive
+        |-- post-update*
+        \-- post-update.d/
+            \-- pu-1*
+    register*
+    register.d/
+    |-- acc-2-report*
+    \-- cmd-1*
+    triggers/
+    \-- acc-2-report*
+
+Plugins need to be **registered** if they include a command and/or a trigger.
+
+The Oxford English Dictionary describes "Registration code" as:
+
+>   a fancy phrase that means "a line or two of perl code that the plugin
+>   developer must write because the plugin user is too lazy to `vi
+>   ~/.gitolite.rc` and add a line or two".
+
+All registration code lives in `register.d`.  Take a look at the two samples
+provided.  Note that only commands and triggers need to be registered; hooks
+don't need to be.
+
+Post-update hooks live in `hooks/common/post-update.d`.  Post-receive hooks
+have not been implemented yet; see the comments in the stub for what to do.
+
+Everything requires `chmod +x` to run.
+
+People who keep saying "gitolite should have a plugin framework" **please
+note** that the only new code here (as opposed to dummy/demo code which you
+will replace with your own) are these two driver programs:
+
+  * the `register` code:
+
+        for my $r (glob( "$RC{LOCAL_CODE}/register.d/*" )) {
+            do $r if -x $r;
+        }
+
+  * the `hooks/common/post-update` code:
+
+        for i in hooks/post-update.d/*
+        do
+            [ -x $i ] && $i "$@"
+        done
+
+Everything else **was already in place in gitolite**.
+
+## instructions for installing plugins
+
+Assuming the plugin follows the directory structure shown, do the following:
+
+One-time setup:
+
+  * on your server, add the following line to the [rc][] file
+
+        LOCAL_CODE => "$ENV{HOME}/.gitolite/local",
+
+    within the `%RC` block, for example just after the `%RC = (` line.  (More
+    background and additional info [here][pushcode]).
+
+  * also add the following line to the end of `~/.gitolite.rc`, just before
+    the `1;` line near the end:
+
+        do "$RC{LOCAL_CODE}/register";
+
+  * in your gitolite-admin repo clone, run `mkdir -p local/hooks/common` to
+    hold the post-update driver code.
+
+  * copy the two drivers:
+
+        cp  <gitolite>/contrib/local/register                   <gitolite-admin>/local
+        cp  <gitolite>/contrib/local/hooks/common/post-update   <gitolite-admin>/local/hooks/common
+
+    where `<gitolite>` is your gitolite source code repo clone, and
+    `<gitolite-admin>` is your gitolite-admin repo clone.
+
+  * add, commit, and push
+
+Once for each plugin, or each time a plugin is updated:
+
+  * drop the plugin into `<gitolite-admin>/local`
+
+  * add, commit, and push
+
+Done.

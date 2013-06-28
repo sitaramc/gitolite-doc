@@ -25,6 +25,9 @@ In general, the following environment variables should always be available:
 Commands invoked by a remote client will also have `GL_USER` set.  Hooks will
 have `GL_REPO` also set.
 
+A special form of the [option][options] syntax can be used to set
+[repo-specific environment variables][rsev].
+
 Finally, note that triggers get a lot of relevant information from gitolite as
 arguments; see [here][triggers] for details.
 
@@ -170,3 +173,53 @@ handles that.
 Finally, as an exercise for the reader, consider how you would create a brand
 new env var that contains the *comment* field of the ssh pubkey that was used
 to gain access, using the information [here][kfn].
+
+## #rsev appendix 2: repo-specific environment variables
+
+A special form of the [option][options] syntax can be used to set
+repo-specific environment variables that are visible to gitolite triggers and
+any git hooks you may install.
+
+For example, let's say you installed a post-update hook that initiates a CI
+job.  By default, of course, this hook will be active for *all*
+gitolite-managed repos.  However, you only want it to run for some specific
+repos, say r1, r2, and r4.
+
+To do that, first add this to the gitolite.conf:
+
+    repo r1 r2 r4
+        option ENV.CI = 1
+
+This creates an environment variable called `GL_OPTION_CI` with the value 1,
+before any trigger or hook is invoked.
+
+Note: option names *must* start with `ENV.`, followed by a seqence of
+characters composed of alphas, numbers, and the underscore character.
+
+Now the hook running the CI job can easily decide what to do:
+
+    # exit if $GL_OPTION_CI is not set
+    [ -z $GL_OPTION_CI ] && exit
+
+    ... rest of CI job code as before ...
+
+Of course you can also do the opposite; i.e. decide that the listed repos
+should *not* run the CI job but all other repos should:
+
+    repo @all
+        option ENV.CI = 1
+
+    repo r1 r2 r4
+        option ENV.CI = ""
+
+(The hook code remains the same as before.)
+
+<font color="gray">Before this feature was added, you could still do this, by
+using the `gitolite git-config` command inside the hook code to test for
+options and configs set for the repo, like:
+
+    if gitolite git-config -q reponame gitolite-options.option-name
+    then
+        ...
+
+The new method is much more convenient, as you can see.</font>

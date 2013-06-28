@@ -8,6 +8,11 @@ gitolite-options.foo = 1', so everything in the [git-config][] page also
 applies here (especially the bit about [overriding config
 values][override_conf]).
 
+**However**, these values are **not** written into git's own `config` file, so
+git (or other programs running `git config`) will not see them.  You can only
+query them using `gitolite git-config`, where they will appear in full in the
+output.
+
 Options are set by repo.  The syntax is very simple:
 
     option  foo.bar     =   baz
@@ -27,6 +32,9 @@ Here are some examples, although this list is not exhaustive:
   * the optional post-compile trigger 'update-gitweb-daemon-from-options'
     allows you to use options instead of special usernames gitweb and daemon
     to determine access for those tools.
+
+  * you can set [repo-specific environment variables][rsev] for triggers and
+    hooks to test, which is very useful.
 
 Here's how to disable an option from a single repo if it was enabled earlier
 in a group (which you might guess from reading the [git-config][] page):

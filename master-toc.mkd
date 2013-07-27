@@ -174,7 +174,8 @@ since there are so many of them**.
 
 ## contributed software, tools, and documentation
 
-  * TBD
+  * [emacs][README-emacs] "major mode"
+  * (rest: TBD)
 
 ## TBD
 

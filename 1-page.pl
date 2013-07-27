@@ -161,6 +161,7 @@ include dev-status.mkd
 include files.mkd
 include extras/regex.mkd
 include perf.mkd
+include extras/README-emacs.mkd
 
 # #s9 migration
 

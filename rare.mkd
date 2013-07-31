@@ -2,6 +2,15 @@
 
 ## #existing moving existing repos into gitolite
 
+>   **WARNING**: gitolite **will clobber** any existing `update` hook in your
+>   repos when you do this.  Please see either the [cookbook][] or the
+>   [customisation][cust] document for information on how to make your
+>   existing update hook work with gitolite.
+
+>   Gitolite *may clobber* any existing "git-daemon-export-ok" file in your
+>   repo; see the page on [interfacing with external tools][external] for how
+>   to enable that via gitolite.
+
 On the server:
 
   * Move the repos to `$HOME/repositories`.

@@ -67,8 +67,7 @@ Notes:
     be any user, even your own normal one.  (If you're using an RPM/DEB the
     install probably created one called "gitolite").
 
-Also see the [WARNINGS][] page for more on what gitolite expects on the server
-side.
+Also see the [WARNINGS][] page for important information of general use.
 
 ### client
 

@@ -21,6 +21,8 @@ documentation: [basic][] and [advanced][].
   * [contact][] info, mailing list, IRC channel
   * [license][] info
 
+## [WARNINGS][]
+
 ## help for [emergencies][]
 
   * **install/setup issues caused by [ssh][]**
@@ -31,8 +33,6 @@ documentation: [basic][] and [advanced][].
   * [uncommon][ue] errors
   * [non-standard configs][nonstd] that'll trip you up
   * things that are [not gitolite problems][ngp]
-
-## [WARNINGS][]
 
 
 ## [testing][] gitolite

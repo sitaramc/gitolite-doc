@@ -22,8 +22,8 @@ In general, the following environment variables should always be available:
     GL_REPO_BASE
     GL_ADMIN_BASE
 
-Commands invoked by a remote client will also have `GL_USER` set.  Hooks will
-have `GL_REPO` also set.
+In addition, commands invoked by a remote client also have `GL_USER`, while
+hooks have `GL_USER` as well as `GL_REPO`.
 
 A special form of the [option][options] syntax can be used to set
 [repo-specific environment variables][rsev].

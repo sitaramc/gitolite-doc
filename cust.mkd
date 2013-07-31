@@ -81,7 +81,7 @@ making changes to them without having to log on to the server.
 To do this, simply point `LOCAL_CODE` to someplace inside `$GL_ADMIN_BASE`
 (i.e., `$HOME/.gitolite`) in the rc file.
 
-If you want to do this, I *strongly* suggest:
+If you want to do this, I **strongly** suggest:
 
     LOCAL_CODE                  =>  "$ENV{HOME}/.gitolite/local",
 
@@ -92,7 +92,7 @@ stuff there (e.g., VREFs go in `local/VREF`, and commands in
 (Note: when you do this, gitolite takes care of running `gitolite setup
 --hooks-only` when you change any hooks and push).
 
-#### SECURITY note on this mode of managing non-core code
+#### **SECURITY** note on this mode of managing non-core code
 
 **In this mode, anyone who can push changes to the admin repo will effectively
 be able to run any arbitrary command on the server.**

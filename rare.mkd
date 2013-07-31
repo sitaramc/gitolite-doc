@@ -2,16 +2,20 @@
 
 ## #existing moving existing repos into gitolite
 
->   **WARNING**: gitolite **will clobber** any existing `update` hook in your
->   repos when you do this.  Please see either the [cookbook][] or the
->   [customisation][cust] document for information on how to make your
->   existing update hook work with gitolite.
+**WARNINGS**
 
->   Gitolite *may clobber* any existing "git-daemon-export-ok" file in your
->   repo; see the page on [interfacing with external tools][external] for how
->   to enable that via gitolite.
+  * Gitolite **will clobber** any existing `update` hook in your repos when
+    you do this.  Please see either the [cookbook][] or the
+    [customisation][cust] document for information on how to make your
+    existing update hook work with gitolite.
 
-On the server:
+  * Gitolite *may clobber* any existing "git-daemon-export-ok" file in your
+    repo; see the page on [interfacing with external tools][external] for how
+    to enable that via gitolite.
+
+With that out of the way, here's how to do this:
+
+First, on the server:
 
   * Move the repos to `$HOME/repositories`.
 
@@ -25,7 +29,7 @@ On the server:
   * Run `gitolite setup`.  **If you forget this step, you can also forget
     about write access control!**
 
-Back on your workstation:
+Then, back on your workstation:
 
   * If the repos are normal repos, [add them][repos] to conf/gitolite.conf in
     your clone of the admin repo, then commit and push the change.

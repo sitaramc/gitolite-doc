@@ -8,7 +8,11 @@ exceptions and special cases, etc., and generally just say *what* is to be
 done rather than explain *why*, many tasks can be described very easily.
 
 Maybe this will help.  If you run into problems, please check the main
-documentation before asking for help.
+documentation before asking for help.  In particular, the [basic][] and
+[advanced][] graphical overviews of the documentation may be useful.
+
+[basic]: basic.html
+[advanced]: advanced.html
 
 ----
 
@@ -16,7 +20,7 @@ TOC
 
 ----
 
-## administration
+## #cb-admin administration
 
 ### separating "key admin" from "repo admin"
 
@@ -39,7 +43,7 @@ sometimes you want to separate them.  The following should work:
 
   * then let the repo-manager manage everything through "actual.conf".
 
-## access
+## #cb-access access
 
 ### looking up repo access from external tools
 
@@ -83,18 +87,41 @@ This is all described in the UMASK section in the documentation on the [rc
 file][rc], because that's the only setting that gitolite controls; every thing
 else is pure Unix.
 
-## hooks
+## #cb-commands commands
+
+### adding your own commands
+
+To add a command, say `foo`, do this:
+
+1.  add this line in the rc file, within the `$RC` block, if it's not already
+    present:
+
+        LOCAL_CODE => "$ENV{HOME}/local",
+
+2.  copy the program `foo` into `$HOME/local/commands`.  (Don't forget the
+    `chmod +x`!)
+
+### making commands available to remote users
+
+Once you do the above, `foo` is available as `gitolite foo`.  To make it
+available to remote users (as `ssh git@host foo`), add the line:
+
+    `foo`,
+
+(including the comma at the end) to the ENABLE list in the rc file.
+
+## #cb-hooks hooks
 
 The main documentation for this feature starts [here][hooks].
 
-### adding you own update hooks
+### adding your own update hooks
 
 You have some update hooks (for example crlf checking) that you want to
 include in gitolite.  Assuming the hook itself is tested and works as a normal
 **git** update hook does (i.e., conforms to what `man githooks` says an update
 hook should do), here's how to do this.
 
-1.  add this line in the rc file, within the $RC block, if it's not already
+1.  add this line in the rc file, within the `$RC` block, if it's not already
     present:
 
         LOCAL_CODE => "$ENV{HOME}/local",
@@ -127,7 +154,7 @@ hook should do), here's how to do this.
 
 Say you want other hooks, like a post-receive hook.  Here's how:
 
-1.  add this line in the rc file, within the $RC block, if it's not already
+1.  add this line in the rc file, within the `$RC` block, if it's not already
     present:
 
         LOCAL_CODE => "$ENV{HOME}/local",
@@ -143,28 +170,6 @@ Say you want other hooks, like a post-receive hook.  Here's how:
 
 3.  run `gitolite setup` to have the hooks propagate to existing repos (repos
     created after this will get them anyway).
-
-### variation: managing the hooks from gitolite-admin
-
-If your gitolite admins already have shell access to the server, (i.e., you
-don't distinguish between "someone who has shell on the server" and "someone
-who only has push rights to the gitolite-admin repo"), you may like to put
-these hooks also in the gitolite-admin repo for easier management.
-
-You do almost the same thing, except for some changes:
-
-1.  step 1 will change like so:
-
-        LOCAL_CODE => "$ENV{HOME}/.gitolite/local",
-
-2.  step 2 will change in that you create these directories (local/VREF,
-    local/common/) in your gitolite-admin *clone*, not on the server.
-
-    After doing that, and copying the files there, you add, commit, and push.
-
-    Don't forget the 'chmod +x' !
-
-3.  Step 3 is the same for VREFs, but is not required for other hooks.
 
 ### variation: custom hooks only for some repos
 
@@ -187,7 +192,98 @@ something like this:
 
 3.  now add your hook as described in earlier steps
 
-## moving stuff around
+## #cb-vrefs VREFs
+
+### adding your own VREFs
+
+Adding VREFs is the same as adding the update hook, so please see the section
+on "adding your own update hooks" above.
+
+### example VREFs
+
+However, *writing* a proper VREF is not the same as writing a normal git
+"update hook".  A proper VREF does more than just take 3 arguments, do
+something, and exit with a non-zero exit code for failure.
+
+A VREF is called with at least 4 more arguments after the 3 that git itself
+defines for an update hook, plus usually at least one or two more.  It also
+returns a lot more meaningful results via STDOUT.
+
+Here are some examples.  I also advise you to keep a browser tab open to the
+doc on [VREF arguments][vref-args] as you look at these.
+
+#### example 1: restricting by day of week
+
+Here's the conf extract to say "junior devs can only push on weekdays":
+
+    repo foo
+        -   VREF/DAY/Sat    =   @junior-devs
+        -   VREF/DAY/Sun    =   @junior-devs
+
+The code for this VREF is ridiculously simple:
+
+    #!/bin/bash
+    echo VREF/DAY/`date +%a`
+
+On encountering the VREF rules (i.e., when a junior dev tries to access this
+repo), gitolite calls the "DAY" VREF-maker.  The code within the VREF maker
+simply echoes something like "VREF/DAY/Mon", where the last part is whatever
+the actual day of the week happens to be.
+
+This output is then treated as a virtual ref and matched against the rules.
+On a Monday to Friday, nothing happens, because the VREFs generated do not
+match any deny rules (or indeed any rules at all).  On weekends, they do
+match, and the access is denied.
+
+#### example 2: restricting by source IP address
+
+This one restricts junior developers to access this repo only from a specific
+network block.  The conf file here is slightly different.  We know that the
+VREF-maker will return with *some* network address (as you'll see in the code
+later), so we set it up so that the correct network block is allowed and
+anything else is disallowed:
+
+    repo foo
+        RW+ VREF/FROM/192.168.48.0/23   =   @junior-devs
+        -   VREF/FROM                   =   @junior-devs
+
+The code is not that complex.  We take the user's actual IP address (this is
+available as the first word in `$SSH_CONNECTION` for ssh users, and for
+smart-http users, gitolite fakes it and creates that variable!).  We then
+treat the "23" in the VREF rule, which appears to the code as `$9`, as the
+number of bits in the network address, then compute the network address for
+the users IP with that number of bits.
+
+This network address is then sent back.  (The `$9` is added back at the end,
+but this is only to enable it to match the VREF rule).
+
+    #!/bin/bash
+
+    # exit if no arguments were supplied to the VREF.  This covers the
+    # second VREF rule in the conf above
+    [ -n "$8" ] || exit 0
+
+    from=${SSH_CONNECTION%% *}
+
+    eval `ipcalc -n $from/$9`       # sets env var "NETWORK"
+
+    echo VREF/FROM/$NETWORK/$9
+
+For a source IP of 192.168.49.97, this runs `ipcalc -n 192.168.49.97/23`,
+which gives the network address 192.168.48.0.  The echo then just sends back
+VREF/FROM/192.168.48.0/23.  This VREF matches the RW+ line.
+
+But if the IP is, say, 192.168.45.67, running `ipcalc -n 192.168.45.67/23`
+gives you 192.168.44.0.  The echo then send back VREF/FROM/192.18.44.0/23,
+which won't match the RW+ line, but will match the next one (remember the
+rules for [refex][] matching?) and thus deny access.
+
+(One thing that may not be obvious in this specific example is that you have
+to be careful when constructing the VREF rule.  For any VREF/FROM/A/B, the
+result of running `ipcalc -n A/B` must be A, otherwise this won't work.  That
+is, the bits of the network address after the network bits must be zero).
+
+## #cb-move moving stuff around
 
 ### moving a gitolite install from one machine to another
 

@@ -35,13 +35,12 @@ There are 5 basic types of non-core programs.
     different name to avoid confusion and constant disambiguation in the docs.
   * **VREFs** are extensions to the access control check part of gitolite.
 
-## #ncloc locations
+## #ncloc locations...
 
-### default/primary location of non-core programs
+### ...for non-core programs shipped with gitolite
 
-Regardless of how you installed gitolite, `gitolite query-rc GL_BINDIR` will
-tell you where the programs reside.  Within that directory, the locations of
-non-core programs are:
+`gitolite query-rc GL_BINDIR` will tell you where shipped non-core programs
+reside.  Within that directory, the subdirectories of interest are:
 
   * `commands` for commands.
   * `syntactic-sugar` for sugar scripts.
@@ -49,56 +48,59 @@ non-core programs are:
     explain the difference).
   * `VREF` for [VREFs][vref].
 
-### #localcode alternate location -- the `LOCAL_CODE` rc variable
+### #localcode ...for *your* non-core programs
 
-If you want to add new non-core programs to your installation, or override the
-shipped non-core programs with your own versions, it's easy enough to simply
-copy your programs to the appropriate directory above, but then they'd get
-wiped out on the next upgrade.
+If you want to add your own non-core programs, or even *override* the shipped
+ones with your own, you can.
 
-A simple, "git-ish", method is to maintain a "local" branch in your clone of
-the gitolite source repo and make your changes there.  Maintain them using
-rebase or merge when you 'git pull' gitolite itself, then use the rebased or
-merged "local" as the source for your gitolite upgrades.  Works very nicely,
-and uses nothing but your git knowledge.
+Put your programs in some convenient directory and use the `LOCAL_CODE` rc
+variable to tell gitolite where that is.  **Please supply the FULL path** to
+this variable.
 
-Sadly, it doesn't work for people installing from RPMs/DEBs; their "primary
-location" has already been setup, so any site-local customisations have to be
-done elsewhere.
-
-This is where `LOCAL_CODE` comes in.  If you define the `LOCAL_CODE` rc
-variable, then its value (**please use a FULL path**) describes a location
-where you can have any or all of these subdirectories:
+Within that directory, you can use any or all of these subdirectories:
 
   * `commands`
-  * `hooks/common`
+  * `hooks/common` (see note below)
   * `syntactic-sugar`
   * `triggers` and `lib/Gitolite/Triggers`
   * `VREF`
 
-You might have noticed there's a new `hooks/common` directory here so you can
-add hooks also using this mechanism.  Unlike the rest of the directories,
-adding new hooks to `hooks/common` requires that you follow up with `gitolite
-setup`, or at least `gitolite setup --hooks-only`.
+Note: the `hooks/common` directory is a bit special.  If you add new hooks to
+this, you must run either `gitolite` setup`, or at least `gitolite setup
+--hooks-only`.
 
-### #pushcode managing custom code via the gitolite-admin repo
+### #pushcode using the gitolite-admin repo to manage non-core code
 
-The location given in `LOCAL_CODE` could be anywhere on disk.
+The location given in `LOCAL_CODE` could be anywhere on disk, like say
+`$ENV{HOME}/local`.
 
-However, if you point it to someplace inside `$GL_ADMIN_BASE` (i.e.,
-`$HOME/.gitolite`), then you can version those programs using the
-gitolite-admin repo.
+However, some administrators find it convenient to use the admin repo to
+manage this code as well, getting the benefits of versioning them as well as
+making changes to them without having to log on to the server.
 
-I suggest using a directory called "local" within the gitolite-admin repo
-that contains as much of the above directory structure you need.  If you do
-that, then this is what you'd have in the rc file:
+To do this, simply point `LOCAL_CODE` to someplace inside `$GL_ADMIN_BASE`
+(i.e., `$HOME/.gitolite`) in the rc file.
+
+If you want to do this, I *strongly* suggest:
 
     LOCAL_CODE                  =>  "$ENV{HOME}/.gitolite/local",
 
-When you do this, gitolite takes care of everything automatically, including
-running `gitolite setup --hooks-only` when you change any hooks and push.
-**However, if you do this, anyone who can push changes to the admin repo will
-effectively be able to run any arbitrary command on the server.**
+Then you create a directory called "local" in your gitolite clone, and put
+stuff there (e.g., VREFs go in `local/VREF`, and commands in
+`local/commands`).
+
+(Note: when you do this, gitolite takes care of running `gitolite setup
+--hooks-only` when you change any hooks and push).
+
+#### SECURITY note on this mode of managing non-core code
+
+**In this mode, anyone who can push changes to the admin repo will effectively
+be able to run any arbitrary command on the server.**
+
+This may not matter to many (small) sites, but a large site with lots of
+administrators may want to keep the two rights (i.e., "right to push to the
+gitolite-admin repo" and "right to run arbitrary programs on the server")
+separate.
 
 ## #nctypes types of non-core programs
 

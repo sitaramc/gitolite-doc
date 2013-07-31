@@ -1,9 +1,11 @@
 # #rules access rules
 
-In the following description, "user" means "user or a [group][groups] that
+**NOTE**: In the following description, "user" means "user or a [group][groups] that
 he/she is a member of", and "repo" means "repo, or a group that it is a member
 of, or a ([wild][] repo) pattern that matches it, or a group that contains a
 pattern that matches it".
+
+TOC
 
 ## what do rules look like
 
@@ -47,39 +49,65 @@ access.
 
 ### read access -- clone, fetch, archive
 
-Read access is checked once, just before passing control to git-upload-pack or
-git-archive-pack.  At this point gitolite only knows the repo name, the user
-name, and the fact that it is a read operation.
+Read access is checked only once, just before passing control to
+git-upload-pack or git-archive-pack.  At this point gitolite only knows the
+repo name, the user name, and the fact that it is a read operation.
 
-If the set of rules for this user on this repo has at least one rule where the
-permission field contains an "R", access is granted.  If there are none,
-access is denied.
+Here's the default flow:
 
-The [refex][] field is ignored for this check.  (Git does not allow
+  * go through the [accumulated][rule-accum] rules for the repo in the
+    sequence they appear in the conf file
+
+  * for each rule:
+      * skip the rule if it does not apply to this user
+      * if the rule contains an "R" (i.e., it is "R", "RW", or any variant of
+        "RW"), allow access and stop checking rules
+
+  * If no rule ends with a decision, ("fallthru"), deny access
+
+The [refex][] field is ignored for this check.  (Git does not support
 distinguishing one ref from another for access control during read
 operations).
 
-Deny rules (the "-" permission) are ignored for this check.  In our example,
-line 3 does not prevent wally from cloning the repo, because line 4 permits
-it.  (This is the default behaviour.  You can change that by using the
-[deny-rules][] option).
+#### #deny-rules read access respecting deny rules
+
+Deny rules (the "-" permission) are ignored by default.  In our example, line
+3 does not prevent wally from cloning the repo, because line 4 permits it.
+
+You can change that by using the `deny-rules` [option][options].  If this
+option is active for a repo then this is the flow for access checking:
+
+  * go through the [accumulated][rule-accum] rule list for the repo in the
+    sequence they appear in the conf file
+
+  * for each rule:
+      * skip the rule if it does not apply to this user
+      * if it's a deny rule, deny access and stop checking rules
+      * if the rule contains an "R" (i.e., it is "R", "RW", or any variant of
+        "RW"), allow access and stop checking rules
+
+  * If no rule ends with a decision, ("fallthru"), deny access
+
+Apart from the extra check for deny rules, there is another very subtle but
+important difference here: the order of the rules matters now, where
+previously it did not.
+
+Later in this document are a couple of [examples][deny-rules-ex] showing this
+option in use.
 
 ### write access -- push
 
 Write access is checked twice, once before passing control to
 git-receive-pack, and once from within the update hook.
 
-The **first check** is identical to the one for read access, except of course
-the permission field must contain a "W".  As before, deny rules are ignored,
-(line 3 does not prevent wally from trying to push because line 4 allows it),
-and you can override that using the [deny-rules][] option.
+The first check is identical to the one for read access, except of course the
+permission field must contain a "W".  As before, deny rules are ignored, and
+you can override that using the [deny-rules][] option.  The [refex][] field is
+also ignored, because at this point we don't know what refs are going to be
+pushed.
 
-The [refex][] field is ignored for this check, because at this point we don't
-know what refs are going to be pushed.
-
-The **second check** happens from within the update hook.  This check is much
-more complex because deny rules are considered, which in turn means the
-*sequence* of the rules makes a difference now.
+The **second check** happens from within the update hook.  Deny rules *are*
+considered, which in turn means the *sequence* of the rules matters.
 
 Also, this time, git supplies us with three more pieces of information: the
 name of the ref being updated (like "refs/heads/master"), the old SHA, and the
@@ -89,18 +117,17 @@ field to contain a "W", while a forced push requires it to contain a "+".
 
 Here's how the actual rule matching happens:
 
-  * all the rules for this user and this repo are [collected][rule-accum] and
-    examined *in the sequence* they appear in the conf file
+  * go through the [accumulated][rule-accum] rule list for the repo in the
+    sequence they appear in the conf file
 
   * for each rule:
-
-      * If the ref does not match the [refex][], the rule is skipped.
-      * If it's a deny rule, access is denied and the matching stops.
+      * skip the rule if it does not apply to this user
+      * If the ref does not match the [refex][], skip the rule
+      * If it's a deny rule, deny access and stop checking rules
       * If the permission field matches the specific [type of
-        write][write-types] operation, access is allowed and the matching
-        stops.
+        write][write-types] operation, allow access and stop checking rules
 
-  * If no rule ends with a decision, ("fallthru"), access is denied.
+  * If no rule ends with a decision, ("fallthru"), deny access
 
 Now all you need is to understand how [refex][] matching happens and how the
 permissions match the various [types of write operations][write-types].
@@ -116,35 +143,49 @@ you know what they all mean.
 
 ### #rule-accum rule accumulation
 
-Gitolite was meant to collect rules from multiple places and apply them all.
-For example:
+Gitolite was meant to collect rules from multiple places and apply them all in
+sequence.  For example, if you have the following (we've added line numbers to
+aid later explanation):
 
-    # we have 3 specifically named FOSS projects, but we also consider any
-    # project in the foss/ directory to be FOSS.
-    @FOSS-projects  =   git gitolite linux foss/..*
+     1  # we have 3 specifically named FOSS projects, but we also consider any
+     2  # project in the foss/ directory to be FOSS.
+     3  @FOSS-projects  =   git gitolite linux foss/..*
 
-    # similarly for proprietary projects
-    @prop-projects  =   foo bar baz prop/..*
+     4  # similarly for proprietary projects
+     5  @prop-projects  =   foo bar baz prop/..*
 
-    # our users are divided into staff, interns, and bosses
-    @staff          =   alice dilbert wally
-    @interns        =   ashok
-    @bosses         =   PHB
+     6  # our users are divided into staff, interns, and bosses
+     7  @staff          =   alice dilbert wally
+     8  @interns        =   ashok
+     9  @bosses         =   PHB
 
-    # we have certain policies.  The first is that FOSS projects are readable
-    # by everyone
-    repo @FOSS-projects
-        R   =   @all
+    10  # we have certain policies.  The first is that FOSS projects are readable
+    11  # by everyone
+    12  repo @FOSS-projects
+    13      R   =   @all
 
-    # the second is that bosses can read any repo if they wish to
-    repo @all
-        R   =   @bosses
+    14  # the second is that bosses can read any repo if they wish to
+    15  repo @all
+    16      R   =   @bosses
 
-    # now we have specific rules for specific projects
-    repo git
-        ...some rules...
+    17  # now we have specific rules for specific projects
+    18  repo git
+    19      RW+ =   junio
+    20      ...some other rules...
 
-    ...etc...
+    21  repo gitolite
+    22      RW+ =   sitaram
+    23      ...some other rules...
+
+    24  ...etc...
+
+the **effective** rule list for, say, the "gitolite" repo will be (keeping the
+line numbers the same so you know where they are coming from):
+
+    13      R   =   @all            # since it is a member of @FOSS-projects
+    16      R   =   @bosses         # since every repo is a member of @all anyway
+    22      RW+ =   sitaram         # from the gitolite-specific ruleset
+    23      ...some other rules...  # from the gitolite-specific ruleset
 
 As you can see, for each user+repo combination, several rules will apply.
 Gitolite combines them all into one list (in the sequence they are found in
@@ -163,42 +204,43 @@ This is what we meant by "repo, or a group that it is a member of, or a
 ([wild][] repo) pattern that matches it, or a group that contains a pattern
 that matches it", up at the top of this document.
 
-### #deny-rules applying deny rules during the first check
+### #deny-rules-ex examples of deny rules
 
-The access rules above show that you cannot make an exception to a group for
-the first check, i.e., you cannot lock Wally out of read access that other
-members of @staff have, because read access does not look at "deny" rules by
-default.
+**example 1**
 
-This section will show how to make that happen.  We'll use ['gitweb' and
-'daemon'][external] instead of Wally, but it could, of course, be any user or
-group or list (like, say, '@interns') that needs to be restricted.
+     1  @secret = secret/one secret/two [...]
 
-We'll consider two cases.  In the first case, the "secret" repos are fewer in
-number, and are enumerated in some group called @secret for convenience.
+     2  # put this at or near the top of the conf file, or at least before any
+     3  # rules that give 'gitweb' and 'daemon' any kind of access
+     4  repo @secret
+     5      -   =   gitweb daemon
+     6      option deny-rules = 1
+     7      # make sure you do not set deny-rules to 0 for these repos later
 
-    # put this at or near the top of the conf file, or at least before any
-    # rules that give 'gitweb' and 'daemon' any kind of access
+     8  repo @all
+     9      R   =   gitweb daemon
 
-    repo @secret
-        -   =   gitweb daemon
-        option deny-rules = 1
-        # make sure you do not set deny-rules to 0 for these repos later
+    10  <...other rules...>
 
-Now imagine, worst case, you have this somewhere after the above:
+In this example, we have lots of repos, which should all be accessible by
+gitweb or daemon, so we want the convenience provided by lines 8 and 9 (we
+don't want to put line 9 in *each* repo).  However, we also have some secret
+repos, which we are able to list explicitly in some way, and we want to
+prevent gitweb or daemon from seeing them.
 
-    repo @all
-        R   =   @all
+Therefore we apply the "deny-rules" option to just those repos, and ensure
+that the first rule encountered by these two "users" for those repos is a deny
+rule.  This makes gitolite deny read access to those users for those repos.
 
-The "deny-rules" option applies, as you can see, only to the secret repos.  It
-forces gitolite to pay attention to any deny rules, and since the deny rule
-for those two users appears first, access is denied to them.
+**example 2**
 
-The second case is where the "open" repos are fewer.
+In this example the "open" repos are fewer in number, so it is the opposite
+situation to the above in terms of our ability to enumerate all the repos.
+
+    @open = git gitolite foss/..* [...]
 
     # put this at or near the top of the conf file, or at least before any
     # rules that give 'gitweb' and 'daemon' any access
-
     repo @all
         -   =   gitweb daemon
         option deny-rules = 1
@@ -213,10 +255,5 @@ To see why this works, you need to remember that for [options][] and
 ones.  So we set it to 1 for all repos, then selectively set it to 0 for some.
 
 This means the "deny-rules" option applies to *all the repos except the "open"
-repos*, so the deny rule kicks in and denies access to those repos for those
-users.
-
-Note that, any time deny rules are in play, the order matters; the `-` rule
-must come *before* the `R` rule.  That is why the comments tell you to put
-that stuff at the top of the conf.  Also, as a reminder, refexes are ignored
-for the first check.
+repos*.  For such repos, the first rule encountered by gitweb and daemon is a
+deny rule, so they are denied read access.

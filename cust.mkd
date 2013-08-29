@@ -136,13 +136,40 @@ You can install any hooks except these:
 
   * (gitolite-admin repo only) gitolite reserves the `post-update` hook.
 
-**NOTE**: if you want to install a hook in only a few specific repositories,
-do it directly on the server.
-
 How/where to install them is described in detail in the "locations" section
 above, especially [this][localcode] and [this][pushcode].  The summary is that
 you put them in the "hooks/common" sub-directory within the directory whose
 name is given in the `LOCAL_CODE` rc variable, then run `gitolite setup`.
+
+#### #rsh repo-specific hooks
+
+If you want to add hooks only to specific repos, do this:
+
+  * create a directory called `hooks/repo-specific` in the location specified
+    by the [`LOCAL_CODE`][localcode] rc variable
+
+  * add your hooks here, with descriptive names (i.e., not "post-receive",
+    etc., but maybe "jenkins" or "deploy" or whatever)
+
+  * uncomment the 'repo-specific-hooks' line in the rc file or add it to the
+    ENABLE list if it doesn't exist.
+
+    If your rc file does not have an ENABLE list, you need to add this to the
+    POST_COMPILE and the POST_CREATE lists.  Click [here][addtrig] for more on
+    all this.
+
+  * now add lines like this to your conf file:
+
+        repo    foo
+            RW+     =   @all
+            option hook.post-receive    =   deploy
+
+    The syntax should be fairly obvious, but just to be clear, in this case a
+    symlink called "post-receive" will be placed in foo.git/hooks, pointing to
+    the executable called "deploy" in hooks/repo-specific in the local-code
+    area.
+
+    **WARNING**: if the hook already exists, it is silently overwritten.
 
 ### #sugar syntactic sugar
 

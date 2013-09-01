@@ -77,6 +77,21 @@ stuff, making the test suite simpler, "deny" rules for the entire repo).
 [ko-why]: http://www.kernel.org/faq/#whygitolite
 [audit]: http://groups.google.com/group/gitolite/browse_thread/thread/8dc5242052b16d0f
 
+The **Mageia Project** is [using][mageia-gitweb] gitolite 3 to manage its
+git repositories and access control. The repositories are [defined][mageia-def]
+in yaml files. A tool called [mgagit][mgagit] has been created and is
+repsonsible for the generation of the gitolite configuration from the
+yaml repos definitions, and the extraction of users' ssh keys from an
+ldap directory into the gitolite configuration.
+
+Gitolite and mgagit are installed using rpm packages and
+[a puppet module][mageia-puppet].
+
+[mageia-gitweb]: http://gitweb.mageia.org/
+[mageia-def]: http://gitweb.mageia.org/infrastructure/repositories/software/
+[mgagit]: http://gitweb.mageia.org/software/infrastructure/mgagit/
+[mageia-puppet]: http://svnweb.mageia.org/adm/puppet/deployment/mgagit/
+
 ----
 
 A general note: if you see the list of high-profile users above, you will see

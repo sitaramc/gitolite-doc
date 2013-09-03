@@ -66,7 +66,7 @@ Within that directory, you can use any or all of these subdirectories:
   * `VREF`
 
 Note: the `hooks/common` directory is a bit special.  If you add new hooks to
-this, you must run either `gitolite` setup`, or at least `gitolite setup
+this, you must run either `gitolite setup`, or at least `gitolite setup
 --hooks-only`.
 
 ### #pushcode using the gitolite-admin repo to manage non-core code

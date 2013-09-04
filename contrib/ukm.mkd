@@ -1,0 +1,510 @@
+# user key management
+
+Copyright 2012-2013  Ralf Hemmecke <ralf@hemmecke.org>.
+
+Licensed under the [Creative Commons
+Attribution-NonCommercial-ShareAlike 3.0 Unported
+License](http://creativecommons.org/licenses/by-nc-sa/3.0/)
+
+User key management allows certain users to add and remove keys.
+
+The key management is done using a command called `ukm`. This command
+must be enabled for remote use by both the [sysadmin](#SYSADMIN) and the
+[gitolite-admin](#GA) (see [here][commands] for more on this) or look
+below.
+
+----
+
+[[TOC]]
+
+----
+
+## Important Warning!
+
+User key management undermines the fundamental principle of gitolite
+(see [authentication versus authorisation][auth]) by allowing certain
+users to juggle with ssh public keys. Make sure someone (sysadmin?)
+can login to the server with a **password**, just in case something
+breaks and the `.ssh/authorized_keys` file for the user running
+gitolite on the server is messed up.
+
+## General note
+
+Although gitolite deals in its core only with authorisation, by
+default it uses ssh as its authentication mechanism. Sure, ssh is
+not at all part of gitolite and it can be replaced by other means, but
+still there is a directory `gitolite-admin/keydir` that is reserved
+for public ssh keys.
+
+In fact, management of [users][] and [multiple keys][multi-key] per
+user is not actually a gitolite administration stuff. It's external to
+gitolite. In a future version, `ukm` could be used as an equivalent of
+the `keydir/` directory from the `gitolite-admin` repo (currently it
+just manages that directory) and thus `ukm` could be seen as such an
+external tool that does what its name suggests: user (key) management.
+
+In the following description we assume that there is an entry like
+
+    Host gitserver
+         IdentityFile ~/.ssh/id_rsa    # choose your gitolite key here
+         HostName gitolite.example.org # location where gitolite is installed
+         User git                      # user that runs gitolite
+
+in the client's `~/.ssh/config` file.
+
+## Who might be interested?
+
+### The gitolite admin
+
+Adding a new public key to the system means to copy the key into
+`gitolite/keydir` commit and push.
+
+With `ukm` it would be
+
+    cat FOO.PUB | ssh gitserver ukm add KEYID
+
+This would be a setup where only the [gitolite administrator](#GA)
+uses `ukm`. Not a big benefit, but `ukm` prevents adding identical
+keys under different userids. This consistency check might be an
+advantage. Furthermore, `ukm` does not allow the
+[gitolite administrator](#GA) to remove his/her last, i.e., it
+prevents the administrator from locking him-/herself out of the
+system. (Note, we assume that the [gitolite administrator](#GA) has no
+shell access to the server; only the [sysadmin](#SYSADMIN) has shell
+access.)
+
+### Users that want their work being done quickly
+
+Suppose the [gitolite administrator](#GA) of a research institute has
+set up gitolite to provide [wild repositories][wild] for example with
+a `gitolite.conf` like this.
+
+    repo gitolite-admin
+        RW+ = gitadmin
+
+    # These people are allowed to create wild repositories.
+    @creators = alice bob ...
+
+    # wildcard repositories for the users
+    repo CREATOR/..*
+        C   = @creators
+        RW+ = CREATOR
+        RW  = WRITERS
+        R   = READERS
+
+Researchers Alice and Bob want to write an article together. Alice
+creates a wild repository `alice/article` and adds Bob via the
+[perms][] command to the WRITERS of her repository. After a while they
+realize that Otto from another institute would be a reasonable third
+author. However, if they cannot give him write access to the
+repository, they would have to exchange the article via email. Back to
+the stone age? Better, Alice asks Otto to send her his public ssh key.
+Alice then forwards that key to the [gitolite administrator](#GA) and
+asks him to include that key into the system. (Hopefully, all that
+didn't happen on a holiday or on the weekend.) After 3 days the
+gitolite administrater finds some time. Since he doesn't know Otto, he
+simply trusts Alice and adds the public key into the system.
+
+With `ukm` Alice can save bothering the gitolite administrator and is
+perhaps even faster in saying:
+
+    cat otto.pub | ssh gitserver ukm add otto@other.institute.edu
+    ssh gitserver perms alice/article + WRITERS otto@other.institute.edu
+
+The effect would be the same.
+
+### Users that want to manage multiple keys
+
+Suppose, you have different computers and a different ssh key for each
+of them. You would like to tell gitolite that all these different keys
+belong to just one gitolite identity.
+
+Your [gitolite administrator](#GA) creates your gitolite identity with
+one of your keys as your initial key. This key can only be managed by
+the gitolite administrator, not by you. It basically determines under
+which name you are known to gitolite.
+
+You can add new keys to this identity and remove them at your will.
+
+## How to enable user key management?
+
+A [sysadmin](#SYSADMIN) of the gitserver must add the string `'ukm'`
+to the `ENABLE` array, i.e.,
+
+    ENABLE => [ ..., 'ukm', ... ],
+
+in [.gitolite.rc][rc]. (That's the preferred way for gitolite starting
+with version v3.4.)
+
+Instead of the above (in particular in gitolite v3.0-v3.3), add
+`'ukm' => 1` to the `COMMANDS` hash.
+
+    COMMANDS => {..., 'ukm' => 1, ... },
+
+## How to configure user key management and who can use it?
+
+As described above there are three main use cases for `ukm`. Each of
+them requires different values in the respective config files.
+
+There are two files where `ukm` must be configured.
+
+  * [.gitolite.rc][rc] (managed by a [sysadmin](#SYSADMIN) of the gitserver)
+  * `gitolite-admin/conf/gitolite.conf` (managed by a
+    [gitolite administrator](#GA))
+
+Besides [sysadmin](#SYSADMIN) and [gitolite administrator](#GA), `ukm`
+knows 3 roles.
+
+  * **super key manager**<a id="SKM"></a>:
+    This role is allowed to manage any key that lives under `keydir/`
+    inside the `gitolite-admin` repository. Super key managers have no
+    restriction on how [KEYIDs](#KEYID) must look like. They can do
+    (nearly) everything inside `keydir/` that a
+    [gitolite administrator](#GA) can do when pushing to the
+    `gitolite-admin` repository directly.
+
+  * **guest key manager**<a id="GKM"></a>:
+    A user who is a member of the `@guest-key-managers` group.
+
+  * **self key manager**<a id="EKM"></a>:
+    A user who is a member of the `@self-key-managers` group.
+
+### Gitolite administrators
+
+When enabled, nothing else must be configured.
+
+### Guest key managers
+
+Each [guest key manager](#GKM) can manage a set of guest keys.
+
+The gitolite administrator defines guest key managers by creating a
+group `@guest-key-managers` in `gitolite-admin/conf/gitolite.conf` and
+adding (trusted) users to this group.
+
+**WARNING**: If the gitolite administrator includes `@all` into this
+list, it allows guests to add new public keys. If, additionally, there
+is `@creators=@all`, it basically allows the initial guest key
+managers to start a hierarchy of new users with the same rights as the
+initial users.
+
+The system administrator must configure `ukm` for
+[guest key managers](#GKM) in [.gitolite.rc][rc] by adding something
+like
+
+    UKM_CONFIG => { FORBIDDEN_GUEST_PATTERN => qr(FORBIDDEN-PATTERN), },
+
+to the `%RC` hash.
+
+If `FORBIDDEN_GUEST_PATTERN` is missing, it defaults to the following.
+
+    FORBIDDEN_GUEST_PATTERN => qr(.)
+
+Any [KEYID](#KEYID) that matches this pattern is rejected, i.e., the
+default value basically allows only the [super key managers](#SKM) to
+add/del keys.
+
+If `ukm` is supposed to work for [guest key managers](#GKM),
+`FORBIDDEN_GUEST_PATTERN` must be set to some reasonable value.
+
+If your company has email addresses of the form
+`first.last@company.com` you might want to write something like this
+
+    UKM_CONFIG => { FORBIDDEN_GUEST_PATTERN => qr(@company.com$) },
+
+which would only allow [KEYIDs](#KEYID) in the form of email addresses
+that do not come from your company.
+
+<font color="red">**For the very brave only!!!**</font>
+
+The variable `REQUIRED_GUEST_PATTERN` is optional. It is strongly
+discouraged to set it. However, if you know, what you are doing, it
+allows for a bit more flexibility.
+
+<font color="red">**Don't complain if you modify the default
+value!!!**</font>
+
+`REQUIRED_GUEST_PATTERN` defaults to a regular expression that only
+allows [KEYIDs](#KEYID) in the form of email addresses (see the source
+code if you want to see this regular expression).
+
+You can write
+
+    UKM_CONFIG => {
+        REQUIRED_GUEST_PATTERN   => qr(REQUIRED-PATTERN),
+        FORBIDDEN_GUEST_PATTERN => qr(FORBIDDEN-PATTERN),
+    },
+
+with the meaning that the [KEYID](#KEYID) **must match**
+
+    qr(^(REQUIRED-PATTERN)$)
+
+(note that `^` and `$` are automatically added to the pattern) and
+**must not match**
+
+    qr(FORBIDDEN-PATTERN)
+
+in order for `ukm` to proceed with this [KEYID](#KEYID) for a
+[guest key manager](#GKM).
+
+Gitolite's namespace for [USERIDs](#USERID) is flat. The
+`REQUIRED_GUEST_PATTERN` and `FORBIDDEN_GUEST_PATTERN` serve two
+purposes.
+
+  1. Restrict permissions for what [guest key managers](#GKM) can
+     do.
+
+  1. Patterns that cannot be used for guests can still be used by
+     [super key managers](#SKM). In other words, those patterns are
+     reserved for in-house [USERIDs](#USERID).
+
+### Self key managers
+
+Each [self key manager](#EKM) can manage a set of his/her own keys.
+
+The gitolite administrator defines self key managers by creating a
+group `@self-key-managers` in `gitolite-admin/conf/gitolite.conf` and
+adding (trusted) users to this group.
+
+**WARNING**: A [gitolite administrator](#GA) shouldn't include `@all`
+into this list. If guest key management is enabled, then also guests
+would be allowed to add their own keys. Since
+[guest key managers](#GKM) would have no access to those keys, only
+[gitolite administrators](#GA) would be able to remove those
+additional keys. In fact, `ukm` was designed to allow only **one** key
+per guest. Don't complain, if you enable a setup where guests can have
+multiple keys. It's a security issue. (Suppose Alice has added a guest
+`foo@example.org` and MrBad generates a new ssh key and adds it under
+`foo@example.org@attacker` to the list of his guests. That would give
+MrBad all the permissions that `foo@example.org` has.)
+
+The system administrator must enable `ukm` for
+[self key managers](#EKM) in [.gitolite.rc][rc] by adding
+
+    UKM_CONGFIG => { SELFKEY_MANAGEMENT => 1, },
+
+to the `%RC` hash.
+
+Since by design self keys start with an `@` sign, and thus cannot
+conflict with guest keys (which are not allowed to start with an `@`),
+there is no problem to enable self key and guest key management at the
+same time.
+
+    UKM_CONFIG => {
+        FORBIDDEN_GUEST_PATTERN => qr(FORBIDDEN-PATTERN),
+        SELFKEY_MANAGEMENT => 1,
+    },
+
+## How to use user key management?
+
+There are three subcommands of `ukm`, namely `list` (the default),`
+add`, and `del`.
+
+Depending on whether or not the respective [KEYID](#KEYID) starts with
+an `@` sign, `ukm` distinguishes between guest and self key management.
+Self keys start with `@` and are followed by letters and/or digits.
+
+For [super key managers](#SKM) there is not such a distinction.
+Rather, the [KEYID](#KEYID) is the full path of the actual public key
+file relative to `gitolite-admin/keydir/` with the `.pub` file
+extension removed.
+
+By convention, take as guest key the proper email address of the
+guest. That not only makes for a unique ID, it also gives you a hint
+to whom this key belongs.
+
+### List managed keys
+
+A [guest key manager](#GKM) and [self key manager](#EKM) can list all
+their personally managed keys via:
+
+    ssh gitserver ukm
+
+or
+
+    ssh gitserver ukm list
+
+If this command is issued by a [super key manager](#SKM), it lists all
+keys that are stored under `keydir/`.
+
+The result will show the fingerprints of the keys, the corresponding
+[USERID](#USERID) and the [KEYID](#KEYID) by which one can refer to
+the key on the commandline.
+
+### Add a new public key
+
+#### Add a new key as a super key manager
+
+A [super key manager](#SKM) can nearly add any key, but `ukm` does not
+accept a different key, i.e., different fingerprint, for the same
+[KEYID](#KEYID). Also a double dot is not allowed in the
+[KEYID](#KEYID).
+
+#### Add a new key as a guest key manager
+
+The command for this is:
+
+    cat foo.pub | ssh gitserver ukm add foo@example.com
+
+There are several situations when the above command fails, i.e.,
+rejects to add the key.
+
+  * The [KEYID](#KEYID) `foo@example.com` does not match the pattern
+    given by `REQUIRED_GUEST_PATTERN` in `.gitolite.rc`.
+
+  * The [KEYID](#KEYID) `foo@example.com` matches the pattern given by
+    `FORBIDDEN_GUEST_PATTERN` in `.gitolite.rc`.
+
+  * The public key `foo.pub` is already known to the system and does
+    not belong to the [USERID](#USERID) `foo@example.com`.
+
+  * The [KEYID](#KEYID) `foo@example.com` is already in use and it
+    corresponds to a key with another public key. In other words,
+    `ukm` will not simply override a key. One has to delete the old
+    key first and then add a new one.
+
+  * The [KEYID](#KEYID) contains a `/` character or two `@`
+    characters, i.e., guest key managers are not allowed to add
+    [multiple keys](#MULTIKEY) for one user.
+
+#### Add a new key as a self key manager
+
+Adding a self key is a bit more complicated, since the user must
+confirm that he/she is in possession of the corresponding private key.
+The command sequence is as follows. Note that the second call of ssh
+is done with the key `foo` and not the default ssh key.
+
+    cat foo.pub | ssh gitserver ukm add @two > session
+    cat session | ssh -i foo gitserver ukm
+
+If you don't want to create an intermediate file call it like this:
+
+    cat foo.pub | ssh gitserver ukm add @two | (sleep 2; ssh -i foo gitserver ukm)
+
+Make sure that the second ssh call only happens after the fist one has
+done its job. Otherwise you might be asked for a password of the `git`
+user on the `gitserver`.
+
+After successfully completing the first ssh call, the new key is
+scheduled for addition and a session key is returned on stdin. That
+session key must be used to confirm the addition of the new public key
+as shown above.
+
+### Delete a key
+
+A [super key manager](#SKM) can delete any key by simply giving its
+[KEYID](#KEYID) in a command like this
+
+    ssh gitserver ukm del some/dir/foo@example.com
+
+The `ukm` command, however, prevents a [super key manager](#SKM) from
+removing his/her last key.
+
+#### Delete a guest key
+
+The command for this is:
+
+    ssh gitserver ukm del foo@example.com
+
+If the given [KEYID](#KEYID) is not among the managed keys of the user
+who issues the `del` command, the command will fail.
+
+**IMPORTANT!** You should not forget to remove from all of your
+repositories all the permissions you gave to `foo@example.com`,
+because this key might still be managed by another
+[guest key manager](#GKM).
+
+You might want to run
+
+    ssh gitserver info -lc \
+    | perl -e 'chomp($u=<>);$u=~s/hello //;$u=~s/,.*$//;' \
+           -e 'while(<>){if(/\s(\S+)\s+$u$/){print "$1\n"}}' \
+    | while read r; do ssh gitserver perms $r - WRITERS foo@example.com; done
+
+Repeat this for other roles such as `READERS` instead of `WRITERS`.
+
+#### Delete a self key
+
+The command for this is:
+
+    ssh gitserver ukm del @two
+    ssh gitserver ukm del @two
+
+Yes, you have to give that command twice. The first call will bring
+the key `@two` into a "pending-del" state. The second time, the
+command will only delete the key `@two`, if the login was **not** done
+with exactly that key. If logging in with the key corresponding to
+`@two`, it will bring back the `@two` key from its "pending-del" state
+to a non-pending state.
+
+**Note:** This safety net is not absolutely necessary, since a
+[self key manager](#EKM) is not allowed to delete his/her initial key
+(added by the [gitolite administrator](#GA)). The command `ukm` wants
+to make sure that the user still has a key that can be used for
+login. (Think about having lost the passphrase for the initial key. --
+Maybe this over complication will be simplified in the future. Losing
+a passphrase is not a good excuse and should result in removal of the
+corresponding key from the system, i.e., contacting the
+[gitolite administrator](#GA).)
+
+## Generic Errors
+
+Key management is done via creating a temporary clone of the
+`gitolite-admin` repository, changing, committing, and pushing back.
+In cases where two people are trying to modify the `gitolite-admin`
+repository at the same time, one of the push commands will most
+probably fail. Then simply redo the command after a while.
+
+## Glossary
+
+* **sysadmin**<a id="SYSADMIN"></a>:
+  This is a person who is able to edit the [.gitolite.rc][rc] file on
+  the server machine.
+
+* **gitolite administrator**<a id="GA"></a>:
+  A users with write access to the `gitolite-admin` repositoriy.
+
+* **KEYID**<a id="KEYID"></a>:
+  an identifier for a key given on the command line
+
+  The KEYID is normalized to lowercase letters.
+
+  If the script is called by one of the super key managers, then the
+  KEYID is the path to the pubkey file relative to the `keydir/`
+  without the `.pub` extension.
+
+  If called by a guest key manager it's an email address and if called
+  by a self key manager, it's an alphanumeric identifier with an `@`
+  prepended.
+
+* **USERID**<a id="USERID"></a>:
+  The [KEYID](#KEYID) given on the command line will be translated
+  into a USERID which is used inside `conf/gitolite.conf` or for the
+  [perms][] [command][commands] of gitolite.
+
+## Security note
+
+<a id="MULTIKEY">
+[Super key managers](#SKM) can basically add any key, but
+[guest key managers](#GKM) are not allowed to add
+[multiple keys][multi-key] and this restriction is hardcoded.
+
+Suppose Alice adds `bob.pub` as `bob@example.org` and David adds
+`eve.pub` under the keyid `bob@example.org@foo`. (Of course, only Eve
+and not Bob has the private key correspoinding to `eve.pub`.) This
+basically gives Eve the same rights as Bob.
+
+## Important notes for the admin
+
+Note that `ukm` clones, changes, and pushes back the `gitolite-admin`
+repo. This means, even if you're the only administrator, you should
+never `git push -f`, because that might override something `ukm`
+did.
+
+## Ideas
+
+The command `ukm` has been created with also having the
+`keysubdirs-as-groups` [syntactic sugar][non-core] in mind. If a
+[super key manager](#SKM) manages the respective keys in
+sub-directories with names `guest-key-managers/` and
+`self-key-managers/`, respectively, he/she can use the `ukm` command
+to control who is allowed to manage keys.

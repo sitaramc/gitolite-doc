@@ -69,6 +69,7 @@ as gitolite is concerned) is automatically recorded by gitolite.
 The gitolite config may have several permissions lines for your repo, like so:
 
     repo pub/CREATOR/..*
+        C       =   ...some list of users allowed to create repos...
         RW+     =   CREATOR
         RW      =   user1 user2
         R       =   user3
@@ -76,8 +77,8 @@ The gitolite config may have several permissions lines for your repo, like so:
 If that's all it had, you really can't do much.  Any changes to access must be
 done by the administrator.  (Note that "CREATOR" is a reserved word that gets
 expanded to your userid in some way, so the admin can literally add just the
-first two lines, and *every* authenticated user now has his own personal repo
-namespace, starting with `pub/<username>/`).
+first three lines, and *every* authenticated user now has his own personal
+repo namespace, starting with `pub/<username>/`).
 
 To give some flexibility to users, the admin could add rules like this:
 

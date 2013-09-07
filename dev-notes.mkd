@@ -223,3 +223,139 @@ options and configs set for the repo, like:
         ...
 
 The new method is much more convenient, as you can see.</font>
+
+## #lff appendix 3: log file format
+
+Here's a brief description of gitolite's log file format.  All fields are tab
+separated.
+
+There are two kinds of lines in the log file:
+
+  * third field non-empty: actual log lines.  These are documented below.
+
+  * third field empty (i.e., two tabs after the second field): informational
+    output.  These are NOT documented and may change without notice.  They can
+    be turned off completely by setting the RC variable `LOG_EXTRA` to 0.
+
+For all types of log lines, the first two fields are:
+
+  * field 1: local time, in YYYY-MM-DD.HH:MM:SS format
+
+  * field 2: transaction ID or "TID".  This is actually the PID of the
+    outermost command that was initiated (usually "gitolite-shell").  It helps
+    to keep log lines pertaining to one "run" together, even if several
+    sub-commands are spawned (like for example from triggers, or even the
+    update hook itself).
+
+The third and later fields are all dependent on what type of log line it is.
+
+The various log line formats are:
+
+  * **start**
+
+    This line denotes the beginning of a gitolite operation.
+
+      * field 3: 'ssh' or 'http'
+
+      * field 4: `ARGV=<comma-separated list of command line arguments>`
+
+        Usually this is just the gitolite username (the argument to
+        gitolite-shell, as supplied by the forced command in the authorized
+        keys file).  If you're [giving shell access][giving-shell] to some
+        users, this would be "-s,username".  That's two command line arguments
+        ("-s" and the username), comma separated.
+
+      * field 5: `SOC=<original command from client>`
+
+        This is the command exactly as the git client sent it, or the user
+        typed it.  Typically this is one of these:
+
+            git-upload-pack 'reponame'
+            git-receive-pack 'reponame'
+
+        (including the single quotes, because that's what the client sent).
+
+        Gitolite commands are also recorded as is, so this could be something
+        like `info` or perhaps `perms -l reponame` etc.
+
+      * field 6: `FROM=<ip address>`
+
+  * **pre-git**
+
+    This log line appears when the first access check succeeds (i.e., before
+    git-upload-pack or git-receive-pack is called).
+
+      * field 3: 'pre\_git'
+      * field 4: reponame
+      * field 5: username
+      * field 6: 'R' or 'W'
+      * field 7: 'any'
+      * field 8: the refex that allowed access
+
+  * **update**
+
+    This log line appears when the second access check succeeds (i.e., when
+    the update hook decides to allow the push).
+
+      * field 3: 'update'
+      * field 4: reponame
+      * field 5: username
+      * field 6: 'W', '+', 'C', 'D', 'WM', '+M', 'CM', or 'DM'
+      * field 7: ref name (like 'refs/heads/master')
+      * field 8: old SHA
+      * field 9: new SHA
+      * field 10: the refex that allowed access
+
+    The values in field 6 reflect the possible [write types][write-types], but
+    note that there is a difference between what the log file contains and
+    what the gitolite.conf file contains (e.g., `+` versus `RW+`).  There's
+    another subtle difference for those who are not thinking clearly: the
+    `RW+` in the conf file is a permission, but it would show up as a `+` in
+    the log file only if an *actual* force push had happened, otherwise it
+    would be just `W`.
+
+    By the way, notice that fields 7 to 9 are exactly what git itself supplies
+    the update hook (see 'man githooks').
+
+    <font color="gray">There is a special version of this line that appears
+    when someone [bypasses][bypass] gitolite's access control to push directly
+    on the server.  The 'reponame' (field 4) is replaced by the full path of
+    the repo being pushed to, the username (field 5) is replaced by the Unix
+    userid in parentheses, and the operation code (field 6) is
+    'bypass'.</font>
+
+  * **create**
+
+    This log line appears when a wild repo was auto-created by a user.
+
+      * field 3: 'create'
+      * field 4: reponame
+      * field 5: username
+      * field 6: 'R' or 'W'
+
+    Field 6 is 'perms-c' if the wild repo is created using the perms command's
+    '-c' option.
+
+  * **end**
+
+    This indicates the end of the transaction.  Normally, you should not see
+    any more lines with the same TID after this line.
+
+      * field 3: 'END'
+
+  * **warnings** and **errors**
+
+    Typically seen when access is denied.
+
+      * field 3: 'warn' or 'die'
+      * field 4: message.  Parts of the message (like reponame, username, etc)
+        are not split out into fields, though.
+
+  * **cli**
+
+    This logs gitolite sub-commands run directly on the server, like `gitolite
+    setup` etc.
+
+      * field 3: 'cli'
+      * field 4: 'gitolite'
+      * field 5 to end: arguments supplied to gitolite command, one per field

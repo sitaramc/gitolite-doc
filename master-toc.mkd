@@ -158,7 +158,10 @@ since there are so many of them**.
           * commands
           * trigger programs
           * sugar
-      * (appendix 1) notes on the INPUT trigger
+      * appendices
+          * notes on the INPUT trigger
+          * [repo-specific environment variables][rsev]
+          * [log file format][lff]
 
   * [list of non-core programs][non-core] shipped with gitolite
 

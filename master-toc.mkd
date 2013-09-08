@@ -75,7 +75,7 @@ documentation: [basic][] and [advanced][].
           * ([link][sugar]: syntactic sugar)
       * [groups][] (of users and repos)
           * special: '@all'
-          * (link: storing user group info in LDAP)
+          * ([link][ldap]: getting user group info from LDAP)
       * adding and removing [users][]
           * [multiple keys][multi-key] per user
       * adding and removing [repos][]

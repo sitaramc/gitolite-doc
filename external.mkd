@@ -45,8 +45,8 @@ repo to which it pertains, so that gitweb can use them.
 
 ### #umask changing the UMASK
 
-Gitweb typically runs under a different userid, and the default permissions
-that gitolite sets make them unreadable.
+Gitweb (or cgit, redmine, etc.) typically runs under a different userid, and
+the default permissions that gitolite sets make them unreadable.
 
 See the section on the `UMASK` variable in the documentation for the [rc
 file][rc].

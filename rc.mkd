@@ -44,8 +44,8 @@ information.
   * `$UMASK`, octal, default `0077`
 
     The default UMASK that gitolite uses makes all the repos and their
-    contents have `rwx------` permissions.  People who want to run gitweb
-    realise that this will not do.
+    contents have `rwx------` permissions.  People who want to run gitweb (or
+    cgit, redmine, etc) realise that this will not do.
 
     The correct way to deal with this is to give this variable a value like
     `0027` (note the syntax: the leading 0 is required), and then make the

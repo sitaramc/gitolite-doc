@@ -59,6 +59,7 @@ documentation: [basic][] and [advanced][].
 
 
 ## [clone][]
+  * (appendix: administer gitolite directly on the server)
 
 
 ## gitolite [admin][]istration

@@ -15,7 +15,7 @@ below.
 
 ----
 
-[[TOC]]
+TOC
 
 ----
 
@@ -73,7 +73,7 @@ system. (Note, we assume that the [gitolite administrator](#GA) has no
 shell access to the server; only the [sysadmin](#SYSADMIN) has shell
 access.)
 
-### Users that want their work being done quickly
+### Users that want more control over who can access their repositories
 
 Suppose the [gitolite administrator](#GA) of a research institute has
 set up gitolite to provide [wild repositories][wild] for example with
@@ -128,8 +128,16 @@ You can add new keys to this identity and remove them at your will.
 
 ## How to enable user key management?
 
-A [sysadmin](#SYSADMIN) of the gitserver must add the string `'ukm'`
-to the `ENABLE` array, i.e.,
+The ``ukm`` command is contributed code and lives under
+``contrib/commands/ukm`` in the gitolite source tree.
+A [sysadmin](#SYSADMIN) of the gitserver has to copy or link this
+script to the right location.
+
+    cd src/commands
+    ln -s ../../contrib/commands/ukm .
+
+Furthermore, a [sysadmin](#SYSADMIN) must add the string `'ukm'` to
+the `ENABLE` array, i.e.,
 
     ENABLE => [ ..., 'ukm', ... ],
 
@@ -155,31 +163,20 @@ There are two files where `ukm` must be configured.
 Besides [sysadmin](#SYSADMIN) and [gitolite administrator](#GA), `ukm`
 knows 3 roles.
 
-  * **super key manager**<a id="SKM"></a>:
-    This role is allowed to manage any key that lives under `keydir/`
-    inside the `gitolite-admin` repository. Super key managers have no
-    restriction on how [KEYIDs](#KEYID) must look like. They can do
-    (nearly) everything inside `keydir/` that a
-    [gitolite administrator](#GA) can do when pushing to the
-    `gitolite-admin` repository directly.
+  * [super key manager](#SKM)
+  * [guest key manager](#GKM)
+  * [self key manager](#EKM)
 
-  * **guest key manager**<a id="GKM"></a>:
-    A user who is a member of the `@guest-key-managers` group.
+### [Super key managers](#SKM)
 
-  * **self key manager**<a id="EKM"></a>:
-    A user who is a member of the `@self-key-managers` group.
+When ``ukm`` is enabled, nothing else must be configured.
 
-### Gitolite administrators
+### [Guest key managers](#GKM)
 
-When enabled, nothing else must be configured.
-
-### Guest key managers
-
-Each [guest key manager](#GKM) can manage a set of guest keys.
-
-The gitolite administrator defines guest key managers by creating a
-group `@guest-key-managers` in `gitolite-admin/conf/gitolite.conf` and
-adding (trusted) users to this group.
+The [gitolite administrator](#GA) defines guest key managers by
+creating a group `@guest-key-managers` in
+`gitolite-admin/conf/gitolite.conf` and adding (trusted) users to this
+group.
 
 **WARNING**: If the gitolite administrator includes `@all` into this
 list, it allows guests to add new public keys. If, additionally, there
@@ -187,7 +184,7 @@ is `@creators=@all`, it basically allows the initial guest key
 managers to start a hierarchy of new users with the same rights as the
 initial users.
 
-The system administrator must configure `ukm` for
+The [system administrator](#SYSADMIN) must configure `ukm` for
 [guest key managers](#GKM) in [.gitolite.rc][rc] by adding something
 like
 
@@ -230,7 +227,7 @@ code if you want to see this regular expression).
 You can write
 
     UKM_CONFIG => {
-        REQUIRED_GUEST_PATTERN   => qr(REQUIRED-PATTERN),
+        REQUIRED_GUEST_PATTERN  => qr(REQUIRED-PATTERN),
         FORBIDDEN_GUEST_PATTERN => qr(FORBIDDEN-PATTERN),
     },
 
@@ -257,13 +254,12 @@ purposes.
      [super key managers](#SKM). In other words, those patterns are
      reserved for in-house [USERIDs](#USERID).
 
-### Self key managers
+### [Self key managers](#EKM)
 
-Each [self key manager](#EKM) can manage a set of his/her own keys.
-
-The gitolite administrator defines self key managers by creating a
-group `@self-key-managers` in `gitolite-admin/conf/gitolite.conf` and
-adding (trusted) users to this group.
+The [gitolite administrator](#GA) defines [self key managers](#EKM) by
+creating a group `@self-key-managers` in
+`gitolite-admin/conf/gitolite.conf` and adding (trusted) users to this
+group.
 
 **WARNING**: A [gitolite administrator](#GA) shouldn't include `@all`
 into this list. If guest key management is enabled, then also guests
@@ -277,7 +273,7 @@ multiple keys. It's a security issue. (Suppose Alice has added a guest
 `foo@example.org@attacker` to the list of his guests. That would give
 MrBad all the permissions that `foo@example.org` has.)
 
-The system administrator must enable `ukm` for
+The [system administrator](#SYSADMIN) must enable `ukm` for
 [self key managers](#EKM) in [.gitolite.rc][rc] by adding
 
     UKM_CONGFIG => { SELFKEY_MANAGEMENT => 1, },
@@ -294,7 +290,7 @@ same time.
         SELFKEY_MANAGEMENT => 1,
     },
 
-## How to use user key management?
+## #how-to-use-user-key-management How to use user key management?
 
 There are three subcommands of `ukm`, namely `list` (the default),`
 add`, and `del`.
@@ -457,11 +453,31 @@ probably fail. Then simply redo the command after a while.
 ## Glossary
 
 * **sysadmin**<a id="SYSADMIN"></a>:
-  This is a person who is able to edit the [.gitolite.rc][rc] file on
+  A person who is able to edit the [.gitolite.rc][rc] file on
   the server machine.
 
 * **gitolite administrator**<a id="GA"></a>:
-  A users with write access to the `gitolite-admin` repositoriy.
+  A user with write access to the `gitolite-admin` repositoriy.
+
+* **super key manager**<a id="SKM"></a>:
+  A user who has write access to the `keydir/` inside the
+  `gitolite-admin` repository.
+  A [gitolite administrator](#GA) is always a super key manager.
+
+  Super key managers have no restriction on how [KEYIDs](#KEYID) must
+  look like. They can do (nearly) everything inside `keydir/` that a
+  [gitolite administrator](#GA) can do when pushing to the
+  `gitolite-admin` repository directly.
+
+* **guest key manager**<a id="GKM"></a>:
+  A user who is a member of the `@guest-key-managers` group.
+
+  A guest key manager can manage a set of guest keys.
+
+* **self key manager**<a id="EKM"></a>:
+  A user who is a member of the `@self-key-managers` group.
+
+  A self key manager can manage a set of his/her own keys.
 
 * **KEYID**<a id="KEYID"></a>:
   an identifier for a key given on the command line
@@ -473,7 +489,7 @@ probably fail. Then simply redo the command after a while.
   without the `.pub` extension.
 
   If called by a guest key manager it's an email address and if called
-  by a self key manager, it's an alphanumeric identifier with an `@`
+  by a self key manager, it's an alphanumeric identifier allowed to with an `@`
   prepended.
 
 * **USERID**<a id="USERID"></a>:
@@ -484,8 +500,8 @@ probably fail. Then simply redo the command after a while.
 ## Security note
 
 <a id="MULTIKEY">
-[Super key managers](#SKM) can basically add any key, but
-[guest key managers](#GKM) are not allowed to add
+[Super key managers](#SKM) can basically add any key.
+[Guest key managers](#GKM) are not allowed to add
 [multiple keys][multi-key] and this restriction is hardcoded.
 
 Suppose Alice adds `bob.pub` as `bob@example.org` and David adds
@@ -496,7 +512,7 @@ basically gives Eve the same rights as Bob.
 ## Important notes for the admin
 
 Note that `ukm` clones, changes, and pushes back the `gitolite-admin`
-repo. This means, even if you're the only administrator, you should
+repo. This means, even if you are the only administrator, you should
 never `git push -f`, because that might override something `ukm`
 did.
 

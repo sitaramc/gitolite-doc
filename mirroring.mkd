@@ -77,6 +77,12 @@ Gitolite extends this simple notion in the following ways:
     slave, which is not usually a good idea.  So don't bypass gitolite if the
     repo is mirrored!
 
+  * From v3.5.3 on, gitolite uses an asynchronous push to the slaves, so that
+    the main push returns immediately, without waiting for the slave pushes to
+    complete.  Keep this in mind if you're writing scripts that do a push, and
+    then read one of the slaves immediately -- you will need to add a few
+    seconds of sleep in your script.
+
 ## setting up mirroring
 
 This is in two parts: the initial setup and the rc file, followed by the conf

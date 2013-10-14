@@ -28,3 +28,20 @@ right there (meaning later additions will not appear in the second group).
 
 `@all` is a special group name that is often convenient to use if you really
 mean "all repos" or "all users".
+
+## warnings on undefined groups
+
+Gitolite cannot truly catch undefined groups because the conf parser is
+1-pass, and you're allowed to define a group *after* it is used, like so:
+
+    repo foo
+        RW  =   @foo
+    @foo = u1 u2
+
+From v3.5.3 on, however, in a simplistic attempt to help people tearing their
+hair out because of a typo, gitolite will warn if a group is not defined when
+it is used.  (So if you defined it later, either ignore the warning or move
+the definition up).
+
+Note that these warnings do NOT appear if you're [getting user group info from
+LDAP][ldap].

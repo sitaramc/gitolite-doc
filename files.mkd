@@ -1,87 +1,34 @@
 # files involved in gitolite
 
-## install
+Gitolite creates and uses the following files and directories:
 
-Let's say you start from a totally clean slate:
+  * `~/repositories` -- the actual (bare) repositories are here
+  * `~/.gitolite.rc` -- configuration parameters that must be done directly on
+    the server
+  * `~/.gitolite` -- gitolite's "working" directory.  This contains everything
+    else that gitolite needs.  (Warning: you're not supposed to fiddle with
+    the files and directories within; instead, make changes in a clone of the
+    gitolite-admin repository and push, and those appear magically here).
 
-    $ pwd
-    /home/gl-test
+Once the install/setup is done, any (or all) of these may be moved
+elsewhere and replaced by symlinks.  The most common reason for
+locating `~/repositories` somewhere else is disk space, but FHS
+compliance could also be a reason.
 
-    $ ls -a
-    .  ..  .bash_logout  .bash_profile  .bashrc
+In addition, the following are of interest:
 
-You run `git clone git://github.com/sitaramc/gitolite`.
+  * `~/.ssh` -- if you're using ssh (as opposed to http), since this is where
+    the `authorized_keys` file is kept
 
-Now you have
+## special files
 
-    $ ls -aF
-    ./  ../  .bash_logout  .bash_profile  .bashrc  gitolite/
+You may want to backup the contents of `~/.gitolite/logs` if you care about
+auditability etc.
 
-    $ ls -aF gitolite
-    ./  ../  check-g2-compat*  doc/  dot.pl  .git/  install*  src/  t/
+## gitolite software
 
-If we were an existing user, we'd run the migration checker 'check-g2-compat'
-(start [here][migr] for all migration info).  For now we're only interested in
-"gitolite/src", so:
+The above list does not include the gitolite software itself.
 
-    $ ls -aF gitolite/src
-    ./  ../  commands/  gitolite*  Gitolite/  gitolite-shell*  syntactic-sugar/  triggers/  VREF/
-
-We check our PATH to make sure `$HOME/bin` is in it:
-
-    $ echo $PATH
-    /usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin:/home/gl-test/.local/bin:/home/gl-test/bin
-
-Since it is, we run `mkdir bin; gitolite/install -ln`, and get:
-
-    $ mkdir bin
-    $ gitolite/install -ln
-
-    $ ls -aF
-    ./  ../  .bash_logout  .bash_profile  .bashrc  bin/  gitolite/
-
-    $ ls -aF bin
-    ./  ../  gitolite@
-
-    $ file bin/gitolite
-    bin/gitolite: symbolic link to `/home/gl-test/gitolite/src/gitolite'
-
-That's the install done.  At the end of it, we have just *one* symlink in
-`$HOME/bin`; everything else is in a different directory.
-
-## setup
-
-Now you copy your pubkey (typically `id_rsa.pub`) from your workstation to the
-server, then run `gitolite setup -pk "yourname.pub"`.  Which gives you this:
-
-    $ ls -aF
-    ./   .bash_logout   .bashrc  gitolite/   .gitolite.rc   repositories/  .ssh/
-    ../  .bash_profile  bin/     .gitolite/  projects.list  sitaram.pub
-
-    $ ls -aF bin
-    ./  ../  gitolite@
-
-    $ ls -aF .gitolite
-    ./  ../  conf/  hooks/  keydir/  logs/
-
-    $ ls -aF repositories
-    ./  ../  gitolite-admin.git/  testing.git/
-
-    $ ls -aF .ssh
-    ./  ../  authorized_keys*
-
-And that's the setup done.  At the end of this step, you have
-
-  * `~/bin/gitolite` -- a symlink to `~/gitolite/src/gitolite`.  The target of
-    this symlink tells gitolite where the rest of the code is.
-  * `~/gitolite/src` -- the rest of the code.
-  * `~/.gitolite` -- the gitolite "admin" directory.  The only thing you
-    should directly touch here are the [log][] files and [hooks][].  (I.e., do
-    NOT change the conf or keydir contents here; see adding [users][] and
-    [repos][] for how to do that.
-  * `~/.gitolite.rc` -- the [rc][] file.
-  * `~/repositories` -- which contains all the repositories that gitolite will
-    be managing.
-  * `~/.ssh` -- which contains (at least) the `authorized_keys` file that
-    provides access to users.  You can look inside that file and correlate it
-    with what the [ssh][] docs tell you, if you wish.
+Gitolite offers you 3 ways to install software.  After cloning the gitolite
+sources, run the install command in it with a `-h` argument to see what they
+are.  Where the actual software is found depends on that.

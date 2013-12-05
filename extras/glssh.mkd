@@ -1,8 +1,6 @@
-# #glssh how gitolite uses ssh
+# how gitolite uses ssh
 
-TOC
-
-----
+<!-- pandoc: toc -->
 
 Although other forms of authentications exist (see the document on
 [authentication versus authorisation][auth]), ssh is the one that most git

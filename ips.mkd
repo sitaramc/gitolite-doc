@@ -1,5 +1,7 @@
 # idiot-proof setup for gitolite
 
+<!-- pandoc: toc -->
+
 If I gave you this link to read, it most likely means either:
 
   * (most common reason) you got really confused by [ssh][]
@@ -11,8 +13,6 @@ person who once bugged me so much I wrote this for him.  However, I have since
 realised that this is also useful for (a) people for whom English is not the
 first language and (b) people who really should not be doing technical work at
 this level, but are forced to do it by circumstances.
-
-TOC
 
 ## pre-requisites
 

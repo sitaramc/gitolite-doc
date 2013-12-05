@@ -1,5 +1,7 @@
 # user key management
 
+<!-- pandoc: toc -->
+
 Copyright 2012-2013  Ralf Hemmecke <ralf@hemmecke.org>.
 
 Licensed under the [Creative Commons
@@ -12,10 +14,6 @@ The key management is done using a command called `ukm`. This command
 must be enabled for remote use by both the [sysadmin](#SYSADMIN) and the
 [gitolite-admin](#GA) (see [here][commands] for more on this) or look
 below.
-
-----
-
-TOC
 
 ----
 

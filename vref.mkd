@@ -1,12 +1,10 @@
 # virtual refs
 
+<!-- pandoc: toc -->
+
 **IMPORTANT**: fallthru is success in VREFs, unlike the normal refs.  That
 won't make sense until you read further, but I had to put it up here for folks
 who stop reading halfway!
-
-----
-
-TOC
 
 ----
 

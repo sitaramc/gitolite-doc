@@ -1,5 +1,7 @@
 # customising gitolite
 
+<!-- pandoc: toc -->
+
 Much of gitolite (g3)'s functionality comes from programs and scripts that are
 not considered "core".  This keeps the core simpler, and allows you to enhance
 gitolite for your own purposes without too much fuss.  (As an extreme example,
@@ -15,10 +17,6 @@ Here's how to find out more:
 
   * the [list of non-core programs][non-core] talks about what's already
     shipped with gitolite, with a brief description of each
-
-----
-
-TOC
 
 ----
 

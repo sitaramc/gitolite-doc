@@ -1,11 +1,11 @@
-# #rules access rules
+# access rules
+
+<!-- pandoc: toc -->
 
 **NOTE**: In the following description, "user" means "user or a [group][groups] that
 he/she is a member of", and "repo" means "repo, or a group that it is a member
 of, or a ([wild][] repo) pattern that matches it, or a group that contains a
 pattern that matches it".
-
-TOC
 
 ## what do rules look like
 

@@ -1,8 +1,8 @@
 # migration example
 
-This shows what a typical migration would look like, using a test setup.
+<!-- pandoc: toc -->
 
-TOC
+This shows what a typical migration would look like, using a test setup.
 
 ## existing setup
 

@@ -55,8 +55,6 @@ users as well.
 [gentoo1]: http://archives.gentoo.org/gentoo-dev/msg_2812c9b9e768f64b46360ab17b9d0024.xml
 [gentoo2]: http://www.gentoo.org/proj/en/overlays/
 
-[ldap]: http://github.com/sitaramc/gitolite/blob/pu/contrib/ldap
-
 **kernel.org**, the official distribution point for the Linux kernel, is the
 latest (as of 2011-10) high-visibility installation.  According to [this
 email][ko-ann] to the lkml, kernel.org decided to use gitolite for access

@@ -1,12 +1,12 @@
 # help for emergencies
 
-----
+<!-- pandoc: toc -->
 
-"Don't Panic!"
+>   ----
 
-----
+>   .@red<**"Don't Panic!"**>@
 
-TOC
+>   ----
 
 ## install/setup issues
 

@@ -1,5 +1,7 @@
 # gitolite cookbook
 
+<!-- pandoc: toc -->
+
 Documentation is meant to be as complete as possible, which means it attempts
 to cover all situations and scenarios.  That makes it harder to read.
 
@@ -13,10 +15,6 @@ documentation before asking for help.  In particular, the [basic][] and
 
 [basic]: basic.html
 [advanced]: advanced.html
-
-----
-
-TOC
 
 ----
 

@@ -1,5 +1,7 @@
 # locking binary files
 
+<!-- pandoc: toc -->
+
 Locking is useful to make sure that binary files (office docs, images, ...)
 don't get into a merge state.  (<font color="gray">If you think it's not a big
 deal, you have never manually merged independent changes to an ODT or
@@ -20,8 +22,6 @@ actually keep all the binary files in their own branch, separate from the ones
 containing source code.
 
 ----
-
-TOC
 
 ## problem description
 

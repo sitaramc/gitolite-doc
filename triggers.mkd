@@ -1,6 +1,6 @@
 # gitolite triggers
 
-TOC
+<!-- pandoc: toc -->
 
 ## intro and sample rc excerpt
 

@@ -1,8 +1,6 @@
 # special features and setups
 
-----
-
-TOC
+<!-- pandoc: toc -->
 
 ----
 

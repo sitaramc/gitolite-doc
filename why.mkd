@@ -1,8 +1,6 @@
 # why might you need gitolite
 
-TOC
-
-----
+<!-- pandoc: toc -->
 
 Git by itself does not do any access control -- it relies on the transport
 medium to do authentication ("who are you?"), and on OS file permissions to do

@@ -11,11 +11,9 @@ followed by [setup][], then [clone][].
 
 ----
 
-TOC
-
-----
-
 ## #nnc notes and naming conventions
+
+<!-- pandoc: toc -->
 
 Gitolite uses a single "real" (i.e., unix) user to provide secure access to
 git repos to any number of "virtual" users, without giving them a shell.

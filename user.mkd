@@ -1,11 +1,9 @@
 # what users (not admins) need to know about gitolite
 
+<!-- pandoc: toc -->
+
 ...written for the one guy in the world no one will think of as "just a normal
 user" ;-)
-
-----
-
-TOC
 
 ----
 

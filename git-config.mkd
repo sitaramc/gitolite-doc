@@ -1,8 +1,6 @@
 # "git-config" keys and values
 
-TOC
-
-----
+<!-- pandoc: toc -->
 
 Here's all you want to know about setting repo-specific git-config values.
 

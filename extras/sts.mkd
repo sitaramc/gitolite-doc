@@ -1,4 +1,6 @@
-# #sts ssh troubleshooting and tips
+# ssh troubleshooting and tips
+
+<!-- pandoc: toc -->
 
 **This document must be read in full the first time.  If you start from some
 nice looking section in the middle it may not help you unless you're already
@@ -7,10 +9,6 @@ an expert at ssh**.
 This document should help you troubleshoot ssh-related problems in installing
 and accessing gitolite.  It also has a section of random ssh-related tips and
 tricks that gitolite can do.
-
-----
-
-TOC
 
 ----
 

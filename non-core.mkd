@@ -1,5 +1,7 @@
 # non-core features shipped with gitolite
 
+<!-- pandoc: toc -->
+
 **Important Notes on "non-core" features**:
 
 1.  The [customisation][cust] document is the starting point for all
@@ -23,10 +25,6 @@
 3.  Non-core code is **meant** to be [localised for your site][localcode] if
     you don't like what the shipped version does.  You can even maintain it
     [within your gitolite-admin repo][pushcode] if you wish.
-
-----
-
-TOC
 
 ----
 

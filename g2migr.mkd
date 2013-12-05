@@ -1,11 +1,9 @@
-# #g2migr pre-migration checklist
+# pre-migration checklist
+
+<!-- pandoc: toc -->
 
 <font color="red"> **This document is a *MUST* read if you are currently using
 g2 and want to move to g3.** </font>
-
-----
-
-TOC
 
 ----
 

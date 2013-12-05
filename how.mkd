@@ -3,7 +3,7 @@
 You'll appreciate this more if you first read the [try it and see][tias] page
 (don't worry, it's very short and quick).
 
-[tias]: http://sitaramc.github.com/1-basic-usage/tias.html
+[tias]: http://gitolite.com/tias.html
 
 ## what does a "gitolite repo" look like?
 

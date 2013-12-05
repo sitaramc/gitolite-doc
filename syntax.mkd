@@ -1,4 +1,4 @@
-# #syntax basic syntax
+# basic syntax
 
 In general, everything is **space separated**; there are no commas,
 semicolons, etc., in the syntax.

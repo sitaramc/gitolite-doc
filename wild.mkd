@@ -1,6 +1,6 @@
 # "wild" repos (user created repos)
 
-TOC
+<!-- pandoc: toc -->
 
 ## quick introduction
 

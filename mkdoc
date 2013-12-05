@@ -1,0 +1,50 @@
+#!/usr/bin/perl
+use strict;
+use warnings;
+use 5.10.0;
+
+# run from gitolite-doc as "./mkdoc"
+
+# my $OUTDIR = "/tmp/doc2";
+my $OUTDIR = "$ENV{HOME}/imli/tech/repos/sitaramc.github.com/gitolite";
+system("rm     $OUTDIR/*.html");
+system("rm -rf $OUTDIR/images");
+system("mkdir  $OUTDIR/images");
+
+my @mkd = `find . -name "*.mkd" | sort`;
+chomp(@mkd);
+@ARGV = @mkd unless @ARGV;
+
+my $linkrefs = '';
+my $base;
+my %seen;
+while (<>) {
+    unless ( $seen{$ARGV}++ ) {
+        # on each change of file, compute the base name...
+        $base = ( $ARGV =~ m(([^/]+)\.mkd) ? $1 : '' );
+        # ...and add linkref to the first line if it's a header line
+        if ( /^#/ and not( /{#\S+}/ or /^#+ #(\S+)/ ) ) {    # XXX last clause is transition code
+            $linkrefs .= "\[$base\]: $base.html\n";
+        }
+    }
+
+    # now add linkrefs for everything else
+    if ( /^#+ .* \{#(\S+)\}/ or /^#+ #(\S+) / ) {            # XXX last clause is transition code
+        $linkrefs .= "\[$1\]: $base.html\#$1\n";
+    }
+}
+
+for (@mkd) {
+    m(([^/]+)\.mkd) or die "bad mkd file: '$_'";
+    $base = $1;
+    next if $base eq 'gitolite';                             # single page stuff needs different treatment
+
+    open( my $mdp, "|-", "cat $_ - | md-pandoc html > $OUTDIR/$base.html" ) or die 1;
+    print $mdp "\n" . $linkrefs;
+    close $mdp;
+}
+system("md-pandoc html < gitolite.mkd > $OUTDIR/gitolite.html");
+
+# send manually created HTML pages and images
+system("cp html/*.html $OUTDIR");
+system("cp images/* $OUTDIR/images");

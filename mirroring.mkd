@@ -1,13 +1,11 @@
 # mirroring using gitolite
 
+<!-- pandoc: toc -->
+
 <font color="red">**WARNING** existing gitolite mirroring users please note:
 **there are [significant changes][g2i-mirroring]** in syntax and usage
 compared to g2.  If you're not the kind who reads documentation before doing
 serious system admin things, well... good luck!</font>
-
-----
-
-TOC
 
 ----
 

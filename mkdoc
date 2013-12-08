@@ -39,11 +39,12 @@ for (@mkd) {
     $base = $1;
     next if $base eq 'gitolite';                             # single page stuff needs different treatment
 
-    open( my $mdp, "|-", "cat $_ - | md-pandoc html > $OUTDIR/$base.html" ) or die 1;
+    open( my $mdp, "|-", "cat $_ - | md-pandoc html-N > $OUTDIR/$base.html" ) or die 1;
     print $mdp "\n" . $linkrefs;
     close $mdp;
 }
-system("md-pandoc html < gitolite.mkd > $OUTDIR/gitolite.html");
+say STDERR "----";
+system("md-pandoc html-N < gitolite.mkd > $OUTDIR/gitolite.html");
 
 # send manually created HTML pages and images
 system("cp html/*.html $OUTDIR");

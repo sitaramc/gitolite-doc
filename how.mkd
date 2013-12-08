@@ -1,105 +1,441 @@
-# how does gitolite work
+# authentication and authorization in gitolite
 
-You'll appreciate this more if you first read the [try it and see][tias] page
-(don't worry, it's very short and quick).
+# preface
 
-[tias]: http://gitolite.com/tias.html
+## using this slideshow
 
-## what does a "gitolite repo" look like?
+<!-- pandoc: slidy-2 -->
 
-A gitolite repo looks just like a normal bare repo on any normal git server.
-There are a few extra files placed in the repo directory whose names start
-with "gl-", and there is also an update hook placed in the hooks subdirectory,
-but that's about it, for the most part.
+This is a "Slidy" presentation.  Use the .@blue<left/right>@ arrow keys to go
+from slide to slide, and the .@blue<up/down>@ arrow keys to scroll within a
+slide.
 
-In other words, you can treat a gitolite-managed repo just like any other bare
-repo as long as you leave those files alone.
+The "help" button you see in the footer misses some important stuff, so here's
+a [quick, 1-page, help page for slidy](slidy-help.html).
 
-## conventions used
+## authentication versus authorisation
 
-    --//-->     network connection
-    ------>     exec() or system() call
-    --??-->     conditional exec() or system() call
+Before we start, we need to be clear about the difference between
+*authentication* and *authorisation*.
 
-"Conditional" means some checks done by the caller may result in caller
-deciding not to make the call and abort instead.
+.#d width=50% bgcolor=FFF0F0
+
+**Authentication**
+
+*   checks user's identity ("who are you?")
+*   is **NOT** done by gitolite!
+    *   although gitolite does help to set it up if you're using ssh
+*   is done by ssh server (or perhaps by http server if you are running
+    gitolite in http mode)
+
+.#d bgcolor=#F0F0FF
+
+**Authorisation**
+
+*   check's user's access ("now I know who you are, are you allowed to do what
+    you want to do?")
+*   **This** is what gitolite does
+
+.#t
 
 ## git over plain ssh
 
-If you have used rsync or any similar program with a remote host using ssh,
-then you already understand the basics of git over ssh.
+First, we'll recap how git works over plain ssh.
 
-Here is a little more detail on what is happening:
+![](f0.png)
 
-    # for read operations
-    git clone ------> ssh --//--> sshd ------> git-upload-pack
-    git fetch ------> ssh --//--> sshd ------> git-upload-pack
+.aa f0.png
 
-    # for write operations
-    git push  ------> ssh --//--> sshd ------> git-receive-pack
+User Workstation            |                                       Git Server
+                            |
+----------------------------+-------------------------------------------------
+                            |
+                            |
+      git clone ---> ssh ---+---> sshd ------> git‐upload‐pack
+                            |
+      git fetch ---> ssh ---+---> sshd ------> git‐upload‐pack
+                            |
+                            |
+      git push  ---> ssh ---+---> sshd ------> git‐receive‐pack
+                            |
+                            |
 
-The local git client just runs something like `ssh git@host git-receive-pack
-'path/to/reponame.git'` (using the push example), and when that connection is
-established the local git-push and the remote git-receive-pack communicate
-over this connection.
+.end
 
-## git over gitolite
+The client user *authenticates* herself to the server using any method
+supported by ssh -- password or ssh public key. It does not matter to either
+the git client or the git server how that happens; that's entirely between ssh
+and sshd (the ssh daemon or server).
 
-Installing gitolite only adds an extra layer in between the sshd and the
-git-receive-pack (or git-upload-pack, for read operations), to check if the
-access is allowed and abort if needed.
+There is no *authorisation* in this mode, other than any file system
+permissions that the OS may enforce.
 
-Using the push as an example, this is what it looks like:
+## how does gitolite work?
 
-    git push  ------> ssh --//--> sshd ------> gitolite-shell --??--> git-receive-pack
+Gitolite adds an extra layer in between the sshd and the git-receive-pack (or
+git-upload-pack, for read operations), to check if the access is allowed and
+abort if needed.  Gitolite also installs its own update hook (see `man
+githooks`) in every repository to check branches being pushed.
 
-Note that the git *client* does not change at all; in fact it doesn't even
-know that something called gitolite exists!
+This means gitolite does **two** authorisation checks, as you will see.
 
-Here's how we get the server side behaviour shown above:
+Gitolite also requires that the authentication **must** happen using an ssh
+public key.  We'll see why as we go along.
 
-  * we make sshd invoke 'gitolite-shell', even though the git client asked it
-    to invoke 'git-receive-pack' (or 'git-upload-pack' for reads).
+Here's a series of pictures that show how gitolite works. We're using a "git
+push" example; the only difference for a fetch or clone is that instead of
+`git-receive-pack` it'd call `git-upload-pack`, and the last check (update
+hook) does not apply.
 
-  * we also make sshd supply an argument to 'gitolite-shell'.  This is the
-    name of the gitolite user.  (Remember this is a virtual user, not a real
-    "unix" userid).
+.@#0000FF<**Terminology reminder**: "ref" in git parlance means "branch or
+tag".  At least in this document that's what we mean :-)>@
 
-  * finally, sshd itself supplies the original command that the git *client*
-    wanted to run (`git-receive-pack 'path/to/reponame.git'`) in a special
-    environment variable called `SSH_ORIGINAL_COMMAND`.
+----
 
-(<font color="gray">All this is done using various ssh features; see the
-[gitolite and ssh][glssh] page for details</font>).
+### the diagrams...
 
-### gitolite-shell
+The diagrams were originally drawn to be self-contained.  On a first pass you
+can simply ignore the text on each page, and come back to it later for the
+finer points.
 
-So gitolite-shell has two pieces of information.  From argument-1 it knows the
-username, and from that env var it knows what repo and what operation (i.e.,
-is it a read or a write) is requested.
+Experts: yes, I know I simplified the ssh part a lot.  If you can find fault
+with these pictures, you're not the target audience :-)
 
-At this point, it checks the user's access and decides if the access is
-allowed or not.
+----
 
-(<font color="gray">For details see the [rules][] page, especially the
-sections "when are the rules checked" and "how are the rules matched"</font>).
+.aa f1.png
 
-For read operations this is the end of gitolite's interference.  If the access
-is allowed, git-upload-pack runs, does its job, and exits.
+User Workstation            |                                  Gitolite Server
+                            |
+----------------------------+-------------------------------------------------
+                            |
+                            |
+                            |
+                            |
+                            |
+                            |
+                            |
+    Git client              |
+        |                   |
+        |                   |
+        |                   |
+        | calls             |
+        | ssh               |
+        |                   |
+        |                   |
+        |                   |
+        v                   |
+    ssh client              |
+                            |
+                            |
+                            |
+                            |
+                            |
+                            |
+                            |
 
-### update hook
+.end
 
-For write operations, git itself runs an update hook, if one is available,
-before allowing the ref to be updated.  All of gitolite's "fine-grained access
-control" happens via this hook, which gitolite installs on every repo that it
-is managing.
+![](f1.png)
 
-When git calls the update hook, it supplies 3 critical pieces of information
-as arguments.  Together with what we already know (user, repo), these 3 pieces
-of information (refname being updated, the old SHA, and the new SHA) tell us
-all we need to implement whatever access control you want to, like "only alice
-and dilbert can push the master branch", "wally can only push branches
-starting with 'wally/'", or "only dilbert can push changes to 'license.txt',
-etc.
+When the user runs a "git push" command, the git client calls ssh, passing it
+a command like
 
-(<font color="gray">Again, details are in the [rules][] page</font>).
+    git-receive-pack 'reponame'
+
+----
+
+.aa f2.png
+
+User Workstation            |                                  Gitolite Server
+                            |
+----------------------------+-------------------------------------------------
+                            |
+                            |
+                            |
+                            |
+                            |
+                            |
+                            |
+    Git client              |
+        |                   |
+        |                   |
+        |                   |
+        |                   |
+        |                   |
+        |                   |
+        |                   |
+        |                   |
+        v                   |
+    ssh client              |
+                            |
+        | reads             |
+        | ssh keypair       |
+        |                   |
+        v                   |
+   ~/.ssh/id_rsa            |
+ ~/.ssh/id_rsa.pub          |
+
+.end
+
+![](f2.png)
+
+The git client, before it starts talking to the server, looks for the user's
+ssh keys so it can use public key authentication (and not ask for a password).
+
+As you know, for gitolite to work, the user must already have an ssh key pair
+and the pub key already sent to the gitolite administrator who should have
+added it to gitolite (which in turn means it's part of
+`~/.ssh/authorized_keys` on the server).
+
+----
+
+.aa f3.png
+
+User Workstation            |                                  Gitolite Server
+                            |
+----------------------------+-------------------------------------------------
+                            |
+                            |
+                            |
+                            |
+                            |
+                            |
+                            |
+    Git client              |
+        |                   |
+        |                   |
+        |                   |
+        |                   |
+        |                   |
+        |                   |
+        |                   |
+        |         calls     |
+        v         server    |
+    ssh client -------------+--------> ssh server
+                  sends     |
+        |         pubkey    |
+        |                   |
+        |                   |
+        v                   |
+   ~/.ssh/id_rsa            |
+ ~/.ssh/id_rsa.pub          |
+
+.end
+
+![](f3.png)
+
+The ssh client send the public key to the server to identify itself.
+
+----
+
+.aa f4.png
+
+User Workstation            |                                  Gitolite Server
+                            |
+----------------------------+-------------------------------------------------
+                            |
+                            |
+                            |
+                            |
+                            |
+                            |
+                            |
+    Git client              |
+        |                   |
+        |                   |
+        |                   |
+        |                   |
+        |                   |
+        |                   |
+        |                   |
+        |                   |
+        v                   |
+    ssh client -------------+--------> ssh server
+                            |
+        |                   |               | matches pubkey in
+        |                   |               | authorized keys file
+        |                   |               |
+        v                   |               v
+   ~/.ssh/id_rsa            |     ~/.ssh/authorized_keys
+ ~/.ssh/id_rsa.pub          |
+
+.end
+
+![](f4.png)
+
+The server looks for the public key in its "list of people who're allowed in"
+(`~/.ssh/authorized_keys`).  If it finds it, things are good.
+
+.@red<If it doesn't find it, it tells the client and the client asks the user
+for a password.  Which is BAD, because Gitolite doesn't work with passwords!>@
+
+----
+
+.aa f5.png
+
+User Workstation            |                                  Gitolite Server
+                            |
+----------------------------+-------------------------------------------------
+                            |
+                            |
+                            |
+                            |
+                            |
+                            |
+                            |
+    Git client              |
+        |                   |
+        |                   |
+        |                   |
+        |                   |
+        |                   |        gitolite‐shell
+        |                   |               ^
+        |                   |               | (if found) calls gitolite with
+        |                   |               | username found in authkeys file
+        v                   |               |
+    ssh client -------------+--------> ssh server
+                            |
+        |                   |               |
+        |                   |               |
+        |                   |               |
+        v                   |               v
+   ~/.ssh/id_rsa            |     ~/.ssh/authorized_keys
+ ~/.ssh/id_rsa.pub          |
+
+.end
+
+![](f5.png)
+
+If authentication succeeds, the ssh server calls gitolite-shell, with the
+username as the first argument. Here's how that happens.
+
+When the administrator adds Alice's pubkey to gitolite, he names it
+"alice.pub", puts it in the "keydir" directory of a clone of the
+gitolite-admin repository, and pushes the new file to the server.
+
+When the Gitolite server receives that push, one of the things it does is add
+this key to `~/.ssh/authorized_keys` file, but prefixed with a bunch of
+options, one of which is a "command" option that looks like this:
+
+    command="/home/git/bin/gitolite-shell alice"
+
+It is this "command" that the ssh daemon executed when the offered public key
+matches the public key in this line.  For a different public key, from a
+different user, the command will have *that* user's name.
+
+This is how Gitolite distinguishes users from each other, even though they're
+all accessing the same (`git@host`) account.
+
+This is also why passwords won't work.  When a user supplies a password,
+there's no additional information to help the ssh server distinguish one user
+from another.
+
+----
+
+.aa f6.png
+
+User Workstation            |                                  Gitolite Server
+                            |
+----------------------------+-------------------------------------------------
+                            |
+                            |
+                            |
+                            |
+                            |
+                            |
+                            |
+    Git client              |       git‐receive‐pack
+        |                   |               ^
+        |                   |               | calls git if
+        |                   |               | access allowed
+        |                   |               |
+        |                   |        gitolite‐shell
+        |                   |               ^
+        |                   |               |
+        |                   |               |
+        v                   |               |
+    ssh client -------------+--------> ssh server
+                            |
+        |                   |               |
+        |                   |               |
+        |                   |               |
+        v                   |               v
+   ~/.ssh/id_rsa            |     ~/.ssh/authorized_keys
+ ~/.ssh/id_rsa.pub          |
+
+.end
+
+![](f6.png)
+
+When the ssh daemon decided to execute `/home/git/bin/gitolite-shell alice`
+instead of `git-receive-pack 'reponame'` command that the user's git client
+sent to the user's ssh client, it didn't simply discard the git-receive-pack
+command.  It put it in an environment variable called `SSH_ORIGINAL_COMMAND`.
+
+Since that variable contains the repository name, and the username is the
+first argument to gitolite-shell, it now has enough information to decide "is
+this user allowed to write to this repo" (or "read", if the command was
+git-upload-pack).
+
+gitolite-shell does that, and -- assuming access is allowed, actually calls
+git-receive-pack (or git-upload-pack, as the case may be).
+
+This is the **first authorisation check** that gitolite does.
+
+Notice that git-receive-pack and git-upload-pack have NO idea that someone
+snuck in between them and the client calling them.  Neither does the git
+client know -- Gitolite is **totally** transparent to git clients unless
+access need to be denied.
+
+----
+
+.aa f7.png
+
+User Workstation            |                                  Gitolite Server
+                            |
+----------------------------+-------------------------------------------------
+                            |
+                            |
+                            |   gitolite-installed update hook
+                            |               ^
+                            |               : each ref pushed is checked
+                            |               | by the update hook
+                            |               |
+    Git client              |       git‐receive‐pack
+        |                   |               ^
+        |                   |               |
+        |                   |               |
+        |                   |               |
+        |                   |        gitolite‐shell
+        |                   |               ^
+        |                   |               |
+        |                   |               |
+        v                   |               |
+    ssh client -------------+--------> ssh server
+                            |
+        |                   |               |
+        |                   |               |
+        |                   |               |
+        v                   |               v
+   ~/.ssh/id_rsa            |     ~/.ssh/authorized_keys
+ ~/.ssh/id_rsa.pub          |
+
+.end
+
+![](f7.png)
+
+For a read (git-upload-pack), that is the end of the story.
+
+For a write, git will invoke the update hook for each branch or tag pushed.
+(See `man githooks` for details).
+
+This update hook, of course, has been installed by gitolite, so that code is
+invoked.  It then checks if this user (alice, bob, ...) is allowed to do this
+(create, fast-forward push, non-fast-forward push, or delete) this branch or
+tag (master, refs/tags/v1.0, ...) to this repo.
+
+This is the **second authorisation check** that gitolite does.
+
+If it is not allowed, the update hooks exits with an error, and git will abort
+the push (for that ref; other refs sent in the same push may be OK).

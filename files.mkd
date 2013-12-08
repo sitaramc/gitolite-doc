@@ -32,3 +32,14 @@ The above list does not include the gitolite software itself.
 Gitolite offers you 3 ways to install software.  After cloning the gitolite
 sources, run the install command in it with a `-h` argument to see what they
 are.  Where the actual software is found depends on that.
+
+## inside a "gitolite repo"
+
+A gitolite repo is just like a normal bare repo on any normal git server.
+There are a few extra files placed in the repo directory whose names start
+with "gl-", and there is also an update hook placed in the hooks subdirectory,
+but that's about it, for the most part.
+
+In other words, you can treat a gitolite-managed repo just like any other bare
+repo as long as you leave those files alone.
+

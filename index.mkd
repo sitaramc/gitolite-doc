@@ -1,4 +1,8 @@
-# Hosting git repositories
+# Hosting git repositories {-}
+
+.#t cellspacing=20
+
+.#d width=70%
 
 Gitolite allows you to setup git hosting on a central server, with
 fine-grained access control and many more powerful features.
@@ -6,39 +10,21 @@ fine-grained access control and many more powerful features.
 Here's more on [what][] it is, [how][] it works, [why][] you might need it,
 and [who][] else is using it.
 
-You may also want to look at these graphical overviews of the documentation:
-[basic][] and [advanced][].
+.#d
+
+You may also want to look at these **graphical overviews of the
+documentation**: [basic][] and [advanced][].
+
+.#t
 
 [basic]: basic.html
 [advanced]: advanced.html
 
-<font color="gray">
+.#t cellspacing=10
 
-## #g2 (for older gitolite (v1.x and v2.x) users)
+.#d width=50%
 
-For users of gitolite v2.x (call it "g2" for convenience),
-
-  * [Why][g3why] I rewrote gitolite.
-  * Development [status][dev-status].
-  * Information on [migrating][migr] from g2 to g3.
-
-</font>
-
-## #ql quick links
-
-  * [Trying][trying] out gitolite.
-  * Minimum [requirements][req].
-  * Here's how to do a [quick install, setup, and clone][qi].
-  * Don't know ssh well enough?  [Learn][ssh].  It's **IMPORTANT**.
-  * Add [users][] and [repos][].
-  * Learn about fine-grained access control with the [conf][] file.
-  * Explain gitolite to your [users][user].
-
-The rest of the documentation is in the "master index" link at the top of each
-page on this website.  This is the first place you should search when looking
-for specific information.
-
-## #what What is gitolite?
+#### What is gitolite? {#what -}
 
 Gitolite is an access control layer on top of git.  Here are the features that
 most people see:
@@ -56,7 +42,41 @@ most people see:
   * Authentication is most commonly done using sshd, but you can also use
     [http][] if you prefer (this may require root access).
 
-## #contact contact and support
+.#d
+
+#### quick links {#ql -}
+
+  * [Trying][trying] out gitolite.
+  * Minimum [requirements][req].
+  * Here's how to do a [quick install, setup, and clone][qi].
+  * Don't know ssh well enough?  [Learn][ssh].  It's **IMPORTANT**.
+  * Add [users][] and [repos][].
+  * Learn about fine-grained access control with the [conf][] file.
+  * Explain gitolite to your [users][user].
+
+The rest of the documentation is in the "master index" link at the top of each
+page on this website.  This is the first place you should search when looking
+for specific information.
+
+<font color="gray">
+
+#### (for older gitolite (v1.x and v2.x) users) {#g2 -}
+
+For users of gitolite v2.x (call it "g2" for convenience),
+
+  * [Why][g3why] I rewrote gitolite.
+  * Development [status][dev-status].
+  * Information on [migrating][migr] from g2 to g3.
+
+</font>
+
+.#t
+
+.#t cellspacing=10
+
+.#d width=50%
+
+#### contact and support {#contact -}
 
   * mailing list for support and general discussion:
       * gitolite@googlegroups.com
@@ -72,7 +92,9 @@ most people see:
   * author: sitaramc@gmail.com, but please **DO NOT** use this for general
     support questions.  Subscribe to the list and ask there instead.
 
-## #license license
+.#d
+
+#### license {#license -}
 
 This documentation, which is maintained separately from the main gitolite
 source code, is copyright Sitaram Chamarty and is provided under a [Creative
@@ -91,3 +113,6 @@ If you're not convinced that it would be fair use, then you may consider those
 code snippets, as well as associated "comments" if any, to be under the GPLv2
 license.  Licensing is about intent, and the intent of these examples is that
 you use them wherever and however you can use gitolite itself.
+
+.#t
+

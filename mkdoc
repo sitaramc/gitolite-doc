@@ -23,13 +23,13 @@ while (<>) {
         # on each change of file, compute the base name...
         $base = ( $ARGV =~ m(([^/]+)\.mkd) ? $1 : '' );
         # ...and add linkref to the first line if it's a header line
-        if ( /^#/ and not( /{#\S+}/ or /^#+ #(\S+)/ ) ) {    # XXX last clause is transition code
+        if ( /^#/ and not( /{#\S+( .*?)?}/ or /^#+ #(\S+)/ ) ) {    # XXX last clause is transition code
             $linkrefs .= "\[$base\]: $base.html\n";
         }
     }
 
     # now add linkrefs for everything else
-    if ( /^#+ .* \{#(\S+)\}/ or /^#+ #(\S+) / ) {            # XXX last clause is transition code
+    if ( /^#+ .* \{#(\S+)( .*?)?\}/ or /^#+ #(\S+) / ) {            # XXX last clause is transition code
         $linkrefs .= "\[$1\]: $base.html\#$1\n";
     }
 }

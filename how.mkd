@@ -11,7 +11,7 @@ from slide to slide, and the .@blue<up/down>@ arrow keys to scroll within a
 slide.
 
 The "help" button you see in the footer misses some important stuff, so here's
-a [quick, 1-page, help page for slidy](slidy-help.html).
+a [quick, half-page, help on slidy](../slidy-help.html).
 
 ## authentication versus authorisation
 
@@ -87,7 +87,7 @@ push" example; the only difference for a fetch or clone is that instead of
 `git-receive-pack` it'd call `git-upload-pack`, and the last check (update
 hook) does not apply.
 
-.@#0000FF<**Terminology reminder**: "ref" in git parlance means "branch or
+.@blue<**Terminology reminder**: "ref" in git parlance means "branch or
 tag".  At least in this document that's what we mean :-)>@
 
 ----
@@ -225,7 +225,7 @@ User Workstation            |                                  Gitolite Server
 
 ![](f3.png)
 
-The ssh client send the public key to the server to identify itself.
+The ssh client sends the public key to the server to identify itself.
 
 ----
 
@@ -320,9 +320,9 @@ options, one of which is a "command" option that looks like this:
 
     command="/home/git/bin/gitolite-shell alice"
 
-It is this "command" that the ssh daemon executed when the offered public key
+It is this "command" that the ssh daemon executes when the offered public key
 matches the public key in this line.  For a different public key, from a
-different user, the command will have *that* user's name.
+different user, the command will have *that* user's name instead of "alice".
 
 This is how Gitolite distinguishes users from each other, even though they're
 all accessing the same (`git@host`) account.
@@ -369,24 +369,25 @@ User Workstation            |                                  Gitolite Server
 ![](f6.png)
 
 When the ssh daemon decided to execute `/home/git/bin/gitolite-shell alice`
-instead of `git-receive-pack 'reponame'` command that the user's git client
-sent to the user's ssh client, it didn't simply discard the git-receive-pack
-command.  It put it in an environment variable called `SSH_ORIGINAL_COMMAND`.
+instead of the `git-receive-pack 'reponame'` command that the user's git
+client sent to the user's ssh client, it didn't simply discard the
+git-receive-pack command.  It put it in an environment variable called
+`SSH_ORIGINAL_COMMAND`.
 
 Since that variable contains the repository name, and the username is the
-first argument to gitolite-shell, it now has enough information to decide "is
-this user allowed to write to this repo" (or "read", if the command was
-git-upload-pack).
+first argument passed to it, gitolite-shell now has enough information to
+decide "is this user allowed to write to this repo" (or "read", if the command
+was git-upload-pack).
 
-gitolite-shell does that, and -- assuming access is allowed, actually calls
-git-receive-pack (or git-upload-pack, as the case may be).
+Assuming access is allowed, gitolite-shell then calls git-receive-pack (or
+git-upload-pack, as the case may be).
 
 This is the **first authorisation check** that gitolite does.
 
 Notice that git-receive-pack and git-upload-pack have NO idea that someone
 snuck in between them and the client calling them.  Neither does the git
-client know -- Gitolite is **totally** transparent to git clients unless
-access need to be denied.
+client know.  Gitolite is **totally** transparent to git clients unless access
+is denied for some reason.
 
 ----
 
@@ -430,10 +431,14 @@ For a read (git-upload-pack), that is the end of the story.
 For a write, git will invoke the update hook for each branch or tag pushed.
 (See `man githooks` for details).
 
-This update hook, of course, has been installed by gitolite, so that code is
-invoked.  It then checks if this user (alice, bob, ...) is allowed to do this
-(create, fast-forward push, non-fast-forward push, or delete) this branch or
-tag (master, refs/tags/v1.0, ...) to this repo.
+This update hook, of course, has been installed by gitolite, and it proceeds
+to check if
+
+*   this user (alice, bob, ...)
+*   is allowed to do this (create, fast-forward push, non-fast-forward push,
+    or delete)
+*   to this branch or tag (master, refs/tags/v1.0, ...)
+*   in this repo.
 
 This is the **second authorisation check** that gitolite does.
 

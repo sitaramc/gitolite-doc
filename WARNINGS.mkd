@@ -12,7 +12,7 @@
   * Gitolite does NOT like it if you fiddle with files and directories it
     cares about in any way except as directed in the documentation.
 
-    Gitolite cares about the following directories
+    Gitolite cares about the following files and directories
 
         ~/.gitolite.rc
         ~/.gitolite

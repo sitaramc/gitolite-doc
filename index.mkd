@@ -10,7 +10,7 @@ fine-grained access control and many more powerful features.
 Here's more on [what][] it is, [how][] it works, [why][] you might need it,
 and [who][] else is using it.
 
-.#d
+.#d class="box"
 
 You may also want to look at these **graphical overviews of the
 documentation**: [basic][] and [advanced][].

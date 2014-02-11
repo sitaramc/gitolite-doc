@@ -192,6 +192,10 @@ authenticate the user correctly, *and* use the same authentication data (i.e.,
 user alice on the slave should be guaranteed to be the same as user alice on
 the master).
 
+Please note that the part of the authorisation that happens before passing
+control to git-receive-pack (see the [access rules][rules] page) will happen
+on the slave as well.
+
 The syntax for enabling this is one of these:
 
     option mirror.redirectOK    =   all

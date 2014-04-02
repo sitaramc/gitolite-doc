@@ -141,7 +141,13 @@ name is given in the `LOCAL_CODE` rc variable, then run `gitolite setup`.
 
 #### #rsh repo-specific hooks
 
-If you want to add hooks only to specific repos, do this:
+If you want to add hooks only to specific repos, you can just do it manually
+if you wish -- just log on to the server and add hooks (except update hook
+and, for the special gitolite-admin repo, the post-update hook -- touch these
+and all bets on gitolite's functionality are off).
+
+However, if you want to do that from within gitolite, and thus keep everything
+together, you can do that also.  Here's how.
 
   * create a directory called `hooks/repo-specific` in the location specified
     by the [`LOCAL_CODE`][localcode] rc variable
@@ -159,7 +165,6 @@ If you want to add hooks only to specific repos, do this:
   * now add lines like this to your conf file:
 
         repo    foo
-            RW+     =   @all
             option hook.post-receive    =   deploy
 
     The syntax should be fairly obvious, but just to be clear, in this case a

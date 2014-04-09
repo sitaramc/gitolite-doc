@@ -181,6 +181,30 @@ together, you can do that also.  Here's how.
     the option line to point the hook to that, so it *effectively* gets
     deleted!).
 
+  * .@gray<(v3.6+)>@ you can assign multiple targets for each hook.  For
+    example, you could say
+
+        repo    foo
+            option hook.post-receive    =   deploy mail-admins
+
+    where "deploy" and "mail-admins" are pieces of code that do whatever their
+    names suggest, and both are, independently, candidates for being run from
+    a post-receive hook.
+
+    When you do this, gitolite does whatever is needed to run each of them as
+    independent post-receive hooks (including sending them info over their
+    STDIN as documented in 'man githooks').
+
+  * .@gray<(v3.6+)>@ you can change these hooks by saying:
+
+        repo    foo
+            option hook.post-receive    =   deploy mail-admins
+
+    or delete all of them by saying:
+
+        repo    foo
+            option hook.post-receive    =   ""
+
 ### #sugar syntactic sugar
 
 Sugar scripts help you change the perceived syntax of the conf language.  The

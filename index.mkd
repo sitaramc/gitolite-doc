@@ -2,13 +2,20 @@
 
 .#t cellspacing=20
 
-.#d width=70%
+.#d width=50%
 
 Gitolite allows you to setup git hosting on a central server, with
 fine-grained access control and many more powerful features.
 
 Here's more on [what][] it is, [how][] it works, [why][] you might need it,
 and [who][] else is using it.
+
+.#d class="bg-green"
+
+**New (April 2014): There's a [book on gitolite][book] out**.  I've received
+some emails over the years asking where to donate for gitolite to show your
+appreciation, and I've always refused politely.  Well, if you insist... buy
+the book :-)
 
 .#d class="box"
 
@@ -19,6 +26,7 @@ documentation**: [basic][] and [advanced][].
 
 [basic]: basic.html
 [advanced]: advanced.html
+[book]: http://www.packtpub.com/gitolite-essentials/book
 
 .#t cellspacing=10
 

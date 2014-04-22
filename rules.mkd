@@ -71,8 +71,20 @@ operations).
 
 #### #deny-rules read access respecting deny rules
 
-Deny rules (the "-" permission) are ignored by default.  In our example, line
-3 does not prevent wally from cloning the repo, because line 4 permits it.
+When the ref is not known, deny rules (the "-" permission) are ignored by
+default.  In our example, line 3 does not prevent wally from cloning the repo,
+because line 4 permits it.
+
+.#d width=15% class="box gray"
+
+**TIP**
+
+When is the ref not known?
+
+It is not known for read access.  For write access, the ref is not known
+during the "pre-git" access check, i.e., before we call git-receive-pack.
+
+.#d
 
 You can change that by using the `deny-rules` [option][options].  If this
 option is active for a repo then this is the flow for access checking:
@@ -87,6 +99,8 @@ option is active for a repo then this is the flow for access checking:
         "RW"), allow access and stop checking rules
 
   * If no rule ends with a decision, ("fallthru"), deny access
+
+.#t
 
 Apart from the extra check for deny rules, there is another very subtle but
 important difference here: the order of the rules matters now, where

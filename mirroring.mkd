@@ -174,6 +174,35 @@ have several slave lists, as long as the config key starts with
 
 Do not repeat a key; then only the last line for that key will be effective.
 
+#### .@gray<(v3.6+)>@ preventing automatic sync
+
+Sometimes you don't want a repo to be mirrored automatically (as soon as
+someone pushes to the master) to all the slaves.  For whatever reasons, you
+have some slaves for whom you would like to trigger the sync later (and you
+don't mind the fact that those slaves is out of sync until then).
+
+To make that happen, use option lines like this instead of those shown above:
+
+        option mirror.slaves.nosync-1   =   phobos deimos
+
+Except for the addition of a `.nosync` just after `slaves`, all the other
+rules are the same as before.
+
+## #sync manually synchronising a slave repo
+
+You can use the `gitolite mirror push` command on a master to manually
+synchronise any of its slaves.  Try it with `-h` to get usage info.
+
+Tip: if you want to do this to all the slaves, try this:
+
+    for s in `gitolite git-config -r reponame mirror.slave | cut -f3`
+    do
+        gitolite mirror push $s reponame
+    done
+
+This command can also be run remotely; run `ssh git@host mirror -h` for
+details.
+
 ## redirected pushes
 
 **Please read carefully; there are security implications if you enable this
@@ -205,21 +234,6 @@ The first syntax trusts all valid slaves to redirect user pushes, while the
 second one trusts only some slaves.
 
 Note that you cannot redirect gitolite commands (like perms, etc).
-
-## #sync manually synchronising a slave repo
-
-You can use the `gitolite mirror push` command on a master to manually
-synchronise any of its slaves.  Try it with `-h` to get usage info.
-
-Tip: if you want to do this to all the slaves, try this:
-
-    for s in `gitolite git-config -r reponame mirror.slave | cut -f3`
-    do
-        gitolite mirror push $s reponame
-    done
-
-This command can also be run remotely; run `ssh git@host mirror -h` for
-details.
 
 ## #HOSTNAME appendix A: HOSTNAME substitution
 

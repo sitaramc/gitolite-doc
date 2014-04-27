@@ -7,17 +7,26 @@ use 5.10.0;
 
 # my $OUTDIR = "/tmp/doc2";
 my $OUTDIR = "$ENV{HOME}/imli/tech/repos/sitaramc.github.com/gitolite";
-system("rm     $OUTDIR/*.html");
-system("rm -rf $OUTDIR/images");
-system("mkdir  $OUTDIR/images");
+unless (@ARGV) {
+    system("rm     $OUTDIR/*.html");
+    system("rm -rf $OUTDIR/images");
+    system("mkdir  $OUTDIR/images");
+}
 
+# collect names of all markdown files
 my @mkd = `find . -name "*.mkd" | sort`;
 chomp(@mkd);
-@ARGV = @mkd unless @ARGV;
+
+# if arguments were supplied, save them, else pretend all markdown files were supplied as arguments
+my @argv = @ARGV;
+@argv = @mkd unless @argv;
 
 my $linkrefs = '';
 my $base;
 my %seen;
+
+# first round runs through all markdown files, @mkd
+@ARGV = @mkd;
 while (<>) {
     unless ( $seen{$ARGV}++ ) {
         # on each change of file, compute the base name...
@@ -34,7 +43,8 @@ while (<>) {
     }
 }
 
-for (@mkd) {
+# second round runs through markdown files supplied as arguments
+for (@argv) {
     m(([^/]+)\.mkd) or die "bad mkd file: '$_'";
     $base = $1;
     next if $base eq 'gitolite';                             # single page stuff needs different treatment

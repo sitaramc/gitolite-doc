@@ -32,7 +32,7 @@ users the right to *create a repo*.  <font color="gray">This is not to be
 confused with the "RWC" or its variants described elsewhere, which are about
 *branches*, not *repos*.</font>
 
-## #create (user) creating a specific repo
+## (user) creating a specific repo {#create}
 
 For now, ignore the special usernames READERS and WRITERS, and just create a
 new repo, as user "u4" (a student):
@@ -106,7 +106,7 @@ metacharacters.
 
 >   ----
 
-## #roles roles
+## roles {#roles}
 
 The tokens READERS and WRITERS are called "role" names.  The access rules in
 the conf file decide what permissions these roles have, but they don't say
@@ -134,7 +134,7 @@ You can add the new names to the ROLES hash in the `~/.gitolite.rc` file; see
 comments in that file for how to do that.  Be sure to run the 2 commands
 mentioned there after you have added the roles.
 
-#### #rolenamewarn <font color="red">**IMPORTANT WARNING ABOUT THIS FEATURE**</font>
+#### <font color="red">**IMPORTANT WARNING ABOUT THIS FEATURE**</font> {#rolenamewarn}
 
 Please make sure that none of the role names conflict with any of the user
 names or group names in the system.  For example, if you have a user called

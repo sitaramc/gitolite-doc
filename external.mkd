@@ -43,7 +43,7 @@ variable, if it is not specified or empty, is `$HOME/projects.list`.
 In addition, each of the config variables described above is written to the
 repo to which it pertains, so that gitweb can use them.
 
-### #umask changing the UMASK
+### changing the UMASK {#umask}
 
 Gitweb (or cgit, redmine, etc.) typically runs under a different userid, and
 the default permissions that gitolite sets make them unreadable.

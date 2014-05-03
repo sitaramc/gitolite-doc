@@ -4,7 +4,7 @@
 
 ----
 
-## #elsewhere putting 'repositories' and '.gitolite' somewhere else
+## putting 'repositories' and '.gitolite' somewhere else {#elsewhere}
 
 Gitolite insists that the "repositories" and ".gitolite" directories be in
 `$HOME`.  If you want them somewhere else:
@@ -13,7 +13,7 @@ Gitolite insists that the "repositories" and ".gitolite" directories be in
   * *then* move those directories to wherever you want and replace them with
     symlinks pointing to the new location.
 
-## #writable disabling pushes to take backups
+## disabling pushes to take backups {#writable}
 
 The `writable` command allows you to disable pushes to all repos or just the
 named repo, in order to do file-system level things to the repo directory that
@@ -21,7 +21,7 @@ require it not to change, like using normal backup software.
 
 Run `gitolite writable -h` for more info.
 
-## #pers "personal" branches
+## "personal" branches {#pers}
 
 "personal" branches are great for environments where developers need to share
 work but can't directly pull from each other (usually due to either a
@@ -54,7 +54,7 @@ Compared to using arbitrary branch names on the same server, this:
 
 See [this][deleg].
 
-## #keysonly using pubkeys obtained from elsewhere
+## using pubkeys obtained from elsewhere {#keysonly}
 
 If you're not managing keys via the gitolite-admin repo, but getting them from
 somewhere else, you'll want to periodically "update" the keys.
@@ -75,7 +75,7 @@ Then write a script that
 
 Run this from cron or however you want.
 
-## #gh giving users their own repos
+## giving users their own repos {#gh}
 
 (Please see [this][wild] for background on the ideas in this section).
 

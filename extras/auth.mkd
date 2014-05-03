@@ -53,7 +53,7 @@ Even if you [lost the admin key][lost-key], the docs tell you how to recover
 from such errors.  You do need some password based method to get a shell
 command line on the server, of course.
 
-## #otherauth how to use other authentication systems with gitolite
+## how to use other authentication systems with gitolite {#otherauth}
 
 The bottom line in terms of how to invoke gitolite has been described above,
 and as long as you manage to do that gitolite won't even know how the
@@ -85,7 +85,7 @@ to generate keypairs and send them to the admin, but they can be more
 centrally stored and perhaps used by other programs or tools simultaneously,
 which can be useful.
 
-## #ldap getting user group info from LDAP
+## getting user group info from LDAP {#ldap}
 
 Gitolite's [groups][] are pretty convenient, but some organisations already
 have similar (or sufficient) information in their LDAP store.

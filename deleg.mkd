@@ -34,7 +34,7 @@ Finally, you tell gitolite to pull in these files using the "subconf" command
 
 And that's it.
 
-## #subconf the subconf command
+## the subconf command {#subconf}
 
 Subconf is exactly like the include command in syntax:
 

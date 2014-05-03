@@ -153,7 +153,7 @@ Done?  OK, now the general outline for ssh troubleshooting is this:
 
 ## random tips, tricks, and notes
 
-### #giving-shell giving shell access to gitolite users
+### giving shell access to gitolite users {#giving-shell}
 
 Thanks to an idea from Jesse Keating, a single key can allow both gitolite
 access *and* shell access.
@@ -173,7 +173,7 @@ To do this:
 Then run `gitolite compile; gitolite trigger POST_COMPILE` or push a dummy
 change to the admin repo.
 
-### #kfn distinguishing one key from another
+### distinguishing one key from another {#kfn}
 
 Since a user can have [more than one key][multi-key], it is sometimes useful
 to distinguish one key from another.  Sshd does not tell you even the
@@ -249,7 +249,7 @@ putty/plink, including environment variables, etc., and then try again.
 
 Thankfully, someone contributed [this][putty].
 
-## #stsapp1 appendix 1: ssh daemon asks for a password
+## appendix 1: ssh daemon asks for a password {#stsapp1}
 
 >   **NOTE**: This section should be useful to anyone trying to get
 >   password-less access working.  It is not necessarily specific to gitolite,
@@ -328,7 +328,7 @@ This is a quick checklist:
     this file for messages matching the approximate time of your last attempt
     to login, to see if they tell you what is the problem.
 
-## #sshkeys-lint appendix 2: which key is which -- running sshkeys-lint
+## appendix 2: which key is which -- running sshkeys-lint {#sshkeys-lint}
 
 The sshkeys-lint program can be run on the server or the client.  Run it with
 '-h' to get a help message.
@@ -379,7 +379,7 @@ as YourName.pub, then run `gitolite setup -pk YourName.pub` on the server.
 Remember to adjust your agent identities using ssh-add -D and ssh-add if
 you're using ssh-agent, otherwise these new keys may not work.
 
-## #stsapp3 appendix 3: ssh client may not be offering the right key
+## appendix 3: ssh client may not be offering the right key {#stsapp3}
 
   * Make sure the right private key is being offered.  Run ssh in very
     verbose mode and look for the word "Offering", like so:
@@ -401,7 +401,7 @@ you're using ssh-agent, otherwise these new keys may not work.
     In that case, add the key you want using `ssh-add ~/.ssh/YourName` and try
     the access again.
 
-## #ssh-ha appendix 4: ssh host aliases
+## appendix 4: ssh host aliases {#ssh-ha}
 
 (or "making git use the right options for ssh")
 
@@ -437,7 +437,7 @@ way to do this, as far as I know.
 
 [tut]: http://sites.google.com/site/senawario/home/gitolite-tutorial
 
-## #ybpfail appendix 5: why bypassing gitolite causes a problem
+## appendix 5: why bypassing gitolite causes a problem {#ybpfail}
 
 When you bypass gitolite, you end up running your normal shell instead of the
 special gitolite entry point script `gitolite-shell`.

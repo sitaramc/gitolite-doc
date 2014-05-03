@@ -29,7 +29,7 @@ carry out the changes specified.
 The user name is simply the base name of the public key file name.  So
 'alice.pub', 'foo/alice.pub' and 'bar/alice.pub', all resolve to user "alice".
 
-## #multi-key multiple keys per user
+## multiple keys per user {#multi-key}
 
 The simplest and most understandable is to put their keys in different
 subdirectories, (alice.pub, home/alice.pub, laptop/alice.pub, etc).  This can

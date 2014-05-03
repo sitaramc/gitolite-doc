@@ -188,7 +188,7 @@ To make that happen, use option lines like this instead of those shown above:
 Except for the addition of a `.nosync` just after `slaves`, all the other
 rules are the same as before.
 
-## #sync manually synchronising a slave repo
+## manually synchronising a slave repo {#sync}
 
 You can use the `gitolite mirror push` command on a master to manually
 synchronise any of its slaves.  Try it with `-h` to get usage info.
@@ -235,7 +235,7 @@ second one trusts only some slaves.
 
 Note that you cannot redirect gitolite commands (like perms, etc).
 
-## #HOSTNAME appendix A: HOSTNAME substitution
+## appendix A: HOSTNAME substitution {#HOSTNAME}
 
 Wherever gitolite sees the word `%HOSTNAME`, it will replace it with the
 HOSTNAME supplied in the rc file, if one was supplied.  This lets you maintain

@@ -176,7 +176,7 @@ Some of them have links where there is more detail than I want to put here.
     think people who use spaces and other funky characters in dir/file names
     should be shot but no one listens to me anyway.
 
-## #cg2c using the "check-g2-compat" program
+## using the "check-g2-compat" program {#cg2c}
 
 This program checks a few things only, not everything.  In particular, it
 looks for settings and status that might:
@@ -243,7 +243,7 @@ put that contain the words "see docs":
         find `gitolite query-rc GL_REPO_BASE` -name gl-perms |
             xargs perl -pi -e 's/\bR\b/READERS/;s/\bRW\b/WRITERS/'
 
-## #rc-preset presetting the rc file
+## presetting the rc file {#rc-preset}
 
 Some rc settings in the older gitolite are such that you cannot directly run
 `gitolite setup` when you're ready to migrate.  **Doing that will clobber

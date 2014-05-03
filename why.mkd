@@ -42,7 +42,7 @@ tags for different developers:
         RW+ dev/                    =   bob
         RW  refs/heads/tags/v[0-9]  =   ashok
 
-## #alt alternatives
+## alternatives {#alt}
 
 ### unix permissions and ACLs
 
@@ -59,7 +59,7 @@ Here are some other disadvantages of the Unix ACL method:
     their group memberships, and then correlating all these manually.
   * Auditing historical permissions or permission changes is impossible.
 
-### #gcr Gerrit Code Review
+### Gerrit Code Review {#gcr}
 
 The best real alternative to gitolite is Gerrit Code Review.  If code review
 is an essential part of your workflow, you should use Gerrit.

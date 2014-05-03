@@ -1,6 +1,6 @@
 # trying out gitolite safely
 
-## #trying trying out gitolite
+## trying out gitolite {#trying}
 
 <font color="red">**WARNING: this will clobber lots of things in your `$HOME`,
 so be sure to use a throwaway userid**.</font>

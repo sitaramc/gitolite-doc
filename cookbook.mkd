@@ -18,7 +18,7 @@ documentation before asking for help.  In particular, the [basic][] and
 
 ----
 
-## #cb-admin administration
+## administration {#cb-admin}
 
 ### separating "key admin" from "repo admin"
 
@@ -41,7 +41,7 @@ sometimes you want to separate them.  The following should work:
 
   * then let the repo-manager manage everything through "actual.conf".
 
-## #cb-access access
+## access {#cb-access}
 
 ### looking up repo access from external tools
 
@@ -85,7 +85,7 @@ This is all described in the UMASK section in the documentation on the [rc
 file][rc], because that's the only setting that gitolite controls; every thing
 else is pure Unix.
 
-## #cb-commands commands
+## commands {#cb-commands}
 
 ### adding your own commands
 
@@ -108,7 +108,7 @@ available to remote users (as `ssh git@host foo`), add the line:
 
 (including the comma at the end) to the ENABLE list in the rc file.
 
-## #cb-hooks hooks
+## hooks {#cb-hooks}
 
 The main documentation for this feature starts [here][hooks].
 
@@ -190,7 +190,7 @@ something like this:
 
 3.  now add your hook as described in earlier steps
 
-## #cb-vrefs VREFs
+## VREFs {#cb-vrefs}
 
 ### adding your own VREFs
 
@@ -281,7 +281,7 @@ to be careful when constructing the VREF rule.  For any VREF/FROM/A/B, the
 result of running `ipcalc -n A/B` must be A, otherwise this won't work.  That
 is, the bits of the network address after the network bits must be zero).
 
-## #cb-move moving stuff around
+## moving stuff around {#cb-move}
 
 ### moving a gitolite install from one machine to another
 

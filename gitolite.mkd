@@ -31,7 +31,7 @@ Enjoy!
 
 ----
 
-# #s1 basics, quick links, and help
+# basics, quick links, and help {#s1}
 
 include index.mkd
 
@@ -51,7 +51,7 @@ include emergencies.mkd
 
 include WARNINGS.mkd
 
-# #s2 detailed installation and access rules
+# detailed installation and access rules {#s2}
 
 include install.mkd
 
@@ -69,7 +69,7 @@ include refex.mkd
 
 include write-types.mkd
 
-# #s3 the rc file, git-config, and options
+# the rc file, git-config, and options {#s3}
 
 include rc.mkd
 
@@ -79,7 +79,7 @@ include options.mkd
 
 include external.mkd
 
-# #s4 wild repos, mirroring, and other features
+# wild repos, mirroring, and other features {#s4}
 
 include wild.mkd
 
@@ -91,13 +91,13 @@ include special.mkd
 
 include rare.mkd
 
-# #s5 smart http
+# smart http {#s5}
 
 include http.mkd
 
 include contrib/ssh-and-http.mkd
 
-# #s6 customising gitolite
+# customising gitolite {#s6}
 
 include cust.mkd
 
@@ -109,7 +109,7 @@ include vref.mkd
 
 include triggers.mkd
 
-# #s7 ssh
+# ssh {#s7}
 
 include extras/ssh.mkd
 
@@ -121,7 +121,7 @@ include extras/sts.mkd
 
 include contrib/putty.mkd
 
-# #s8 odds and ends
+# odds and ends {#s8}
 
 include how.mkd
 
@@ -141,7 +141,7 @@ include perf.mkd
 
 include extras/README-emacs.mkd
 
-# #s9 migration
+# migration {#s9}
 
 include migr.mkd
 

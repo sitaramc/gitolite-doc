@@ -154,7 +154,7 @@ satisfies the third rule and is rejected.
 If bar is pushed at, say, 7:20am, the vref printed is VREF/Hour/07, which does
 not match any of the rules.  And fallthru is success so it passes.
 
-### #vref-fallthru why is fallthru considered success with VREFs
+### why is fallthru considered success with VREFs {#vref-fallthru}
 
 Virtual refs are **best used** (1) as additional "deny" rules, performing
 extra checks that core gitolite cannot.  You usually want such extra checks
@@ -203,7 +203,7 @@ same arguments more than once, and the VREF-maker code for the NAME VREF
 (which is special) is called only once regardless of how many times it appears
 but these details should not concern anyone but a developer.
 
-### #vref-args what arguments are passed to the vref-maker?
+### what arguments are passed to the vref-maker? {#vref-args}
 
   * Arguments **1, 2, 3**: the 'ref', 'oldsha', and 'newsha' that git passed
     to the update hook (see 'man githooks').
@@ -238,7 +238,7 @@ to write vref-maker scripts in any language.  See script examples in source.
 
 ## VREF-makers shipped with gitolite
 
-### #NAME restricting pushes by dir/file name
+### restricting pushes by dir/file name {#NAME}
 
 The "NAME" VREF allows you to restrict pushes by the names of dirs and files
 changed.  (Side note: the NAME VREF is the only one directly implemented
@@ -278,7 +278,7 @@ CHANGELOG and any files in a directory called ReleaseNotes:
             RW+ VREF/NAME/ReleaseNotes/     =   QA-guy
             -   VREF/NAME/                  =   QA-guy
 
-### #COUNT number of changed or new files
+### number of changed or new files {#COUNT}
 
 The COUNT VREF is used like this:
 
@@ -327,7 +327,7 @@ copied to `src/VREF/EMAIL-CHECK` and it works, because VREFs get
 the same first 3 arguments and those are all that it cares about.  (Note: you
 have to change one subroutine in that script if you want to use it)
 
-### #votes voting on commits
+### voting on commits {#votes}
 
 Although gitolite can't/won't do the whole "code review + workflow
 enforcement" thing that Gerrit Code Review does, a basic implementation of

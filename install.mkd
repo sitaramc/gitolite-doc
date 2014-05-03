@@ -11,7 +11,7 @@ followed by [setup][], then [clone][].
 
 ----
 
-## #nnc notes and naming conventions
+## notes and naming conventions {#nnc}
 
 <!-- pandoc: toc -->
 
@@ -35,7 +35,7 @@ Notes:
     recommend you leave it out, so your reponames are consistent with what the
     conf file uses.
 
-## #req requirements
+## requirements {#req}
 
 ### your skills
 
@@ -133,7 +133,7 @@ Creating a symlink doesn't need a separate program but 'install' also runs
     arguments as before).
   * Run `gitolite setup`.
 
-## #package packaging gitolite
+## packaging gitolite {#package}
 
 Gitolite has broad similarities to git in terms of packaging requirements.
 

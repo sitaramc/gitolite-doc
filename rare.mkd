@@ -1,6 +1,6 @@
 # rare or one-time activities
 
-## #existing moving existing repos into gitolite
+## moving existing repos into gitolite {#existing}
 
 **WARNINGS**
 
@@ -42,7 +42,7 @@ Then, back on your workstation:
     I haven't yet found this to be common enough to bother wrapping it in a
     nice interface or command.
 
-## #moving moving servers
+## moving servers {#moving}
 
 This is adapted from the "migrating" section of the [install][] page; if
 you're actually *migrating* from g2 please go there!

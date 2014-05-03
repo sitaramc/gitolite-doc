@@ -146,7 +146,7 @@ details.  However, here's a list of VREFs shipped with gitolite:
 These non-core programs needed more detail than could be provided in the
 source code, but did not fit anywhere else neatly enough.
 
-### #partial-copy partial-copy: selective read control for branches
+### partial-copy: selective read control for branches {#partial-copy}
 
 Git (and therefore gitolite) cannot do selective read control -- allowing
 someone to read branch A but not branch B.  It's the entire repo or nothing.

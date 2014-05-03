@@ -41,7 +41,7 @@ work.  The only things to note are:
 this appears to happen mostly to Mac people; I don't recall many Windows
 people getting confused, and almost none who use Unix doing so).</font>
 
-## #info the info command
+## the info command {#info}
 
 The only command that is *always* available to every user is the `info`
 command (run `ssh git@host info -h` for help), which tells you what version of
@@ -62,7 +62,7 @@ as gitolite is concerned) is automatically recorded by gitolite.
 
 ## other commands
 
-### #perms set/get additional permissions for repos you created
+### set/get additional permissions for repos you created {#perms}
 
 The gitolite config may have several permissions lines for your repo, like so:
 
@@ -97,7 +97,7 @@ given read access to the special 'gitolite-admin' repo.  Sorry.  The idea is
 that your admin will tell you what "roles" he added into rules for your repos,
 and what permissions those roles have.
 
-### #desc adding a description to repos you created
+### adding a description to repos you created {#desc}
 
 The `desc` command is extremely simple.  Run `ssh git@host desc -h` for help.
 

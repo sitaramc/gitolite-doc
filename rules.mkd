@@ -69,7 +69,7 @@ The [refex][] field is ignored for this check.  (Git does not support
 distinguishing one ref from another for access control during read
 operations).
 
-#### #deny-rules read access respecting deny rules
+#### read access respecting deny rules {#deny-rules}
 
 When the ref is not known, deny rules (the "-" permission) are ignored by
 default.  In our example, line 3 does not prevent wally from cloning the repo,
@@ -146,7 +146,7 @@ Here's how the actual rule matching happens:
 Now all you need is to understand how [refex][] matching happens and how the
 permissions match the various [types of write operations][write-types].
 
-## #permsum summary of permissions
+## summary of permissions {#permsum}
 
 The full set of permissions, in regex syntax, is `-|R|RW+?C?D?M?`.  This
 expands to one of `-`, `R`, `RW`, `RW+`, `RWC`, `RW+C`, `RWD`, `RW+D`, `RWCD`,
@@ -155,7 +155,7 @@ you know what they all mean.
 
 ## additional topics
 
-### #rule-accum rule accumulation
+### rule accumulation {#rule-accum}
 
 Gitolite was meant to collect rules from multiple places and apply them all in
 sequence.  For example, if you have the following (we've added line numbers to
@@ -218,7 +218,7 @@ This is what we meant by "repo, or a group that it is a member of, or a
 ([wild][] repo) pattern that matches it, or a group that contains a pattern
 that matches it", up at the top of this document.
 
-### #deny-rules-ex examples of deny rules
+### examples of deny rules {#deny-rules-ex}
 
 **example 1**
 

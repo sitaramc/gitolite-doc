@@ -161,7 +161,7 @@ description of when the trigger runs:
 
     No extra arguments.
 
-## #addtrig adding your own scripts to a trigger
+## adding your own scripts to a trigger {#addtrig}
 
 For gitolite v3.3 or less, adding your own scripts to a trigger list was
 simply a matter of finding the trigger name in the rc file and adding an entry

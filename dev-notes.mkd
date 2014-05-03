@@ -172,7 +172,7 @@ Finally, as an exercise for the reader, consider how you would create a brand
 new env var that contains the *comment* field of the ssh pubkey that was used
 to gain access, using the information [here][kfn].
 
-## #rsev appendix 2: repo-specific environment variables
+## appendix 2: repo-specific environment variables {#rsev}
 
 A special form of the [option][options] syntax can be used to set
 repo-specific environment variables that are visible to gitolite triggers and
@@ -222,7 +222,7 @@ options and configs set for the repo, like:
 
 The new method is much more convenient, as you can see.</font>
 
-## #lff appendix 3: log file format
+## appendix 3: log file format {#lff}
 
 Here's a brief description of gitolite's log file format.  All fields are tab
 separated.

@@ -52,7 +52,7 @@ available to [wild][] repos.
         config hooks.mailinglist = %GL_REPO-commits@example.tld
         config hooks.emailprefix = "[%GL_REPO] "
 
-## #override_conf overriding config values
+## overriding config values {#override_conf}
 
 You can repeat the 'config' line as many times as you like, and the *last*
 occurrence will be the one in effect.  This allows you to override settings

@@ -3,7 +3,7 @@
 This page expands on some incompatibilities that were only briefly mentioned
 in the [pre-migration][g2migr] page.
 
-## #g2i-name NAME rules
+## NAME rules {#g2i-name}
 
 1.  NAME/ rules must be changed to VREF/NAME/
 
@@ -14,7 +14,7 @@ in the [pre-migration][g2migr] page.
 
         -   VREF/NAME/       =   @all
 
-## #g2i-subconf subconf command in admin repo
+## subconf command in admin repo {#g2i-subconf}
 
 (This is also affected by the previous issue, 'NAME rules'; please read that
 as well).
@@ -39,7 +39,7 @@ The second part explicitly says when and where to include the subconf files.
 (Before subconf was invented, this used to happen implicitly at the end of the
 main conf file, and was hardcoded to that specific glob.)
 
-## #g2i-gl-time gl-time for performance measurement
+## gl-time for performance measurement {#g2i-gl-time}
 
 If you've been using gl-time for performance measurement, there's a much
 better system available now.
@@ -52,7 +52,7 @@ default rc file that contain the word "cpu", for more details.
 Further, you can copy that module with a different name, add your own
 functionality, and invoke *that* from the rc file instead.
 
-## #g2i-mirroring changes in mirroring setup
+## changes in mirroring setup {#g2i-mirroring}
 
 There are several changes with regard to mirroring:
 

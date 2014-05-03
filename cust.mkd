@@ -20,7 +20,7 @@ Here's how to find out more:
 
 ----
 
-## #ncintro introduction
+## introduction {#ncintro}
 
 There are 5 basic types of non-core programs.
 
@@ -33,7 +33,7 @@ There are 5 basic types of non-core programs.
     different name to avoid confusion and constant disambiguation in the docs.
   * **VREFs** are extensions to the access control check part of gitolite.
 
-## #ncloc locations...
+## locations... {#ncloc}
 
 ### ...for non-core programs shipped with gitolite
 
@@ -46,7 +46,7 @@ reside.  Within that directory, the subdirectories of interest are:
     explain the difference).
   * `VREF` for [VREFs][vref].
 
-### #localcode ...for *your* non-core programs
+### ...for *your* non-core programs {#localcode}
 
 If you want to add your own non-core programs, or even *override* the shipped
 ones with your own, you can.
@@ -67,7 +67,7 @@ Note: the `hooks/common` directory is a bit special.  If you add new hooks to
 this, you must run either `gitolite setup`, or at least `gitolite setup
 --hooks-only`.
 
-### #pushcode using the gitolite-admin repo to manage non-core code
+### using the gitolite-admin repo to manage non-core code {#pushcode}
 
 The location given in `LOCAL_CODE` could be anywhere on disk, like say
 `$ENV{HOME}/local`.
@@ -100,9 +100,9 @@ administrators may want to keep the two rights (i.e., "right to push to the
 gitolite-admin repo" and "right to run arbitrary programs on the server")
 separate.
 
-## #nctypes types of non-core programs
+## types of non-core programs {#nctypes}
 
-### #commands gitolite "commands"
+### gitolite "commands" {#commands}
 
 Gitolite comes with several commands that users can run.  Remote users run
 commands by saying:
@@ -125,7 +125,7 @@ You allow a command to be run from remote clients by adding its name to (or
 uncommenting it if it's already added but commented out) the ENABLE list in
 the [rc][] file.
 
-### #hooks hooks and gitolite
+### hooks and gitolite {#hooks}
 
 You can install any hooks except these:
 
@@ -139,7 +139,7 @@ above, especially [this][localcode] and [this][pushcode].  The summary is that
 you put them in the "hooks/common" sub-directory within the directory whose
 name is given in the `LOCAL_CODE` rc variable, then run `gitolite setup`.
 
-#### #rsh repo-specific hooks
+#### repo-specific hooks {#rsh}
 
 If you want to add hooks only to specific repos, you can just do it manually
 if you wish -- just log on to the server and add hooks (except update hook
@@ -205,7 +205,7 @@ together, you can do that also.  Here's how.
         repo    foo
             option hook.post-receive    =   ""
 
-### #sugar syntactic sugar
+### syntactic sugar {#sugar}
 
 Sugar scripts help you change the perceived syntax of the conf language.  The
 base syntax of the language is very simple, so sugar scripts take something

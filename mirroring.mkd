@@ -35,12 +35,16 @@ Gitolite extends this simple notion in the following ways:
 
 ## caveats
 
-  * Mirroring will never *create* a repo on a slave; it has to exist and be
-    prepared to receive updates from the master.
+  * Mirroring by itself will never *create* a repo on a slave; it has to exist
+    and be prepared to receive updates from the master.
 
-    However, there is limited support for auto-creating wild card repos and
-    sending 'perms' info across, with the following caveats at present.  (Some
-    of this text won't make sense unless you know what those features are).
+    The simplest way to ensure your repos exist on the slaves also is to
+    mirror the special gitolite-admin repo as well, and this is what most
+    sites do.
+
+  * There is limited support for auto-creating wild card repos and sending
+    'perms' info across, with the following caveats at present.  (Some of this
+    text won't make sense unless you know what those features are).
 
       * *WARNING: it does NOT make sense to mirror wild repos in setups where
         the authentication data is not the same (i.e., where "alice" on the
@@ -215,16 +219,6 @@ from a user and transparently redirect them to the *master*.
 This simplifies things for users in complex setups, letting them use their
 local mirror for both fetch and push access to all repos.
 
-Just remember that if you do this, **authentication** happens on the slave,
-but **authorisation** is on the master.  The master is trusting the slave to
-authenticate the user correctly, *and* use the same authentication data (i.e.,
-user alice on the slave should be guaranteed to be the same as user alice on
-the master).
-
-Please note that the part of the authorisation that happens before passing
-control to git-receive-pack (see the [access rules][rules] page) will happen
-on the slave as well.
-
 The syntax for enabling this is one of these:
 
     option mirror.redirectOK    =   all
@@ -233,7 +227,21 @@ The syntax for enabling this is one of these:
 The first syntax trusts all valid slaves to redirect user pushes, while the
 second one trusts only some slaves.
 
-Note that you cannot redirect gitolite commands (like perms, etc).
+**IMPORTANT NOTES**
+
+*   This only works for ssh-based setups; you cannot use this feature in http
+    mode.
+
+*   **Authentication** happens on the slave, but **authorisation** is on the
+    master.  The master is trusting the slave to authenticate the user
+    correctly, *and* use the same authentication data (i.e., user alice on the
+    slave should be guaranteed to be the same as user alice on the master).
+
+*   The part of the authorisation that happens before passing control to
+    git-receive-pack (see the [access rules][rules] page) will happen on the
+    slave as well.
+
+*   You cannot redirect gitolite commands (like perms, etc).
 
 ## appendix A: HOSTNAME substitution {#HOSTNAME}
 

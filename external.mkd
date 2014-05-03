@@ -1,5 +1,7 @@
 # interfacing with external tools
 
+<!-- pandoc: toc -->
+
 >   ----
 
 >   **Note**: The old gitolite (v1.x, v2.x) used to tie itself into knots
@@ -68,6 +70,11 @@ the more widely used ssh mode, you'll have to make sure they match.
 You then need to add [this code][gwch] to your gitweb.conf.
 
 [gwch]: gitweb.conf.html
+
+### protecting gitolite-admin from gitweb
+
+There's an example that illustrates how to do this in the section that shows
+[deny-rules option examples][deny-rules-ex].
 
 ## git-daemon
 

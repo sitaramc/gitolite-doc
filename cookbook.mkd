@@ -9,6 +9,9 @@ However, if you make some assumptions, remove the rationale, justification,
 exceptions and special cases, etc., and generally just say *what* is to be
 done rather than explain *why*, many tasks can be described very easily.
 
+Or, if the main documentation already does that, a cookbook may help you find
+it faster, simply because it's organised differently.
+
 Maybe this will help.  If you run into problems, please check the main
 documentation before asking for help.  In particular, the [basic][] and
 [advanced][] graphical overviews of the documentation may be useful.
@@ -285,17 +288,4 @@ is, the bits of the network address after the network bits must be zero).
 
 ### moving a gitolite install from one machine to another
 
-Assuming you're not making a version change, this is what you need to do:
-
-  * clone the latest gitolite-admin repo to your workstation
-
-  * install gitolite normally on the new machine, using the same public key
-    *and* name for the admin as on the old machine when running the `gitolite
-    setup -pk` command.
-
-  * copy over your `~/.gitolite.rc` file from the old machine to the new
-
-  * run `gitolite setup` (on the server)
-
-  * go to the gitolite-admin clone you made in step 1, add or change the
-    remote to point to the new machine, and `git push -f`
+See [moving servers][moving].

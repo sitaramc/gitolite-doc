@@ -2,8 +2,9 @@
 
 ## trying out gitolite {#trying}
 
-<font color="red">**WARNING: this will clobber lots of things in your `$HOME`,
-so be sure to use a throwaway userid**.</font>
+<font color="red">**WARNING: this will clobber [these files and
+directories][clobber] in your `$HOME`.  If in doubt, use a throwaway
+userid**.</font>
 
 It's easy to take gitolite for a trial run, in ssh mode, and play with all of
 its features (except mirroring).
@@ -37,8 +38,9 @@ So start by cloning the admin repo, and try out whatever you want!
 
 ## testing gitolite
 
-<font color="red">**WARNING: this will clobber lots of things in your `$HOME`,
-so be sure to use a throwaway userid**.</font>
+<font color="red">**WARNING: this will clobber [these files and
+directories][clobber] in your `$HOME`.  If in doubt, use a throwaway
+userid**.</font>
 
 Trying out gitolite safely is really a subset of running the test suite.  If
 you want to run the full test suite, just do as above, except instead of
@@ -66,3 +68,16 @@ would otherwise take.
 
 If you think that defeats the purpose of the testing, you haven't read
 [this][auth] yet.
+
+## appendix a -- the clobber list {#clobber}
+
+When you use either of these methods (i.e., trying out gitolite or running the
+test suite), the following files and directories in your \$HOME are
+potentially clobbered.
+
+    .gitconfig
+    .gitolite/
+    .gitolite.rc
+    projects.list
+    repositories/
+    .ssh/

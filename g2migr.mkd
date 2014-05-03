@@ -114,6 +114,10 @@ Some of them have links where there is more detail than I want to put here.
 
 (ancillary, non-core, or minor functionality lost)
 
+  * 'git-config' values have new restrictions.  See [compensating for
+    UNSAFE\_PATT][unsafe-patt] for more on these restrictions and how to get
+    around them.
+
   * Built-in command `expand` -- **dropped**.  The 'info' command shows you
     both normal and wild repos now.  The output format is also much simpler.
 

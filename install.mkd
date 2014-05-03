@@ -1,8 +1,11 @@
 # installing gitolite
 
-<font color="red">**NOTE**: if you're migrating from g2, there are some
-settings that MUST be dealt with **before** running `gitolite setup`; please
-start [here][migr].  RTFM is *mandatory* for migrations.</font>
+.@red<**NOTE 1**: if you're migrating from gitolite version 2.x, there are
+some settings that MUST be dealt with **before** running `gitolite setup`;
+please start [here][migr].  RTFM is *mandatory* for migrations.>@
+
+.@red<**NOTE 2** This page is for an ssh-based setup.  For an http based setup
+click [here][http].>@
 
 ----
 

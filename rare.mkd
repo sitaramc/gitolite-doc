@@ -1,5 +1,7 @@
 # rare or one-time activities
 
+<!-- pandoc: toc -->
+
 ## moving existing repos into gitolite {#existing}
 
 **WARNINGS**
@@ -52,19 +54,21 @@ any repository except the gitolite-admin repo.  The only thing it will
 normally touch is the `update` hook.  So one fool-proof way of "moving"
 servers is this (untested but should work; feedback appreciated):
 
-1.  Install gitolite on the new server, using the same key for the admin as
+1.  Clone the latest gitolite-admin repo from the old server to your
+    workstation.
+
+2.  Install gitolite on the new server, using the same key for the admin as
     for the old server.
 
-2.  Copy the [rc][] file from the old server, overwriting this one.
+3.  Copy the [rc][] file from the old server, overwriting this one.
 
-3.  [Disable][writable] the old server so people won't push to it.
+4.  [Disable][writable] the old server so people won't push to it.
 
-4.  Copy all the repos over from the old server, including gitolite-admin.
+5.  Copy all the repos over from the old server, including gitolite-admin.
     Make sure the files end up with the right ownership and permissions; if
     not, chown/chmod them.
 
-5.  Run `gitolite setup`.
+6.  Run `gitolite setup`.
 
-6.  On a clone of the old gitolite-admin, add a new remote (or change an
-    existing one) to point to the new server.  Then `git push -f` to this
-    remote.
+7.  Go to the clone you made in step 1, add a new remote (or change an
+    existing one) to point to the new server, then `git push -f` to it.

@@ -146,6 +146,15 @@ Here's how the actual rule matching happens:
 Now all you need is to understand how [refex][] matching happens and how the
 permissions match the various [types of write operations][write-types].
 
+### .@gray<(v3.6+)>@ tracing rule flow (debugging rules) {#rule-info}
+
+If you've tried reading all this and still have trouble with rules, you can
+use the 'gitolite access' command (directly on the server) to help.
+
+The access command's '-s' option helps debug rule flow.  Like all gitolite
+commands, it responds to a single argument of '-h' with a reasonably detailed
+usage message if you need some more details.
+
 ## summary of permissions {#permsum}
 
 The full set of permissions, in regex syntax, is `-|R|RW+?C?D?M?`.  This
@@ -222,7 +231,7 @@ that matches it", up at the top of this document.
 
 **example 1**
 
-     1  @secret = secret/one secret/two [...]
+     1  @secret = gitolite-admin secret-repo/one secret-repo/two [...]
 
      2  # put this at or near the top of the conf file, or at least before any
      3  # rules that give 'gitweb' and 'daemon' any kind of access
@@ -239,8 +248,9 @@ that matches it", up at the top of this document.
 In this example, we have lots of repos, which should all be accessible by
 gitweb or daemon, so we want the convenience provided by lines 8 and 9 (we
 don't want to put line 9 in *each* repo).  However, we also have some secret
-repos, which we are able to list explicitly in some way, and we want to
-prevent gitweb or daemon from seeing them.
+repos (maybe the gitolite-admin repo and some others), which we want to
+prevent gitweb or daemon from seeing, and which we are able to list explicitly
+in some way.
 
 Therefore we apply the "deny-rules" option to just those repos, and ensure
 that the first rule encountered by these two "users" for those repos is a deny

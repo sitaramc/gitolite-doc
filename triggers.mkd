@@ -83,7 +83,8 @@ Triggers receive the following arguments:
 ## trigger-specific arguments and other details
 
 Here are the **rest of** the arguments for each trigger, plus a brief
-description of when the trigger runs:
+description of when the trigger runs.  (Note that when the repo name is passed
+in as an argument, it is without the '.git' suffix).
 
   * `INPUT` runs before pretty much anything else.  INPUT trigger scripts
     *must* be in perl, since they manipulate the arguments to and the

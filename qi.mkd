@@ -4,7 +4,7 @@
 
   * You've read the [WARNINGS][] page ;-)
 
-  * This is an ssh-based setup.  For smart http setup click [here][http].
+  * .@red<This is an ssh-based setup.  For smart http setup click [here][http].>@
 
   * This is a fresh install, not a migration from the old gitolite (v1.x,
     v2.x).

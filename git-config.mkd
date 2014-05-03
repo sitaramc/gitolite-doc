@@ -76,7 +76,7 @@ As you can see, the general idea is to place the most generic ones (`repo
 @all`, or repo patterns like `repo foo.*`) first, and place more specific ones
 later to override the generic settings.
 
-## compensating for `UNSAFE_PATT`
+## compensating for UNSAFE\_PATT {#unsafe-patt}
 
 Gitolite, by default, does not allow the following characters in the value of
 a config variable: `` ` ~ # $ & ( ) | ; < > ``.  This is due to unspecified
@@ -106,10 +106,9 @@ Here's a better way:
   * in the rc file, add the following within the '%RC' hash (for example, just
     after the UMASK line would do fine):
 
-        SAFE_CONFIG                 =>
-            {
-                SHOWREV             =>  "git show -C %s; echo"
-            },
+        SAFE_CONFIG => {
+            SHOWREV         =>  "git show -C %s; echo"
+        },
 
   * in your gitolite.conf file, add this instead of the line we saw earlier:
 
@@ -119,3 +118,20 @@ This mechanism allows you to add any number of **specific** violations to the
 `UNSAFE_PATT` rule instead of denaturing the pattern itself and potentially
 allowing something that could be used by a repo admin to obtain shell access
 at some later point in time.
+
+A similar problem arises with email addresses, which contain the `<` and `>`
+characters.  Here's how to deal with that easily:
+
+  * in the rc file:
+
+        SAFE_CONFIG => {
+            LT              =>  '<',
+            GT              =>  '>',
+        },
+
+  * in the gitolite.conf file:
+
+        config hooks.mailinglist = "Sitaram Chamarty %LTsitaramc@gmail.com%GT"
+
+Admittedly, that looks a wee bit ugly, but it gets the job done without having
+to remove angle brackets from UNSAFE\_PATT.

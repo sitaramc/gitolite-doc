@@ -31,10 +31,8 @@ while (<>) {
     unless ( $seen{$ARGV}++ ) {
         # on each change of file, compute the base name...
         $base = ( $ARGV =~ m(([^/]+)\.mkd) ? $1 : '' );
-        # ...and add linkref to the first line if it's a header line
-        if ( /^#/ and not( /{#\S+( .*?)?}/ or /^#+ #(\S+)/ ) ) {    # XXX last clause is transition code
-            $linkrefs .= "\[$base\]: $base.html\n";
-        }
+        # ...and add linkref to the file
+        $linkrefs .= "\[$base\]: $base.html\n";
     }
 
     # now add linkrefs for everything else
@@ -49,12 +47,14 @@ for (@argv) {
     $base = $1;
     next if $base eq 'gitolite';                             # single page stuff needs different treatment
 
-    open( my $mdp, "|-", "cat $_ - | md-pandoc html-N > $OUTDIR/$base.html" ) or die 1;
+    open( my $mdp, "|-", "cat $_ - > pdh.temp") or die $!;
     print $mdp "\n" . $linkrefs;
     close $mdp;
+    system("pdh -t html-N -i pdh.temp -o $OUTDIR/$base.html" ) and die;
 }
+unlink "pdh.temp";
 say STDERR "----";
-system("md-pandoc html-N < gitolite.mkd > $OUTDIR/gitolite.html");
+system("pdh -t html-N -i gitolite.mkd -o $OUTDIR/gitolite.html");
 
 # send manually created HTML pages and images
 system("cp html/*.html $OUTDIR");

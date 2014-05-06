@@ -1,4 +1,4 @@
-# who uses gitolite
+% who uses gitolite
 
 [Note that most of the users who are listed in this document are still using
 v2.x, presumably because it's working fine for them and there's no compelling

@@ -1,13 +1,13 @@
-# what users (not admins) need to know about gitolite
+<!-- options: toc -->
 
-<!-- pandoc: toc -->
+% what users (not admins) need to know about gitolite
 
 ...written for the one guy in the world no one will think of as "just a normal
 user" ;-)
 
 ----
 
-## accessing gitolite
+# accessing gitolite
 
 The most common setup is based on ssh, where your admin asks you to send him
 your public key, and uses that to setup your access.
@@ -41,7 +41,7 @@ work.  The only things to note are:
 this appears to happen mostly to Mac people; I don't recall many Windows
 people getting confused, and almost none who use Unix doing so).</font>
 
-## the info command {#info}
+# the info command {#info}
 
 The only command that is *always* available to every user is the `info`
 command (run `ssh git@host info -h` for help), which tells you what version of
@@ -49,7 +49,7 @@ gitolite and git are on the server, and what repositories you have access to.
 The list of repos is very useful if you have doubts about the spelling of some
 new repo that you know was setup.
 
-## digression: two kinds of repos
+# digression: two kinds of repos
 
 Gitolite has two kinds of repos.  Normal repos are specified by their full
 names in the config file.  "Wildcard" repos are specified by a regex in the
@@ -60,9 +60,9 @@ If you see any, it means you are allowed to create brand new repos whose names
 fit that pattern.  When you create such a repo, your "ownership" of it (as far
 as gitolite is concerned) is automatically recorded by gitolite.
 
-## other commands
+# other commands
 
-### set/get additional permissions for repos you created {#perms}
+## set/get additional permissions for repos you created {#perms}
 
 The gitolite config may have several permissions lines for your repo, like so:
 
@@ -97,11 +97,11 @@ given read access to the special 'gitolite-admin' repo.  Sorry.  The idea is
 that your admin will tell you what "roles" he added into rules for your repos,
 and what permissions those roles have.
 
-### adding a description to repos you created {#desc}
+## adding a description to repos you created {#desc}
 
 The `desc` command is extremely simple.  Run `ssh git@host desc -h` for help.
 
-## "site-local" commands
+# "site-local" commands
 
 The main purpose of gitolite is to prevent you from getting a shell.  But
 there are commands that you often need to run on the server (i.e., cannot be

@@ -1,6 +1,6 @@
-# help for emergencies
+<!-- options: toc -->
 
-<!-- pandoc: toc -->
+% help for emergencies
 
 >   ----
 
@@ -8,7 +8,7 @@
 
 >   ----
 
-## install/setup issues
+# install/setup issues
 
 Most install/setup issues are caused by lack of ssh knowledge.  Ssh is a
 complex beast, and -- unless you are using the [http][] mode -- can cause
@@ -17,7 +17,7 @@ problems for people who are not familiar with its quirks.
 **Be prepared to spend some time reading the [ssh][] documentation that comes
 with gitolite**.
 
-## lost admin key/access {#lost-key}
+# lost admin key/access {#lost-key}
 
 If you lost your gitolite **admin** key or access, here's what you do.  We'll
 assume your username is 'alice'.
@@ -30,7 +30,7 @@ assume your username is 'alice'.
 That's it; the new alice.pub file replaces whatever existed in the repo
 before.
 
-## bypassing gitolite {#bypass}
+# bypassing gitolite {#bypass}
 
 You may have lost access because of a conf file error, in which case the above
 trick won't help.  What you want is to make changes to the repo (or perhaps
@@ -52,9 +52,9 @@ just rewind) and push that.  Here's how to do that:
 **NOTE**: gitolite does **no access checking** when you do this!
 </font>
 
-## botched something? {#botch}
+# botched something? {#botch}
 
-### fixing botched repos
+## fixing botched repos
 
 If you copied some repos from somewhere else, or mucked with the hooks for
 some reason, or deleted any gitolite-specific files, or tried any other
@@ -67,7 +67,7 @@ some reason, or deleted any gitolite-specific files, or tried any other
 If the repo you botched is a wild repo, please ask on the mailing list or on
 IRC (see [contact][]).
 
-### cleaning out a botched install {#clean}
+## cleaning out a botched install {#clean}
 
 If you've read the [files involved in gitolite][files] page, you probably know
 the answer, but here's a list of files and directories to deal with:
@@ -98,7 +98,7 @@ the answer, but here's a list of files and directories to deal with:
 
     Gitolite does not touch any other files in the ssh directory.
 
-## common errors {#ce}
+# common errors {#ce}
 
   * `WARNING: keydir/<yourname>.pub duplicates a non-gitolite key, sshd will ignore it`
 
@@ -125,11 +125,11 @@ the answer, but here's a list of files and directories to deal with:
     gitolite access control, so if you're going to do this often, maybe you
     don't need gitolite!
 
-## uncommon errors {#ue}
+# uncommon errors {#ue}
 
 (This page intentionally left blank)
 
-## non-standard configs that'll trip you up {#nonstd}
+# non-standard configs that'll trip you up {#nonstd}
 
   * if your 'git' binary is in a non-PATH location, or you have more than one
     version and want a specific one to be picked up, you will have to add a
@@ -149,7 +149,7 @@ the answer, but here's a list of files and directories to deal with:
   * having the default shell be something like /bin/false, and/or not having
     the default shell be part of /etc/shells.
 
-## things that are not gitolite problems {#ngp}
+# things that are not gitolite problems {#ngp}
 
 There are several things that appear to be gitolite problems but are not.  I
 cannot help with most of these (although the good folks on irc or the mailing

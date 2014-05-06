@@ -1,4 +1,4 @@
-# gitolite documentation
+% gitolite documentation
 
 This is the master index for all gitolite documentation.  The sequence is
 designed to go from background, to basics, to advanced, and then to more
@@ -10,7 +10,7 @@ documentation: [basic][] and [advanced][].
 [basic]: basic.html
 [advanced]: advanced.html
 
-## [Introduction][index]
+# [Introduction][index]
 
   * (for [older][g2] gitolite (v1 or v2) users)
   * [quick links][ql]
@@ -21,9 +21,9 @@ documentation: [basic][] and [advanced][].
   * [contact][] info, mailing list, IRC channel
   * [license][] info
 
-## [WARNINGS][]
+# [WARNINGS][]
 
-## help for [emergencies][]
+# help for [emergencies][]
 
   * **install/setup issues caused by [ssh][]**
   * [lost][lost-key] admin key/access
@@ -35,14 +35,14 @@ documentation: [basic][] and [advanced][].
   * things that are [not gitolite problems][ngp]
 
 
-## [testing][] gitolite
+# [testing][] gitolite
   * [trying][] out gitolite
 
 
-## [quick][qi] install, setup, and clone
+# [quick][qi] install, setup, and clone
 
 
-## [install][]
+# [install][]
 
   * notes and naming conventions
   * [requirements][req]
@@ -55,14 +55,14 @@ documentation: [basic][] and [advanced][].
   * [packaging][package] gitolite
   * [migrating][migr] from v2
 
-## [setup][]
+# [setup][]
 
 
-## [clone][]
+# [clone][]
   * (appendix: administer gitolite directly on the server)
 
 
-## gitolite [admin][]istration
+# gitolite [admin][]istration
 
   * ([server-side][server]) settings, hooks, etc.
       * ([link][WARNINGS]: important cautions on server side activity)
@@ -104,10 +104,10 @@ documentation: [basic][] and [advanced][].
           * listing wild repos
           * deleting wild repos
 
-## what your [user][]s need to know
+# what your [user][]s need to know
 
 
-## [special][] features in core gitolite
+# [special][] features in core gitolite
 
 **NOTE: [non-core][] features are listed in a [separate document][non-core]
 since there are so many of them**.
@@ -121,22 +121,22 @@ since there are so many of them**.
   * using pubkeys obtained [from elsewhere][keysonly]
   * giving users [their own repos][gh]
 
-## interfacing with [external][] tools
+# interfacing with [external][] tools
 
   * gitweb
       * setting owner, description, etc.
       * changing the [UMASK][umask]
   * git-daemon
 
-## [mirroring][]
+# [mirroring][]
 
 
-## [rare][]/one-time activities
+# [rare][]/one-time activities
 
   * moving [existing][] repos into gitolite
   * [moving][] servers
 
-## customising gitolite
+# customising gitolite
 
   * [customisation][cust] overview
       * [introduction][ncintro]
@@ -166,7 +166,7 @@ since there are so many of them**.
 
   * [list of non-core programs][non-core] shipped with gitolite
 
-## background info
+# background info
 
   * [files and directories][files] involved in install+setup
   * [auth][]entication versus authorisation
@@ -176,12 +176,12 @@ since there are so many of them**.
   * [regular expressions][regex]
   * [gitolite performance][perf] and optional [caching][cache]
 
-## contributed software, tools, and documentation
+# contributed software, tools, and documentation
 
   * [emacs][README-emacs] "major mode"
   * (rest: TBD)
 
-## TBD
+# TBD
 
   * log file format, LOG_EXTRA
   * hub

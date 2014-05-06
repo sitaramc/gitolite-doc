@@ -1,6 +1,6 @@
-# virtual refs
+<!-- options: toc -->
 
-<!-- pandoc: toc -->
+% virtual refs
 
 **IMPORTANT**: fallthru is success in VREFs, unlike the normal refs.  That
 won't make sense until you read further, but I had to put it up here for folks
@@ -22,7 +22,7 @@ touching the Makefile, you can do this:
 
 ----
 
-## basic use
+# basic use
 
 Normally, rules deal with branches and tags (which git collectively calls
 "refs").  The "ref" is a property of the push which gitolite checks against
@@ -38,12 +38,12 @@ that might otherwise have passed.  This is what the example at the top shows.
 Using VREFs like this does not require any great understanding of, or thinking
 about, how they work under the hood.
 
-## advanced use
+# advanced use
 
 More complex uses are possible, but may be harder to understand.  You may want
 to experiment with the rules to solidify your understanding as you read this.
 
-### differences from normal refs
+## differences from normal refs
 
 We know where normal refs (like "refs/heads/master" or "refs/tags/v1.0") come
 from -- they are supplied by git itself when it calls the update hook.
@@ -70,7 +70,7 @@ Here's some more detail on how it works.
     just not relevant to VREFs (since VREFs only run from the update hook).
     Plus of course, as we said, fallthru is not a failure now.
 
-### generating virtual refs
+## generating virtual refs
 
 Gitolite uses the VREF rules themselves to help it generate the virtual refs.
 
@@ -99,9 +99,9 @@ It should exit with an exit code of zero in either case.
 If it exits with a non-zero, the push dies regardless of what is printed (see
 "mimicking a plain old update hook" for why this is useful).
 
-## more details and nuances
+# more details and nuances
 
-### mimicking a plain old update hook
+## mimicking a plain old update hook
 
 If the VREF maker exists with a non-zero exit code, then regardless of what it
 prints or does not, the push dies.
@@ -119,7 +119,7 @@ this rule to your repos:
 
 That's it.
 
-### what if the VREF-maker prints a different VREF?
+## what if the VREF-maker prints a different VREF?
 
 Unless you know what you're upto, don't do that.
 
@@ -154,7 +154,7 @@ satisfies the third rule and is rejected.
 If bar is pushed at, say, 7:20am, the vref printed is VREF/Hour/07, which does
 not match any of the rules.  And fallthru is success so it passes.
 
-### why is fallthru considered success with VREFs {#vref-fallthru}
+## why is fallthru considered success with VREFs {#vref-fallthru}
 
 Virtual refs are **best used** (1) as additional "deny" rules, performing
 extra checks that core gitolite cannot.  You usually want such extra checks
@@ -182,7 +182,7 @@ list:
 
 </font>
 
-### what if the VREF-maker prints something that's not even a VREF?
+## what if the VREF-maker prints something that's not even a VREF?
 
 The VREF-maker can print anything it wants to STDOUT.  Lines not starting with
 `VREF/` are printed as is (so your VREF-maker can do mostly-normal printing to
@@ -194,7 +194,7 @@ treated as a virtual ref, while the rest, if any, is a message to be added to
 the standard "...DENIED..." message that gitolite will print if that refex
 matches and the rule is a deny rule.
 
-### in what order are VREF-makers called?
+## in what order are VREF-makers called?
 
 VREF-makers are called in the sequence in which they appear in the conf file.
 
@@ -203,7 +203,7 @@ same arguments more than once, and the VREF-maker code for the NAME VREF
 (which is special) is called only once regardless of how many times it appears
 but these details should not concern anyone but a developer.
 
-### what arguments are passed to the vref-maker? {#vref-args}
+## what arguments are passed to the vref-maker? {#vref-args}
 
   * Arguments **1, 2, 3**: the 'ref', 'oldsha', and 'newsha' that git passed
     to the update hook (see 'man githooks').
@@ -236,9 +236,9 @@ but these details should not concern anyone but a developer.
 Yes, argument 7 is redundant if you have 8 and 9.  It's meant to make it easy
 to write vref-maker scripts in any language.  See script examples in source.
 
-## VREF-makers shipped with gitolite
+# VREF-makers shipped with gitolite
 
-### restricting pushes by dir/file name {#NAME}
+## restricting pushes by dir/file name {#NAME}
 
 The "NAME" VREF allows you to restrict pushes by the names of dirs and files
 changed.  (Side note: the NAME VREF is the only one directly implemented
@@ -278,7 +278,7 @@ CHANGELOG and any files in a directory called ReleaseNotes:
             RW+ VREF/NAME/ReleaseNotes/     =   QA-guy
             -   VREF/NAME/                  =   QA-guy
 
-### number of changed or new files {#COUNT}
+## number of changed or new files {#COUNT}
 
 The COUNT VREF is used like this:
 
@@ -299,7 +299,7 @@ COUNT can take one more argument:
 This is the same as before, but have to be more than 9 *new* files not
 just changed files.
 
-### advanced filetype detection
+## advanced filetype detection
 
 Note: this is more for illustration than use; it's rather specific to one of
 the projects I manage but the idea is the important thing.
@@ -313,7 +313,7 @@ You can look at `src/VREF/FILETYPE` to see how it handles the
 'AUTOGENERATED' option.  You could also have a more generic option, like
 perhaps BINARY, and handle that in the FILETYPE vref too.
 
-### checking author email
+## checking author email
 
 Some people want to ensure that "you can only push your own commits".
 
@@ -327,7 +327,7 @@ copied to `src/VREF/EMAIL-CHECK` and it works, because VREFs get
 the same first 3 arguments and those are all that it cares about.  (Note: you
 have to change one subroutine in that script if you want to use it)
 
-### voting on commits {#votes}
+## voting on commits {#votes}
 
 Although gitolite can't/won't do the whole "code review + workflow
 enforcement" thing that Gerrit Code Review does, a basic implementation of
@@ -335,9 +335,9 @@ voting on a commit is surprisingly easy.  See src/VREF/VOTES for details (and
 note that the actual *code* is just 2-3 lines; the rest is inline
 documentation).
 
-## other ideas -- code welcome!
+# other ideas -- code welcome!
 
-### "no non-merge first-parents"
+## "no non-merge first-parents"
 
 Shruggar on #gitolite wanted this.  Possible code to implement it would be
 something like this (untested)
@@ -349,7 +349,7 @@ does what the 'M' qualifier does in access rules (see last part of
 [this][write-types]), although the syntax to be used in conf/gitolite will be
 quite different.
 
-### other ideas for VREFs
+## other ideas for VREFs
 
 Here are some more ideas:
 

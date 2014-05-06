@@ -1,4 +1,4 @@
-# Making repositories available to both ssh and http mode clients
+% Making repositories available to both ssh and http mode clients
 
 Copyright Thomas Hager (duke at sigsegv dot at).  Licensed under CC-BY-NC-SA
 unported 3.0, http://creativecommons.org/licenses/by-nc-sa/3.0/

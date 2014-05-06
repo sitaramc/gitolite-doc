@@ -1,4 +1,4 @@
-# the "rc" file (`$HOME/.gitolite.rc`)
+% the "rc" file (`$HOME/.gitolite.rc`)
 
 **IMPORTANT**: if you have a v3.0-v3.3 rc file it will still work.  In fact
 internally the v3.4 rc file data gets converted to the v3.3 format.  So just
@@ -39,7 +39,7 @@ around; start with [customising gitolite][cust].  If a setting is used by an
 external command then running that command with '-h' may give you additional
 information.
 
-## specific variables
+# specific variables
 
   * `$UMASK`, octal, default `0077`
 

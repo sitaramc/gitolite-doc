@@ -1,6 +1,6 @@
-# non-core features shipped with gitolite
+<!-- options: toc -->
 
-<!-- pandoc: toc -->
+% non-core features shipped with gitolite
 
 **Important Notes on "non-core" features**:
 
@@ -28,7 +28,7 @@
 
 ----
 
-## commands
+# commands
 
 This is a list of commands that are available in gitolite, with brief
 descriptions and, if available, a link to more detailed information.  Note
@@ -70,7 +70,7 @@ Also note that not all of these commands are available remotely.
   * *writable* -- disable/enable writes to specific repo (or all repos, if
     you're an admin)
 
-## syntactic sugar
+# syntactic sugar
 
 The following "sugar" programs are available:
 
@@ -80,7 +80,7 @@ The following "sugar" programs are available:
     within keydir as a group name
   * **macros** -- simple line-wise macro processor
 
-## triggers
+# triggers
 
 Here's a list of **features** that are enabled by [triggers][], or a
 combination of a trigger and something else, like a command.
@@ -122,7 +122,7 @@ disable them:
   * update-gitweb-access-list -- create the "projects.list" file that gitweb
     uses to determine what repos to show/not show
 
-## VREFs
+# VREFs
 
 VREFs are a complex topic and have their [own page][vref] with lots more
 details.  However, here's a list of VREFs shipped with gitolite:
@@ -141,12 +141,12 @@ details.  However, here's a list of VREFs shipped with gitolite:
     changing file 'foo' but not on 'master' branch)
   * *[VOTES][votes]* -- voting on commits a la gerrit
 
-## details on some non-core programs
+# details on some non-core programs
 
 These non-core programs needed more detail than could be provided in the
 source code, but did not fit anywhere else neatly enough.
 
-### partial-copy: selective read control for branches {#partial-copy}
+## partial-copy: selective read control for branches {#partial-copy}
 
 Git (and therefore gitolite) cannot do selective read control -- allowing
 someone to read branch A but not branch B.  It's the entire repo or nothing.

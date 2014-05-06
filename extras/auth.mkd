@@ -1,4 +1,4 @@
-# authentication versus authorisation
+% authentication versus authorisation
 
 This document will explain why an "ssh issue" is almost never a "gitolite
 issue", and, indirectly, why I dont get too excited about the former.
@@ -28,7 +28,7 @@ be, and usually *isn't*, an actual *unix* username).
 
 As you can see, authentication happens before gitolite is called.
 
-## but... but... you have all that ssh stuff in gitolite!
+# but... but... you have all that ssh stuff in gitolite!
 
 No I don't.  Not in "core" gitolite from g3 onwards :-)
 
@@ -40,7 +40,7 @@ with something else of your choice.
 For example, in both [smart http][http] and ldap-backed sshd, gitolite has no
 role to play in creating users, setting up their passwords/keys, etc.
 
-## so you're basically saying you won't support "X"
+# so you're basically saying you won't support "X"
 
 (where "X" is some ssh related behaviour change or feature)
 
@@ -53,7 +53,7 @@ Even if you [lost the admin key][lost-key], the docs tell you how to recover
 from such errors.  You do need some password based method to get a shell
 command line on the server, of course.
 
-## how to use other authentication systems with gitolite {#otherauth}
+# how to use other authentication systems with gitolite {#otherauth}
 
 The bottom line in terms of how to invoke gitolite has been described above,
 and as long as you manage to do that gitolite won't even know how the
@@ -85,7 +85,7 @@ to generate keypairs and send them to the admin, but they can be more
 centrally stored and perhaps used by other programs or tools simultaneously,
 which can be useful.
 
-## getting user group info from LDAP {#ldap}
+# getting user group info from LDAP {#ldap}
 
 Gitolite's [groups][] are pretty convenient, but some organisations already
 have similar (or sufficient) information in their LDAP store.

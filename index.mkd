@@ -1,4 +1,4 @@
-# Hosting git repositories {-}
+% Hosting git repositories
 
 .#t cellspacing=20
 
@@ -32,7 +32,7 @@ documentation**: [basic][] and [advanced][].
 
 .#d width=50%
 
-#### What is gitolite? {#what -}
+### What is gitolite? {#what -}
 
 Gitolite is an access control layer on top of git.  Here are the features that
 most people see:
@@ -52,7 +52,7 @@ most people see:
 
 .#d
 
-#### quick links {#ql -}
+### quick links {#ql -}
 
   * [Trying][trying] out gitolite.
   * Minimum [requirements][req].
@@ -68,7 +68,7 @@ for specific information.
 
 <font color="gray">
 
-#### (for older gitolite (v1.x and v2.x) users) {#g2 -}
+### (for older gitolite (v1.x and v2.x) users) {#g2 -}
 
 For users of gitolite v2.x (call it "g2" for convenience),
 
@@ -84,7 +84,7 @@ For users of gitolite v2.x (call it "g2" for convenience),
 
 .#d width=50%
 
-#### contact and support {#contact -}
+### contact and support {#contact -}
 
   * mailing list for support and general discussion:
       * gitolite@googlegroups.com
@@ -102,7 +102,7 @@ For users of gitolite v2.x (call it "g2" for convenience),
 
 .#d
 
-#### license {#license -}
+### license {#license -}
 
 This documentation, which is maintained separately from the main gitolite
 source code, is copyright Sitaram Chamarty and is provided under a [Creative

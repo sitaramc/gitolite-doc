@@ -1,6 +1,6 @@
-# customising gitolite
+<!-- options: toc -->
 
-<!-- pandoc: toc -->
+% customising gitolite
 
 Much of gitolite (g3)'s functionality comes from programs and scripts that are
 not considered "core".  This keeps the core simpler, and allows you to enhance
@@ -20,7 +20,7 @@ Here's how to find out more:
 
 ----
 
-## introduction {#ncintro}
+# introduction {#ncintro}
 
 There are 5 basic types of non-core programs.
 
@@ -33,9 +33,9 @@ There are 5 basic types of non-core programs.
     different name to avoid confusion and constant disambiguation in the docs.
   * **VREFs** are extensions to the access control check part of gitolite.
 
-## locations... {#ncloc}
+# locations... {#ncloc}
 
-### ...for non-core programs shipped with gitolite
+## ...for non-core programs shipped with gitolite
 
 `gitolite query-rc GL_BINDIR` will tell you where shipped non-core programs
 reside.  Within that directory, the subdirectories of interest are:
@@ -46,7 +46,7 @@ reside.  Within that directory, the subdirectories of interest are:
     explain the difference).
   * `VREF` for [VREFs][vref].
 
-### ...for *your* non-core programs {#localcode}
+## ...for *your* non-core programs {#localcode}
 
 If you want to add your own non-core programs, or even *override* the shipped
 ones with your own, you can.
@@ -67,7 +67,7 @@ Note: the `hooks/common` directory is a bit special.  If you add new hooks to
 this, you must run either `gitolite setup`, or at least `gitolite setup
 --hooks-only`.
 
-### using the gitolite-admin repo to manage non-core code {#pushcode}
+## using the gitolite-admin repo to manage non-core code {#pushcode}
 
 The location given in `LOCAL_CODE` could be anywhere on disk, like say
 `$ENV{HOME}/local`.
@@ -90,7 +90,7 @@ stuff there (e.g., VREFs go in `local/VREF`, and commands in
 (Note: when you do this, gitolite takes care of running `gitolite setup
 --hooks-only` when you change any hooks and push).
 
-#### **SECURITY** note on this mode of managing non-core code
+### **SECURITY** note on this mode of managing non-core code
 
 **In this mode, anyone who can push changes to the admin repo will effectively
 be able to run any arbitrary command on the server.**
@@ -100,9 +100,9 @@ administrators may want to keep the two rights (i.e., "right to push to the
 gitolite-admin repo" and "right to run arbitrary programs on the server")
 separate.
 
-## types of non-core programs {#nctypes}
+# types of non-core programs {#nctypes}
 
-### gitolite "commands" {#commands}
+## gitolite "commands" {#commands}
 
 Gitolite comes with several commands that users can run.  Remote users run
 commands by saying:
@@ -125,7 +125,7 @@ You allow a command to be run from remote clients by adding its name to (or
 uncommenting it if it's already added but commented out) the ENABLE list in
 the [rc][] file.
 
-### hooks and gitolite {#hooks}
+## hooks and gitolite {#hooks}
 
 You can install any hooks except these:
 
@@ -139,7 +139,7 @@ above, especially [this][localcode] and [this][pushcode].  The summary is that
 you put them in the "hooks/common" sub-directory within the directory whose
 name is given in the `LOCAL_CODE` rc variable, then run `gitolite setup`.
 
-#### repo-specific hooks {#rsh}
+### repo-specific hooks {#rsh}
 
 If you want to add hooks only to specific repos, you can just do it manually
 if you wish -- just log on to the server and add hooks (except update hook
@@ -205,7 +205,7 @@ together, you can do that also.  Here's how.
         repo    foo
             option hook.post-receive    =   ""
 
-### syntactic sugar {#sugar}
+## syntactic sugar {#sugar}
 
 Sugar scripts help you change the perceived syntax of the conf language.  The
 base syntax of the language is very simple, so sugar scripts take something
@@ -220,10 +220,10 @@ section in [dev-notes][] first then email me.
 You enable a sugar script by uncommenting the feature name in the ENABLE list
 in the rc file.
 
-### triggers
+## triggers
 
 Triggers have their own [document][triggers].
 
-### VREFs
+## VREFs
 
 VREFs also have their own [document][vref].

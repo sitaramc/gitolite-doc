@@ -1,4 +1,4 @@
-# g3 development status
+% g3 development status
 
 Not yet done (will be tackled in this order unless someone asks):
 

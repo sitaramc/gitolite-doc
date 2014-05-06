@@ -1,4 +1,4 @@
-# gitolite and the (redis) cache
+% gitolite and the (redis) cache
 
 There's now a branch of gitolite called "redis" that uses the Redis in-memory
 key-value database to speed up some parts of gitolite.
@@ -24,7 +24,7 @@ passed to gitolite, causing a security breach.  If anyone has time I'd
 appreciate a review of the code -- it's not too big, the diff is only about
 180 lines, and most of that is a new file of 140 or so lines.
 
-## details
+# details
 
 During normal operation, (i.e., normal user executing a normal git operation
 on a repo), there are a couple of places where gitolite is somewhat wasteful,

@@ -1,6 +1,6 @@
-# idiot-proof setup for gitolite
+<!-- options: toc -->
 
-<!-- pandoc: toc -->
+% idiot-proof setup for gitolite
 
 If I gave you this link to read, it most likely means either:
 
@@ -14,7 +14,7 @@ realised that this is also useful for (a) people for whom English is not the
 first language and (b) people who really should not be doing technical work at
 this level, but are forced to do it by circumstances.
 
-## pre-requisites
+# pre-requisites
 
   * any Linux machine on which git has already been installed
   * probably any BSD or legacy system like Solaris will also work, but I have
@@ -22,14 +22,14 @@ this level, but are forced to do it by circumstances.
       * I do not consider Apple devices to be Unix enough; it should work, but
         please do not ask me for help if it does not.
 
-## additional restrictions that seem unnecessary
+# additional restrictions that seem unnecessary
 
 People who **do** understand ssh will realise that this document contains many
 extra restrictions and constraints that are not actually needed.  That's the
 whole point -- I'm compensating for lack of ssh knowledge by removing things
 that trip people up.
 
-## no support for this document
+# no support for this document
 
 If even this document does not help you install gitolite, I probably cannot
 help you.  Either you did not follow the instructions carefully <font
@@ -39,7 +39,7 @@ hosting user, etc.)</font>, or your environment is far too different from
 standard Unix, or you have some other problem.  In any case, it is not
 something I can help with.  Sorry.
 
-## assumptions
+# assumptions
 
   * your name is Ron.  Substitute accordingly in the instructions below.
 
@@ -49,7 +49,7 @@ something I can help with.  Sorry.
 
   * you have root access on this server.
 
-## installation tasks
+# installation tasks
 
 1.  Create a new userid on the server, say `git`.  This will be the **hosting
     user**.  ("hosting user" means when you're done installing, your users
@@ -112,7 +112,7 @@ something I can help with.  Sorry.
 
     (do I have to mention that your SHAs will be different?)
 
-## administration tasks
+# administration tasks
 
 Most day-to-day administration is done by making changes to a clone of the
 gitolite-admin repo and pushing.  (There are some things that are done by

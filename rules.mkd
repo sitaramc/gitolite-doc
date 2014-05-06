@@ -1,13 +1,13 @@
-# access rules
+<!-- options: toc -->
 
-<!-- pandoc: toc -->
+% access rules
 
 **NOTE**: In the following description, "user" means "user or a [group][groups] that
 he/she is a member of", and "repo" means "repo, or a group that it is a member
 of, or a ([wild][] repo) pattern that matches it, or a group that contains a
 pattern that matches it".
 
-## what do rules look like
+# what do rules look like
 
 Here's an example ruleset.
 
@@ -42,12 +42,12 @@ checks and controls that you can't do with just the normal ref (like
 refs/heads/master) being pushed.  The most common example is restricting
 pushes by dir/file name, but there are lots of other possibilities.</font>
 
-## how are the rules checked
+# how are the rules checked
 
 Note that gitolite first [accumulates the rules][rule-accum] before checking
 access.
 
-### read access -- clone, fetch, archive
+## read access -- clone, fetch, archive
 
 Read access is checked only once, just before passing control to
 git-upload-pack or git-archive-pack.  At this point gitolite only knows the
@@ -69,7 +69,7 @@ The [refex][] field is ignored for this check.  (Git does not support
 distinguishing one ref from another for access control during read
 operations).
 
-#### read access respecting deny rules {#deny-rules}
+### read access respecting deny rules {#deny-rules}
 
 When the ref is not known, deny rules (the "-" permission) are ignored by
 default.  In our example, line 3 does not prevent wally from cloning the repo,
@@ -109,7 +109,7 @@ previously it did not.
 Later in this document are a couple of [examples][deny-rules-ex] showing this
 option in use.
 
-### write access -- push
+## write access -- push
 
 Write access is checked twice, once before passing control to
 git-receive-pack, and once from within the update hook.
@@ -146,7 +146,7 @@ Here's how the actual rule matching happens:
 Now all you need is to understand how [refex][] matching happens and how the
 permissions match the various [types of write operations][write-types].
 
-### .@gray<(v3.6+)>@ tracing rule flow (debugging rules) {#rule-info}
+## .@gray<(v3.6+)>@ tracing rule flow (debugging rules) {#rule-info}
 
 If you've tried reading all this and still have trouble with rules, you can
 use the 'gitolite access' command (directly on the server) to help.
@@ -155,16 +155,16 @@ The access command's '-s' option helps debug rule flow.  Like all gitolite
 commands, it responds to a single argument of '-h' with a reasonably detailed
 usage message if you need some more details.
 
-## summary of permissions {#permsum}
+# summary of permissions {#permsum}
 
 The full set of permissions, in regex syntax, is `-|R|RW+?C?D?M?`.  This
 expands to one of `-`, `R`, `RW`, `RW+`, `RWC`, `RW+C`, `RWD`, `RW+D`, `RWCD`,
 or `RW+CD`, all but the first two optionally followed by an `M`.  And by now
 you know what they all mean.
 
-## additional topics
+# additional topics
 
-### rule accumulation {#rule-accum}
+## rule accumulation {#rule-accum}
 
 Gitolite was meant to collect rules from multiple places and apply them all in
 sequence.  For example, if you have the following (we've added line numbers to
@@ -227,7 +227,7 @@ This is what we meant by "repo, or a group that it is a member of, or a
 ([wild][] repo) pattern that matches it, or a group that contains a pattern
 that matches it", up at the top of this document.
 
-### examples of deny rules {#deny-rules-ex}
+## examples of deny rules {#deny-rules-ex}
 
 **example 1**
 

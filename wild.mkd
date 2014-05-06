@@ -1,8 +1,8 @@
-# "wild" repos (user created repos)
+<!-- options: toc -->
 
-<!-- pandoc: toc -->
+% "wild" repos (user created repos)
 
-## quick introduction
+# quick introduction
 
 The wildrepos feature allows you to specify access control rules using regular
 expression patterns, so you can have many actual repos being served by a
@@ -13,7 +13,7 @@ creating the repo.
 See the section on "repo patterns" later for additional information on what
 counts as a "wild" repo pattern and how it is matched.
 
-## (admin) declaring wild repos in the conf file
+# (admin) declaring wild repos in the conf file
 
 Here's an example:
 
@@ -32,7 +32,7 @@ users the right to *create a repo*.  <font color="gray">This is not to be
 confused with the "RWC" or its variants described elsewhere, which are about
 *branches*, not *repos*.</font>
 
-## (user) creating a specific repo {#create}
+# (user) creating a specific repo {#create}
 
 For now, ignore the special usernames READERS and WRITERS, and just create a
 new repo, as user "u4" (a student):
@@ -44,7 +44,7 @@ new repo, as user "u4" (a student):
 
 Notice the *two* empty repo inits, and the order in which they occur ;-)
 
-## a slightly different example
+# a slightly different example
 
 Here's how the same example would look if you did not want the CREATOR's name
 to be part of the actual repo name.
@@ -66,9 +66,9 @@ You could also repace the C line like this:
 
 and have a TA create the repos in advance.
 
-## repo patterns
+# repo patterns
 
-### pattern versus normal repo
+## pattern versus normal repo
 
 Due to projects like `gtk+`, the `+` character is now considered a valid
 character for an *ordinary* repo.  Therefore, a pattern like `foo/.+` does not
@@ -77,7 +77,7 @@ look like a regex to gitolite.  Use `foo/..*` if you want that.
 Also, `..*` by itself is not considered a valid repo pattern.  Try
 `[a-zA-Z0-9].*`.  `CREATOR/..*` will also work.
 
-### line-anchored regexes
+## line-anchored regexes
 
 A regex like
 
@@ -106,7 +106,7 @@ metacharacters.
 
 >   ----
 
-## roles {#roles}
+# roles {#roles}
 
 The tokens READERS and WRITERS are called "role" names.  The access rules in
 the conf file decide what permissions these roles have, but they don't say
@@ -117,7 +117,7 @@ You can run `ssh git@host perms -h` for detailed help, but in brief, that
 command lets you give and take away roles to users.  [This][perms] has some
 more detail.
 
-### adding other roles
+## adding other roles
 
 If you want to have more than just the 2 default roles, say something like:
 
@@ -134,7 +134,7 @@ You can add the new names to the ROLES hash in the `~/.gitolite.rc` file; see
 comments in that file for how to do that.  Be sure to run the 2 commands
 mentioned there after you have added the roles.
 
-#### <font color="red">**IMPORTANT WARNING ABOUT THIS FEATURE**</font> {#rolenamewarn}
+### <font color="red">**IMPORTANT WARNING ABOUT THIS FEATURE**</font> {#rolenamewarn}
 
 Please make sure that none of the role names conflict with any of the user
 names or group names in the system.  For example, if you have a user called
@@ -145,7 +145,7 @@ You can keep things sane by using UPPERCASE names for roles, while keeping all
 your user and group names lowercase; then you don't have to worry about this
 problem.
 
-### setting default roles
+## setting default roles
 
 You can setup some default role assignments as soon as a new wild repo is
 created.
@@ -168,16 +168,16 @@ If you want to simulate the old (pre v3.5) `DEFAULT_ROLE_PERMS` rc file
 variable, just add them under a `repo @all` line.  (Remember that this only
 affects newly created wild repos, despite the '@all' name).
 
-### specifying owners
+## specifying owners
 
 See the section on `OWNER_ROLENAME` in the [rc file documentation][rc].
 
-## listing wild repos
+# listing wild repos
 
 In order to see what repositories were created from a wildcard, use the 'info'
 command.  Try `ssh git@host info -h` to get help on the info command.
 
-## deleting a wild repo
+# deleting a wild repo
 
 Run the whimsically named "D" command -- try `ssh git@host D -h` for more info
 on how to delete a wild repo.  (Yes the command is "D"; it's meant to be a

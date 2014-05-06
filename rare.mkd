@@ -1,8 +1,8 @@
-# rare or one-time activities
+<!-- options: toc -->
 
-<!-- pandoc: toc -->
+% rare or one-time activities
 
-## moving existing repos into gitolite {#existing}
+# moving existing repos into gitolite {#existing}
 
 **WARNINGS**
 
@@ -44,7 +44,7 @@ Then, back on your workstation:
     I haven't yet found this to be common enough to bother wrapping it in a
     nice interface or command.
 
-## moving servers {#moving}
+# moving servers {#moving}
 
 This is adapted from the "migrating" section of the [install][] page; if
 you're actually *migrating* from g2 please go there!

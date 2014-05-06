@@ -1,4 +1,4 @@
-# setting up gitolite
+% setting up gitolite
 
 This is the second step in using gitolite, after [install][].  This also
 happens on the server,  (The next step is [clone][]).

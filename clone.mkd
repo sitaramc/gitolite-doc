@@ -1,4 +1,4 @@
-# cloning the admin repo
+% cloning the admin repo
 
 This is the third step in using gitolite, after [install][] and [setup][].
 
@@ -18,7 +18,7 @@ If this step fails, be sure to look at the [ssh][] documentation before asking
 for help.  (A very basic first step is to run `ssh git@host info`;
 [this][info] page tells you what to expect).
 
-## appendix: administer gitolite directly on the server
+# appendix: administer gitolite directly on the server
 
 The main use of managing gitolite via the admin repo is that you get to
 version control the access rules.  But for large sites, there's another use:

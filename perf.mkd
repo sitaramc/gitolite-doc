@@ -1,10 +1,10 @@
-# gitolite performance
+% gitolite performance
 
 TOP TIP: If you have more than 2000 or so repos, then you should be using v3.2
 or later; there was a bit of code that went in there that makes a *huge*
 difference for really large sites.
 
-## tips for performance worriers
+# tips for performance worriers
 
 Gitolite is pretty efficient in most cases, and generally nothing needs to be
 done.  If you think you have a performance problem, let me know on the mailing
@@ -41,7 +41,7 @@ list.  Meanwhile, here are some tips:
     may be a little more tricky, since it may involve *deleting* lines from
     the "projects.list" file.)
 
-## why there's really no need to worry!
+# why there's really no need to worry!
 
 In general, gitolite has a constant overhead of about 0.2 seconds on my
 laptop.  There really is nothing to optimise, but you can comment out some
@@ -79,7 +79,7 @@ it takes less than 0.2 seconds to do this.
 And on a busy system, when that file will be pretty much always in cache, it's
 even less.
 
-## the only thing that will take more time
+# the only thing that will take more time
 
 Literally, the only thing that will take time is something like "ssh git@host
 info" because it finds all possible repos and for each of them it tries to

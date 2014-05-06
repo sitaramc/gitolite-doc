@@ -1,4 +1,4 @@
-# migrating
+% migrating
 
 <font color="gray">This section is about migrating from older gitolite to
 "g3".  If you're migrating from gitosis, see [here][gsmigr].</font>
@@ -9,7 +9,7 @@ bugs, although enhancements and new features won't happen.
 If you're an existing (gitolite v1.x or v2.x) user, and wish to migrate , here
 are the steps:
 
-## pre-migration checks
+# pre-migration checks
 
 1.  Check the [dev-status][] page to make sure all the features you want have
     been implemented in g3.
@@ -25,7 +25,7 @@ are the steps:
     In particular, note if you use any variables that the pre-migration
     checklist describes as "requires presetting".
 
-## the actual migration
+# the actual migration
 
 (Note: You may also like the [example migration][g2migr-example] page).
 

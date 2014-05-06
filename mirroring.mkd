@@ -1,6 +1,6 @@
-# mirroring using gitolite
+<!-- options: toc -->
 
-<!-- pandoc: toc -->
+% mirroring using gitolite
 
 <font color="red">**WARNING** existing gitolite mirroring users please note:
 **there are [significant changes][g2i-mirroring]** in syntax and usage
@@ -33,7 +33,7 @@ Gitolite extends this simple notion in the following ways:
     write to their local mirror for *all* repos, even if their local mirror is
     only a slave for some.
 
-## caveats
+# caveats
 
   * Mirroring by itself will never *create* a repo on a slave; it has to exist
     and be prepared to receive updates from the master.
@@ -85,12 +85,12 @@ Gitolite extends this simple notion in the following ways:
     then read one of the slaves immediately -- you will need to add a few
     seconds of sleep in your script.
 
-## setting up mirroring
+# setting up mirroring
 
 This is in two parts: the initial setup and the rc file, followed by the conf
 file settings and syntax.
 
-### the initial setup and the [rc file][rc]
+## the initial setup and the [rc file][rc]
 
 On **each** server:
 
@@ -153,7 +153,7 @@ On **each** server:
   * When that is all done and tested, **enable mirroring** by going through
     the rc file and uncommenting all the lines mentioning `Mirroring`.
 
-### conf file settings and syntax
+## conf file settings and syntax
 
 Mirroring is defined by the following [options][].  You can have different
 settings for different repos, and of course some repos may not have any mirror
@@ -178,7 +178,7 @@ have several slave lists, as long as the config key starts with
 
 Do not repeat a key; then only the last line for that key will be effective.
 
-#### .@gray<(v3.6+)>@ preventing automatic sync
+### .@gray<(v3.6+)>@ preventing automatic sync
 
 Sometimes you don't want a repo to be mirrored automatically (as soon as
 someone pushes to the master) to all the slaves.  For whatever reasons, you
@@ -192,7 +192,7 @@ To make that happen, use option lines like this instead of those shown above:
 Except for the addition of a `.nosync` just after `slaves`, all the other
 rules are the same as before.
 
-## manually synchronising a slave repo {#sync}
+# manually synchronising a slave repo {#sync}
 
 You can use the `gitolite mirror push` command on a master to manually
 synchronise any of its slaves.  Try it with `-h` to get usage info.
@@ -207,7 +207,7 @@ Tip: if you want to do this to all the slaves, try this:
 This command can also be run remotely; run `ssh git@host mirror -h` for
 details.
 
-## redirected pushes
+# redirected pushes
 
 **Please read carefully; there are security implications if you enable this
 for mirrors NOT under your control**.
@@ -243,7 +243,7 @@ second one trusts only some slaves.
 
 *   You cannot redirect gitolite commands (like perms, etc).
 
-## appendix A: HOSTNAME substitution {#HOSTNAME}
+# appendix A: HOSTNAME substitution {#HOSTNAME}
 
 Wherever gitolite sees the word `%HOSTNAME`, it will replace it with the
 HOSTNAME supplied in the rc file, if one was supplied.  This lets you maintain
@@ -259,14 +259,14 @@ You can use it in other places also, for example:
 (you still have to define @mars-admins, @phobos-admins, etc., but the actual
 VREF is now one line instead of one for each server!)
 
-## appendix B: efficiency versus paranoia
+# appendix B: efficiency versus paranoia
 
 If you're paranoid enough to use mirrors, you should be paranoid enough to
 set this on each server, despite the possible CPU overhead:
 
     git config --global receive.fsckObjects true
 
-## appendix C: moving the admin repo to a different master
+# appendix C: moving the admin repo to a different master
 
 Moving only some repos (other than the gitolite-admin repo) to a different
 master is easy.  Just make the change in the gitolite.conf file, add, commit,

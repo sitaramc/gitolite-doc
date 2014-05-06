@@ -1,4 +1,4 @@
-# why a completely new version?
+% why a completely new version?
 
 Gitolite started life as 400 lines of perl written on a weekend because I was
 quickly losing control of my projects at work, exacerbated by git newbies

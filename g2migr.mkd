@@ -1,6 +1,6 @@
-# pre-migration checklist
+<!-- options: toc -->
 
-<!-- pandoc: toc -->
+% pre-migration checklist
 
 <font color="red"> **This document is a *MUST* read if you are currently using
 g2 and want to move to g3.** </font>
@@ -30,12 +30,12 @@ messages mean.  If it does not report any issues, your migrate will probably
 go quickly.  I still suggest you go through the links below in case that
 program missed something.
 
-## incompatible features
+# incompatible features
 
 Here's a list of incompatible features and what you need to do to migrate.
 Some of them have links where there is more detail than I want to put here.
 
-### high impact
+## high impact
 
 (serious loss of functionality and/or access control compromised)
 
@@ -93,7 +93,7 @@ Some of them have links where there is more detail than I want to put here.
         $ENV{PATH} = "/some/non-standard/path:$ENV{PATH}";
         1;
 
-### medium impact
+## medium impact
 
 (important functionality lost, but access control not compromised)
 
@@ -110,7 +110,7 @@ Some of them have links where there is more detail than I want to put here.
     If you want it somewhere else go ahead and move it, then place a symlink
     from the assumed location to the real one.
 
-### low impact
+## low impact
 
 (ancillary, non-core, or minor functionality lost)
 
@@ -180,7 +180,7 @@ Some of them have links where there is more detail than I want to put here.
     think people who use spaces and other funky characters in dir/file names
     should be shot but no one listens to me anyway.
 
-## using the "check-g2-compat" program {#cg2c}
+# using the "check-g2-compat" program {#cg2c}
 
 This program checks a few things only, not everything.  In particular, it
 looks for settings and status that might:
@@ -247,7 +247,7 @@ put that contain the words "see docs":
         find `gitolite query-rc GL_REPO_BASE` -name gl-perms |
             xargs perl -pi -e 's/\bR\b/READERS/;s/\bRW\b/WRITERS/'
 
-## presetting the rc file {#rc-preset}
+# presetting the rc file {#rc-preset}
 
 Some rc settings in the older gitolite are such that you cannot directly run
 `gitolite setup` when you're ready to migrate.  **Doing that will clobber

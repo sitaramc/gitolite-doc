@@ -1,6 +1,6 @@
-# why might you need gitolite
+<!-- options: toc -->
 
-<!-- pandoc: toc -->
+% why might you need gitolite
 
 Git by itself does not do any access control -- it relies on the transport
 medium to do authentication ("who are you?"), and on OS file permissions to do
@@ -14,7 +14,7 @@ are simple and don't change too often.
 
 However, gitolite does this much better, and offers many more features.
 
-## basic use case
+# basic use case
 
 Gitolite is useful in any server that is going to host multiple git
 repositories, each with many developers, where "anyone can do anything to any
@@ -42,9 +42,9 @@ tags for different developers:
         RW+ dev/                    =   bob
         RW  refs/heads/tags/v[0-9]  =   ashok
 
-## alternatives {#alt}
+# alternatives {#alt}
 
-### unix permissions and ACLs
+## unix permissions and ACLs
 
 If you're a masochist, you could probably do example 1 with Unix permissions
 and facls.  But you can't do example 2 -- git is not designed to allow that!
@@ -59,7 +59,7 @@ Here are some other disadvantages of the Unix ACL method:
     their group memberships, and then correlating all these manually.
   * Auditing historical permissions or permission changes is impossible.
 
-### Gerrit Code Review {#gcr}
+## Gerrit Code Review {#gcr}
 
 The best real alternative to gitolite is Gerrit Code Review.  If code review
 is an essential part of your workflow, you should use Gerrit.
@@ -85,7 +85,7 @@ annotated tags, nor does it check author/committer identity.  However, it is
 trivial to add your own code to do either (or if someone contributes it, to
 just "enable" what ships with gitolite in a disabled state).
 
-### gitorious and others
+## gitorious and others
 
 Anecdotally, gitorious is very hard to install.  Comparison with gitolite may
 be useless because I believe it doesn't have branch/tag level access control.

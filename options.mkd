@@ -1,4 +1,4 @@
-# gitolite options
+% gitolite options
 
 Some gitolite features are enabled, or gitolite's behaviour changed, by
 setting "options".

@@ -1,4 +1,4 @@
-# files involved in gitolite
+% files involved in gitolite
 
 Gitolite creates and uses the following files and directories:
 
@@ -20,12 +20,12 @@ In addition, the following are of interest:
   * `~/.ssh` -- if you're using ssh (as opposed to http), since this is where
     the `authorized_keys` file is kept
 
-## special files
+# special files
 
 You may want to backup the contents of `~/.gitolite/logs` if you care about
 auditability etc.
 
-## gitolite software
+# gitolite software
 
 The above list does not include the gitolite software itself.
 
@@ -33,7 +33,7 @@ Gitolite offers you 3 ways to install software.  After cloning the gitolite
 sources, run the install command in it with a `-h` argument to see what they
 are.  Where the actual software is found depends on that.
 
-## inside a "gitolite repo"
+# inside a "gitolite repo"
 
 A gitolite repo is just like a normal bare repo on any normal git server.
 There are a few extra files placed in the repo directory whose names start

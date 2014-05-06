@@ -1,4 +1,4 @@
-# extremely brief regex overview
+% extremely brief regex overview
 
 Regexes are powerful.  Gitolite uses that power as much as it can.  If you
 can't handle that power, hire someone who can and become a manager.

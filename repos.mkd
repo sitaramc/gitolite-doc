@@ -1,4 +1,4 @@
-# adding and removing repos
+% adding and removing repos
 
 **NOTE**: this page describes how to add new repos.  To bring already existing
 repos into gitolite control, click [here][existing].

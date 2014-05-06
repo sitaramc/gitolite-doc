@@ -1,4 +1,4 @@
-# gitolite plugins
+% gitolite plugins
 
 It's not hard to create a "plugin" mechanism to allow arbitrary extra features
 to be just dropped into gitolite.  All that is needed is for the code to
@@ -58,7 +58,7 @@ will replace with your own) are these two driver programs:
 
 Everything else **was already in place in gitolite**.
 
-## instructions for installing plugins
+# instructions for installing plugins
 
 Assuming the plugin follows the directory structure shown, do the following:
 

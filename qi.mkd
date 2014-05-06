@@ -1,6 +1,6 @@
-# quick install, setup, and clone
+% quick install, setup, and clone
 
-## ASSUMPTIONS
+# ASSUMPTIONS
 
   * You've read the [WARNINGS][] page ;-)
 
@@ -20,7 +20,7 @@
       * If it does, please see [common errors][ce] and fix things before
         continuing, or read the more complete [setup][] page.
 
-## instructions
+# instructions
 
 On the server, as the [hosting user][nnc] (e.g., 'git'):
 
@@ -40,7 +40,7 @@ On your workstation:
     # Note 1: clone path must not include "repositories/"
     # Note 2: it may include the ".git" at the end but it is optional
 
-## next steps
+# next steps
 
 If this step succeeds, you can add [users][], [repos][], or anything else
 described [here][adminrepo].

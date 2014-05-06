@@ -1,6 +1,6 @@
-# "git-config" keys and values
+<!-- options: toc -->
 
-<!-- pandoc: toc -->
+% "git-config" keys and values
 
 Here's all you want to know about setting repo-specific git-config values.
 
@@ -13,7 +13,7 @@ Here's all you want to know about setting repo-specific git-config values.
 
 >   ----
 
-## basic syntax
+# basic syntax
 
 The syntax is simple:
 
@@ -31,7 +31,7 @@ examples above) or "git config --unset-all section.key" (for the last
 example).  Other forms of the `git config` command (`--add`, the
 `value_regex`, etc) are not supported.
 
-### an important warning about **deleting** a config line
+## an important warning about **deleting** a config line
 
 >   ----
 
@@ -42,7 +42,7 @@ example).  Other forms of the `git config` command (`--add`, the
 
 >   ----
 
-## substituting the repo name and the creator name
+# substituting the repo name and the creator name
 
 You can also use the special values `%GL_REPO` and `%GL_CREATOR` in the
 string.  The former is available to all repos, while the latter is only
@@ -52,7 +52,7 @@ available to [wild][] repos.
         config hooks.mailinglist = %GL_REPO-commits@example.tld
         config hooks.emailprefix = "[%GL_REPO] "
 
-## overriding config values {#override_conf}
+# overriding config values {#override_conf}
 
 You can repeat the 'config' line as many times as you like, and the *last*
 occurrence will be the one in effect.  This allows you to override settings
@@ -76,7 +76,7 @@ As you can see, the general idea is to place the most generic ones (`repo
 @all`, or repo patterns like `repo foo.*`) first, and place more specific ones
 later to override the generic settings.
 
-## compensating for UNSAFE\_PATT {#unsafe-patt}
+# compensating for UNSAFE\_PATT {#unsafe-patt}
 
 Gitolite, by default, does not allow the following characters in the value of
 a config variable: `` ` ~ # $ & ( ) | ; < > ``.  This is due to unspecified

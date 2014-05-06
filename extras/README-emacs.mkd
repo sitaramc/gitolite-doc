@@ -1,4 +1,4 @@
-# Emacs major mode for gitolite.conf
+% Emacs major mode for gitolite.conf
 
 [Emacs][] major mode for `gitolite.conf` can be found here:
 

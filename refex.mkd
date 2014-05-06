@@ -1,4 +1,4 @@
-## matching a ref and a refex
+% matching a ref and a refex
 
 A refex is a word I made up to mean "a regex that matches a ref".  If you know
 [regular expressions][regex] you're halfway there.

@@ -1,4 +1,4 @@
-# migrating from gitosis to gitolite
+% migrating from gitosis to gitolite
 
 [2012-04-09] Modified for gitolite g3.  These instructions have not really
 been tested with g3, but are expected to work.

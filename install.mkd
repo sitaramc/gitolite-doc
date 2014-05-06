@@ -1,4 +1,6 @@
-# installing gitolite
+<!-- options: toc -->
+
+% installing gitolite
 
 .@red<**NOTE 1**: if you're migrating from gitolite version 2.x, there are
 some settings that MUST be dealt with **before** running `gitolite setup`;
@@ -14,9 +16,7 @@ followed by [setup][], then [clone][].
 
 ----
 
-## notes and naming conventions {#nnc}
-
-<!-- pandoc: toc -->
+# notes and naming conventions {#nnc}
 
 Gitolite uses a single "real" (i.e., unix) user to provide secure access to
 git repos to any number of "virtual" users, without giving them a shell.
@@ -38,9 +38,9 @@ Notes:
     recommend you leave it out, so your reponames are consistent with what the
     conf file uses.
 
-## requirements {#req}
+# requirements {#req}
 
-### your skills
+## your skills
 
   * If you're installing gitolite, you're a "system admin", like it or not.
     Since most people use the ssh mode, **[ssh][]** is therefore a necessary
@@ -56,7 +56,7 @@ Notes:
   * Regular expressions are a big part of gitolite in many places but
     familiarity is not necessary to do *basic* access control.
 
-### server
+## server
 
   * Any Unix system with a posix compatible "sh" and a **sane** file system.
   * Git version 1.6.6 or later.  (Git 1.7.8 or later if you want to run the
@@ -70,20 +70,20 @@ Notes:
 
 Also see the [WARNINGS][] page for important information of general use.
 
-### client
+## client
 
   * Openssh client.
   * Git 1.6.6 or later.  Almost any git client will work, as long as it knows
     how to use ssh keys and send the right one along.
 
-## getting the software
+# getting the software
 
     git clone git://github.com/sitaramc/gitolite
 
 (Do I need to mention that you can optionally check out a specific tag if you
 wish, as long as it's not too old?)
 
-## the actual install
+# the actual install
 
 **Note**: This section describes installing an ssh-based setup.  For smart
 http setup click [here][http].
@@ -129,14 +129,14 @@ Creating a symlink doesn't need a separate program but 'install' also runs
 
 **Next step**: run [**setup**][setup].
 
-## upgrading
+# upgrading
 
   * Update your clone of the gitolite source.
   * Repeat the install command you used earlier (make sure you use the same
     arguments as before).
   * Run `gitolite setup`.
 
-## packaging gitolite {#package}
+# packaging gitolite {#package}
 
 Gitolite has broad similarities to git in terms of packaging requirements.
 

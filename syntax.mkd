@@ -1,4 +1,4 @@
-# basic syntax
+% basic syntax
 
 In general, everything is **space separated**; there are no commas,
 semicolons, etc., in the syntax.
@@ -24,7 +24,7 @@ definition into multiple lines.
 <font color="gray">If you *must* have them, you can optionally enable them;
 see the syntactic [sugar][] section.</font>
 
-## include files {#include}
+# include files {#include}
 
 Gitolite allows you to break up the configuration into multiple files and
 include them in the main file for convenience.

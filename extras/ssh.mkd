@@ -1,4 +1,4 @@
-# ssh
+% ssh
 
 If you're installing gitolite, you're a "system admin", like it or not.  If
 you're using the default ssh mode (i.e., not [http][] mode), ssh is a

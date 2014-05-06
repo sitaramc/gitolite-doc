@@ -1,8 +1,8 @@
-# authentication and authorization in gitolite
+<!-- to: slidy-2 -->
 
-## (viewing this slideshow)
+% authentication and authorization in gitolite
 
-<!-- pandoc: slidy-2 -->
+# (viewing this slideshow)
 
 This presentation uses [HTML
 Slidy](http://www.w3.org/Talks/Tools/Slidy2/Overview.html), a simple
@@ -41,7 +41,7 @@ Ctrl-F, first view all slides (press the "A" key).
 
 <!-- end slidy help -->
 
-## authentication versus authorisation
+# authentication versus authorisation
 
 Before we start, we need to be clear about the difference between
 *authentication* and *authorisation*.
@@ -66,7 +66,7 @@ Before we start, we need to be clear about the difference between
 
 .#t
 
-## git over plain ssh
+# git over plain ssh
 
 First, we'll recap how git works over plain ssh.
 
@@ -98,7 +98,7 @@ and sshd (the ssh daemon or server).
 There is no *authorisation* in this mode, other than any file system
 permissions that the OS may enforce.
 
-## how does gitolite work?
+# how does gitolite work?
 
 Gitolite adds an extra layer in between the sshd and the git-receive-pack (or
 git-upload-pack, for read operations), to check if the access is allowed and
@@ -120,7 +120,7 @@ tag".  At least in this document that's what we mean :-)>@
 
 ----
 
-### the diagrams...
+## the diagrams...
 
 The diagrams were originally drawn to be self-contained.  On a first pass you
 can simply ignore the text on each page, and come back to it later for the

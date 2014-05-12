@@ -78,30 +78,40 @@ later to override the generic settings.
 
 # compensating for UNSAFE\_PATT {#unsafe-patt}
 
+An important feature in gitolite is that you can share the admin load with
+more people, **without** having to give all of them shell access on the
+server.  Thus there are some restrictions designed to prevent someone who can
+push the gitolite-admin repo, from somehow managing to run arbitrary commands
+on the server.
+
+This section is about one of these restrictions.
+
 Gitolite, by default, does not allow the following characters in the value of
 a config variable: `` ` ~ # $ & ( ) | ; < > ``.  This is due to unspecified
-paranoia (and arguably only applies if your gitolite admin folks do not, and
-should not, have shell access to the server); see [this discussion][ud] for
-some context.  This restriction is enforced by a regex called `UNSAFE_PATT`,
-whose default value is ``[`~#\$\&()|;<>]``.
+paranoia; see [this discussion][ud] for some context.  This restriction is
+enforced by a regex called `UNSAFE_PATT`, whose default value is
+``[`~#\$\&()|;<>]``.
 
 [ud]: https://groups.google.com/d/topic/gitolite/9WNsA-Axmg4/discussion
 
-You can override this by placing a modified version in the rc file.  For
-example, if you wanted to allow this (which contais a semicolon):
+But let's say you need to do this, which fails due to the semicolon.
 
     config hooks.showrev = "git show -C %s; echo"
 
-you'd put the follwing line at the end of your rc file (notice there is no
-semicolon in the pattern here):
+There are two ways to fix this.
+
+**If all your admins already have shell access**, you can override this by
+placing a modified version in the rc file.  For our example, you'd just put
+the following line at the end of your rc file (notice there is no semicolon in
+the pattern here):
 
     $UNSAFE_PATT          = qr([`~#\$\&()|<>]);
 
-Now, while this is fine for sites where the repo admins already have shell
-access to the server, it is too generous othewise, and may lead to a future
-compromise somewhere else that you did not anticipate.
+Similarly, you can remove other characters from that pattern (to allow those
+characters in your config values).
 
-Here's a better way:
+**If all your admins do not have shell access**, you need a more fine-grained
+method:
 
   * in the rc file, add the following within the '%RC' hash (for example, just
     after the UMASK line would do fine):

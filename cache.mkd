@@ -1,126 +1,78 @@
 % gitolite and the (redis) cache
 
-There's now a branch of gitolite called "redis" that uses the Redis in-memory
-key-value database to speed up some parts of gitolite.
+(requires v3.6.1)
 
-To install it, just install redis, then the perl driver "Redis.pm".  Then
-install this branch of gitolite in the normal manner.  Redis will start
-automatically and the right things will happen (but see caveats below).
+Gitolite can optionally use the Redis in-memory key-value database for a
+little speed boost for really large sites.
 
-Support for this branch is limited to verifiable gitolite bugs, if you find
+If you look in the [gitolite performance][perf] page, you will see, right at
+the bottom, that pretty much the only thing in gitolite that *may* be slow is
+the [info][] command. The cache feature fixes that problem :-)
+
+Using Redis as the backend database is actually a bit of overkill; technically
+this could just as well have been done using a DBM file or SQlite or something
+like that, but since this is only a *cache*, an in-memory database works out
+better.  However, Redis does have one real advantage: cache [timeout][]s!
+
+Support for this feature is limited to verifiable gitolite bugs, if you find
 any; I can't help you with redis itself.
 
-----
+# how
 
-First, the warnings/caveats.  If you ever kill the redis-server be sure to
-also remove the socket file `~/.redis-gitolite.sock`.  Conversely if you ever
-remove the sock file be sure to kill the process also.  Otherwise you get
-weird behaviour, including possible hangs.  (If things don't seem to work, the
-first thing to do is to kill all 'redis-server's on that userid and remove
-`~/.redis-gitolite.*`, then try again.)
+To use this feature, just install Redis, then the perl driver "Redis.pm".
+Install or upgrade Gitolite to the latest master, then uncomment (or add, if
+it doesn't exist) the following line in the rc file:
+
+    CACHE       =>  'Redis',
+
+If you're *adding* it, please add it within the \%RC hash, but outside the
+ENABLE list.  (If in doubt, add it just after the UMASK entry).
+
+Then perform some gitolite operation (anything that requires any form of
+access checking).  Redis should start automatically and the right things
+should happen; see below if it does not.
+
+# troubleshooting
+
+If you ever kill the redis-server be sure to also remove the socket file
+`~/.redis-gitolite.sock`.  Conversely if you ever remove the sock file be sure
+to kill the process also.  Otherwise you get weird behaviour, including
+possible hangs.  (If things don't seem to work, the first thing to do is to
+kill all 'redis-server's on that userid and remove `~/.redis-gitolite.*`, then
+try again.)
 
 **Note**: To the best of my knowledge, this cannot result in wrong data being
 passed to gitolite, causing a security breach.  If anyone has time I'd
-appreciate a review of the code -- it's not too big, the diff is only about
-180 lines, and most of that is a new file of 140 or so lines.
+appreciate a review of the code.
 
 # details
 
-During normal operation, (i.e., normal user executing a normal git operation
-on a repo), there are a couple of places where gitolite is somewhat wasteful,
-because each run, being a *separate* program, recomputes the same things.
+## what is cached
 
-The first instance of wasted effort occurs only in really large setups.  The
-`~/.gitolite/conf/gitolite.conf-compiled.pm` file, which is read every time
-gitolite is invoked, probably contains a lot of stuff that is not relevant to
-the repo currently being accessed, and thus is a waste of time to parse.
+At present, gitolite caches only one specific function: the "access()"
+function.  This is available from the shell as the 'gitolite access ...'
+command, as well as from perl via the "Easy.pm" interface; see [dev-notes][]
+for more.  It is easily the "workhorse" of gitolite.
 
-Worse, for write operations this whole thing happens again, since the update
-hook is, for all practical purposes, a completely separate program, and thus
-has to read all the same stuff again.
+The cache is flushed completely when the gitolite.conf file is "compiled". You
+might see some things running a bit slower -- at least until things settle
+down.
 
-(On the plus side, this is pure perl code, and perl *is* pretty fast, so
-unless this file is larger than a couple of hundred kB it's probably not an
-issue).
+Finally, if you run 'perms', the cache entries *for that specific repo* are
+also flushed.
 
-The second instance doesn't even need large setups, it's the complexity that
-counts (although of course large *and* complex would make it a bit worse!)
+## how long is it cached {#timeout}
 
-Consider a conf like this:
+Redis has a timeout feature that can delete entries after a certain period of
+time has elapsed since they were created or updated.  Gitolite sets a timeout
+of 90000 seconds (just over a day) normally.  However, if you're using the
+GROUPLIST\_PGM feature (see [here][ldap] for details), then this timeout
+becomes 900 seconds (only 15 minutes).  This is because a user's group
+membership, and thus her access rights, can change without gitolite being
+aware of the change.
 
-    # repo groups, foss and proprietary
-    @foss   =   linux git gitolite
-    @prop   =   foo-proj bar-proj baz-proj
-
-    # user groups
-    @boss   =   PHB
-    @lead   =   dilbert
-    @devs   =   alice
-    @ints   =   ashok
-    @QA     =   bob
-
-    repo @foss
-        R                       =   @all
-        -                       =   @all
-        RW+ dev/USER/           =   @all
-        RW+ company/            =   @devs
-        RW+ refs/tags/company/  =   @devs
-        RW  refs/tags/          =   @QA
-
-    repo @prop
-        R                       =   @boss
-        RW+                     =   @lead
-        RW  master              =   @devs
-        RW+ dev/USER/           =   @all
-        RW  refs/tags/v[0-9]    =   @QA
-        -   refs/tags/v[0-9]    =   @all
-        RW+ refs/tags/          =   @devs
-        RW+ refs/tags/USER/     =   @ints
-
-When a specific user tries to access a specific repo, it takes some code to
-come up with the exact list of rules that should be tested.  (Briefly, it
-needs to consider group memberships of both repos and users [and the latter is
-affected by the contents of the gl-perms file if it's a wild repo, and whether
-he's the creator or not!], as well as any wild card patterns that match the
-repo, and bring all those rules together in the right sequence).
-
-So what this version of gitolite does is simply cache the ruleset for every
-repo-user combination that is access-checked.  That's it.  The next time the
-same user tries to access the same repo, all that code is bypassed.
-
-On my laptop, the figures are 150 milliseconds versus 0.6 milliseconds.
-The ssh connection and perl startup are about 200 and 80 milliseconds
-respectively, so you've shaved 33% off of each read attempt, and 50% off of
-each write!
-
-Across tens of thousands of access attempts, this adds up!  And the longer the
-system is up, the higher the hit-rate, which is great!
-
-That's the **good news**.
-
-The **bad news** is that there are some situations in which the cache is
-flushed, bringing your system back to square one until it has built up the
-cache again:
-
-  * every time 'gitolite compile' runs (e.g., when you push the admin repo)
-
-    So if frequent pushes to gitolite-admin are the cause of your problem,
-    this won't help you.  In fact, it'll make it worse, because any access
-    that misses the cache now takes *more* time than before (the normal time,
-    plus time to update the cache).
-
-  * every time the owner of a wild repo touches the gl-perms file, all rules
-    for this specific repo are flushed (not the entire cache, though, so
-    that's not too bad).
-
-  * finally, and worst of all, if you have defined an external program
-    (`GROUPLIST_PGM`) to supply a list of groups a given user belongs to, all
-    cache entries are only saved for 60 seconds, instead of the normal 9999
-    seconds (just over a day).  This is because something outside out control
-    could change group memberships and if a user's group list changes, so does
-    the applicable ruleset.
-
-    You can set `CACHE_TTL` in the rc file to some larger value if you know
-    that your external group list data does not change that often, or that
-    even if it does, it's ok to run with a stale group list for a user for
-    some time.  But it probably won't be smart to make it 9999 :-(
+If you're not using the GROUPLIST\_PGM feature, you don't have to do anything.
+But if you are using it, then a cache timeout of 15 minutes may be too much or
+too little for you -- I cannot judge that.  You can tell gitolite what timeout
+you want for your setup, by adding (or uncommenting) an RC variable called
+CACHE\_TTL; its value is the number of seconds for the timeout.

@@ -94,7 +94,7 @@ else is pure Unix.
 
 To add a command, say `foo`, do this:
 
-1.  add this line in the rc file, within the `$RC` block, if it's not already
+1.  add this line in the rc file, within the `%RC` block, if it's not already
     present:
 
         LOCAL_CODE => "$ENV{HOME}/local",
@@ -120,9 +120,9 @@ The main documentation for this feature starts [here][hooks].
 You have some update hooks (for example crlf checking) that you want to
 include in gitolite.  Assuming the hook itself is tested and works as a normal
 **git** update hook does (i.e., conforms to what `man githooks` says an update
-hook should do), here's how to do this.
+hook should do), here's how to do this:
 
-1.  add this line in the rc file, within the `$RC` block, if it's not already
+1.  add this line in the rc file, within the `%RC` block, if it's not already
     present:
 
         LOCAL_CODE => "$ENV{HOME}/local",
@@ -155,7 +155,7 @@ hook should do), here's how to do this.
 
 Say you want other hooks, like a post-receive hook.  Here's how:
 
-1.  add this line in the rc file, within the `$RC` block, if it's not already
+1.  add this line in the rc file, within the `%RC` block, if it's not already
     present:
 
         LOCAL_CODE => "$ENV{HOME}/local",
@@ -172,26 +172,56 @@ Say you want other hooks, like a post-receive hook.  Here's how:
 3.  run `gitolite setup` to have the hooks propagate to existing repos (repos
     created after this will get them anyway).
 
-## variation: custom hooks only for some repos
+## variation: maintain these hooks in the gitolite-admin repo
 
-If the hook is an update hook, you implement it as a VREF, and simply change
-`repo @all` in step 3 in the update hook section above to `repo @repolist` or
-whatever.
+If you want to maintain these update hooks (VREFs) or non-update hooks
+(post-update, pre-receive, post-receive) in the gitolite-admin repo, instead
+of having to log on to the server and make changes, the procedure is almost
+the same except for the following differences:
 
-For the other hooks this is not possible.  You have to either install the
-hooks *manually* on the repos you want them on, or -- better still -- you do
-something like this:
+1.  the line to be added to the rc file is this:
 
-1.  in the conf file, add a groupname for the set of repos you want:
+        LOCAL_CODE => "$rc{GL_ADMIN_BASE}/local",
 
-        @foo = list of repos
+2.  the hooks/scripts are to be added inside your gitolite-admin clone, not on
+    the server.  That is, whereever the above two sections say "cd \$HOME",
+    you should read it as "cd /path/to/your/gitolite-admin-clone".
 
-2.  write your hook code with this at the top:
+3.  add/commit/push as usual.
 
-        # check if @foo is in the list of groups of which $GL_REPO is a member
-        gitolite list-memberships -r $GL_REPO | grep -x @foo >/dev/null || exit 0
+For update hooks, you will of course need to add VREF rule lines to
+appropriate repos in the conf file.  For non-update hooks, you **don't** need
+to run 'gitolite setup' on the server.
 
-3.  now add your hook as described in earlier steps
+## .@gray<(v3.6+)>@ variation: repo-specific hooks
+
+Until now, the non-update hooks you specified apply to all repos.  Here's how
+to apply them only to certain repos:
+
+1.  add this line in the rc file, within the `%RC` block, if it's not already
+    present:
+
+        LOCAL_CODE => "$rc{GL_ADMIN_BASE}/local",
+
+2.  put your hooks into your gitolite-admin clone, as follows:
+
+        # on your workstation
+        cd /path/to/your/gitolite-admin-clone
+        mkdir -p local/hooks/repo-specific
+
+    Now add your hooks to that directory, but instead of using the git
+    "standard" names (pre-receive, post-receive, post-update), you use
+    descriptive names (e.g. "deploy", "RSS-post", etc).
+
+3.  add them to the repos you want them to be active in, in your conf file.
+    For example:
+
+        repo foo
+            option hook.post-update     =   jenkins
+        repo bar @baz
+            option hook.post-update     =   deploy RSS-post
+
+4.  add, commit, and push the admin repo.
 
 # VREFs {#cb-vrefs}
 

@@ -124,3 +124,8 @@ you use them wherever and however you can use gitolite itself.
 
 .#t
 
+>   <hr>
+>   <center>**NOTE**: GIT is a trademark of Software Freedom Conservancy and my use of
+>   "Gitolite" is under license.</center>
+>   <hr>
+

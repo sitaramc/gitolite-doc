@@ -83,7 +83,8 @@ the rc file.  I **strongly** suggest:
 
 Then you create a directory called "local" in your gitolite clone, and put
 stuff there (e.g., VREFs go in `local/VREF`, and commands in
-`local/commands`).
+`local/commands`).  Thus, when you push the admin repo, the files will land
+up, with the correct paths, in the location pointed to by LOCAL\_CODE.
 
 (Note: when you do this, gitolite takes care of running `gitolite setup
 --hooks-only` when you change any hooks and push).
@@ -147,8 +148,9 @@ and all bets on gitolite's functionality are off).
 However, if you want to do that from within gitolite, and thus keep everything
 together, you can do that also.  Here's how.
 
-  * create a directory called `hooks/repo-specific` in the location specified
-    by the [`LOCAL_CODE`][localcode] rc variable
+  * create a directory called `hooks/repo-specific` in whatever location you
+    decided to use for your non-core code (i.e., direct on the server, or
+    within the gitolite-admin repo)
 
   * add your hooks here, with descriptive names (i.e., not "post-receive",
     etc., but maybe "jenkins" or "deploy" or whatever)

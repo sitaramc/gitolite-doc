@@ -76,12 +76,10 @@ However, some administrators find it convenient to use the admin repo to
 manage this code as well, getting the benefits of versioning them as well as
 making changes to them without having to log on to the server.
 
-To do this, simply point `LOCAL_CODE` to someplace inside `$GL_ADMIN_BASE`
-(i.e., `$HOME/.gitolite`) in the rc file.
+To do this, simply point `LOCAL_CODE` to someplace inside `$GL_ADMIN_BASE` in
+the rc file.  I **strongly** suggest:
 
-If you want to do this, I **strongly** suggest:
-
-    LOCAL_CODE                  =>  "$ENV{HOME}/.gitolite/local",
+    LOCAL_CODE                  =>  "$rc{GL_ADMIN_BASE}/local",
 
 Then you create a directory called "local" in your gitolite clone, and put
 stuff there (e.g., VREFs go in `local/VREF`, and commands in

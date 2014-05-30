@@ -192,6 +192,35 @@ To make that happen, use option lines like this instead of those shown above:
 Except for the addition of a `.nosync` just after `slaves`, all the other
 rules are the same as before.
 
+# .@gray<(v3.6.1+)>@ mirroring failures
+
+Since mirror pushes happen asynchronously (i.e, the user who originally pushed
+does not have to wait for the mirrors to be synced), any mirror push failures
+are not immediately visible to a human being, although you will find them if
+you look in gitolite's log files.
+
+Therefore, when the output of the mirror push to some slave contains the word
+"fatal", gitolite saves the output. This saved output is printed to STDERR
+when any user attempts to clone/fetch/push the repo on the master server for
+that repo.  The hope is that someone will alert an admin to look at the
+problem.  This will continue to happen until the error condition is cleared
+(i.e., a successful mirror push happens to that specific slave).
+
+.@gray<Note: since only a successful push can clear the error status, it
+follows that if a mirror push failed due to an invalid hostname, that status
+file will need to be manually deleted from the server.  Look in the bare repo
+directory on the server, for one or more files whose names start with
+'gl-slave' and delete the appropriate one.>@
+
+If you don't want these unexpected reports confusing users (or programs!),
+simply create a new rc variable called HUSH\_MIRROR\_STATUS and set it to 1.
+.@gray<(If you're not sure where in the rc file this should go, I suggest
+putting it right after the HOSTNAME variable).>@
+
+You can see the mirror status of any repo using the 'mirror status' command;
+the command line help for the mirror command ('gitolite mirror -h' or 'ssh
+git@host mirror -h') has details.
+
 # manually synchronising a slave repo {#sync}
 
 You can use the `gitolite mirror push` command on a master to manually

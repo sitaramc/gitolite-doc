@@ -17,12 +17,13 @@ touching the Makefile, you can do this:
 
     repo foo
         RW+                     =   @all-devs
+
         -   VREF/COUNT/5        =   @junior-devs
         -   VREF/NAME/Makefile  =   @junior-devs
 
 ----
 
-# basic use
+# basic use and understanding
 
 Normally, rules deal with branches and tags (which git collectively calls
 "refs").  The "ref" is a property of the push which gitolite checks against
@@ -31,12 +32,27 @@ the set of rules.
 VREFs ("virtual refs") are other properties of a push that gitolite can be
 told to check, in addition to the normal ref.  For example, "this push has
 more than 5 changed files" could be one property.  Or "this push changed the
-file called Makefile" could be another.
+file called Makefile" could be another.  These properties are represented as
+"virtual refs" that start with "VREF/".  (Recall that "normal" refs start with
+"refs/").
 
 The simplest way to use them is as *additional* "deny" rules to fail a push
 that might otherwise have passed.  This is what the example at the top shows.
-Using VREFs like this does not require any great understanding of, or thinking
-about, how they work under the hood.
+
+It helps to separate VREF rules from normal rules, since no access rule can
+match both a normal ref and a VREF. Here's a good way to structure your rules:
+
+*   Put your normal ref rules first.  These apply to the branch name or tag
+    name that git itself knows about and sends to gitolite's update hook.
+
+    Fallthru is failure here, which means the ref being pushed **must** match
+    some rule in this set for the push to succeed.
+
+*   Put your VREF rules next.  These apply to the virtual refs you want to
+    use as additional checks for the push.
+
+    Fallthru is success here, which means the (virtual) ref must be
+    **explicitly denied** in order for the push to fail.
 
 # advanced use
 
@@ -134,12 +150,14 @@ to the junior developers, the poor guys!
 
     repo foo
         RW+                         =   @all
+
         -   VREF/Hour/16            =   @junior-devs
         -   VREF/Hour/17            =   @junior-devs
         -   VREF/Hour/18            =   @junior-devs
 
     repo bar
         RW+                         =   @all
+
         -   VREF/Hour/09            =   @junior-devs
         -   VREF/Hour/1[0-9]        =   @junior-devs
         -   VREF/Hour/2[0-9]        =   @junior-devs

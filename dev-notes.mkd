@@ -231,9 +231,10 @@ There are two kinds of lines in the log file:
 
   * third field non-empty: actual log lines.  These are documented below.
 
-  * third field empty (i.e., two tabs after the second field): informational
-    output.  These are NOT documented and may change without notice.  They can
-    be turned off completely by setting the RC variable `LOG_EXTRA` to 0.
+  * third field empty (i.e., two tabs after the second field): extra output to
+    help diagnose problems. These are NOT documented and may change without
+    notice.  They can be turned off completely by setting the RC variable
+    `LOG_EXTRA` to 0.
 
 For all types of log lines, the first two fields are:
 
@@ -357,3 +358,40 @@ The various log line formats are:
       * field 3: 'cli'
       * field 4: 'gitolite'
       * field 5 to end: arguments supplied to gitolite command, one per field
+
+# appendix 4: .@gray<(v3.6.1+)>@ syslog
+
+Gitolite allows you to send log entries to syslog.  To do that, uncomment one
+of the commented out values for LOG\_DEST in the rc file.  If your rc file
+does not have any such lines, add one of the following lines just after the
+LOG\_EXTRA line:
+
+    # use this to log only to syslog
+    LOG_DEST                        => 'syslog',
+
+    # use this to log to syslog and the normal gitolite log
+    LOG_DEST                        => 'syslog,normal',
+
+Please note:
+
+*   The first two fields described in the previous section (time, TID) are
+    different.  Syslog takes care of putting in the time, and the TID is
+    appended to the ident, so instead of just 'gitolite', you get
+    'gitolite[$GL_TID]'.
+
+    This means actual log lines will look something like this, since syslog
+    appends the actual PID to the ident as well:
+
+        Jun  3 09:26:11 sita-lt gitolite[14950][14950]: ssh ARGV=admin  SOC=git-receive-pack 'gitolite-admin'   FROM=::1
+        Jun  3 09:26:11 sita-lt gitolite[14950][14950]: pre_git gitolite-admin  admin   W   any refs/.*
+        Jun  3 09:26:11 sita-lt gitolite[14950][14991]: update  gitolite-admin  admin   W   refs/heads/master   [snip]
+        Jun  3 09:26:13 sita-lt gitolite[14950][14950]: END
+
+*   Normal log messages use the 'info' priority, while LOG\_EXTRA messages
+    (see previous section) use the 'debug' priority.
+
+    It may be useful to send the debug output to a different output file.
+    Unlike in the normal gitolite logs, where there is an extra tab character
+    (or, an empty field, depending on how you look at it), the syslog lines do
+    not let you easily distinguish between the main log lines and the
+    LOG\_EXTRA lines.

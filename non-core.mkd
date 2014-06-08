@@ -91,6 +91,8 @@ combination of a trigger and something else, like a command.
     backgrounded
   * *CpuTime* -- CPU and elapsed times for gitolite+git
   * **[Mirroring][mirroring]** -- mirroring all or some repos
+  * *Motd* .@gray<(v3.6.1+)>@ -- allows printing a message of the day to
+    STDERR in ssh mode
   * *[partial-copy][]* -- simulated read control for branches (in combination
     with the partial-copy VREF)
   * *RefexExpr* -- (in combination with VREF/refex-expr) logical expressions

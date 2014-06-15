@@ -158,20 +158,43 @@ Done?  OK, now the general outline for ssh troubleshooting is this:
 Thanks to an idea from Jesse Keating, a single key can allow both gitolite
 access *and* shell access.
 
-To do this:
+.@gray<(v3.6.1+)>@ There are two ways to do this, both require uncommenting
+and editing the 'Shell' line in the ENABLE list in the rc file.
 
-  * add the list of users who will have shell access -- one username per line,
-    no extra whitespace -- to a plain text file of your choice.
+If you have only a few users who need to get shell access, edit the line to
+look like this (note the trailing comma!):
 
-  * put the name of this file in a new rc variable `SHELL_USERS_LIST`.  For
-    example it could be
+    'Shell alice bob',
 
-        SHELL_USERS_LIST        =>  "$ENV{HOME}/.gitolite.shell-users",
+If you have lots of users, add them to some file accessible to gitolite, (one
+per line, no extra whitespace), then specify the full path of the file.  For
+example:
 
-  * enable the trigger by uncommenting the 'Shell' line in the ENABLE list.
+    "Shell $ENV{HOME}/.gitolite.shell-users",
+
+(Note in this case we have to use double quotes since we are using a variable
+that needs to be interpolated into the value).
 
 Then run `gitolite compile; gitolite trigger POST_COMPILE` or push a dummy
 change to the admin repo.
+
+### the SHELL\_USERS\_LIST
+
+If you're using gitolite v3.6 or below, it's slightly different.  You have to
+enable the trigger by uncommenting the 'Shell' line in the ENABLE list, but
+you cannot list the users directly on the 'Shell' line in the rc file, nor can
+you put the file name on that line. Instead, you have to go to the variables
+section in the rc file and set the SHELL\_USERS\_LIST variable to the
+filename.  For example:
+
+    SHELL_USERS_LIST        =>  "$ENV{HOME}/.gitolite.shell-users",
+
+Then run `gitolite compile; gitolite trigger POST_COMPILE` or push a dummy
+change to the admin repo.
+
+**NOTE**: to maintain backward compatibility, this method will continue to
+work in 3.6.\*, but when 3.7 is released (whenever that may be), it will not
+work, and you will have to use the new syntax described above.
 
 ## distinguishing one key from another {#kfn}
 

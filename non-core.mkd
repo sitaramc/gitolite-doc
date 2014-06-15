@@ -101,9 +101,8 @@ combination of a trigger and something else, like a command.
   * *renice* -- renice the git operation
   * *RepoUmask* -- repo-specific umask settings
   * *Shell* -- see "giving shell access to gitolite users" in the [ssh
-    troubleshooting and tips][sts] page.  This also need the
-    'ssh-authkeys-shell-users' trigger to be enabled.
-  * *ssh-authkeys-shell-users* -- see 'Shell' entry just above
+    troubleshooting and tips][sts] page.  (Internally enables the
+    'ssh-authkeys-shell-users' trigger also).
   * *ssh-authkeys-split* -- split pubkey files with multiple keys into
     separate files with one pubkey each
   * *update-description-file* -- if you want the 'description' file to be

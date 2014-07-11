@@ -2,12 +2,14 @@
 
 % locking binary files
 
+include sidebar-toc
+
 Locking is useful to make sure that binary files (office docs, images, ...)
 don't get into a merge state.  (<font color="gray">If you think it's not a big
 deal, you have never manually merged independent changes to an ODT or
 something!</font>)
 
-When git is used in a truly distributed fashion, locking is impossible.
+**When git is used in a truly distributed fashion, locking is impossible.**
 However, in most corporate setups, there is a single central server acting as
 the canonical source of truth and collaboration point for all developers.  In
 this situation it should be possible to at least prevent commits from being
@@ -36,9 +38,11 @@ list in the rc file.
 
 Next, the gitolite.conf file should have something like this:
 
+.#! conf/vim-color
     repo foo
-        <...other rules...>
+        ...other rules...
         -   VREF/lock      =   @all
+.end
 
 However, see below for the difference between "RW" and "RW+" from the point of
 view of this feature and adjust permissions accordingly.

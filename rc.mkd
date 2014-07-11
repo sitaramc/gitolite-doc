@@ -1,24 +1,24 @@
 % the "rc" file (`$HOME/.gitolite.rc`)
 
-**IMPORTANT**: if you have a v3.0-v3.3 rc file it will still work.  In fact
-internally the v3.4 rc file data gets converted to the v3.3 format.  So just
-because you upgraded gitolite doesn't mean you have to change your rc file!
+include sidebar-toc
 
-**v3.3 or before**: [this][rc-33] is the document you need.
+**IMPORTANT**: if you have a v3.0-v3.3 rc file it is documented [here][rc-33],
+and it will still work.  In fact internally the v3.4 rc file data gets
+converted to the v3.3 format.  That is, you don't have to upgrade your rc file
+just because you upgraded gitolite; you only need to do that if you wish to
+use any new features.  There's a simple program to help you do that
+(@@gray(v3.6.1)@@ -- see contrib/utils/rc-format-v3.4).
 
-**NOTE 2**: if you're migrating from g2, there are some settings that MUST be
+@@gray(**If you're migrating from v2**, there are some settings that MUST be
 dealt with **before** running `gitolite setup`; please read the
 [migration][migr] page and linked pages, and especially the one on "presetting
-the rc file"
+the rc file".)@@
 
 ----
 
-The rc file for g3 is *quite* different from that of g2.  The change affects
-[triggers][] more than anything else, and to a very small extent [commands][].
-Please see those links for details, especially if you want to add your own
-triggers or commands.
+@@box-r(Note: This page has several [forward references][fr]!)@@
 
-As before, it is designed to be the only thing unique to your site for most
+The rc file is designed to be the only thing unique to your site for most
 setups.  What is new is that it is easy to extend it when new needs come up,
 without having to touch core gitolite.
 
@@ -26,26 +26,28 @@ The rc file is perl code, but you do NOT need to know perl to edit it.  Just
 mind the commas, use single quotes unless you know what you're doing, and make
 sure the brackets and braces stay matched up!
 
-Please look at the `~/.gitolite.rc` file that gets installed when you setup
-gitolite.  As you can see there are 3 types of variables in it:
+The rc file is well commented.  Please look at the `~/.gitolite.rc` file that
+gets installed when you setup gitolite.  You can always get a default copy for
+your current version by running `gitolite print-default-rc`.
 
-  * a lot of simple variables (like `UMASK`, `GIT_CONFIG_KEYS`, etc)
-  * a hash or two (like `ROLES`)
-  * and one large list of features to be enabled (`ENABLE`)
+As you can see there are 3 types of variables in it:
 
-While some of the variables are documented in this file, many of them are not.
-Their purposes are to be found in each of their individual documentation files
-around; start with [customising gitolite][cust].  If a setting is used by an
-external command then running that command with '-h' may give you additional
-information.
+  * A lot of simple variables (like `UMASK`, `GIT_CONFIG_KEYS`, etc.).
+  * A hash or two (like `ROLES`).
+  * And one large list of features to be enabled (`ENABLE`).
+
+This page documents only some of them; for most of them it's best to look in
+the actual rc file or in each of their individual documentation files around;
+start with ["non-core" gitolite][non-core].  If a setting is used by a command
+then running that command with '-h' may give you additional information.
 
 # specific variables
 
   * `$UMASK`, octal, default `0077`
 
-    The default UMASK that gitolite uses makes all the repos and their
-    contents have `rwx------` permissions.  People who want to run gitweb (or
-    cgit, redmine, etc) realise that this will not do.
+    The default UMASK that gitolite uses gives `rwx------` permissions to all
+    the repos and their contents.  People who want to run gitweb (or cgit,
+    redmine, etc) realise that this will not do.
 
     The correct way to deal with this is to give this variable a value like
     `0027` (note the syntax: the leading 0 is required), and then make the
@@ -59,15 +61,13 @@ information.
 
   * `$GIT_CONFIG_KEYS`, string, default empty
 
+    @@box-r(See the [security note][privesc] at the end of this page for why we do
+    this.)@@
+
     This setting allows the repo admin to define acceptable gitconfig keys.
 
     Gitolite allows you to set git config values using the "config" keyword;
     see [here][git-config] for details and syntax.
-
-    However, if you are in an installation where the repo admin does not (and
-    should not) have shell access to the server, then allowing him to set
-    arbitrary repo config options *may* be a security risk -- some config
-    settings allow executing arbitrary commands!
 
     You have 3 choices.  By default `$GIT_CONFIG_KEYS` is left empty, which
     completely disables this feature (meaning you cannot set git configs via
@@ -75,14 +75,14 @@ information.
 
     The second choice is to give it a space separated list of settings you
     consider safe.  (These are actually treated as a set of [regular
-    expression][regex] patterns, and any one of them must match).
+    expressions][regex], and any one of them must match).
 
     For example:
 
         $GIT_CONFIG_KEYS = 'core\.logAllRefUpdates core\..*compression';
 
-    Each pattern should match the *whole* key (in other words, there
-    is an implicit `^` at the start of each pattern, and a `$` at the
+    Each regex should match the *whole* key (in other words, there
+    is an implicit `^` at the start of each regex, and a `$` at the
     end).
 
     The third choice (which you may have guessed already if you're familiar
@@ -119,3 +119,24 @@ information.
 
     This is described in more detail [here][localcode].  Please be aware
     **this must be a FULL path**, not a relative path.
+
+# security note: gitolite admin and shell access {#privesc}
+
+@@box-r(If you *must* revision control it, you can.  Just add it to your admin
+repo, push the change, then replace `~/.gitolite.rc` with a symlink
+`~/.gitolite/.gitolite.rc`.)@@
+
+People sometimes ask why this file is also not revision controlled.  Here's
+why.
+
+Gitolite maintains a clear distinction between
+
+*   people who can push to the gitolite-admin repo, and
+*   people who can get a shell or run arbitrary commands on the server.
+
+This may not matter to many (small) sites, but in large installations, the
+former is often a much larger set of people that you really don't want to give
+shell access to.
+
+Therefore, gitolite tries very hard to make sure that people in the first set
+are not allowed to do anything that gets them into the second set.

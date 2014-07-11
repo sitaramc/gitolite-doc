@@ -8,13 +8,13 @@ That little 400 line thing is now a huge bunch of programs that do all sorts
 of things (I mean, rsync access control in a git related program?  WTF!),
 because it kinda just *grew* while I wasn't looking.
 
-So, briefly, here are the advantages of g3:
+So, briefly, here are the advantages of v3:
 
   * compile versus everything else
 
-    g2's "compile" script was doing way, way too much.  For example, dealing
-    with gitweb and git-daemon was a good chunk of code in g2.  In contrast,
-    here's how g3 generates gitweb's projects.list file:
+    v2's "compile" script was doing way, way too much.  For example, dealing
+    with gitweb and git-daemon was a good chunk of code in v2.  In contrast,
+    here's how v3 generates gitweb's projects.list file:
 
         (
             gitolite list-phy-repos | gitolite access % gitweb R any | grep -v DENIED
@@ -27,9 +27,9 @@ So, briefly, here are the advantages of g3:
     That's just the tip of the iceberg.  The commands above run from a script
     that is itself outside gitolite, and can be enabled and disabled from the
     rc file.  There are six different "events" within gitolite that can
-    trigger external programs, with specific arguments passed to them, much
-    like git's own hooks.  The example you saw is called from the
-    "POST_COMPILE" trigger.
+    trigger non-core programs (or call functions in non-core perl modules),
+    with specific arguments passed to them, much like git's own hooks.  The
+    example you saw is called from the "POST_COMPILE" trigger.
 
     And as you can see, these programs be in any language.
 
@@ -56,7 +56,7 @@ So, briefly, here are the advantages of g3:
     Someone else wanted to use subdirectories of 'keydir' as group names.  Why
     not?
 
-    G3 comes with a stackable set of "syntactic sugar" helpers.  And you can
+    v3 comes with a stackable set of "syntactic sugar" helpers.  And you can
     write your own, though they do have to be in perl (because they're not
     standalone programs).
 
@@ -82,10 +82,9 @@ So, briefly, here are the advantages of g3:
 
   * over-engineered
 
-    g2 was, to some extent, over-engineered.  One of the best examples is the
-    documentation on hook-propagation in g2, which required even a *picture*
-    to make clear (always a bad sign).  In g3, the [hooks][] section is 4
-    sentences.
+    v2 was, to some extent, over-engineered.  One of the best examples is the
+    documentation on hook-propagation in v2, which was far too complicated
+    compared to v3.
 
 Anyway you get the idea.
 

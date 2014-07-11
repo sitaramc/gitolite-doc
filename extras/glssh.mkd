@@ -2,9 +2,10 @@
 
 % how gitolite uses ssh
 
-Although other forms of authentications exist (see the document on
-[authentication versus authorisation][auth]), ssh is the one that most git
-users use.
+include sidebar-toc
+
+Although other forms of authentications exist (see the page on [authentication
+versus authorisation][auth]), ssh is the one that most git users use.
 
 ***Therefore, gitolite is (usually) heavily dependent on ssh***.
 
@@ -27,7 +28,7 @@ from somewhere, or maybe buy the OReilly ssh book.
     ***public-private keys*** (also called "key pairs") for authentication.
     `gitolite` *requires* you to use this mechanism for your users -- they
     cannot log in using passwords.  Hopefully by the time you finish reading
-    this document you will understand why :-)
+    this page you will understand why :-)
 
     The way you set this up is you generate a key pair on your workstation,
     and give the server the public key.  (I need not add that the "private"

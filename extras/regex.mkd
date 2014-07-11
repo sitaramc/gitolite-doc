@@ -1,7 +1,7 @@
 % extremely brief regex overview
 
 Regexes are powerful.  Gitolite uses that power as much as it can.  If you
-can't handle that power, hire someone who can and become a manager.
+can't handle that power, hire someone who can and become a manager ;-)
 
 That said, here's a very quick overview of the highlights.
 
@@ -13,7 +13,7 @@ end of the string respectively.
     ^foo$   matches exact string 'foo'.
 
 To be precise, the last one is "any string starting and ending with *the same*
-'foo'".  "foofoo" does not match.
+'foo'"; "foofoo" does not match.
 
 `[0-9]` is an example of a character class; it matches any single digit.
 `[a-z]` matches any lower case alpha, and `[0-9a-f]` is the range of hex

@@ -1,4 +1,8 @@
+<!-- options: toc -->
+
 % gitolite options
+
+include sidebar-toc
 
 Some gitolite features are enabled, or gitolite's behaviour changed, by
 setting "options".
@@ -15,7 +19,9 @@ output.
 
 Options are set by repo.  The syntax is very simple:
 
+.#! conf/vim-color
     option  foo.bar     =   baz
+.end
 
 Of course this is useless if some other part of gitolite, or some external
 command, is not querying for the option key 'foo.bar'!
@@ -23,22 +29,23 @@ command, is not querying for the option key 'foo.bar'!
 Options are therefore documented in the section/page they belong in, not here.
 Here are some examples, although this list is not exhaustive:
 
-  * [deny-rules][] -- ask gitolite to honor deny rules during the pre-git
-    check also.
+  * Ask gitolite to honor [deny rules][deny-rules]  during the pre-git check
+    also.
 
-  * [mirroring][] related options -- tell gitolite who is the master server,
+  * [Mirroring][] related options -- tell gitolite who is the master server,
     and who are the slaves, for each repo.
 
-  * the optional post-compile trigger 'update-gitweb-daemon-from-options'
+  * The optional post-compile trigger 'update-gitweb-daemon-from-options'
     allows you to use options instead of special usernames gitweb and daemon
     to determine access for those tools.
 
-  * you can set [repo-specific environment variables][rsev] for triggers and
+  * You can set [repo-specific environment variables][rsev] for triggers and
     hooks to test, which is very useful.
 
 Here's how to disable an option from a single repo if it was enabled earlier
 in a group (which you might guess from reading the [git-config][] page):
 
+.#! conf/vim-color
     @g = r1 r2 r3
 
     repo @g
@@ -47,3 +54,4 @@ in a group (which you might guess from reading the [git-config][] page):
     # but repo r2 should not be accessible by gitweb
     repo r2
         option gitweb = ""
+.end

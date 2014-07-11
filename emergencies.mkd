@@ -2,17 +2,23 @@
 
 % help for emergencies
 
+include sidebar-toc
+
 >   ----
 
->   .@red<**"Don't Panic!"**>@
+<br />
+
+>   <center>@@red(**"Don't Panic!"**)@@</center>
+
+<br />
 
 >   ----
 
 # install/setup issues
 
-Most install/setup issues are caused by lack of ssh knowledge.  Ssh is a
-complex beast, and -- unless you are using the [http][] mode -- can cause
-problems for people who are not familiar with its quirks.
+Most install/setup issues in ssh mode are caused by lack of ssh knowledge.
+Ssh is a complex beast, and can cause problems for people who are not familiar
+with its quirks.
 
 **Be prepared to spend some time reading the [ssh][] documentation that comes
 with gitolite**.
@@ -20,7 +26,8 @@ with gitolite**.
 # lost admin key/access {#lost-key}
 
 If you lost your gitolite **admin** key or access, here's what you do.  We'll
-assume your username is 'alice'.
+assume your username is "alice" (i.e., alice has RW or RW+ permissions on the
+gitolite-admin repo).
 
   * Make yourself a new keypair and copy the public key to the server as
     'alice.pub'.
@@ -33,8 +40,9 @@ before.
 # bypassing gitolite {#bypass}
 
 You may have lost access because of a conf file error, in which case the above
-trick won't help.  What you want is to make changes to the repo (or perhaps
-just rewind) and push that.  Here's how to do that:
+trick (which merely changes a pubkey) won't help.  What you want is to make
+changes to the gitolite-admin repo (or perhaps just rewind) and push that.
+Here's how to do that:
 
   * Log on to the server.
 
@@ -60,17 +68,19 @@ If you copied some repos from somewhere else, or mucked with the hooks for
 some reason, or deleted any gitolite-specific files, or tried any other
 "behind the scenes" stunts, the quickest, sanest, way to fix everything up is:
 
-  * make sure any new repos you copied in are mentioned in the gitolite.conf
-    in some 'repo' line and the change pushed
-  * then run `gitolite setup` on the server
+  * Make sure any new repos you copied in are mentioned in the gitolite.conf
+    in some 'repo' line and the change pushed.
+  * Then run `gitolite setup` on the server.
 
-If the repo you botched is a wild repo, please ask on the mailing list or on
-IRC (see [contact][]).
+If the repo you botched is a wild repo, there's a bit more to be done.  Wild
+repos store the creator name in a file called gl-creator, and the data managed
+by the [perms][] command in a file called "gl-perms".  If these files got
+deleted, you may have to manually recreate them.  The format is very simple
+and guessable by looking at those files on any other wild repo.
 
 ## cleaning out a botched install {#clean}
 
-If you've read the [files involved in gitolite][files] page, you probably know
-the answer, but here's a list of files and directories to deal with:
+Here's a list of files and directories to deal with:
 
   * **Gitolite sources** -- can be found by running `which gitolite`.  If it's
     a symlink, go to its target directory.
@@ -105,9 +115,10 @@ the answer, but here's a list of files and directories to deal with:
     You used a key that is already set to give you shell access.  You cannot
     use the same key to get shell access as well as access gitolite repos.
 
-    Solution: use a different keypair for gitolite.  There's a slightly longer
-    discussion in the [setup][] page.  Also see [why bypassing causes a
-    problem][ybpfail] and both the documents in [ssh][] for background.
+    Solution: use a different keypair for gitolite.  There's a wee bit more on
+    this in the [setup][] section of the install page.  Also see [why
+    bypassing causes a problem][ybpfail] and both the pages linked from
+    [ssh][] for background.
 
   * `Empty compile time value given to use lib at hooks/update line 6`
 
@@ -131,22 +142,23 @@ the answer, but here's a list of files and directories to deal with:
 
 # non-standard configs that'll trip you up {#nonstd}
 
-  * if your 'git' binary is in a non-PATH location, or you have more than one
+  * If your 'git' binary is in a non-PATH location, or you have more than one
     version and want a specific one to be picked up, you will have to add a
     line like this at the end of the rc file (outside the `%RC` hash, but
-    before the`1;` line):
+    before the `1;` line):
 
         $ENV{PATH} = "/your/git/path:$ENV{PATH}";
 
-  * having sshd setup to put the authorized\_keys file somewhere other than
-    the default (which is in .ssh in the [hosting user][nnc]'s home directory).
+  * If you have your sshd configured to put the authorized\_keys file
+    somewhere other than the default (which is in .ssh in the [hosting
+    user][hu]'s home directory).
 
-  * having sshd setup to not allow incoming ssh for the hosting user.  Check
+  * Having sshd setup to not allow incoming ssh for the hosting user.  Check
     things like 'Allowusers' setting in /etc/ssh/sshd\_config etc.
 
-  * having the home directory in a partition that is mounted noexec.
+  * Having the home directory in a partition that is mounted noexec.
 
-  * having the default shell be something like /bin/false, and/or not having
+  * Having the default shell be something like /bin/false, and/or not having
     the default shell be part of /etc/shells.
 
 # things that are not gitolite problems {#ngp}
@@ -170,12 +182,12 @@ lot more patience than I do, bless 'em!)
 
     The *superstar* of the "not a gitolite problem" category is actually ssh.
 
-    Surprised?  It is so common that it has [its own document][auth] to tell
-    you why it is *not* a gitolite problem, while [another one][ssh] tries to
-    help you anyway!
+    Surprised?  It is so common that it has [its own page][auth] to tell you
+    why it is *not* a gitolite problem, while [another one][ssh] tries to help
+    you anyway!
 
     Everything I know is in that latter link.  Please email me about ssh ONLY
-    if you find something wrong or missing in those documents.
+    if you find something wrong or missing in those pages.
 
   * **Git**
 

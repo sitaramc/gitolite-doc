@@ -1,4 +1,8 @@
-% files involved in gitolite
+% gitolite files and directories
+
+# directories
+
+include sidebar-toc
 
 Gitolite creates and uses the following files and directories:
 
@@ -25,14 +29,6 @@ In addition, the following are of interest:
 You may want to backup the contents of `~/.gitolite/logs` if you care about
 auditability etc.
 
-# gitolite software
-
-The above list does not include the gitolite software itself.
-
-Gitolite offers you 3 ways to install software.  After cloning the gitolite
-sources, run the install command in it with a `-h` argument to see what they
-are.  Where the actual software is found depends on that.
-
 # inside a "gitolite repo"
 
 A gitolite repo is just like a normal bare repo on any normal git server.
@@ -42,4 +38,12 @@ but that's about it, for the most part.
 
 In other words, you can treat a gitolite-managed repo just like any other bare
 repo as long as you leave those files alone.
+
+# gitolite software
+
+The above list does not include the gitolite software itself.
+
+Gitolite offers you 3 ways to install software.  After cloning the gitolite
+sources, run the install command in it with a `-h` argument to see what they
+are.  Where the actual software is found depends on that.
 

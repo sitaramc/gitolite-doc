@@ -1,5 +1,7 @@
 % gitolite performance
 
+include sidebar-toc
+
 TOP TIP: If you have more than 2000 or so repos, then you should be using v3.2
 or later; there was a bit of code that went in there that makes a *huge*
 difference for really large sites.
@@ -34,8 +36,8 @@ list.  Meanwhile, here are some tips:
     Scripts invoked via `POST_CREATE` *do* get information about what repo has
     just been created.  However, the gitweb and daemon scripts are not set to
     take advantage of this, only the git-config one is.  So use the git-config
-    script as an example, and/or read the [triggers][] documentation, and fix
-    the other two programs.
+    script as an example, and/or read the [triggers][] page, and fix the other
+    two programs.
 
     (This should be easy enough for the daemon update, but the gitweb update
     may be a little more tricky, since it may involve *deleting* lines from
@@ -51,7 +53,7 @@ Here's the big-O stuff:
 
   * N = number of normal repos, each with its own set of rules.  In `repo r1
     r2 r3`, N = 3.  Add up all such lines.
-  * G = number of groups or wild patterns.  In `repo @g1 @g2 foo/[a-z]*`, G =
+  * G = number of groups or repo regexes.  In `repo @g1 @g2 foo/[a-z]*`, G =
     3.
   * M = number of members.  In `@g1 = r1 r2 <nl> @g2 = r3 r4 r5`, M = 5.
   * A = average number of rule lines in each "repo" block.  Usually about 5,

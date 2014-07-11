@@ -2,6 +2,8 @@
 
 % gitolite cookbook
 
+include sidebar-toc
+
 @@box-r(Note: This page has several [forward references][fr].  Skip it, or
 maybe skim through it, on a first reading.  It's more of a "look at it when I
 have a specific need" page anyway.)@@
@@ -17,34 +19,39 @@ Or, if the main documentation already does that, a cookbook may help you find
 it faster, simply because it's organised differently.
 
 Maybe this will help.  If you run into problems, please check the main
-documentation before asking for help.  In particular, the [basic][] and
-[advanced][] graphical overviews of the documentation may be useful.
-
-[basic]: basic.html
-[advanced]: advanced.html
+documentation before asking for help.
 
 # administration {#cb-admin}
 
 ## separating "key admin" from "repo admin"
 
-In gitolite, the person who controls the keys is the most powerful -- because
-he can always add his own key in your name :-)
+In gitolite, the person who controls the keys is the most critical in terms of
+security -- because he can always add his own key in your name :-)
+
+<div style="overflow: auto">
+
+<div class="fl-r">
+
+.#! conf/vim-color
+    repo gitolite-admin
+        RW+ = key-manager repo-manager
+
+        RW+ VREF/NAME/                    = key-manager
+        -   VREF/NAME/keydir/             = @all
+        -   VREF/NAME/conf/gitolite.conf  = @all
+
+    include "actual.conf"
+.end
+
+</div>
 
 Traditionally, the same person also administers repos and permissions.  But
-sometimes you want to separate them.  The following should work:
+sometimes you want to separate them.
 
-  * put the following in conf/gitolite.conf:
+To separate those roles, put the following in conf/gitolite.conf, and let the
+repo-manager manage everything through "actual.conf":
 
-        repo gitolite-admin
-            RW+ = key-manager repo-manager
-
-            RW+ VREF/NAME/                    = key-manager
-            -   VREF/NAME/keydir/             = @all
-            -   VREF/NAME/conf/gitolite.conf  = @all
-
-        include "actual.conf"
-
-  * then let the repo-manager manage everything through "actual.conf".
+</div>
 
 # access {#cb-access}
 
@@ -56,8 +63,8 @@ very convenient "batch" mode if you need to check many repos at once).
 
 **Perl interface**: A good intro to this, including a link to code, using
 gitweb as an example can be found by looking for 'repo-specific authorisation
-in gitweb' in the page on [interfacing with external tools][external].  Some
-notes:
+in gitweb' in the page on [allowing access to gitweb and
+git-daemon][gitweb-daemon]. Some notes:
 
   * be sure to read the comments in the code to learn exactly how to adapt it
     to your needs
@@ -66,9 +73,9 @@ notes:
     the source) shows you several other interesting tests you can make, like
     `is_admin`, `in_group`, and `owns`.
 
-**Shell interface**: If you want to do this from shell, it's just even easier.
-The same "Easy.pm" source contains comments that show shell equivalents for
-each of the functions it exports, but here's a sample:
+**Shell interface**: If you want to do this from shell, it's even easier. The
+same "Easy.pm" source contains comments that show shell equivalents for each
+of the functions it exports, but here's a sample:
 
     if gitolite access -q reponame username W
     then
@@ -76,19 +83,20 @@ each of the functions it exports, but here's a sample:
 
 You can even test for access to specific branches:
 
-    if gitolite access -q reponame username W refs/heads/master
+    if gitolite access -q reponame username W master
     then
         ...
 
-(note that you must use the full ref name; just 'master' won't do).
+@@gray(If your gitolite is older than v3.6, you must use the full ref name;
+just 'master' won't do).
 
-## providing access to external tools
+## allowing access by other programs
 
 Giving external tools (like apache) access to gitolite repositories involves
 making sure that the unix owner/group and permissions settings allow this.
-This is all described in the UMASK section in the documentation on the [rc
-file][rc], because that's the only setting that gitolite controls; every thing
-else is pure Unix.
+This is all described in the UMASK section in the page on the [rc file][rc],
+because that's the only setting that gitolite controls; every thing else is
+pure Unix.
 
 # commands {#cb-commands}
 
@@ -97,7 +105,7 @@ else is pure Unix.
 To add a command, say `foo`, do this:
 
 1.  add this line in the rc file, within the `%RC` block, if it's not already
-    present:
+    present, or uncomment it if it's already present and commented out:
 
         LOCAL_CODE => "$ENV{HOME}/local",
 
@@ -125,7 +133,7 @@ include in gitolite.  Assuming the hook itself is tested and works as a normal
 hook should do), here's how to do this:
 
 1.  add this line in the rc file, within the `%RC` block, if it's not already
-    present:
+    present, or uncomment it if it's already present and commented out:
 
         LOCAL_CODE => "$ENV{HOME}/local",
 
@@ -159,7 +167,7 @@ hook should do), here's how to do this:
 Say you want other hooks, like a post-receive hook.  Here's how:
 
 1.  add this line in the rc file, within the `%RC` block, if it's not already
-    present:
+    present, or uncomment it if it's already present and commented out:
 
         LOCAL_CODE => "$ENV{HOME}/local",
 
@@ -182,9 +190,12 @@ If you want to maintain these update hooks (VREFs) or non-update hooks
 of having to log on to the server and make changes, the procedure is almost
 the same except for the following differences:
 
-1.  the line to be added to the rc file is this:
+1.  add this line in the rc file, within the `%RC` block, if it's not already
+    present, or uncomment it if it's already present and commented out:
 
         LOCAL_CODE => "$rc{GL_ADMIN_BASE}/local",
+
+    Notice "local" is *not* in \$HOME like in the previous examples!
 
 2.  the hooks/scripts are to be added inside your gitolite-admin clone, not on
     the server.  That is, whereever the above two sections say "cd \$HOME",
@@ -194,15 +205,15 @@ the same except for the following differences:
 
 For update hooks, you will of course need to add VREF rule lines to
 appropriate repos in the conf file.  For non-update hooks, you **don't** need
-to run 'gitolite setup' on the server.
+to run 'gitolite setup' on the server; the push takes care of that.
 
-## .@gray<(v3.6+)>@ variation: repo-specific hooks
+## @@gray((v3.6+))@@ variation: repo-specific hooks
 
 Until now, the non-update hooks you specified apply to all repos.  Here's how
 to apply them only to certain repos:
 
 1.  add this line in the rc file, within the `%RC` block, if it's not already
-    present:
+    present, or uncomment it if it's already present and commented out:
 
         LOCAL_CODE => "$rc{GL_ADMIN_BASE}/local",
 
@@ -319,8 +330,8 @@ VREF/FROM/192.168.48.0/23.  This VREF matches the RW+ line.
 
 But if the IP is, say, 192.168.45.67, running `ipcalc -n 192.168.45.67/23`
 gives you 192.168.44.0.  The echo then send back VREF/FROM/192.18.44.0/23,
-which won't match the RW+ line, but will match the next one (remember the
-rules for [refex][] matching?) and thus deny access.
+which won't match the RW+ line, but will match the next one and thus deny
+access.
 
 (One thing that may not be obvious in this specific example is that you have
 to be careful when constructing the VREF rule.  For any VREF/FROM/A/B, the

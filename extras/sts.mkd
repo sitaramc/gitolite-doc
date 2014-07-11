@@ -2,27 +2,27 @@
 
 % ssh troubleshooting and tips
 
-**This document must be read in full the first time.  If you start from some
-nice looking section in the middle it may not help you unless you're already
-an expert at ssh**.
+include sidebar-toc
 
-This document should help you troubleshoot ssh-related problems in installing
-and accessing gitolite.  It also has a section of random ssh-related tips and
+**This page must be read in full the first time.  If you start from some nice
+looking section in the middle it may not help you unless you're already an
+expert at ssh**.
+
+This page should help you troubleshoot ssh-related problems in installing and
+accessing gitolite.  It also has a section of random ssh-related tips and
 tricks that gitolite can do.
-
-----
 
 # IMPORTANT -- READ THIS FIRST
 
 ## caveats
 
-  * Before reading this document, it is **mandatory** to read and **completely
+  * Before reading this page, it is **mandatory** to read and **completely
     understand** [this][ssh], which is a very detailed look at how gitolite
     uses ssh's features on the server side.  Don't assume you know all that;
-    if you did, you wouldn't be needing *this* document either!
+    if you did, you wouldn't be needing *this* page either!
 
-  * This document, and others linked from this, together comprise all the help
-    I can give you in terms of the ssh aspect of using gitolite.  If you're
+  * This page, and others linked from this, together comprise all the help I
+    can give you in terms of the ssh aspect of using gitolite.  If you're
     installing gitolite, you're a "system admin", like it or not.  Ssh is
     therefore a necessary skill.  Please take the time to learn at least
     enough to get passwordless access working.
@@ -40,7 +40,7 @@ tricks that gitolite can do.
 
   * The server is called **server** and the "hosting user" is **git**.  If
     this is an RPM/DEB install, the hosting user is probably called
-    "gitolite", however we will use "git" in this document.
+    "gitolite", however we will use "git" in this page.
 
 ## taking stock -- relevant files and directories
 
@@ -158,7 +158,7 @@ Done?  OK, now the general outline for ssh troubleshooting is this:
 Thanks to an idea from Jesse Keating, a single key can allow both gitolite
 access *and* shell access.
 
-.@gray<(v3.6.1+)>@ There are two ways to do this, both require uncommenting
+@@gray((v3.6.1+))@@ There are two ways to do this, both require uncommenting
 and editing the 'Shell' line in the ENABLE list in the rc file.
 
 If you have only a few users who need to get shell access, edit the line to
@@ -310,7 +310,7 @@ This is a quick checklist:
     The second is to use `ssh-agent` (or `keychain`, which in turn uses
     `ssh-agent`) or something like that to manage your keys.  Other than
     discussing one more potential trouble-spot with ssh-agent (see below),
-    further discussion of ssh-agent/keychain is out of scope of this document.
+    further discussion of ssh-agent/keychain is out of scope of this page.
 
   * Ssh is very sensitive to permissions.  An extremely conservative setup is
     given below, but be sure to do this on **both the client and the server**:
@@ -441,11 +441,14 @@ to remember.
 Using a "host" para in `~/.ssh/config` lets you nicely encapsulate all this
 within ssh and give it a short, easy-to-remember, name.  Example:
 
+.#! conf/vim-color
     host gitolite
         user git
         hostname a.long.server.name.or.annoying.IP.address
         port 22
         identityfile ~/.ssh/id_rsa
+    # vim: set ft=sshconfig:
+.end
 
 Now you can simply use the one word `gitolite` (which is the host alias we
 defined here) and ssh will infer all those details defined under it -- just

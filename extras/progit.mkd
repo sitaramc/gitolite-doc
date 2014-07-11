@@ -31,7 +31,7 @@ And you're done!  Gitolite has now been installed on the server, and you now hav
 
 ### Customising the Install ###
 
-While the default, quick, install works for most people, there are some ways to customise the install if you need to.  Some changes can be made simply by editing the [rc file][rc], but if that is not sufficient, there's documentation on [customising gitolite][cust] by using non-core programs.
+While the default, quick, install works for most people, there are some ways to customise the install if you need to.  Some changes can be made simply by editing the [rc file][rc], but if that is not sufficient, there's documentation on [customising gitolite][non-core] by using non-core programs.
 
 ### Config File and Access Control Rules ###
 
@@ -84,7 +84,7 @@ An important feature of the config file's syntax is that all the rules for a rep
 	repo gitolite
 	    RW+                     = sitaram
 
-That rule will just get added to the ruleset for the `gitolite` repository.
+That rule will just get added to the rule list for the `gitolite` repository.
 
 At this point you might be wondering how the access control rules are actually applied, so let's go over that briefly.
 

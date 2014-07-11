@@ -12,7 +12,7 @@ smaller but more complete summary of the keyboard controls.
 
 .#d
 
-.@blue<**Navigation**>@
+@@blue(**Navigation**)@@
 
 |   **Next slide**: right arrow, page down, space
 |   **Prev slide**: left arrow, page up
@@ -25,7 +25,7 @@ smaller but more complete summary of the keyboard controls.
 
 .#d
 
-.@blue<**Display**>@
+@@blue(**Display**)@@
 
 |   **Smaller font**: "S" or "<" key
 |   **Larger font**: "B" or ">" key
@@ -36,7 +36,7 @@ smaller but more complete summary of the keyboard controls.
 
 .#t
 
-.@blue<**To search**>@ for stuff in the full document using your browser's
+@@blue(**To search**)@@ for stuff in the full document using your browser's
 Ctrl-F, first view all slides (press the "A" key).
 
 <!-- end slidy help -->
@@ -115,8 +115,8 @@ push" example; the only difference for a fetch or clone is that instead of
 `git-receive-pack` it'd call `git-upload-pack`, and the last check (update
 hook) does not apply.
 
-.@blue<**Terminology reminder**: "ref" in git parlance means "branch or
-tag".  At least in this document that's what we mean :-)>@
+@@blue(**Terminology reminder**: "ref" in git parlance means "branch or tag".
+At least in this page that's what we mean :-))@@
 
 ----
 
@@ -295,8 +295,9 @@ User Workstation            |                                  Gitolite Server
 The server looks for the public key in its "list of people who're allowed in"
 (`~/.ssh/authorized_keys`).  If it finds it, things are good.
 
-.@red<If it doesn't find it, it tells the client and the client asks the user
-for a password.  Which is BAD, because Gitolite doesn't work with passwords!>@
+@@red(If it doesn't find it, it tells the client and the client asks the user
+for a password.  Which is BAD, because Gitolite doesn't work with
+passwords!)@@
 
 ----
 

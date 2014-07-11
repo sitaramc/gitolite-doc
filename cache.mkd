@@ -1,4 +1,8 @@
+<!-- options: toc -->
+
 % gitolite and the (redis) cache
+
+include sidebar-toc
 
 (requires v3.6.1)
 

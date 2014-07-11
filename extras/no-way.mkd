@@ -1,37 +1,4 @@
-% WARNINGS
-
-**Please take note of the following points**:
-
-  * If you're bringing existing repos into gitolite, please see
-    [this][existing] first.
-
-  * Gitolite expects all the directories and files it manages/uses to be owned
-    by the [hosting user][nnc] and not have strange permissions and
-    ownerships.
-
-  * Gitolite does NOT like it if you fiddle with files and directories it
-    cares about in any way except as directed in the documentation.
-
-    Gitolite cares about the following files and directories
-
-        ~/.gitolite.rc
-        ~/.gitolite
-        ~/repositories/gitolite-admin.git
-
-    Also, in each repo, gitolite cares about
-
-        gl-*
-        hooks/update
-
-  * Gitolite depends on several system-installed packages: openssh, git, perl,
-    sh being the main ones.  They should all be configured sensibly and with
-    most of the normal defaults.  (For example, if your sshd config says the
-    authorized keys file should be placed in some directory other than the
-    default, expect trouble).
-
-...ok that's the serious stuff done...
-
-----
+% no way!
 
 For the entertainment of the sensible majority, and as a way of thanking all
 of you, here are some examples of requests (demands in some cases) I have
@@ -87,3 +54,8 @@ received over the last couple of years.
     Granted, it's only a 1-line change.  But again, this falls under
     "constantly looking over your shoulder to double check fundamental
     assumptions".  Where does it end?
+
+    [update 2014-07: I believe I read somewhere that git itself may be
+    removing those "sample" hooks.  If that also means the hooks directory
+    will not be created when you "git init --bare", then I guess I'd have to
+    do something!]

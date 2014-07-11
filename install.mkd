@@ -1,98 +1,128 @@
 <!-- options: toc -->
 
-% installing gitolite
+% install and setup
 
-.@red<**NOTE 1**: if you're migrating from gitolite version 2.x, there are
-some settings that MUST be dealt with **before** running `gitolite setup`;
-please start [here][migr].  RTFM is *mandatory* for migrations.>@
+include sidebar-toc
 
-.@red<**NOTE 2** This page is for an ssh-based setup.  For an http based setup
-click [here][http].>@
+@@box-r(**NOTE**: this page is about an ssh mode installation.  There's a
+different page for [http mode][http] installation if you need that.)@@
 
-----
+This page talks about installing the software and setting it up.  The install
+step gets the code to where you want it.  The setup step creates the files and
+directories gitolite needs, including the special gitolite-admin repo, and
+makes you an administrator so you can manage it remotely.
 
-This is the first step in using gitolite, and happens on the server.  It is
-followed by [setup][], then [clone][].
+@@red(**NOTE**: if you're looking to migrate from one of the older versions of
+gitolite, instructions are [here][migr].)@@
 
-----
+# quick install+setup for experts {#qi}
 
-# notes and naming conventions {#nnc}
+If your Unix-fu and ssh-fu are good, just copy your ssh public key (i.e., the
+`~/.ssh/id_rsa.pub` file) from your workstation to the hosting user, then do
+something like this:
 
-Gitolite uses a single "real" (i.e., unix) user to provide secure access to
-git repos to any number of "virtual" users, without giving them a shell.
+    su - git
+    mkdir -p ~/bin
 
-The real user used is called the **hosting user**.  Typically this user is
-*git*, and that is what we will use throughout the documentation.  However
-RPMs and DEBs create a user called *gitolite* for this, so adjust instructions
-and examples accordingly.
+    git clone git://github.com/sitaramc/gitolite
+    gitolite/install -ln ~/bin          # please use absolute path here
+    gitolite setup -pk yourname.pub
 
-**Unless otherwise stated, everything in this page is to be done by logging in
-as this "hosting user"**.
+Please be sure to read any messages produced by these steps, especially the
+last one, to make sure things went OK.
 
 Notes:
 
-  * Any unix user can be a hosting user.
-  * Which also means you can have several hosting users on the same machine.
-  * The URLs used will be of the form `git@host:reponame` (or its longer
-    equivalent starting with `ssh://`).  The `.git` at the end is optional.  I
-    recommend you leave it out, so your reponames are consistent with what the
-    conf file uses.
+1.  If your hosting user is not 'git', substitute accordingly.
+2.  Make sure `~/bin` is in `$PATH`.  If it is not, add something to your
+    shell startup files to make it so.  If some other writable directory is in
+    the path, you can use that if you like.
+3.  Substitute your name for "yourname" :-)
 
-# requirements {#req}
+# the scenic route
 
-## your skills
+Please DO read the [concepts and terminology][concepts] page before going
+further.
 
-  * If you're installing gitolite, you're a "system admin", like it or not.
-    Since most people use the ssh mode, **[ssh][]** is therefore a necessary
-    skill.  Please take the time to learn at least enough to get passwordless
-    access working.
+## (a graphical overview)
 
-  * You also need to be somewhat familiar with git itself.  You cannot
-    administer a whole bunch of git repositories if you don't know the basics
-    of git.
+Here's a graphical overview of what files/directories are affected by each
+step in the install+setup process.  Alice is installing gitolite, with herself
+as the administrator.
 
-  * Some familiarity with Unix and shells is probably required.
+.aa in-1.png
 
-  * Regular expressions are a big part of gitolite in many places but
-    familiarity is not necessary to do *basic* access control.
+/-----------------\    /----------------------\
+|  user "alice"   |    |     user "git"       |
+|(on workstation) |    |     (on server)      |
+|cPNK             |    |cGRE                  |
+\-----------------/    \----------------------/
+/-----------------\    /----------------------\
+|~/.ssh/id_rsa.pub|--->|      alice.pub       |-----\
+\----------+------/(1) \----------------------/     |
+                       /----------------------\     |
+           /---------->|     ~/gitolite       |-----+
+           | (2) /-----|                      |     |
+           |     |     \----------------------/     |
+           |     |     /----------------------\     |
+           |     |     |        ~/bin         |-----+
+           |     \---->|                      |     |
+           |       (3) \----------------------/     |
+/----------+----\      /----------------------\     |
+|    (github)   |      |    ~/.gitolite.rc    |     |
+|cBLU           |      |~/.ssh/authorized_keys|<----/
+\---------------/      |     ~/.gitolite      | (4)
+                       |    ~/repositories    |
+                       \----------------------/
 
-## server
+.end
 
-  * Any Unix system with a posix compatible "sh" and a **sane** file system.
-  * Git version 1.6.6 or later.  (Git 1.7.8 or later if you want to run the
-    test suite).
-  * Perl 5.8.8 or later.
-  * Openssh (almost any version).  Optional if you're using [smart
-    http][http].
-  * A dedicated Unix userid to be the hosting user, usually "git" but it can
-    be any user, even your own normal one.  (If you're using an RPM/DEB the
-    install probably created one called "gitolite").
+![](in-1.png)
 
-Also see the [WARNINGS][] page for important information of general use.
+The files names you see there are **only for information**.  You do **not**
+have to do anything to them yourself; in fact you should not!  You only need
+the command for each step shown:
 
-## client
+1.  Copy the admin's pubkey to the server as "alice.pub".
+2.  Run `git clone git://github.com/sitaramc/gitolite` or equivalent.
+3.  Run `gitolite/install -ln`.
+4.  Run `gitolite setup -pk alice.pub`.
 
-  * Openssh client.
-  * Git 1.6.6 or later.  Almost any git client will work, as long as it knows
-    how to use ssh keys and send the right one along.
+Note also that you only need ONE real user on the server.  In our example it
+is git.  In particular, you do NOT create Unix userids for your gitolite
+users.
 
-# getting the software
+## prepare for the install
+
+The simplest, most foolproof, way of ensuring that your gitolite install +
+setup will succeed is to use a brand new userid as the hosting user.  If that
+is not possible, make sure the following do NOT exist in that user's home
+directory: `~/.gitolite.rc`, `~/.gitolite`, `~/repositories`, and
+`~/.ssh/authorized_keys`.
+
+@@red(Before you go trashing that authorized keys file, please make sure you
+know the password to the 'git' user, or know the root password on the
+machine!)@@
+
+@@gray(The authorized keys file *can* exist, actually, as long as none of the
+keys you intend to use with gitolite are present in it.  But again, if you're
+not an ssh guru, you should probably play safe.)@@
+
+## get the software
+
+Get the software using git-clone:
 
     git clone git://github.com/sitaramc/gitolite
 
-(Do I need to mention that you can optionally check out a specific tag if you
-wish, as long as it's not too old?)
+You can use this as is, or you can check out the latest tag to make sure
+you're running a tagged version instead of just the current 'master'.
 
-# the actual install
+## install
 
-**Note**: This section describes installing an ssh-based setup.  For smart
-http setup click [here][http].
+Gitolite has one server side command: `gitolite`.  You don't need to place it
+anywhere special; in the worst case you can run it with the full path.
 
-Gitolite has only one server side "command" now, much like git itself.  This
-command is `gitolite`.  You don't need to place it anywhere special; worst
-case you run it with the full path.
-
-"Installation" consists of the following options:
+"Installation" consists deciding where to put it:
 
 1.  Keep the sources anywhere and use the full path to run the `gitolite`
     command.
@@ -101,14 +131,7 @@ case you run it with the full path.
 3.  Copy the sources somewhere and use that path to run the `gitolite`
     command.
 
-Option 2 is the best for general use.
-
-There is a program called 'install' that helps you do these easily.  Assuming
-your cloned the repo like this:
-
-    git clone git://github.com/sitaramc/gitolite
-
-you can run the 'install' command in 3 different ways:
+Option 2 is the best for general use, but here's the scoop on all of them:
 
     # option 1
     gitolite/install
@@ -117,65 +140,87 @@ you can run the 'install' command in 3 different ways:
     gitolite/install -ln
     # defaults to $HOME/bin (which is assumed to exist)
     #   ** or **
-    # or use a specific directory (please supply full path):
+    # or use a specific directory (please supply FULL path):
     gitolite/install -ln /usr/local/bin
 
     # option 3
-    # (again, please supply a full path)
+    # (again, please supply a FULL path)
     gitolite/install -to /usr/local/gitolite/bin
 
 Creating a symlink doesn't need a separate program but 'install' also runs
-`git describe` to create a VERSION file, which, trust me, is important!
+`git describe` to create a VERSION file, which can be very important if you
+want support :-)
 
-**Next step**: run [**setup**][setup].
+## setup {#setup}
 
-# upgrading
+For the first-time setup, you need to have a public key file (usually from
+the admin's workstation) ready.  If the main gitolite admin's username is
+"alice", this file should be named "alice.pub" and copied to the server.
+
+Once that is done, run:
+
+    gitolite setup -pk alice.pub
+
+If that completes without any warnings, you are done.  If it had a warning,
+you probably supplied a key which already has shell access to the server.
+That won't work; you'll have to generate and use a different key pair for
+gitolite access and use [host aliases][ssh-ha] to distinguish between the two.
+While you're there, read both the [ssh][] pages.  Twice.
+
+----
+
+The 'setup' command has other uses, so you will be running it at other times
+after the install as well:
+
+  * To setup the update hook when you move [existing][] repos to gitolite.
+    This also applies if someone has been fiddling with the hooks on some
+    repos and you want to put them all right quickly.
+
+  * To replace a [lost admin key][lost-key].
+
+  * To setup gitolite for http mode (run 'gitolite setup -h' for more info).
+
+When in doubt, run 'gitolite setup' anyway; it doesn't do any harm, though it
+may take a minute or so if you have more than a few thousand repos!
+
+# upgrading {#upgrading}
 
   * Update your clone of the gitolite source.
   * Repeat the install command you used earlier (make sure you use the same
     arguments as before).
   * Run `gitolite setup`.
 
-# packaging gitolite {#package}
+# appendix 1: moving servers {#moving}
 
-Gitolite has broad similarities to git in terms of packaging requirements.
+<!-- XXX TODO: maybe a nice picture? -->
 
-  * Git has 150 executables to marshal and put somewhere.  Gitolite has the
-    directories `commands`, `lib`, `syntactic-sugar`, `triggers`, and `VREF`.
+@@box-r(Note: This section has one or more [forward references][fr].)@@
 
-    It doesn't matter what this directory is.  As an example, Fedora keeps
-    git's 150 executables in /usr/libexec/git-core, so /usr/libexec/gitolite
-    may be a good choice; it's upto you.
+Nothing in any of the gitolite install/setup/etc will ever touch the *data* in
+any repository except the gitolite-admin repo.  The only thing it will
+normally touch is the `update` hook.  So one fool-proof way of "moving"
+servers is this (XXX TODO XXX -- test this and remove the next phrase)
+untested but should work; feedback appreciated):
 
-    *The rest of this section will assume you chose /usr/libexec/gitolite as
-    the location, and that this location contains the 5 directories named
-    above*.
+1.  Clone the latest gitolite-admin repo from the old server to your
+    workstation.  Make sure you have an admin key that has RW+ rights to the
+    gitolite-admin repo; you will need this later.
 
-  * Git has the `GIT_EXEC_PATH` env var to point to this directory.  Gitolite
-    has `GL_BINDIR`.  However, in git, the "make" process embeds a suitable
-    default into the binary, making the env var optional.
+2.  Install gitolite on the new server, using the same key for the admin as
+    for the old server.
 
-With that said, here's one way to package gitolite:
+3.  Copy the [rc][] file from the old server, overwriting this one.
 
-  * Put the executable `gitolite` somewhere in PATH.  Put the executable
-    `gitolite-shell` in /usr/libexec/gitolite (along with those 5 directories).
+4.  [Disable][writable] the old server so people won't push to it.
 
-    Change the 2 assignments to `$ENV{GL_BINDIR}`, one in 'gitolite', one in
-    'gitolite-shell', to "/usr/libexec/gitolite" from `$FindBin::RealBin`.
-    This is equivalent to "make" embedding the exec-path into the executable.
+5.  Copy all the repos over from the old server.  Make sure the files end up
+    with the right ownership and permissions; if not, chown/chmod them.
 
-    **OR**
+    The gitolite-admin repo already exists on the new server (it's just a bare
+    bones conf file).  Do NOT overwrite it.  (Not because it contains anything
+    useful, but because the next step will then fail!)
 
-    Put both executables `gitolite` and `gitolite-shell` also into
-    /usr/libexec/gitolite (i.e., as siblings to the 5 directories mentioned
-    above).  Then *symlink* `/usr/libexec/gitolite/gitolite` to some directory
-    in the PATH.  Do not *copy* it; it must be a symlink.
+6.  Go to the clone you made in step 1, add a new remote (or change an
+    existing one) to point to the new server, then `git push -f` to it.
 
-    Gitolite will find the exec-path by following the symlink.
-
-  * The `Gitolite` subdirectory in `/usr/libexec/gitolite/lib` can stay right
-    there, **OR**, if your distro policies don't allow that, can be put in any
-    directory in perl's `@INC` path (such as `/usr/share/perl5/vendor_perl`).
-
-  * Finally, a file called `/usr/libexec/gitolite/VERSION` must contain a
-    suitable version string.
+7.  Run `gitolite setup`.

@@ -128,6 +128,7 @@
 *   clone the gitolite-admin repo
 *   add/remove users
 *   add/remove/rename repos
+*   bringing existing repos into gitolite
 
 [The conf file (`conf/gitolite.conf`)][conf]
 
@@ -175,7 +176,7 @@ Customising gitolite
 *   core and [non-core][] gitolite
 *   [writing your own][dev-notes] non-core programs
 *   gitolite [triggers][]
-*   [list of non-core programs][non-core-list] shipped with gitolite
+*   [list of non-core programs][list-non-core] shipped with gitolite
 
 [Odds and Ends][odds-and-ends]
 
@@ -198,5 +199,9 @@ Additional information/discussion
 Contributed software, tools, and documentation
 
   * [emacs][README-emacs] "major mode"
+  * [putty and msysgit][putty]
+  * [combining ssh and http mode][ssh-and-http]
+  * [changing keys -- self service key management][sskm]
+  * [user key management][ukm]
 
 </div>

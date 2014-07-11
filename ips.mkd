@@ -2,11 +2,13 @@
 
 % idiot-proof setup for gitolite
 
+include sidebar-toc
+
 If I gave you this link to read, it most likely means either:
 
-  * (most common reason) you got really confused by [ssh][]
-  * (a bit less common) you got confused by how to administer users and repos
-    using gitolite
+  * (most common reason) You got really confused by [ssh][].
+  * (a bit less common) You got confused by how to administer users and repos
+    using gitolite.
 
 Don't take the title personally.  The "idiot" in the title is indeed a real
 person who once bugged me so much I wrote this for him.  However, I have since
@@ -14,25 +16,22 @@ realised that this is also useful for (a) people for whom English is not the
 first language and (b) people who really should not be doing technical work at
 this level, but are forced to do it by circumstances.
 
-# pre-requisites
+# pre-requisites, etc
 
-  * any Linux machine on which git has already been installed
-  * probably any BSD or legacy system like Solaris will also work, but I have
-    not tested them
+These are the pre-requisites:
+
+  * Any Linux machine on which git has already been installed.
+  * Probably any BSD or legacy system like Solaris will also work, but I have
+    not tested them.
       * I do not consider Apple devices to be Unix enough; it should work, but
         please do not ask me for help if it does not.
 
-# additional restrictions that seem unnecessary
+This page has several restrictions and constraints that seem unnecessary to
+people who **do** understand ssh. That's the whole point -- I'm compensating
+for lack of ssh knowledge by removing things that trip people up.
 
-People who **do** understand ssh will realise that this document contains many
-extra restrictions and constraints that are not actually needed.  That's the
-whole point -- I'm compensating for lack of ssh knowledge by removing things
-that trip people up.
-
-# no support for this document
-
-If even this document does not help you install gitolite, I probably cannot
-help you.  Either you did not follow the instructions carefully <font
+If even this page does not help you install gitolite, I probably cannot help
+you.  Either you did not follow the instructions carefully <font
 color="gray">(maybe some task has to be run on your workstation, but you ran
 it on the server, or you ran something as root when it should be as the
 hosting user, etc.)</font>, or your environment is far too different from
@@ -41,13 +40,13 @@ something I can help with.  Sorry.
 
 # assumptions
 
-  * your name is Ron.  Substitute accordingly in the instructions below.
+  * Your name is Ron.  Substitute accordingly in the instructions below.
 
-  * you have a workstation.
+  * You have a workstation.
 
-  * you have a server called `server`.
+  * You have a server called `server`.
 
-  * you have root access on this server.
+  * You have root access on this server.
 
 # installation tasks
 
@@ -59,14 +58,14 @@ something I can help with.  Sorry.
 
     If the name you want already exists, then:
 
-      * log in as root
-      * if you have any data on that user's HOME directory save it somewhere
-        else
-      * delete the userid
-      * completely wipe out (erase) the home directory of the user (since on
+      * Log in as root.
+      * If you have any data on that user's HOME directory save it somewhere
+        else.
+      * Delete the userid.
+      * Completely wipe out (erase) the home directory of the user (since on
         most systems merely deleting the user does not remove the home
-        directory)
-      * re-create the userid again
+        directory).
+      * Re-create the userid again.
 
 2.  If you don't already have one, make yourself an ssh keypair **on your
     workstation**.

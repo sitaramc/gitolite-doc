@@ -1,7 +1,7 @@
 % migrating from gitosis to gitolite
 
-[2012-04-09] Modified for gitolite g3.  These instructions have not really
-been tested with g3, but are expected to work.
+[2012-04-09] Modified for gitolite v3.  These instructions have not really
+been tested with v3, but are expected to work.
 
 Migrating from gitosis to gitolite is fairly easy, because the basic design is
 the same.
@@ -30,13 +30,13 @@ Here are the steps on the server:
     uses the update hook for checking write access.
 
   * (as 'root' on the server) copy all of `~/repositories` to the gitolite
-    [hosting user][nnc]'s home directory.  Something like
+    [hosting user][hu]'s home directory.  Something like
 
         cp -a /home/gitosis/repositories /home/git
         chown -R git.git /home/git/repositories
 
   * (as 'root' and/or 'git' on the server) Follow instructions to install
-    gitolite; see the [install document][install].
+    gitolite; see the [install page][install].
 
     This will give you a gitolite config that has the required entries for the
     "gitolite-admin" repo.

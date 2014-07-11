@@ -2,63 +2,42 @@
 
 % gitolite triggers
 
-# intro and sample rc excerpt
+include sidebar-toc
 
-Gitolite fires off external commands at several different times.  The [rc][]
-file specifies what commands to run at each trigger point, but for
-illustration, here's an excerpt.  **Note that as of v3.4, this is *not* how
-the rc file looks like externally.  Please see [this][addtrig] for more**.
+Gitolite runs trigger code at several different times.  The features you
+enable in the [rc][] file determine what commands to run (or functions in perl
+modules to call) at each trigger point.  Example of trigger points are
+"INPUT", "PRE\_GIT", "POST\_COMPILE", etc.; the full list is examined later in
+this page.
 
-    %RC = (
-
-        <...several lines later...>
-
-        # comment out or uncomment as needed
-        # these will run in sequence after post-update
-        POST_COMPILE                =>
-            [
-                'post-compile/ssh-authkeys',
-                'post-compile/update-git-configs',
-                'post-compile/update-gitweb-access-list',
-                'post-compile/update-git-daemon-access-list',
-            ],
-
-        # comment out or uncomment as needed
-        # these will run in sequence after a new wild repo is created
-        POST_CREATE                 =>
-            [
-                'post-compile/update-git-configs',
-                'post-compile/update-gitweb-access-list',
-                'post-compile/update-git-daemon-access-list',
-            ],
-
-(As you can see, post-create runs 3 programs that also run from post-compile.
-This is perfectly fine, by the way)
+@@gray(Quick tip: triggers are to gitolite what hooks are to git; we simply
+use a different name to avoid constantly having to clarify which hooks we
+mean!  The other difference in gitolite is that each trigger runs multiple
+pieces of code, not just one program with the same name as the hook, like git
+does.))@@
 
 # types of trigger programs
 
 There are two types of trigger programs.  Standalone scripts are placed in
-src/triggers or its subdirectories.  They are invoked by being added to a
-trigger list (using the path after "src/triggers/", as you can see).  Such
-scripts are quick and easy to write in any language of your choice.
+triggers or its subdirectories.  Such scripts are quick and easy to write in
+any language of your choice.
 
-Triggers written as perl modules are placed in src/lib/Gitolite/Triggers.
-They are invoked by being listed with the package+function name, although even
-here the 'Gitolite::Triggers' part is skipped.  Perl modules have to follow
-some conventions (see some of the shipped modules to ideas) but the advantage
-is that they can set environment variables and change the argument list of the
-gitolite-shell program that invokes them.
+Triggers written as perl modules are placed in lib/Gitolite/Triggers.  Perl
+modules have to follow some conventions (see some of the shipped modules for
+ideas) but the advantage is that they can set environment variables and change
+the argument list of the gitolite-shell program that invokes them.
 
-If this does not make sense, please examine a default install of gitolite,
-paying attention to:
+If you intend to write your own triggers, it's a good idea to examine a
+default install of gitolite, paying attention to:
 
-  * the path names in various trigger lists in the rc file
-  * corresponding path names in the src/ directory in gitolite source
+  * the path names in various trigger lists in the rc file,
+  * corresponding path names in the src/ directory in gitolite source, and
   * and for perl modules, the package names and function names within.
 
 # manually firing triggers
 
-...from the server command line is easy.  For example:
+It's easy to manually fire triggers from the server command line.  For
+example:
 
     gitolite trigger POST_COMPILE
 
@@ -70,14 +49,14 @@ require any arguments, so it works).
 
 Triggers receive the following arguments:
 
-1.  any arguments mentioned in the rc file (for an example, see the renice
-    command)
+1.  Any arguments mentioned in the rc file (for an example, see the renice
+    command).
 
-2.  the name of the trigger as a string (example, `"POST_COMPILE"`), so you
+2.  The name of the trigger as a string (example, `"POST_COMPILE"`), so you
     can call the same program from multiple triggers and it can know where it
-    was called from,
+    was called from.
 
-3.  followed by zero or more arguments specific to the trigger, as given in
+3.  And finally, zero or more arguments specific to the trigger, as given in
     the next section.
 
 # trigger-specific arguments and other details
@@ -87,9 +66,9 @@ description of when the trigger runs.  (Note that when the repo name is passed
 in as an argument, it is without the '.git' suffix).
 
   * `INPUT` runs before pretty much anything else.  INPUT trigger scripts
-    *must* be in perl, since they manipulate the arguments to and the
-    environment of the 'gitolite-shell' program itself.  Most commonly they
-    will read/change `@ARGV`, and/or `$ENV{SSH_ORIGINAL_COMMAND}`.
+    *must* be in perl, since they manipulate the arguments and the environment
+    of the 'gitolite-shell' program itself.  Most commonly they will
+    read/change `@ARGV`, and/or `$ENV{SSH_ORIGINAL_COMMAND}`.
 
     There are certain conventions to adhere to; please see some of the shipped
     samples or ask me if you need help writing your own.
@@ -140,21 +119,23 @@ in as an argument, it is without the '.git' suffix).
     succeeded, because 'git-shell' (or maybe 'git-receive-pack', I don't know)
     exits cleanly even if the update hook died.
 
-  * `PRE_CREATE` and `POST_CREATE` run just before and after a new "[wild][]"
-    repo is created by user action.  In addition, any command that creates a
-    repo (like 'fork') or potentially changes permissions (like 'perms') may
-    choose to run `POST_CREATE`.  Extra arguments:
+  * `PRE_CREATE` and `POST_CREATE` run just before and after a new repo is
+    created.  In addition, any command that creates a repo (like 'fork') or
+    potentially changes permissions (like 'perms') may choose to run
+    `POST_CREATE`.
+
+    Extra arguments for normal repo creation (i.e., by adding a "repo foo"
+    line to the conf file):
+      * repo
+
+    Extra arguments for wild repo creation:
       * repo
       * user
       * invoking operation
           * 'R' for fetch/clone/ls-remote, 'W' for push
-          * can also be anything set by the external command running the
-            trigger (e.g., see the perms and fork commands).  This lets the
-            trigger code know how it was invoked.
-
-    They are also run when a *normal* repo is created (say by adding a "repo
-    foo" line to the conf file).  This case has only one extra argument:
-      * repo
+          * can also be anything set by the command running the trigger (e.g.,
+            see the perms and fork commands).  This lets the trigger code know
+            how it was invoked.
 
   * `POST_COMPILE` runs after an admin push has successfully "compiled" the
     config file.  By default, the next thing is to update the ssh authkeys
@@ -164,45 +145,28 @@ in as an argument, it is without the '.git' suffix).
 
 # adding your own scripts to a trigger {#addtrig}
 
-For gitolite v3.3 or less, adding your own scripts to a trigger list was
-simply a matter of finding the trigger name in the rc file and adding an entry
-to it.  Even for gitolite v3.4 or higher, if your rc file was created before
-v3.4, *it will continue to work, and you can continue to add triggers to it
-the same way as before*.
+@@box-r(Note: for gitolite v3.3 or less, adding your own scripts to a trigger
+list was simply a matter of finding the trigger name in the rc file and adding
+an entry to it.  Even for gitolite v3.4 or higher, if your rc file was created
+before v3.4, *it will continue to work, and you can continue to add triggers
+to it the same way as before*.)@@
 
-However, if you installed gitolite v3.4 or higher, you will see a different rc
-file syntax.  This new rc file does not have trigger lists, but a simple list
-of "features" within a list called "ENABLE" in the rc file; you simply comment
+The rc file (from v3.4 on) does not have trigger lists; it has a simple list
+of "features" within a list called "ENABLE" in the rc file.  Simply comment
 out or uncomment appropriate entries, and gitolite will *internally* create
 the trigger lists correctly.
 
-...which is fine for triggers that are shipped with gitolite, but now you're
-wondering how to add your own.
+This is fine for triggers that are shipped with gitolite, but does present a
+problem when you want to add your own.
 
-The answer is: same as before.
-
-Here's an example.  Let's say you wrote yourself a trigger script called
-'foo', to be invoked from the `POST_CREATE` trigger list.  With the old
-format, you'd find the following lines in the rc file:
-
-    POST_CREATE                 =>
-        [
-            'post-compile/update-git-configs',
-            'post-compile/update-gitweb-access-list',
-            'post-compile/update-git-daemon-access-list',
-        ],
-
-and you'd simply add a line for 'foo' in that list.
-
-With the new format, since there is no `POST_CREATE` trigger list defined in
-the rc file, you'll need to add all this:
+Here's how to do that: Let's say you wrote yourself a trigger script called
+'foo', to be invoked from the `POST_CREATE` trigger list.  To do that, just
+add the following to the [rc][] file, just before the ENABLE section:
 
     POST_CREATE                 =>
         [
             'foo'
         ],
-
-instead of just the 'foo' line.
 
 Since the ENABLE list pulls in the rest of the trigger entries, this will be
 *effectively* as if you had done this in a v3.3 rc file:
@@ -224,9 +188,26 @@ actually looks like.  For example:
 
     gitolite query-rc POST_CREATE
 
-# tips
+# tips and examples
 
-If you have code that latches onto more than one trigger, collecting data
-(such as for logging), then the outputs may be intermixed.  You can record the
-value of the environment variable `GL_TID` to tie together related entries.
+1.  If you have code that latches onto more than one trigger, collecting data
+    (such as for logging), then the outputs may be intermixed.  You can record
+    the value of the environment variable `GL_TID` to tie together related
+    entries.
 
+    The documentation on the [log file format][lff] has more on this.
+
+2.  If you look at CpuTime.pm, you'll see that it's `input()` function doesn't
+    set or change anything, but does set a package variable to record the
+    start time.  Later, when the same module's `post_git()` function is
+    invoked, it uses this variable to determine elapsed time.
+
+    *(This is a very nice and simple example of how you can implement features
+    by latching onto multiple events and sharing data to do something)*.
+
+3.  You can even change the reponame the user sees, behind his back.  Alias.pm
+    handles that.
+
+4.  Finally, as an exercise for the reader, consider how you would create a
+    brand new env var that contains the *comment* field of the ssh pubkey that
+    was used to gain access, using the information [here][kfn].

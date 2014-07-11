@@ -1,201 +1,279 @@
 <!-- options: toc -->
 
-% non-core features shipped with gitolite
+% "non-core" gitolite
 
-**Important Notes on "non-core" features**:
+include sidebar-toc
 
-1.  The [customisation][cust] document is the starting point for all
-    information about customising gitolite.
+Much of gitolite's functionality comes from programs and scripts that are not
+considered "core".  This keeps the core simpler, and allows you to enhance
+gitolite for your own site without too much fuss.
 
-2.  If a non-core feature is shipped with gitolite, but information about it
-    is not found in this document, it can be found within the source code;
-    please look there.
+Documentation for non-core gitolite is organised as follows:
 
-    [Commands][], however, have some extra magic, which is not available to
-    the other types of non-core programs:
+  * This page describes the types of non-core programs and how/where to
+    install code that is specific to your site.
 
-      * running the command with a single `-h` option (i.e., `gitolite
-        <command> -h` or `ssh git@host <command> -h`), will display a suitable
-        message.  Please report a bug to me if one of them doesn't.
+  * The [developer notes][dev-notes] page tells you how to write your own
+    non-core programs.
 
-      * running 'help', (either as `gitolite help` on the server, or `ssh
-        git@host help` remotely), will give you a list of commands you are
-        allowed to run.
-
-3.  Non-core code is **meant** to be [localised for your site][localcode] if
-    you don't like what the shipped version does.  You can even maintain it
-    [within your gitolite-admin repo][pushcode] if you wish.
+  * The [list of non-core programs][non-core] talks about what's already
+    shipped with gitolite, with a brief description of each.
 
 ----
 
-# commands
+# core versus non-core {#ncintro}
 
-This is a list of commands that are available in gitolite, with brief
-descriptions and, if available, a link to more detailed information.  Note
-that in most cases running it with `-h` will give you enough to work with.
+Gitolite has five types of non-core code:
 
-Also note that not all of these commands are available remotely.
+  * *Commands* can be run from the shell command line.  Among those, the ones
+    in the ENABLE list in the rc file can also be run remotely.
+  * *Hooks* are standard git hooks.
+  * *Sugar scripts* change the conf language for your convenience.  The word
+    sugar comes from "syntactic sugar".
+  * *Triggers* are to gitolite what hooks are to git.  I just chose a
+    different name to avoid confusion and constant disambiguation in the docs.
+  * *VREFs* are extensions to the access control check part of gitolite.
 
-(The more common/important commands are in bold).
+# locations... {#ncloc}
 
-  * *access* -- print or test access rights for repo/user
-  * *create* -- create a wild repo
-  * *creator* -- print or test creator name for wild repo
-  * *D* -- lets you *D*elete wild repos created using the *C* permission :)
-  * **desc** -- show/set description for wild repo
-  * *fork* -- fork a repo on the server.  This uses the `-l` option to git
-    clone, so it runs really fast
-  * *git-config* -- print (or text existence of) 'config' values in the repo.
-    (Don't forget that `option foo.bar = 1` is merely syntactic sugar for
-    `config gitolite-options.foo.bar = 1`, so this can be used to query
-    gitolite options also
-  * **help** -- see note 1 at the top of this document
-  * *htpasswd* -- sets your htpasswd
-  * **[info][]** -- print git/gitolite version, list repos you have access to
-  * *[lock][locking]* -- lock binary files for exclusive use (in combination
-    with the 'lock' VREF)
-  * *[mirror][sync]* -- manually mirror a repo to a slave
-  * **[perms][]** -- list or set permissions for wild repo
-  * *[push][bypass]* -- push a gitolite repo locally, bypassing gitolite
-  * *rsync* -- bundling support for gitolite
-  * *sshkeys-lint* -- look for potential problems in ssh keys
-  * *[sskm][]* -- self-service key management
-  * *sudo* -- allows an admin (i.e., someone who has push rights to the
-    'gitolite-admin' repo) to run any remote command as some other user.  This
-    is useful, for example, when a user claims he is unable to access a repo,
-    and you need to check the 'info' output for him, etc.  However, it does
-    not work the other way, sorry!
-  * *symbolic-ref* -- run `git symbolic-ref` on a repo, remotely
-  * *who-pushed* -- determine who pushed a given commit
-  * *writable* -- disable/enable writes to specific repo (or all repos, if
-    you're an admin)
+## ...for non-core programs shipped with gitolite
 
-# syntactic sugar
+<div style="overflow: auto">
 
-The following "sugar" programs are available:
+<pre style="float: right; font-family: 'Andale mono',monospace; margin-top: 0; font-weight: bold; padding: 4px; color: #ffffff; background-color: #000000;">
 
-  * *continuation-lines* -- allow C-style backslash escaped continuation lines
-    in the conf file
-  * *keysubdirs-as-groups* -- use the last component of the sub-directory name
-    within keydir as a group name
-  * **macros** -- simple line-wise macro processor
+.
+├──<span style="color: #00ff00">commands</span>
+├── lib
+│   └── Gitolite
+│       ├── <span style="color: #ff0000">Conf</span>
+│       ├── <span style="color: #ff0000">Hooks</span>
+│       ├── <span style="color: #ff0000">Test</span>
+│       └── <span style="color: #00ff00">Triggers</span>
+├── <span style="color: #00ff00">syntactic-sugar</span>
+├── <span style="color: #00ff00">triggers</span>
+└── <span style="color: #00ff00">VREF</span>
 
-# triggers
+</pre>
 
-Here's a list of **features** that are enabled by [triggers][], or a
-combination of a trigger and something else, like a command.
+`gitolite query-rc GL_BINDIR` will tell you where gitolite's code has been
+installed.  That directory should look like this.  Among these, the
+directories in green are considered "non-core", while the ones in red are
+considered "core".  In addition, the two files "gitolite" and "gitolite-shell"
+in src are also considered "core"
 
-  * *Alias* -- allow repos to have aliases
-  * *AutoCreate* -- deny auto-create of wild repos on R or RW access
-  * *bg* -- allow long running post-compile/post-create jobs to be
-    backgrounded
-  * *CpuTime* -- CPU and elapsed times for gitolite+git
-  * **[Mirroring][mirroring]** -- mirroring all or some repos
-  * *Motd* .@gray<(v3.6.1+)>@ -- allows printing a message of the day to
-    STDERR in ssh mode
-  * *[partial-copy][]* -- simulated read control for branches (in combination
-    with the partial-copy VREF)
-  * *RefexExpr* -- (in combination with VREF/refex-expr) logical expressions
-    over refexes, like "refex-1 and not refex-2".  (Example: changing file
-    'foo' but not on 'master' branch)
-  * *renice* -- renice the git operation
-  * *RepoUmask* -- repo-specific umask settings
-  * *Shell* -- see "giving shell access to gitolite users" in the [ssh
-    troubleshooting and tips][sts] page.  (Internally enables the
-    'ssh-authkeys-shell-users' trigger also).
-  * *ssh-authkeys-split* -- split pubkey files with multiple keys into
-    separate files with one pubkey each
-  * *update-description-file* -- if you want the 'description' file to be
-    updated instead of the 'gitweb.description' config entry (e.g. cgit users)
-  * *upstream* -- manage local, gitolite-controlled, copies of read-only
-    upstream repos
+You might notice that there are two locations for [triggers][]; that is simply
+because there are two types of them.  You might also notice that there is no
+place for hooks -- gitolite doesn't *ship* with any hooks that are non-core.
 
-In addition, the following post-compile trigger scripts are enabled by
-default, so are included here only for completeness and in case you wish to
-disable them:
+</div>
 
-  * ssh-authkeys -- process keys in keydir/ and add/update appropriate lines
-    to the authorized keys file
-  * update-git-configs -- run `git config` in each repo to add/update entries
-    as needed
-  * update-git-daemon-access-list -- create/delete the 'git-daemon-export-ok'
-    files in each repo as needed
-  * update-gitweb-access-list -- create the "projects.list" file that gitweb
-    uses to determine what repos to show/not show
+## ...for *your* non-core programs {#localcode}
 
-# VREFs
+<div style="overflow: auto">
 
-VREFs are a complex topic and have their [own page][vref] with lots more
-details.  However, here's a list of VREFs shipped with gitolite:
+<pre style="float: right; font-family: 'Andale mono',monospace; margin-top: 0; font-weight: bold; padding: 4px; color: #ffffff; background-color: #000000;">
 
-  * *[COUNT][]* -- restrict pushes by number of changed or new files pushed
-  * *EMAIL-CHECK* -- check if all new commits are authored by the person pushing
-  * *[lock][locking]* -- lock binary files for exclusive use (in combination
-    with the 'lock' command)
-  * *MAX\_NEWBIN\_SIZE* -- restrict by size of new binary files (helps catch
-    people checking in random PDFs, JARs, WARs, etc.)
-  * **[NAME][]** -- restrict pushes by dir/file name
-  * [partial-copy][] -- simulated read control for branches (in combination
-    with the partial-copy trigger)
-  * *refex-expr* -- (in combination with the refex-expr trigger) logical
-    expressions over refexes, like "refex-1 and not refex-2".  (Example:
-    changing file 'foo' but not on 'master' branch)
-  * *[VOTES][votes]* -- voting on commits a la gerrit
+.
+├──<span style="color: #00ff00">commands</span>
+├── hooks
+│   └── <span style="color: #00ff00">common</span>
+│   └── <span style="color: #00ff00">repo-specific</span>
+├── lib
+│   └── Gitolite
+│       └── <span style="color: #00ff00">Triggers</span>
+├── <span style="color: #00ff00">syntactic-sugar</span>
+├── <span style="color: #00ff00">triggers</span>
+└── <span style="color: #00ff00">VREF</span>
 
-# details on some non-core programs
+</pre>
 
-These non-core programs needed more detail than could be provided in the
-source code, but did not fit anywhere else neatly enough.
+If you want to add your own non-core programs, or even *override* the shipped
+ones with your own, you can.
 
-## partial-copy: selective read control for branches {#partial-copy}
+Put your programs in some convenient directory and use the `LOCAL_CODE` rc
+variable to tell gitolite where that is.  **Please supply the FULL path** to
+this variable.  (You'll find the rc file already has examples lines, commented
+out, so it's easy to know where to put it and what syntax to use).
 
-Git (and therefore gitolite) cannot do selective read control -- allowing
-someone to read branch A but not branch B.  It's the entire repo or nothing.
+Within that directory, you can use any or all of the subdirectories shown
+here.
 
-<font color="gray">(Side note: Gerrit Code Review can do that, but that is
-because they have their own git stack (and their own sshd, and so on) all in
-one big Java program.  Gerrit is *really* useful if you want code review to be
-part of the access control decision) </font>
+If you add a program in your local code directory with the same name as a
+shipped program, gitolite uses your version.
 
-Gitolite can now help you do this.  Note that this is only for branches; you
-can't do this for files and directories.
+@@gray(Notice that there are two directories related to hooks here, neither of
+which exist in the shipped non-core code.  Also, the `hooks/common` directory
+is a bit special.  If you add new hooks to this, you must run `gitolite
+setup`, or at least `gitolite setup --hooks-only`.)@@
 
-Here's how:
+</div>
 
-1.  enable 'partial-copy' in the ENABLE list in the rc file.
+## using the gitolite-admin repo to manage non-core code {#pushcode}
 
-2.  for each repo "foo" which has secret branches that a certain set of
-    developers (we'll use a group called `@temp-emp` as an example) are not
-    supposed to see, do this:
+<div style="overflow: auto">
 
-        repo foo
-            # rules should allow @temp-emp NO ACCESS
+<div class="box-r" style="margin-left:4px; width: 33%">
 
-        repo foo-partialcopy-1
-            -   secret-branch               =   @temp-emp
+@@red(**IMPORTANT SECURITY NOTE**)@@
 
-            # other rules; see notes below
+**In this mode, anyone who can push changes to the admin repo will effectively
+be able to run any arbitrary command on the server.**  See [gitolite admin and
+shell access][privesc] for more background.
 
-            -   VREF/partial-copy           =   @all
-            config gitolite.partialCopyOf   =   foo
+</div>
 
-    **IMPORTANT NOTES**:
+The location given in `LOCAL_CODE` could be anywhere on disk, like say
+`$ENV{HOME}/local`.
 
-      * if you're using other VREFs, **make sure** this one is placed at the
-        end, after all the others.
+However, some administrators find it convenient to use the admin repo to
+manage this code as well, getting the benefits of versioning them as well as
+making changes to them without having to log on to the server.
 
-      * remember that any change allowed to be made to the partial-copy repo
-        will propagate to the main repo so make sure you use other rules to
-        restrict pushes to other branches and tags as needed.
+To do this, simply point `LOCAL_CODE` to someplace inside `$GL_ADMIN_BASE` in
+the rc file.  I **strongly** suggest:
 
-And that should be it.  **Please test it and let me know if it doesn't work!**
+    LOCAL_CODE  =>  "$rc{GL_ADMIN_BASE}/local",
 
-WARNINGS:
+Then you create a directory called "local" in your gitolite clone, and create
+the directory structure (shown in the previous section) within that directory.
+Thus, when you push the admin repo, the files will land up, with the correct
+paths, in the location pointed to by LOCAL\_CODE.
 
-  * If you change the config to disallow something that used to be allowed,
-    you should delete the partial repo on the server and then run `gitolite
-    compile; gitolite trigger POST_COMPILE` to let it build again.
+(Note: when you do this, gitolite takes care of running `gitolite setup
+--hooks-only` when you change any hooks and push).
 
-  * Not tested with smart http; probably won't work.
+</div>
 
-  * Also not tested with mirroring, or with wild card repos.
+# types of non-core programs {#nctypes}
+
+## gitolite "commands" {#commands}
+
+Gitolite comes with several commands that users can run.  Remote users run
+commands by saying:
+
+    ssh git@host command-name [args...]
+
+while on the server you can run
+
+    gitolite command [args...]
+
+Very few commands are designed to be run both ways, but it can be done, by
+checking for the presence of env var `GL_USER`.
+
+All commands respond to a single `-h` option with a suitable message.
+
+You can get a **list of available commands** by using the `help` command.
+Naturally, a remote user will see a much smaller list than the server user.
+
+You allow a command to be run from remote clients by adding its name to (or
+uncommenting it if it's already added but commented out) the ENABLE list in
+the [rc][] file.
+
+## hooks and gitolite {#hooks}
+
+You can install any hooks except these:
+
+  * (all repos) Gitolite reserves the `update` hook.  See the "update hook"
+    section in [dev-notes][] if you want additional update hook functionality.
+
+  * (gitolite-admin repo only) Gitolite reserves the `post-update` hook.
+
+How/where to install them is described in detail in the "locations" section
+above, especially [this][localcode] and [this][pushcode].  The summary is that
+you put them in the "hooks/common" sub-directory within the directory whose
+name is given in the `LOCAL_CODE` rc variable, then run `gitolite setup`.
+
+### repo-specific hooks {#rsh}
+
+If you want to add hooks only to specific repos, you can just do it manually
+if you wish -- just log on to the server and add hooks (except update hook
+and, for the special gitolite-admin repo, the post-update hook -- touch these
+and all bets on gitolite's functionality are off).
+
+However, if you want to do that from within gitolite, and thus keep everything
+together, you can do that also.  Here's how.
+
+  * Create a directory called `hooks/repo-specific` in whatever location you
+    decided to use for your non-core code (i.e., direct on the server, or
+    within the gitolite-admin repo).
+
+  * Add your hooks here, with descriptive names (i.e., not "post-receive",
+    etc., but maybe "jenkins" or "deploy" or whatever).
+
+  * Uncomment the 'repo-specific-hooks' line in the rc file or add it to the
+    ENABLE list if it doesn't exist.
+
+    If your rc file does not have an ENABLE list, you need to add this to the
+    POST_COMPILE and the POST_CREATE lists.  Click [here][addtrig] for more on
+    all this.
+
+  * Now add lines like this to your conf file:
+.#! conf/vim-color
+        repo    foo
+            option hook.post-receive    =   deploy
+.end
+
+    The syntax should be fairly obvious, but just to be clear, in this case a
+    symlink called "post-receive" will be placed in foo.git/hooks, pointing to
+    the executable called "deploy" in hooks/repo-specific in the local-code
+    area.
+
+    **WARNING**: if the hook already exists, it is silently overwritten.
+
+    **WARNING**: once the hook is placed, you can't remove it through
+    gitolite.  That is, removing the option line won't do anything.  You'll
+    have to go to the server and remove it manually.  (You could, as a simple
+    work-around, create a "no-op" script that just does "exit 0", and change
+    the option line to point the hook to that, so it *effectively* gets
+    deleted!).
+
+  * @@gray((v3.6+))@@ You can assign multiple targets for each hook.  For
+    example, you could say
+.#! conf/vim-color
+        repo    foo
+            option hook.post-receive    =   deploy mail-admins
+.end
+
+    where "deploy" and "mail-admins" are pieces of code that do whatever their
+    names suggest, and both are, independently, candidates for being run from
+    a post-receive hook.
+
+    When you do this, gitolite does whatever is needed to run each of them as
+    independent post-receive hooks (including sending them info over their
+    STDIN as documented in 'man githooks').
+
+  * @@gray((v3.6+))@@ You can change these hooks by saying:
+.#! conf/vim-color
+        repo    foo
+            option hook.post-receive    =   deploy mail-admins
+.end
+
+    or delete all of them by saying:
+.#! conf/vim-color
+        repo    foo
+            option hook.post-receive    =   ""
+.end
+
+## syntactic sugar {#sugar}
+
+Sugar scripts help you change the perceived syntax of the conf language.  The
+base syntax of the language is very simple, so sugar scripts take something
+*else* and convert it into that.
+
+That way, the admin sees additional features (like allowing continuation
+lines), while the parser in the core gitolite engine does not change.
+
+If you want to write your own sugar scripts, please read the "your own sugar"
+section in [dev-notes][] first then email me.
+
+You enable a sugar script by uncommenting the feature name in the ENABLE list
+in the rc file.
+
+## triggers
+
+Triggers have their own [page][triggers].
+
+## VREFs
+
+VREFs also have their own [page][vref].

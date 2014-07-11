@@ -1,12 +1,16 @@
+<!-- options: toc -->
+
 % namespace support in gitolite
+
+include sidebar-toc
 
 *This feature is only available in the 'namespaces' branch until enough people
 test it and tell me it works fine*.
 
-**AVOID NASTY SURPRISES!**  Please read the entire document before attempting
-to use or install this.  Most non-core features of gitolite do not work with
+**AVOID NASTY SURPRISES!**  Please read the entire page before attempting to
+use or install this.  Most non-core features of gitolite do not work with
 namespaces, and, worse, many of them will *fail silently*.  There are also
-security issuess you need to be aware of.
+security issues you need to be aware of.
 
 # background
 
@@ -24,8 +28,8 @@ on the server side.  (But see the "WARNINGS" section).
 There is one repo that is special, and several others that depend upon it or
 use it.  Depending on context, we use one of the following names:
 
-  * storage context: backing repo/real repo, and logical repos
-  * [workflow][imwf] context: blessed repo and developer repos
+  * Storage context: backing repo/real repo, and logical repos
+  * [Workflow][imwf] context: blessed repo and developer repos
 
 <font color="gray">In addition, in the gitolite context you could say that the
 blessed repo is a normal (not "wild") repo and the logical repos are [wild][]
@@ -53,6 +57,7 @@ Then use the following example conf below as a guide and roll your own.  This
 example is from a mail to the gitolite list by Javier Domingo ("Mirroring
 forks", 13-11-2012), modified slightly.
 
+.#! conf/vim-color
     # backing repos, normal (non-wild), serving as blessed repos
     repo    linux git gitolite [...other projects...]
         RW+     =   integration-manager
@@ -64,6 +69,7 @@ forks", 13-11-2012), modified slightly.
         RW+     =   CREATOR
         R       =   READERS @all
         option namespace.pattern = %/* is @1 in @2
+.end
 
 # use
 
@@ -98,8 +104,9 @@ name.
 Some examples may help:
 
   * Here's a simple one that separate the first component from the rest:
-
+.#! conf/vim-color
         option namespace.pattern = %/* is @1 in @2
+.end
 
     A reponame of 'alice/linux' gives you a namespace of 'alice' and a backing
     reponame of 'linux'.  Similarly, 'alice/linux/2.2' gives you 'alice' and
@@ -108,15 +115,17 @@ Some examples may help:
 
   * This one separates the first, the second, and all the rest, but combines
     them in a different order:
-
+.#! conf/vim-color
         option namespace.pattern = %/%/* is @1/@3 in @2
+.end
 
     A reponame of 'alice/linux/2.2' gives you 'alice/2.2' and 'linux', while a
     reponame of 'alice/linux/2.2/smp' gives you 'alice/2.2/smp' and 'linux'.
 
   * Here's another example on the same lines:
-
+.#! conf/vim-color
         option namespace.pattern = %/%/%/* is @3/@2/@4 in @1
+.end
 
     A reponame of 'linux/kernel/torvalds/linux-2.6' gives you a namespace of
     'torvalds/kernel/linux-2.6' and a backing repo name of 'linux'.
@@ -128,11 +137,11 @@ Some examples may help:
     In addition, any developer-owned repo that has 3 or more components is not
     a fork of anything at all, and should not be subject to namespace
     processing (i.e., it's just a normal repo)
-
+.#! conf/vim-color
         # backing repos
         repo sitaramc/gitolite linux git
             ...access rules for backing repos...
-
+        # logical repos
         repo CREATOR/..*
             C   =   @team
             RW+ =   CREATOR
@@ -140,6 +149,7 @@ Some examples may help:
             option namespace.pattern-1 = %/gitolite is @1 in sitaramc/gitolite
             option namespace.pattern-2 = %/% is @1 in @2
             option namespace.pattern-3 = %/%/* is none in @1/@2/@3
+.end
 
     Firstly, this shows how to specify more than one namespace pattern.  Each
     pattern is tried in *lexically* sorted order until a match is found.
@@ -164,10 +174,11 @@ Some examples may help:
         alice/personal/foo          ->  (namespace processing disabled)
 
   * Here's an example with some errors:
-
+.#! conf/vim-color
         option namespace.pattern-1 = %/gitolite is @1 in sitaramc/gitolite
         option namespace.pattern-2 = %/% is @1 in @2
         option namespace.pattern-3 = %/%/* is @1/@3 in @2
+.end
 
     If you try 'alice/gitolite/foo' in this setup, it will only match the 3rd
     pattern.  The backing repo name will be 'gitolite', which probably doesn't

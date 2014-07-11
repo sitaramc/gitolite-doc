@@ -1,4 +1,8 @@
+<!-- options: toc -->
+
 % delegating access control responsibilities
+
+include sidebar-toc
 
 Delegation allows you to divide up a large conf file into smaller groups of
 repos (called **subconf**s) and hand over responsibility to manage them to
@@ -8,17 +12,17 @@ access rules for any other sub-admin's repos.
 Delegation is achieved by combining two gitolite features: [subconf][] and the
 [NAME VREF][NAME].
 
-To understand delegation, read both those links then come back to this
-example.
-
 # example
 
+Here's a sample conf that does delegation:
+
+.#! conf/vim-color
     @webbrowsers        = firefox lynx browsers/..*
     @webservers         = apache nginx servers/..*
     @malwares           = conficker storm ms/..*
         # side note: if anyone objects, we claim ms stands for "metasploit" ;-)
 
-    # the admin repo access was probably like this to start with:
+    # the admin repo access probably had these 2 lines to start with:
     repo gitolite-admin
         RW+                                     = sitaram
     # now add these lines to the config for the admin repo
@@ -28,20 +32,32 @@ example.
         RW  VREF/NAME/conf/subs/malwares        = mallory
         -   VREF/NAME/                          = alice bob mallory
 
-Finally, you tell gitolite to pull in these files using the "subconf" command
-
+    # pull in these files using the "subconf" command
     subconf "subs/*.conf"
+.end
 
-And that's it.
+If you've read the [VREF][vref] part, or at least understood how [NAME
+VREF][NAME]s work, it should be clear that, in terms of changes to the
+gitolite-admin repo:
+
+*   The user sitaram has no restrictins of any kind
+*   Users alice, bob, and mallory can only touch files within their assigned
+    areas within conf/subs.  If they try to change any other file (keydir,
+    conf/gitolite.conf, or something in one of the other sub-admin's areas),
+    then the last rule kicks in and the push gets rejected.
+
+Now all we need is to see what this "subconf" thing is all about.
 
 # the subconf command {#subconf}
 
 Subconf is exactly like the include command in syntax:
 
+.#! conf/vim-color
     subconf "foo.conf"
+.end
 
 but while reading the included file (as well as anything included from it),
-gitolite sets the "subconf name" to "foo".
+gitolite sets the "current subconf name" to "foo".
 
 A "subconf" imposes some restrictions on what repos can be managed.
 
@@ -53,11 +69,13 @@ gitolite will only process "repo" lines for:
     file (i.e., *outside* "foo.conf").
   * A member of a group called "@foo" (again, defined outside).
   * A repo that matches a member of a group called "@foo" if that member is a
-    regular expression pattern.
+    regular expression.
 
 Here's an example.  If the main conf file contains
 
+.#! conf/vim-color
     @foo    =   aa bb cc/..*
+.end
 
 then the subconf can only accept repo statements that refer to 'foo', '@foo',
 'aa', 'bb', or any repo whose name starts with 'cc/'.
@@ -69,9 +87,11 @@ effect for the main conf file and has no restrictions.
 
 For subconf lines that look just like include statements, i.e.,
 
+.#! conf/vim-color
     subconf "foo/bar.conf"
     subconf "frob/*.conf"
         # assume frob has files aa.conf, bb.conf
+.end
 
 the subconf name as each file is being processed is the base name of the file.
 This means it would be "bar" for the first line, "aa" when processing
@@ -79,7 +99,9 @@ This means it would be "bar" for the first line, "aa" when processing
 
 A variation of subconf exists that can explicitly state the subconf name:
 
+.#! conf/vim-color
     subconf foo "frob/*.conf"
+.end
 
 In this variation, regardless of what file in "frob/" is being read, the
 subconf name in effect is "foo".
@@ -92,8 +114,10 @@ You can use "@group"s defined in the main config file but do not attempt to
 redefine or extend them in your own subconf file.  If you must extend a group
 (say `@foo`) defined in the main config file, do this:
 
+.#! conf/vim-color
     @myfoo  =   @foo
     # now do whatever you want with @myfoo
+.end
 
 Group names you define in your subconf will not clash even if the exact same
 name is used in another subconf file, so you need not worry about that.
@@ -114,5 +138,5 @@ security problems (admin-A creates a pubkey for Admin-B, thus gaining access
 to all of Admin-B's stuff).
 
 If you feel the need to delegate even that, please just go the whole hog and
-give them separate gitolite instances (i.e., running under different gitolite
-hosting users)!
+give them separate gitolite instances (i.e., running on different servers, or
+at least under different gitolite hosting users on the same server)!

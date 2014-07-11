@@ -2,14 +2,14 @@
 
 **NOTE 1**: if you're using v3.4 and above, see [this][rc].
 
-**NOTE 2**: if you're migrating from g2, there are some settings that MUST be
+**NOTE 2**: if you're migrating from v2, there are some settings that MUST be
 dealt with **before** running `gitolite setup`; please read the
 [migration][migr] page and linked pages, and especially the one on "presetting
 the rc file"
 
 ----
 
-The rc file for g3 is *quite* different from that of g2.
+The rc file for v3 is *quite* different from that of v2.
 
 As before, it is designed to be the only thing unique to your site for most
 setups.  What is new is that it is easy to extend it when new needs come up,
@@ -28,8 +28,8 @@ gitolite.  As you can see there are 3 types of variables in it:
 
 While some of the variables are documented in this file, many of them are not.
 Their purposes are to be found in each of their individual documentation files
-around; start with [customising gitolite][cust].  If a setting is used by an
-external command then running that command with '-h' may give you additional
+around; start with ["non-core" gitolite][non-core].  If a setting is used by a
+command then running that command with '-h' may give you additional
 information.
 
 # specific variables
@@ -68,14 +68,14 @@ information.
 
     The second choice is to give it a space separated list of settings you
     consider safe.  (These are actually treated as a set of [regular
-    expression][regex] patterns, and any one of them must match).
+    expressions][regex], and any one of them must match).
 
     For example:
 
         $GIT_CONFIG_KEYS = 'core\.logAllRefUpdates core\..*compression';
 
-    Each pattern should match the *whole* key (in other words, there
-    is an implicit `^` at the start of each pattern, and a `$` at the
+    Each regex should match the *whole* key (in other words, there
+    is an implicit `^` at the start of each regex, and a `$` at the
     end).
 
     The third choice (which you may have guessed already if you're familiar

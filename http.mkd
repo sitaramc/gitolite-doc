@@ -1,4 +1,8 @@
+<!-- options: toc -->
+
 % how to setup gitolite to use smart http mode
+
+include sidebar-toc
 
 **Note**: "smart http" refers to the feature that came with git 1.6.6, late
 2009 or so.  The base documentation for this is `man git-http-backend`.  Do
@@ -11,7 +15,8 @@ that is the same or even relevant -- that is from 2006 and is quite different
   * Please read [authentication versus authorisation][auth] first, and make
     sure you understand what is gitolite's responsibility and what isn't.
 
-  * I have tested this only on stock Fedora 16; YDMV.
+  * I have tested this only on stock Fedora (whatever is the current version);
+    YDMV.
 
 # assumptions:
 
@@ -21,18 +26,18 @@ that is the same or even relevant -- that is from 2006 and is quite different
 
 # instructions
 
-The detailed instructions I used to have in g2 have now been replaced by a
-script called `t/smart-http.root-setup`.  **Do NOT run this script as is -- it
-is actually meant for my testing setup and deletes stuff**.  However, it does
-provide an excellent (and working!) narration of what you need to do to
-install gitolite in smart http mode.
+@@box-r(Note that the `GIT_PROJECT_ROOT` variable (see "man git-http-backend")
+is no longer optional.  Make sure you set it to some place outside apache's
+`DOCUMENT_ROOT`.)@@
+
+In place of detailed instructions, there is a script called
+`t/smart-http.root-setup`.  **Do NOT run this script as is -- it is actually
+meant for my testing setup and deletes stuff**.  However, it does provide an
+excellent (and working!) narration of what you need to do to install gitolite
+in smart http mode.
 
 Make a copy of the script, go through it carefully, (possibly removing lines
 that delete files etc.), change values per your system, and only then run it.
-
-<font color="gray">Note that the `GIT_PROJECT_ROOT` variable (see "man
-git-http-backend") is no longer optional.  Make sure you set it to some place
-outside apache's `DOCUMENT_ROOT`.</font>
 
 # Making repositories available to both ssh and http mode clients
 
@@ -63,7 +68,7 @@ here ;-)  See t/smart-http for a couple of useful ones.
 
 The 'gitolite' command (for example, 'gitolite compile', 'gitolite query-rc',
 and so on) *can* be run on the server, but it's not straightforward.  Assuming
-you installed exactly as given in this document, you should
+you installed exactly as given in this page, you should
 
   * get a shell by using, say, `su -s /bin/bash - apache`
   * run `export HOME=$HOME/gitolite-home`

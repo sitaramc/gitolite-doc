@@ -40,7 +40,7 @@ Next, the conf/gitolite.conf file in `~/.gitolite`:
 .end
 
 (Note that this conf file has NAME/ rules, which **have changed**
-significantly in g3; see [here][g2i-name] for details).
+significantly in v3; see [here][g2i-name] for details).
 
 These are the repos already existing
 
@@ -73,7 +73,7 @@ The config entries exist for all the baz/ repos:
 
 # preparing for the migration
 
-## getting g3
+## getting v3
 
 Fortunately this is easy here; I just happened to have the repo already
 fetched so I just had to switch branches.  You may have to 'git clone ...'
@@ -90,7 +90,7 @@ This is a quick and dirty program to catch some of the big issues.
 
     $ cd
     $ gitolite/check-g2-compat
-    INFO        This program only checks for uses that make the new g3 completely unusable
+    INFO        This program only checks for uses that make the new v3 completely unusable
                 or that might end up giving *more* access to someone if migrated as-is.
                 It does NOT attempt to catch all the differences described in the docs.
 

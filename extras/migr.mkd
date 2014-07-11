@@ -1,13 +1,36 @@
 <!-- options: toc -->
 
-% pre-migration checklist
+% migrating
 
-<font color="red"> **This document is a *MUST* read if you are currently using
-g2 and want to move to g3.** </font>
+include sidebar-toc
+
+@@box-r(If you're curious why I wrote v3, and what was wrong with v2, read
+[this][why-v3].)@@
+
+First things first: v3 came out in April 2012.  v2 will continue to be
+supported for critical bugs, although enhancements and new features won't
+happen.  v1 is not supported anymore.
+
+That said, if you're an existing (gitolite v1.x or v2.x) user, and wish to
+migrate, here are the steps:
+
+@@gray(This page is about migrating from older gitolite to "v3".  If you're
+migrating from *gitosis*, let me first welcome you to the 21st century, and
+then point you [here][gsmigr].)@@
+
+# pre-migration checklist
+
+This section tells you what changes affect you and your users.  The closer you
+were to a default install of the old gitolite, the less time a migration will
+take.
+
+**Note**: as you read this section, and run the `check-g2-compat` program, be
+sure to make a note of any variables you have used which the pre-migration
+checklist describes as "requires presetting".
 
 ----
 
-First things first: g2 will be supported for a good long time for critical
+First things first: v2 will be supported for a good long time for critical
 bugs, although enhancements and new features won't happen.
 
 Migration should be straightforward, but it is not automatic.  The biggest
@@ -30,12 +53,12 @@ messages mean.  If it does not report any issues, your migrate will probably
 go quickly.  I still suggest you go through the links below in case that
 program missed something.
 
-# incompatible features
+## incompatible features
 
 Here's a list of incompatible features and what you need to do to migrate.
 Some of them have links where there is more detail than I want to put here.
 
-## high impact
+### high impact
 
 (serious loss of functionality and/or access control compromised)
 
@@ -93,7 +116,7 @@ Some of them have links where there is more detail than I want to put here.
         $ENV{PATH} = "/some/non-standard/path:$ENV{PATH}";
         1;
 
-## medium impact
+### medium impact
 
 (important functionality lost, but access control not compromised)
 
@@ -110,7 +133,7 @@ Some of them have links where there is more detail than I want to put here.
     If you want it somewhere else go ahead and move it, then place a symlink
     from the assumed location to the real one.
 
-## low impact
+### low impact
 
 (ancillary, non-core, or minor functionality lost)
 
@@ -121,12 +144,13 @@ Some of them have links where there is more detail than I want to put here.
   * Built-in command `expand` -- **dropped**.  The 'info' command shows you
     both normal and wild repos now.  The output format is also much simpler.
 
-  * Built-in commands 'getperms', 'setperms' -- **merged** into external
-    command 'perms'.  Run `ssh git@host perms -h` for details.
+  * Built-in commands 'getperms', 'setperms' -- **merged** into command
+    'perms'.  Run `ssh git@host perms -h` for details.
 
     Similarly, 'getdesc' and 'setdesc' have been merged into 'desc'.
 
-  * Several 'ADC's -- see the [dev-status][] page for more on this.
+  * Several 'ADC's -- please ask on the mailing list if you're using any that
+	you don't see in the new 
 
   * [gl-time][g2i-gl-time]: the CpuTime module replaces gl-time.
 
@@ -171,7 +195,7 @@ Some of them have links where there is more detail than I want to put here.
   * `PROJECTS_LIST` -- is now `GITWEB_PROJECTS_LIST`.  More importantly, it is
     only used by update-gitweb-access-list in src/commands/post-compile.  This
     variable now has nothing to do with gitolite core, and the rc is just
-    helping to store settings for external programs like that one.
+    helping to store settings for non-core programs like that one.
 
   * `REPO_UMASK` -- is now `UMASK`.
 
@@ -180,13 +204,13 @@ Some of them have links where there is more detail than I want to put here.
     think people who use spaces and other funky characters in dir/file names
     should be shot but no one listens to me anyway.
 
-# using the "check-g2-compat" program {#cg2c}
+## using the "check-g2-compat" program {#cg2c}
 
 This program checks a few things only, not everything.  In particular, it
 looks for settings and status that might:
 
-  * make g3 unusable for lots of users
-  * make g3 give *more* access than g2 under some conditions
+  * make v3 unusable for lots of users
+  * make v3 give *more* access than v2 under some conditions
 
 It does NOT look for or warn about anything else; you're expected to read (and
 act upon, if needed) the rest of the migration guide links given a few paras
@@ -236,8 +260,7 @@ put that contain the words "see docs":
             mv $r/gl-creater $r/gl-creator
         done 2>/dev/null
 
-    Once you do this, the g2 will not work completely unless you change them
-    back.
+    Once you do this, v2 will not work completely unless you change them back.
 
   * `found N gl-perms files with R or RW`
 
@@ -247,7 +270,7 @@ put that contain the words "see docs":
         find `gitolite query-rc GL_REPO_BASE` -name gl-perms |
             xargs perl -pi -e 's/\bR\b/READERS/;s/\bRW\b/WRITERS/'
 
-# presetting the rc file {#rc-preset}
+## presetting the rc file {#rc-preset}
 
 Some rc settings in the older gitolite are such that you cannot directly run
 `gitolite setup` when you're ready to migrate.  **Doing that will clobber
@@ -265,7 +288,7 @@ file will get clobbered**.
 The actual rc settings that require presetting are listed in the "high
 impact" section above.  This section tells you how to do the presetting.
 
-  * rename (not just copy) your old (g2) rc file to something else
+  * rename (not just copy) your old (v2) rc file to something else
 
   * run
 
@@ -279,3 +302,186 @@ impact" section above.  This section tells you how to do the presetting.
     and save it.
 
   * *then* you can run [gitolite setup][setup].
+
+# the actual migration
+
+(Note: You may also like the [example migration][g2migr-example] page).
+
+**Note**: nothing in any of the gitolite install/setup/etc will ever touch the
+*data* in any repository except the gitolite-admin repo.  The only thing it
+will normally touch in normal repos is the `update` hook.
+
+**Note: all migration happens on the server; you do not need your
+workstation**.
+
+1.  Carefully wipe out the old gitolite:
+
+      * The **code**
+
+          * Delete or move away all the old gitolite scripts.  Check the path
+            to the gl-auth-command in `~/.ssh/authorized_keys` if you forgot
+            where you put them.
+
+          * Delete or move away the two directories named in the two variables
+            `GL_PACKAGE_CONF` and `GL_PACKAGE_HOOKS` in `~/.gitolite.rc`.
+
+      * The **rc file**
+
+          * Rename `~/.gitolite.rc` to something else.
+
+      * The **admin repo**
+
+          * clone `~/repositories/gitolite-admin.git` to someplace safe
+          * then delete `~/repositories/gitolite-admin.git`
+
+        (Make sure you do not delete any other repos!)
+
+      * The **admin directory**.
+
+          * If you need to preserve logs, move the ~/.gitolite/logs` directory
+            somewhere else.
+
+          * If you added any custom hooks and wish to preserve them, move the
+            ~/.gitolite/hooks` directory somewhere else.
+
+          * Delete `~/.gitolite`.
+
+2.  Install gitolite v3; see [install][].
+
+3.  If you're using any rc variables that the pre-migration checklist said
+    would "require presetting", then read about [presetting][rc-preset] the rc
+    file, and follow those instructions to create your new rc file.
+
+4.  Setup gitolite; see [setup][].  However, the 'setup' step need not supply
+    a private key.  You can run it as `gitolite setup -a admin`.
+
+    NOTE: ignore any 'split conf not set, gl-conf present...' errors at this
+    time.  You may see none, some, or many.  It does not matter right now.
+
+5.  Make sure your gitolite-admin clone has the correct pubkey for the
+    administrator in its `keydir` directory, then run [`gitolite push
+    -f`][bypass] to overwrite the "default" admin repo created by the install.
+
+    **NOTE that is `gitolite push` not `git push`!**
+
+6.  Handle any errors, look for migration issues, etc., as described in the
+    links at the top of this page.
+
+    This also includes building up your new `~/.gitolite.rc` file.
+
+You're done.
+
+# appendix 1: v2-v3 incompatibilities {#g2incompat}
+
+This page expands on some incompatibilities that were only briefly mentioned
+in the pre-migration section earlier.
+
+## NAME rules {#g2i-name}
+
+1.  NAME/ rules must be changed to VREF/NAME/
+
+2.  Fallthru on all VREFs is "success" now, so any NAME/ rules you have
+    **MUST** change the rule list in some way to maintain the same
+    restrictions.  The simplest is to add the following line to the end of
+    each repo's rule list:
+.#! conf/vim-color
+        -   VREF/NAME/       =   @all
+.end
+
+## subconf command in admin repo {#g2i-subconf}
+
+(This is also affected by the previous issue, 'NAME rules'; please read that
+as well).
+
+If you're using delegation in your admin conf setup, please add the following
+lines to the end of the gitolite-admin rules in your conf/gitolite.conf file:
+
+.#! conf/vim-color
+    repo gitolite-admin
+        -   VREF/NAME/       =   @all
+
+    subconf "fragments/*.conf"
+.end
+
+The first part compensates for fallthru now being a success when processing
+[VREF][vref] rules (NAME rules are just one specific VREF).  Although,
+**ideally**, you should change your rule list so that you no longer require
+that line.  As the [vref page][vref] says:
+
+>   **Virtual refs are best used as additional "deny" rules**, performing
+>   extra checks that core gitolite cannot.
+
+The second part explicitly says when and where to include the subconf files.
+(Before subconf was invented, this used to happen implicitly at the end of the
+main conf file, and was hardcoded to that specific glob.)
+
+## gl-time for performance measurement {#g2i-gl-time}
+
+If you've been using gl-time for performance measurement, there's a much
+better system available now.
+
+gl-time used to only log elapsed time.  The new 'CpuTime' trigger module
+shipped with gitolite, if enabled in the rc file, can also report CPU times
+using perl's 'times()' function.  See comments within that file and in the
+default rc file that contain the word "cpu", for more details.
+
+Further, you can copy that module with a different name, add your own
+functionality, and invoke *that* from the rc file instead.
+
+## changes in mirroring setup {#g2i-mirroring}
+
+There are several changes with regard to mirroring:
+
+  * There is no 'post-receive' hook to be installed.  Mirroring is handled by
+    v3's [triggers][] mechanism.  Gitolite triggers are enabled by adding (or
+    uncommenting, in this case) appropriate lines in the rc file.
+
+    You need to either remove these files (actually symlinks) from each repo's
+    'hooks' directory, or remove the old (v2) sources so they become broken
+    symlinks.
+
+  * The `GL_HOSTNAME` variable is now `HOSTNAME`.  (Note that the rc file
+    syntax itself has changed quite a bit; to be accurate, HOSTNAME is not a
+    variable but a hash key with an associated value).
+
+  * The `GL_GITCONFIG_KEYS` variable is now `GIT_CONFIG_KEYS`, **but** you no
+    longer need to set it to anything for mirroring to work.
+
+  * The `gl-tool` program does not exist anymore.  Adding keys for peer
+    servers is done just like adding user keys, except that the pubkey file
+    name must start with `server-`.  For example, to add a peer host called
+    frodo, you will acquire its pubkey and add it as `server-frodo.pub`.
+
+  * The config variables are quite different now.  The main ones now look like
+    this:
+.#! conf/vim-color
+    option mirror.master        =   sam
+    option mirror.slaves        =   frodo gollum
+.end
+
+    The redirectOK looks like this:
+.#! conf/vim-color
+    option mirror.redirectOK    =   frodo
+.end
+
+    The special value "true" to say that all slaves are trusted is now "all":
+.#! conf/vim-color
+    option mirror.redirectOK    =   all
+.end
+
+  * There are no more mirroring "keys", (lists of servers named in config keys
+    like 'gitolite.mirror.nightly', etc).  You can certainly add lines like
+.#! conf/vim-color
+    option mirror.nightly       =   merry pippin
+.end
+
+    but they will not be processed by gitolite.  Your cron jobs should use
+    `gitolite git-config` to query this variable, grab the list of peers, and
+    run `gitolite mirror` on each of them.
+
+  * The command to resync mirrors is 'mirror', run just like any other
+    [command][commands].  In particular, you can run `gitolite mirror -h` to
+    get help.  It cannot be run from a slave to ask a master to push (unlike
+    in the old system) but what's more convenient is that any user who has any
+    access to the master can run it remotely (if you allow it) to invoke a
+    push.

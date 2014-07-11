@@ -1,110 +1,105 @@
-% Hosting git repositories
+% Hosting Git Repositories
 
-.#t cellspacing=20
-
-.#d width=50%
+include sidebar-toc
 
 Gitolite allows you to setup git hosting on a central server, with
 fine-grained access control and many more powerful features.
 
-Here's more on [what][] it is, [how][] it works, [why][] you might need it,
-and [who][] else is using it.
+# download {#dl -}
 
-.#d class="bg-green"
+Gitolite can be downloaded from `git://github.com/sitaramc/gitolite` or
+`https://code.google.com/p/gitolite/`.
+
+If your Unix-fu and ssh-fu are good, installing gitolite is as simple as
+copying your public key over to the hosting user, and running a couple of
+commands, as the [quick install][qi] section of the install page shows.
+
+# documentation {#rtfm -}
+
+<div class="green box-r" style="padding: 10px">
 
 **New (April 2014): There's a [book on gitolite][book] out**.  I've received
 some emails over the years asking where to donate for gitolite to show your
 appreciation, and I've always refused politely.  Well, if you insist... buy
 the book :-)
 
-.#d class="box"
+</div>
 
-You may also want to look at these **graphical overviews of the
-documentation**: [basic][] and [advanced][].
+Gitolite has a lot of features, and consequently a lot of documentation.
 
-.#t
+This page (the one you're reading) is the main page.  It, as well as most
+other pages, should have a "Gitolite table of contents" along the right
+margin (possibly preceded by a "Page table of contents").
 
-[basic]: basic.html
-[advanced]: advanced.html
-[book]: http://www.packtpub.com/gitolite-essentials/book
+If you're not sure where to start, read the main page and the overview page,
+then look over the rest of the table of contents to decide.
 
-.#t cellspacing=10
+## (reading order and forward references) {#fr -}
 
-.#d width=50%
+I've tried hard to make the documentation readable in a straight sequence,
+using the "Gitolite TOC" on the right side.  Of course there are places where
+I have no choice but to refer or link to something that has not been
+encountered yet, but generally you can ignore those links on a first pass
+through these pages.
 
-### What is gitolite? {#what -}
+<!-- Finally, there's also an [all-in-one page](gitolite.html).  If you're looking -->
+<!-- for some word/phrase but forgot which page it was mentioned in, you can load -->
+<!-- the all-in-one-page and use your browser's Ctrl-F (find in page) function. -->
 
-Gitolite is an access control layer on top of git.  Here are the features that
-most people see:
+# troubleshooting {#trouble -}
 
-  * Use a single unix user ("real" user) on the server.
-  * Provide access to many gitolite users:
-      * they are not "real" users,
-      * they do not get shell access.
-  * Control access to many git repositories:
-      * read access controlled at the repo level,
-      * write access controlled at the branch/tag/file/directory level,
-        including who can rewind, create, and delete branches/tags.
-  * Can be installed without root access, assuming git and perl are already
-    installed.
-  * Authentication is most commonly done using sshd, but you can also use
-    [http][] if you prefer (this may require root access).
+If you're having trouble, please try the following resources first:
 
-.#d
+*   The [emergencies][] page helps with all sorts of install/setup issues,
+    recovering from lost keys and other self-inflicted wounds, lists some
+    common (and some uncommon!) errors and non-standard configs that may trip
+    you up.
+*   The [idiot-proof setup][ips] is a very detailed page that shows one
+    fool-proof way to install, as long as you follow instructions faithfully!
+*   And finally, for specific post-install issues, perhaps the [cookbook][]
+    has a recipe just for you?
 
-### quick links {#ql -}
+# contact and support {#contact -}
 
-  * [Trying][trying] out gitolite.
-  * Minimum [requirements][req].
-  * Here's how to do a [quick install, setup, and clone][qi].
-  * Don't know ssh well enough?  [Learn][ssh].  It's **IMPORTANT**.
-  * Add [users][] and [repos][].
-  * Learn about fine-grained access control with the [conf][] file.
-  * Explain gitolite to your [users][user].
+## email {-}
 
-The rest of the documentation is in the "master index" link at the top of each
-page on this website.  This is the first place you should search when looking
-for specific information.
+Unless you're reporting what you think is a security issue, please use the
+mailing list for all communication.  (**NOTE**: The first email from a new
+member is held until I can clear it; subsequent emails from the same email
+address do not get held up).
 
-<font color="gray">
+  * Mailing list for support and general discussion:
+      * Post: gitolite@googlegroups.com
+      * Subscribe: gitolite+subscribe@googlegroups.com
 
-### (for older gitolite (v1.x and v2.x) users) {#g2 -}
+If you don't want to participate in the discussions and only want to be
+informed of releases, security announcements, etc., you can subscribe to the
+announce list.  This is a one-way list; only I can post to it.
 
-For users of gitolite v2.x (call it "g2" for convenience),
+  * Mailing list for announcements and notices:
+      * Subscribe: gitolite-announce+subscribe@googlegroups.com
 
-  * [Why][g3why] I rewrote gitolite.
-  * Development [status][dev-status].
-  * Information on [migrating][migr] from g2 to g3.
+@@red(If you think you found a **security issue**, please email me directly:
+sitaramc@gmail.com or sitaram@atc.tcs.com.)@@
 
-</font>
+If you wish to send me code, please see the file called CONTRIBUTING in the
+source distribution.
 
-.#t
+## IRC {-}
 
-.#t cellspacing=10
+We're on irc at #gitolite on freenode.  I live in India (UTC+0530 time zone),
+but there are a few regulars (*thanks, guys, you know who you are!*) from
+other times zones.  That said, it's not heavy traffic and you may have to wait
+a while for an answer, depending on the time of day and day of week.
 
-.#d width=50%
+There are also a few gitolite-knowledgeable people on the git channel #git.
 
-### contact and support {#contact -}
+# license {#license -}
 
-  * mailing list for support and general discussion:
-      * gitolite@googlegroups.com
-      * subscribe address: gitolite+subscribe@googlegroups.com
+The gitolite software is copyright Sitaram Chamarty and is licensed under the
+GPL v2; please see the file called COPYING in the source distribution.
 
-  * mailing list for announcements and notices:
-      * subscribe address: gitolite-announce+subscribe@googlegroups.com
-
-  * IRC: #git and #gitolite on freenode.  Note that I live in India (UTC+0530
-    time zone).  **Please do not ask questions on IRC if you cannot stay
-    connected for a few hours at least.  Use the mailing list instead.**
-
-  * author: sitaramc@gmail.com, but please **DO NOT** use this for general
-    support questions.  Subscribe to the list and ask there instead.
-
-.#d
-
-### license {#license -}
-
-This documentation, which is maintained separately from the main gitolite
+This **documentation**, which is maintained separately from the main gitolite
 source code, is copyright Sitaram Chamarty and is provided under a [Creative
 Commons Attribution-NonCommercial-ShareAlike 3.0 Unported
 License](http://creativecommons.org/licenses/by-nc-sa/3.0/).
@@ -122,10 +117,19 @@ code snippets, as well as associated "comments" if any, to be under the GPLv2
 license.  Licensing is about intent, and the intent of these examples is that
 you use them wherever and however you can use gitolite itself.
 
-.#t
-
 >   <hr>
 >   <center>**NOTE**: GIT is a trademark of Software Freedom Conservancy and my use of
 >   "Gitolite" is under license.</center>
 >   <hr>
 
+[basic]: basic.html
+[advanced]: advanced.html
+[book]: http://www.packtpub.com/gitolite-essentials/book
+
+<script type="text/javascript">
+<!--
+    window.onload = function() {
+        hide_show('GTOC')
+    }
+-->
+</script>

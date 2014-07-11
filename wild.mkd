@@ -2,20 +2,77 @@
 
 % "wild" repos (user created repos)
 
-# quick introduction
+include sidebar-toc
 
 The wildrepos feature allows you to specify access control rules using regular
 expression patterns, so you can have many actual repos being served by a
-single set of rules in the config file.  The regex pattern can also include
-the word `CREATOR` in it, allowing you to parametrise the name of the user
+single set of rules in the config file.  The [regex][] can also include the
+word `CREATOR` in it, allowing you to parametrise the name of the user
 creating the repo.
 
-See the section on "repo patterns" later for additional information on what
-counts as a "wild" repo pattern and how it is matched.
+# quick intro/example
 
-# (admin) declaring wild repos in the conf file
+If you're curious about the feature but you aren't sure if you want to read
+the whole page, here's a very simple example.
 
-Here's an example:
+.#d
+
+![](images/wild-1.png "Figure 1")
+
+.#d
+
+This is what the admin added to the conf file.
+
+User 'u1' then runs `git clone git@host:foo/u1/bar`, creating the repo.
+Notice the repo name matches the regex, if you substitute the user's name
+for the word CREATOR.
+
+.#r
+
+.#d
+
+![](images/wild-2.png "Figure 2")
+
+.#d
+
+This is the effective rule list for 'foo/u1/bar' immediately after the user
+creates it.  The parts that are not dimmed out can be changed by the creator
+(user 'u1') using the [perms][] command to add 'u2' as a writer and 'u3' and
+'u5' as readers:
+
+.#r
+
+.#d
+
+![](images/wild-3.png "Figure 3")
+
+.#d
+
+This is the effective rule list that applies to the repo.
+
+Note that both these "effective rule lists" were created without touching the
+actual conf file or any admin intervention.
+
+.#t
+
+And that's it for our quick intro example.  The rest of this page will explain
+all this in much more detail.
+
+# declaring wild repos in the conf file
+
+.#d
+
+Here's a slightly more detailed example, starting with what the admin puts in
+the conf file.
+
+Note the "C" permission.  This is a standalone "C", which gives the named
+users the right to *create a repo*.  @@gray(This is not to be confused with
+the "RWC" permission or its variants described [elsewhere][write-types], which
+are about creating *branches*, not *repos*.)@@
+
+.#d
+
+.#! conf/vim-color
 
     @prof       =   u1
     @TAs        =   u2 u3
@@ -27,35 +84,39 @@ Here's an example:
         RW  =   WRITERS @TAs
         R   =   READERS @prof
 
-Note the "C" permission.  This is a standalone "C", which gives the named
-users the right to *create a repo*.  <font color="gray">This is not to be
-confused with the "RWC" or its variants described elsewhere, which are about
-*branches*, not *repos*.</font>
+.end
 
-# (user) creating a specific repo {#create}
+.#t
+
+# (**user**) creating a specific repo {#create}
 
 For now, ignore the special usernames READERS and WRITERS, and just create a
 new repo, as user "u4" (a student):
 
     $ git clone git@server:assignments/u4/a12
-    Initialized empty Git repository in /home/sitaram/a12/.git/
     Initialized empty Git repository in /home/git/repositories/assignments/u4/a12.git/
     warning: You appear to have cloned an empty repository.
 
-Notice the *two* empty repo inits, and the order in which they occur ;-)
-
 # a slightly different example
+
+.#d
 
 Here's how the same example would look if you did not want the CREATOR's name
 to be part of the actual repo name.
 
+.#d
+
+.#! conf/vim-color
     repo    assignments/a[0-9][0-9]
         C   =   @students
         RW+ =   CREATOR
         RW  =   WRITERS @TAs
         R   =   READERS @prof
+.end
 
-We haven't changed anything except the repo name pattern.  This means that the
+.#t
+
+We haven't changed anything except the repo name regex.  This means that the
 first student that creates, say, `assignments/a12` becomes the owner.
 Mistakes (such as claiming a12 instead of a13) need to be rectified by an
 admin logging on to the back end, though it's not too difficult.
@@ -66,15 +127,15 @@ You could also repace the C line like this:
 
 and have a TA create the repos in advance.
 
-# repo patterns
+# repo regex patterns
 
-## pattern versus normal repo
+## regex pattern versus normal repo
 
 Due to projects like `gtk+`, the `+` character is now considered a valid
-character for an *ordinary* repo.  Therefore, a pattern like `foo/.+` does not
-look like a regex to gitolite.  Use `foo/..*` if you want that.
+character for an *ordinary* repo.  Therefore, a regex like `foo/.+` does not
+look like a [regex][] to gitolite.  Use `foo/..*` if you want that.
 
-Also, `..*` by itself is not considered a valid repo pattern.  Try
+Also, `..*` by itself is not considered a valid repo regex.  Try
 `[a-zA-Z0-9].*`.  `CREATOR/..*` will also work.
 
 ## line-anchored regexes
@@ -96,19 +157,18 @@ metacharacters.
 
 >   *Side-note: contrast with refexes*
 
->   Just for interest, note that this is in contrast to the refexes for the
->   normal "branch" permissions, as described in `doc/gitolite.conf.mkd` and
->   elsewhere.  These "refexes" are only anchored at the start; a pattern like
->   `refs/heads/master` actually can match `refs/heads/master01/bar` as well,
->   even if no one will actually push such a branch!  You can anchor both
->   sides if you really care, by using `master$` instead of `master`, but that
->   is *not* the default for refexes.
+>   Just for interest, note that this is in contrast to the [refexes][refex]
+>   for the normal "branch" permissions. Refexes are only anchored at the
+>   start; a regex like `refs/heads/master` actually can match
+>   `refs/heads/master01/bar` as well, even if no one will actually push such
+>   a branch!  You can anchor both sides if you really care, by using
+>   `master$` instead of `master`, but that is *not* the default for refexes.
 
 >   ----
 
 # roles {#roles}
 
-The tokens READERS and WRITERS are called "role" names.  The access rules in
+The words READERS and WRITERS are called "role" names.  The access rules in
 the conf file decide what permissions these roles have, but they don't say
 what users are in each of these roles.
 
@@ -119,8 +179,19 @@ more detail.
 
 ## adding other roles
 
+.#t
+
+.#d
+
 If you want to have more than just the 2 default roles, say something like:
 
+You can add the new names to the ROLES hash in the [rc file][rc]; see comments
+in that file for how to do that.  Be sure to run the 2 commands mentioned
+there after you have added the roles.
+
+.#d
+
+.#! conf/vim-color
     repo foo/..*
       C                 =   u1
       RW    refs/tags/  =   TESTERS
@@ -129,10 +200,9 @@ If you want to have more than just the 2 default roles, say something like:
       RW                =   INTERNS
       R                 =   READERS
       RW+D              =   MANAGERS
+.end
 
-You can add the new names to the ROLES hash in the `~/.gitolite.rc` file; see
-comments in that file for how to do that.  Be sure to run the 2 commands
-mentioned there after you have added the roles.
+.#t
 
 ### <font color="red">**IMPORTANT WARNING ABOUT THIS FEATURE**</font> {#rolenamewarn}
 
@@ -152,10 +222,10 @@ created.
 
 Here's how:
 
-  * enable the 'set-default-roles' feature in the rc file by uncommenting it
+  * Enable the 'set-default-roles' feature in the rc file by uncommenting it
     if it is already present or adding it to the ENABLE list if it is not.
 
-  * supply a set of default role assignments for a wild repo pattern by adding
+  * Supply a set of default role assignments for a wild repo regex by adding
     lines like this to the repo config para:
 
         option default.roles-1  =   READERS @all
@@ -170,7 +240,7 @@ affects newly created wild repos, despite the '@all' name).
 
 ## specifying owners
 
-See the section on `OWNER_ROLENAME` in the [rc file documentation][rc].
+See the section on `OWNER_ROLENAME` in the [rc file page][rc].
 
 # listing wild repos
 
@@ -184,3 +254,24 @@ on how to delete a wild repo.  (Yes the command is "D"; it's meant to be a
 counterpart to the "C" permission that allowed you to create the repo in the
 first place).  Of course this only works if your admin has enabled the command
 (gitolite ships with the command disabled for remote use).
+
+# appendix 1: owner and creator
+
+A wild repo is created by one specific user.  This user is usually called the
+**creator** of the repo: his username is placed in a file called gl-creator in
+the (bare) repo directory, any permissions given in the gitolite.conf file to
+"CREATOR" will be applicable to this user, he is the only person who can give
+permissions to other users (by running the 'perms' command), etc.
+
+But, as I said in [this mail](https://groups.google.com/d/msg/gitolite/nFbnQuO0ztM/tXiVs5ah2bcJ):
+
+    Until about a year ago, Gitolite only knew the concept of a "creator", and
+    there was only one.
+
+    But then people started seeing the need for more than one "owner", because
+    wild repos may be *created* by one person, but they often needed to be
+    *administered* by one of several people.
+
+    So now, even though large parts of the documentation probably conflate
+    "creator" and "owner", you can see wild.html ([wild]) and rc.html ([rc])
+    to actually understand how this larger group become the "owner".

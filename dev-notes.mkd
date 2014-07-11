@@ -1,6 +1,6 @@
 <!-- options: toc -->
 
-% notes for developers
+% writing your own "non-core" programs
 
 Gitolite has a huge bunch of existing features that gradually need to be moved
 over.  Plus you may want to write your own programs to interact with it.

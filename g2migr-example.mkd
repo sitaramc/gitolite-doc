@@ -18,6 +18,7 @@ First, the rc file has the following lines different from the default:
 
 Next, the conf/gitolite.conf file in `~/.gitolite`:
 
+.#! conf/vim-color
     repo    gitolite-admin
             RW+             =   tester u1
 
@@ -36,6 +37,7 @@ Next, the conf/gitolite.conf file in `~/.gitolite`:
             C   =   u3 u4
             RW+         =   CREATOR
             config foo.bar = baz
+.end
 
 (Note that this conf file has NAME/ rules, which **have changed**
 significantly in g3; see [here][g2i-name] for details).

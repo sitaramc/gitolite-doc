@@ -1,0 +1,40 @@
+#!/usr/bin/perl
+
+# assumes you're in ~gl on main userid
+# assumes you're passing some filename containing "conf" data
+# assumes you're asking for equivalent conf/foo.html to be and piped back to STDOUT
+
+use strict;
+use warnings;
+use 5.10.0;
+use Data::Dumper;
+$Data::Dumper::Terse = 1;
+$Data::Dumper::Indent = 1;
+$Data::Dumper::Sortkeys = 1;
+
+my $cmd = "vim -N -u /dev/null -c 'set ft=gitolite bg=dark' -c 'syn on' -c TOhtml -c xa -- gitolite.conf";
+my $pre_style = '<pre style="font-family: \'Andale mono\',monospace; padding: 4px; color: #ffffff; background-color: #000000;">';
+
+chdir "conf";
+
+my $in = shift;
+
+# we chop off 4 characters; if you keep the code flush left vim tries to
+# syntax highlight it as **markdown**!
+`cut -c5- $in > gitolite.conf`;
+
+# this needs a tty, but the way we're called, we may not have one
+system( "xterm", "-e", $cmd );
+
+@ARGV = qw( gitolite.conf.html );
+my $html = $pre_style . "\n";
+while (<>) {
+    next unless m(^<pre id) .. m(</pre);
+    next if     m(^<pre id) or m(</pre);
+    next if     m(# vim);   # modelines
+
+    $html .= $_;
+}
+$html .= "</pre>\n\n";
+
+print $html;

@@ -2,6 +2,10 @@
 
 % gitolite cookbook
 
+@@box-r(Note: This page has several [forward references][fr].  Skip it, or
+maybe skim through it, on a first reading.  It's more of a "look at it when I
+have a specific need" page anyway.)@@
+
 Documentation is meant to be as complete as possible, which means it attempts
 to cover all situations and scenarios.  That makes it harder to read.
 
@@ -18,8 +22,6 @@ documentation before asking for help.  In particular, the [basic][] and
 
 [basic]: basic.html
 [advanced]: advanced.html
-
-----
 
 # administration {#cb-admin}
 
@@ -145,9 +147,10 @@ hook should do), here's how to do this:
 
     Alternatively, you can simply add this at the end of the
     gitolite.conf file:
-
+.#! conf/vim-color
         repo @all
             -   VREF/crlf       =   @all
+.end
 
     Either way, add/commit/push the change to the gitolite-admin repo.
 
@@ -247,14 +250,19 @@ doc on [VREF arguments][vref-args] as you look at these.
 
 Here's the conf extract to say "junior devs can only push on weekdays":
 
+.#! conf/vim-color
     repo foo
         -   VREF/DAY/Sat    =   @junior-devs
         -   VREF/DAY/Sun    =   @junior-devs
+.end
 
 The code for this VREF is ridiculously simple:
 
+.#! conf/vim-color
     #!/bin/bash
     echo VREF/DAY/`date +%a`
+    # vim: set ft=sh
+.end
 
 On encountering the VREF rules (i.e., when a junior dev tries to access this
 repo), gitolite calls the "DAY" VREF-maker.  The code within the VREF maker
@@ -274,9 +282,11 @@ VREF-maker will return with *some* network address (as you'll see in the code
 later), so we set it up so that the correct network block is allowed and
 anything else is disallowed:
 
+.#! conf/vim-color
     repo foo
         RW+ VREF/FROM/192.168.48.0/23   =   @junior-devs
         -   VREF/FROM                   =   @junior-devs
+.end
 
 The code is not that complex.  We take the user's actual IP address (this is
 available as the first word in `$SSH_CONNECTION` for ssh users, and for
@@ -288,6 +298,7 @@ the users IP with that number of bits.
 This network address is then sent back.  (The `$9` is added back at the end,
 but this is only to enable it to match the VREF rule).
 
+.#! conf/vim-color
     #!/bin/bash
 
     # exit if no arguments were supplied to the VREF.  This covers the
@@ -299,6 +310,8 @@ but this is only to enable it to match the VREF rule).
     eval `ipcalc -n $from/$9`       # sets env var "NETWORK"
 
     echo VREF/FROM/$NETWORK/$9
+    # vim: set ft=sh
+.end
 
 For a source IP of 192.168.49.97, this runs `ipcalc -n 192.168.49.97/23`,
 which gives the network address 192.168.48.0.  The echo then just sends back

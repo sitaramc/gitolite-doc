@@ -40,7 +40,7 @@ I've tried hard to make the documentation readable in a straight sequence,
 using the "Gitolite TOC" on the right side.  Of course there are places where
 I have no choice but to refer or link to something that has not been
 encountered yet, but generally you can ignore those links on a first pass
-through these pages.
+through the documentation.
 
 <!-- Finally, there's also an [all-in-one page](gitolite.html).  If you're looking -->
 <!-- for some word/phrase but forgot which page it was mentioned in, you can load -->

@@ -62,7 +62,7 @@ say STDERR "----";
 # TODO # system("pdh -t html-N -i gitolite.mkd -o $OUTDIR/gitolite.html");
 
 # send manually created HTML pages and images
-system("cp html/*.html $OUTDIR");
+system("cp -d html/*.html $OUTDIR");
 system("cp images/* $OUTDIR/images");
 
 sub linkrefs_except {

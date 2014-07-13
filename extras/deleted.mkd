@@ -1,0 +1,24 @@
+% documentation revamp
+
+include sidebar-toc
+
+I apologise that many documentation bookmarks are now out of date.  This was
+not an easy decision, but I think the new doc structure is a lot more
+intuitive.
+
+The previous documentation had too much of a "reference" style, where, for
+example, if someone wanted to know about refexes, I could point to "the refex
+page".  That may be easy for responding to questions on email, but it causes
+too many small pages and too much jumping around for people who're trying to
+understand it themselves, and I got a lot of complaints about it.
+
+@@box-r(The "master table of contents" is almost always present on the right
+side, just below the "page table of contents".  Both can be toggled off if
+they distract you.)@@
+
+With this redo, you should be able to use the "master table of contents" and
+read through gitolite documentation in that sequence.  Of course there are
+places where I have no choice but to refer or link to something that has not
+been encountered yet, but generally you can ignore those links on a first pass
+through the documentation, without affecting your understanding of the page
+you're reading.

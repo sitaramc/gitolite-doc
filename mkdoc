@@ -65,7 +65,52 @@ say STDERR "----";
 system("cp -d html/*.html $OUTDIR");
 system("cp images/* $OUTDIR/images");
 
+# bloody github doesn't like symlinks...
+convert_symlinks();
+
+# ----------------------------------------------------------------------
+
 sub linkrefs_except {
     my $base = shift;
     return join " ", map { $_ eq $base ? '' : $linkrefs{$_} } keys %linkrefs;
 }
+
+sub convert_symlinks {
+    chdir $OUTDIR or die $!;
+    chdir ".." or dir $!;
+    print STDERR "in: " . `pwd`;
+
+    for my $l (`find . -name "*.html" -type l`) {
+        chomp($l);
+
+        # crude, but effective...
+        my $t = slurp($l);
+        unlink $l;
+        _print($l, $t);
+    }
+}
+
+# ----------------------------------------------------------------------
+
+sub _open {
+    open( my $fh, $_[0], $_[1] ) or die "open $_[1] failed: $!\n";
+    return $fh;
+}
+
+sub _print {
+    my ( $file, @text ) = @_;
+    my $fh = _open( ">", "$file.$$" );
+    print $fh @text;
+    close($fh) or die "close $file failed: $! at ", (caller)[1], " line ", (caller)[2], "\n";
+    my $oldmode = ( ( stat $file )[2] );
+    rename "$file.$$", $file;
+    chmod $oldmode, $file if $oldmode;
+}
+
+sub slurp {
+    return unless defined wantarray;
+    local $/ = undef unless wantarray;
+    my $fh = _open( "<", $_[0] );
+    return <$fh>;
+}
+

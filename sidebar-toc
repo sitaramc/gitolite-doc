@@ -178,6 +178,12 @@ Customising gitolite
 *   gitolite [triggers][]
 *   [list of non-core programs][list-non-core] shipped with gitolite
 
+----
+
+<center>@@red(**Extras**)@@</center>
+
+----
+
 [Odds and Ends][odds-and-ends]
 
 *   [disabling pushes][writable] to take backups
@@ -193,6 +199,7 @@ Additional information/discussion
 *   [gitolite files and directories][files]
 *   [gitolite performance][perf]
 *   [Migration][migr]
+*   [documentation for gitolite v2](http://sitaramc.github.com/gitolite/g2/master-toc.html)
 *   [regular expressions][regex]
 *   [no way!][no-way]
 

@@ -235,9 +235,24 @@ But it's allowed and the behaviour is defined.  The VREF-maker for the NAME
 VREF is a good example.  It ignores the arguments and just makes VREFs out of
 the name of every file that was changed in the push.
 
-<div style="overflow: auto">
+.#d
 
-<div class="fl-r">
+Here's another example.  Consider the problem of not allowing pushes at
+specific times.  Let's say repo 'foo' cannot be pushed between 4 and 7pm, and
+repo 'bar' can only be pushed before 9am.  And of course all this only applies
+to the junior developers, the poor guys!
+
+In this example, we write the "Hour" VREF-maker to *ignore the argument
+passed* and just print `VREF/Hour/NN` where NN can be between 00 to 23
+inclusive and of course represents the current hour.
+
+If foo is pushed at 6:30pm, the VREF-maker prints VREF/Hour/18, which
+satisfies the third rule and is rejected.
+
+If bar is pushed at, say, 7:20am, the vref printed is VREF/Hour/07, which does
+not match any of the rules.  And fallthru is success so it passes.
+
+.#d
 
 .#! conf/vim-color
     repo foo
@@ -255,24 +270,7 @@ the name of every file that was changed in the push.
         -   VREF/Hour/2[0-9]        =   @junior-devs
 .end
 
-</div>
-
-Here's another example.  Consider the problem of not allowing pushes at
-specific times.  Let's say repo 'foo' cannot be pushed between 4 and 7pm, and
-repo 'bar' can only be pushed before 9am.  And of course all this only applies
-to the junior developers, the poor guys!
-
-In this example, we write the "Hour" VREF-maker to *ignore the argument
-passed* and just print `VREF/Hour/NN` where NN can be between 00 to 23
-inclusive and of course represents the current hour.
-
-If foo is pushed at 6:30pm, the VREF-maker prints VREF/Hour/18, which
-satisfies the third rule and is rejected.
-
-If bar is pushed at, say, 7:20am, the vref printed is VREF/Hour/07, which does
-not match any of the rules.  And fallthru is success so it passes.
-
-</div>
+.#t
 
 ## why is fallthru considered success with VREFs {#vref-fallthru}
 

@@ -2,19 +2,17 @@
 
 include sidebar-toc
 
-<div style="overflow: auto">
-
-<div class="fl-r" style="width: 25%">
-
-<hr> @@red(**Looking for the old "Notes on Git" page?  Click
-[here](../index2.html)**.)@@ <hr>
-
-</div>
+.#d
 
 Gitolite allows you to setup git hosting on a central server, with
 fine-grained access control and many more powerful features.
 
-</div>
+.#d
+
+<hr /> @@red(**Looking for the old "Notes on Git" page?  Click
+[here](../index2.html)**.)@@ <hr />
+
+.#t
 
 # download {#dl -}
 
@@ -44,6 +42,11 @@ margin (possibly preceded by a "Page table of contents").
 
 If you're not sure where to start, read the main page and the overview page,
 then look over the rest of the table of contents to decide.
+
+In addition, there's an [all-in-one][gitolite] page, with topics in the same
+order as the main table of contents that you see on other pages.  If you want
+to search for something but don't know which page you saw it, load this and
+use your browser's find function to search.
 
 ## (reading order and forward references) {#fr -}
 
@@ -128,10 +131,10 @@ code snippets, as well as associated "comments" if any, to be under the GPLv2
 license.  Licensing is about intent, and the intent of these examples is that
 you use them wherever and however you can use gitolite itself.
 
->   <hr>
+>   <hr />
 >   <center>**NOTE**: GIT is a trademark of Software Freedom Conservancy and my use of
 >   "Gitolite" is under license.</center>
->   <hr>
+>   <hr />
 
 [basic]: basic.html
 [advanced]: advanced.html

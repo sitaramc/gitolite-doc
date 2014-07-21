@@ -59,7 +59,9 @@ print STDERR "\r    \n";
 
 unlink "pdh.temp";
 say STDERR "----";
-# TODO # system("pdh -t html-N -i gitolite.mkd -o $OUTDIR/gitolite.html");
+rename "sidebar-toc", $$;
+system("touch sidebar-toc; pdh -t html-N -i gitolite.mkd -o $OUTDIR/gitolite.html");
+rename $$, "sidebar-toc";
 
 # send manually created HTML pages and images
 system("cp -d html/*.html $OUTDIR");

@@ -4,7 +4,7 @@
 
 include sidebar-toc
 
-@@gray((Original version thanks to teemu dot matilainen at iki dot fi.))
+@@gray((Original version thanks to teemu dot matilainen at iki dot fi.))@@
 
 >   ----
 

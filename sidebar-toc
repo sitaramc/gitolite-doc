@@ -203,12 +203,18 @@ Additional information/discussion
 *   [regular expressions][regex]
 *   [no way!][no-way]
 
+----
+
+<center>@@red(**Contributed docs**)@@</center>
+
+----
+
 Contributed software, tools, and documentation
 
-  * [emacs][README-emacs] "major mode"
-  * [putty and msysgit][putty]
   * [combining ssh and http mode][ssh-and-http]
+  * [putty and msysgit][putty]
   * [changing keys -- self service key management][sskm]
   * [user key management][ukm]
+  * [emacs][README-emacs] "major mode"
 
 </div>

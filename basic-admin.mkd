@@ -117,9 +117,9 @@ OK) all resolve to user "alice".
 This is the simplest and most understandable way to allow multiple keys per
 user.
 
-<div style="color: gray">
-
 ## old style multi-keys
+
+<div style="color: gray">
 
 There is another way that involves creating key files like `alice@home.pub`
 and `alice@laptop.pub`, but there is a complication because gitolite also

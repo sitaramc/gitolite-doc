@@ -33,11 +33,11 @@ touching the Makefile, you can do this:
 
 .#t
 
-<div class="fl-r">
+.#d
 
 ![](vr-1.png)
 
-</div>
+.#d
 
 Here's a pictorial representation of what happens, at a very high level, based
 on the `VREF/COUNT/5` rule in the rule list above.
@@ -63,6 +63,8 @@ on the `VREF/COUNT/5` rule in the rule list above.
     the characters "VREF/" is taken as a "**virtual**" ref, and is run through
     the same "[check #2][c1c2]". @@red(**The only difference is that, unlike
     for a regular ref, fallthru does not result in failure, but success.**)@@
+
+.#t
 
 .aa vr-1.png
 
@@ -208,22 +210,14 @@ This is just like a plain 'update' hook.  Since the first 3 arguments (see
 later) are also the same that a plain 'update' hook receives, you can actually
 use any existing update hook as a VREF-maker.
 
-<div style="overflow: auto">
-
-<div class="fl-r">
+To repurpose an existing update hook as a VREF-maker, just copy it to the VREF
+directory (again, see [here][non-core] for actual locations on disk).  Then
+add this rule to your repos:
 
 .#! conf/vim-color
     repo foo    # or maybe even 'repo @all'
         -   VREF/my-update-hook     =   @all
 .end
-
-</div>
-
-To repurpose an existing update hook as a VREF-maker, just copy it to the VREF
-directory (again, see [here][non-core] for actual locations on disk).  Then
-add this rule to your repos:
-
-</div>
 
 That's it.
 

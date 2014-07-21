@@ -38,9 +38,21 @@ Gitolite has five types of non-core code:
 
 ## ...for non-core programs shipped with gitolite
 
-<div style="overflow: auto">
+.#d
 
-<pre style="float: right; font-family: 'Andale mono',monospace; margin-top: 0; font-weight: bold; padding: 4px; color: #ffffff; background-color: #000000;">
+`gitolite query-rc GL_BINDIR` will tell you where gitolite's code has been
+installed.  That directory should look like this.  Among these, the
+directories in green are considered "non-core", while the ones in red are
+considered "core".  In addition, the two files "gitolite" and "gitolite-shell"
+in src are also considered "core"
+
+You might notice that there are two locations for [triggers][]; that is simply
+because there are two types of them.  You might also notice that there is no
+place for hooks -- gitolite doesn't *ship* with any hooks that are non-core.
+
+.#d
+
+<pre style="font-family: 'Andale mono',monospace; margin-top: 0; font-weight: bold; padding: 4px; color: #ffffff; background-color: #000000;">
 
 .
 ├──<span style="color: #00ff00">commands</span>
@@ -56,37 +68,11 @@ Gitolite has five types of non-core code:
 
 </pre>
 
-`gitolite query-rc GL_BINDIR` will tell you where gitolite's code has been
-installed.  That directory should look like this.  Among these, the
-directories in green are considered "non-core", while the ones in red are
-considered "core".  In addition, the two files "gitolite" and "gitolite-shell"
-in src are also considered "core"
-
-You might notice that there are two locations for [triggers][]; that is simply
-because there are two types of them.  You might also notice that there is no
-place for hooks -- gitolite doesn't *ship* with any hooks that are non-core.
-
-</div>
+.#t
 
 ## ...for *your* non-core programs {#localcode}
 
-<div style="overflow: auto">
-
-<pre style="float: right; font-family: 'Andale mono',monospace; margin-top: 0; font-weight: bold; padding: 4px; color: #ffffff; background-color: #000000;">
-
-.
-├──<span style="color: #00ff00">commands</span>
-├── hooks
-│   └── <span style="color: #00ff00">common</span>
-│   └── <span style="color: #00ff00">repo-specific</span>
-├── lib
-│   └── Gitolite
-│       └── <span style="color: #00ff00">Triggers</span>
-├── <span style="color: #00ff00">syntactic-sugar</span>
-├── <span style="color: #00ff00">triggers</span>
-└── <span style="color: #00ff00">VREF</span>
-
-</pre>
+.#d
 
 If you want to add your own non-core programs, or even *override* the shipped
 ones with your own, you can.
@@ -107,11 +93,27 @@ which exist in the shipped non-core code.  Also, the `hooks/common` directory
 is a bit special.  If you add new hooks to this, you must run `gitolite
 setup`, or at least `gitolite setup --hooks-only`.)@@
 
-</div>
+.#d
+
+<pre style="float: right; font-family: 'Andale mono',monospace; margin-top: 0; font-weight: bold; padding: 4px; color: #ffffff; background-color: #000000;">
+
+.
+├──<span style="color: #00ff00">commands</span>
+├── hooks
+│   └── <span style="color: #00ff00">common</span>
+│   └── <span style="color: #00ff00">repo-specific</span>
+├── lib
+│   └── Gitolite
+│       └── <span style="color: #00ff00">Triggers</span>
+├── <span style="color: #00ff00">syntactic-sugar</span>
+├── <span style="color: #00ff00">triggers</span>
+└── <span style="color: #00ff00">VREF</span>
+
+</pre>
+
+.#t
 
 ## using the gitolite-admin repo to manage non-core code {#pushcode}
-
-<div style="overflow: auto">
 
 <div class="box-r" style="margin-left:4px; width: 33%">
 
@@ -142,8 +144,6 @@ paths, in the location pointed to by LOCAL\_CODE.
 
 (Note: when you do this, gitolite takes care of running `gitolite setup
 --hooks-only` when you change any hooks and push).
-
-</div>
 
 # types of non-core programs {#nctypes}
 

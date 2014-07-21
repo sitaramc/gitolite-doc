@@ -28,9 +28,7 @@ documentation before asking for help.
 In gitolite, the person who controls the keys is the most critical in terms of
 security -- because he can always add his own key in your name :-)
 
-<div style="overflow: auto">
-
-<div class="fl-r">
+.#d
 
 .#! conf/vim-color
     repo gitolite-admin
@@ -43,7 +41,7 @@ security -- because he can always add his own key in your name :-)
     include "actual.conf"
 .end
 
-</div>
+.#d
 
 Traditionally, the same person also administers repos and permissions.  But
 sometimes you want to separate them.
@@ -51,7 +49,7 @@ sometimes you want to separate them.
 To separate those roles, put the following in conf/gitolite.conf, and let the
 repo-manager manage everything through "actual.conf":
 
-</div>
+.#t
 
 # access {#cb-access}
 
@@ -88,7 +86,7 @@ You can even test for access to specific branches:
         ...
 
 @@gray(If your gitolite is older than v3.6, you must use the full ref name;
-just 'master' won't do).
+just 'master' won't do.)@@
 
 ## allowing access by other programs
 

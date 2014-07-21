@@ -255,11 +255,11 @@ A more detailed explanation, with figures, is [here][how].
 v2.x, presumably because it's working fine for them and there's no compelling
 reason to upgrade, and I still support v2 at least for critical issues].
 
->   <hr>
+>   <hr />
 >   If you're using gitolite and find it very useful in some way, I would
 >   love to describe your use of it or add a link to your own description
 >   of it here.  Of course, you can anonymise it as much as you need to.
->   <hr>
+>   <hr />
 
 The **Fedora Project** controls access to over 10,000 package management
 repositories accessed by over 1,000 package maintainers [using
@@ -354,10 +354,10 @@ that gitolite benefits as much as they do; possibly more.
 Please see the [license][] section for details on the licenses for gitolite
 code and documentation.
 
->   <hr>
+>   <hr />
 >   <center>**NOTE**: GIT is a trademark of Software Freedom Conservancy and my use of
 >   "Gitolite" is under license.</center>
->   <hr>
+>   <hr />
 
 [basic]: basic.html
 [advanced]: advanced.html

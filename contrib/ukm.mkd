@@ -497,7 +497,7 @@ probably fail. Then simply redo the command after a while.
 
 # Security note
 
-<a id="MULTIKEY">
+<a id="MULTIKEY" />
 [Super key managers](#SKM) can basically add any key.
 [Guest key managers](#GKM) are not allowed to add
 [multiple keys][multi-key] and this restriction is hardcoded.

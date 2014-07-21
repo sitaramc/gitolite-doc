@@ -1,0 +1,110 @@
+<!-- options: toc toc-depth=6 -->
+
+% gitolite all-in-one page
+
+<!-- master mode -->
+
+# background
+
+include index.mkd
+
+include overview.mkd
+
+include concepts.mkd
+
+include req.mkd
+
+# basics
+
+include install.mkd
+
+include basic-admin.mkd
+
+include conf.mkd
+
+include rc.mkd
+
+include user.mkd
+
+include emergencies.mkd
+
+include ips.mkd
+
+include cookbook.mkd
+
+# advanced
+
+include git-config.mkd
+
+include options.mkd
+
+include wild.mkd
+
+include vref.mkd
+
+include deleg.mkd
+
+include gitweb-daemon.mkd
+
+include mirroring.mkd
+
+include http.mkd
+
+include cache.mkd
+
+include namespaces.mkd
+
+include locking.mkd
+
+include package.mkd
+
+include non-core.mkd
+
+include dev-notes.mkd
+
+include triggers.mkd
+
+include list-non-core.mkd
+
+# extras
+
+include odds-and-ends.mkd
+
+include extras/ssh.mkd
+
+include testing.mkd
+
+include files.mkd
+
+include perf.mkd
+
+include extras/migr.mkd
+
+include extras/regex.mkd
+
+include extras/no-way.mkd
+
+include extras/g2migr-example.mkd
+
+include extras/glssh.mkd
+
+include extras/gsmigr.mkd
+
+include extras/rc-33.mkd
+
+include extras/sts.mkd
+
+include extras/why-v3.mkd
+
+# contributed documentation
+
+include contrib/ssh-and-http.mkd
+
+include contrib/putty.mkd
+
+include contrib/sskm.mkd
+
+include contrib/ukm.mkd
+
+include contrib/README-emacs.mkd
+

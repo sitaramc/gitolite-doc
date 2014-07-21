@@ -330,7 +330,7 @@ In addition:
 @@gray(You can also use [virtual refs][vref] to perform extra checks and
 controls that you can't do with just the normal ref (like refs/heads/master)
 being pushed.  The most common example is restricting pushes by dir/file name,
-but there are lots of other possibilities.)
+but there are lots of other possibilities.)@@
 
 ### user/user group list
 

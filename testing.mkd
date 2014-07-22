@@ -1,4 +1,4 @@
-% trying out and testing gitolite
+% testing gitolite
 
 # testing gitolite
 

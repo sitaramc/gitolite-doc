@@ -36,7 +36,8 @@ anyway.  If you want to make sure, there's a section on trying it out safely.
 
   * Any Unix system with a posix compatible "sh" and a **sane** file system.
   * Git version 1.6.6 or later.
-  * Perl 5.8.8 or later.
+  * Perl 5.8.8 or later (see <https://lwn.net/Articles/348084/> if this does
+    not seem to be enough).
   * Openssh (almost any version).  Optional if you're using [smart
     http][http].
   * A dedicated Unix userid to be the hosting user, usually "git" but it can

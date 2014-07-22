@@ -16,7 +16,7 @@ Documentation for non-core gitolite is organised as follows:
   * The [developer notes][dev-notes] page tells you how to write your own
     non-core programs.
 
-  * The [list of non-core programs][non-core] talks about what's already
+  * The [list of non-core programs][list-non-core] talks about what's already
     shipped with gitolite, with a brief description of each.
 
 ----

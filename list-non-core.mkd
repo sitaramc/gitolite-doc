@@ -153,10 +153,14 @@ source code, but did not fit anywhere else neatly enough.
 Git (and therefore gitolite) cannot do selective read control -- allowing
 someone to read branch A but not branch B.  It's the entire repo or nothing.
 
-<font color="gray">(Side note: Gerrit Code Review can do that, but that is
-because they have their own git stack (and their own sshd, and so on) all in
-one big Java program.  Gerrit is *really* useful if you want code review to be
-part of the access control decision) </font>
+@@box-r(Gerrit Code Review can do that, but that is because they have their
+own git (as well as their own sshd, and so on).  If code review is part of
+your access control decision, you really should consider Gerrit anyway.)@@
+
+The standard answer you get when you ask is "use separate repos" (where one
+contains all the branches, and one contains a subset of the branches).  This
+is nice in theory but in practice, when people are potentially *pushing* to
+both repos, you need to figure out how to keep them in sync.
 
 Gitolite can now help you do this.  Note that this is only for branches; you
 can't do this for files and directories.

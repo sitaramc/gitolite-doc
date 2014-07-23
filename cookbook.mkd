@@ -215,7 +215,14 @@ to apply them only to certain repos:
 
         LOCAL_CODE => "$rc{GL_ADMIN_BASE}/local",
 
-2.  put your hooks into your gitolite-admin clone, as follows:
+2.  uncomment the 'repo-specific-hooks' line in the rc file or add it to the
+    ENABLE list if it doesn't exist.
+
+    If your rc file does not have an ENABLE list, you need to add this to the
+    POST_COMPILE and the POST_CREATE lists.  Click [here][addtrig] for more on
+    all this.
+
+3.  put your hooks into your gitolite-admin clone, as follows:
 
         # on your workstation
         cd /path/to/your/gitolite-admin-clone
@@ -225,7 +232,7 @@ to apply them only to certain repos:
     "standard" names (pre-receive, post-receive, post-update), you use
     descriptive names (e.g. "deploy", "RSS-post", etc).
 
-3.  add them to the repos you want them to be active in, in your conf file.
+4.  add them to the repos you want them to be active in, in your conf file.
     For example:
 
         repo foo
@@ -233,7 +240,7 @@ to apply them only to certain repos:
         repo bar @baz
             option hook.post-update     =   deploy RSS-post
 
-4.  add, commit, and push the admin repo.
+5.  add, commit, and push the admin repo.
 
 # VREFs {#cb-vrefs}
 

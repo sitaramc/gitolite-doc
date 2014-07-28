@@ -23,6 +23,9 @@ If your Unix-fu and ssh-fu are good, installing gitolite is as simple as
 copying your public key over to the hosting user, and running a couple of
 commands, as the [quick install][qi] section of the install page shows.
 
+@@red(If you're installing via your package manager, make sure you get the
+correct version; see the [install][] page for details.)@@
+
 # documentation {#rtfm -}
 
 <div class="green box-r" style="padding: 10px">

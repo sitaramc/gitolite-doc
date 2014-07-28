@@ -12,8 +12,16 @@ step gets the code to where you want it.  The setup step creates the files and
 directories gitolite needs, including the special gitolite-admin repo, and
 makes you an administrator so you can manage it remotely.
 
-@@red(**NOTE**: if you're looking to migrate from one of the older versions of
-gitolite, instructions are [here][migr].)@@
+@@red(**NOTE** on package manager installs)@@: make sure you get gitolite
+**v3.x**.  The correct package you want may be called "gitolite3", even though
+"gitolite" also exists.  If you want to know what the latest gitolite version
+is, the gitolite [CHANGELOG][cl] will tell you.
+
+[cl]: https://github.com/sitaramc/gitolite/blob/master/CHANGELOG
+
+@@red(**NOTE** on upgrades from v1 or v2)@@: upgrading from v1 or v2 is
+reasonably easy, but, sadly, cannot be automated.  Instructions are
+[here][migr].
 
 # quick install+setup for experts {#qi}
 

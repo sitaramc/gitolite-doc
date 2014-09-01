@@ -20,6 +20,14 @@ then point you [here][gsmigr].)@@
 
 # pre-migration checklist
 
+@@box-r(Both Fedora/RH and Debian use 'gitolite3' as the package name for this
+version, because it is not auto-upgradable from v2.  You may need to uninstall
+'gitolite' then install 'gitolite3' in that case.  Please take a backup of at
+least `~/repositories/gitolite-admin.git`, `~/.gitolite.rc`, and `~/.gitolite`
+before doing that.  You may need more specific help if you're using any of the
+settings marked as "requires presetting" in the "high impact" subsection
+below; please [contact][] me if needed.)
+
 This section tells you what changes affect you and your users.  The closer you
 were to a default install of the old gitolite, the less time a migration will
 take.

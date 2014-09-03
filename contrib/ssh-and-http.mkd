@@ -15,11 +15,8 @@ Assumptions:
 
 Please adjust the instructions below to reflect your setup (users and paths).
 
-Edit your .gitolite.rc and add
-
-    $ENV{PATH} .= ":/opt/git/bin";
-
-at the very top (as described in `t/smart-http.root-setup`).
+Add an option like this inside your "%RC = (" section:
+    HTTP_ANON_USER  => 'gitweb',
 
 Next, check which document root your Apache's suexec accepts:
 
@@ -34,12 +31,9 @@ Next, check which document root your Apache's suexec accepts:
 
 We're interested in `AP_DOC_ROOT`, which is set to `/var/www` in our case.
 
-Create a `bin` and a `git` directory in `AP_DOC_ROOT`:
+Create a `bin` directory in `AP_DOC_ROOT`:
 
     install -d -m 0755 -o git -g git /var/www/bin
-    install -d -m 0755 -o www -g www /var/www/git
-
-`/var/www/git` is just a dummy directory used as Apache's document root (see below).
 
 Next, create a shell script inside `/var/www/bin` named `gitolite-suexec-wrapper.sh`,
 with mode **0700** and owned by user and group **git**. Add the following content:

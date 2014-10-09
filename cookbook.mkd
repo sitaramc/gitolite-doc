@@ -2,6 +2,9 @@
 
 % gitolite cookbook
 
+>   @@gray((a.k.a. "shut up with all the rambling and just tell me the bare
+>   minimum I need to finish this!"))@@
+
 include sidebar-toc
 
 @@box-r(Note: This page has several [forward references][fr].  Skip it, or

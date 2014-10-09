@@ -123,7 +123,7 @@ then running that command with '-h' may give you additional information.
 # security note: gitolite admin and shell access {#privesc}
 
 @@box-r(If you *must* revision control it, you can.  Just add it to your admin
-repo, push the change, then replace `~/.gitolite.rc` with a symlink
+repo, push the change, then replace `~/.gitolite.rc` with a symlink to
 `~/.gitolite/.gitolite.rc`.)@@
 
 People sometimes ask why this file is also not revision controlled.  Here's

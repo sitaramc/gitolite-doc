@@ -26,7 +26,7 @@ version, because it is not auto-upgradable from v2.  You may need to uninstall
 least `~/repositories/gitolite-admin.git`, `~/.gitolite.rc`, and `~/.gitolite`
 before doing that.  You may need more specific help if you're using any of the
 settings marked as "requires presetting" in the "high impact" subsection
-below; please [contact][] me if needed.)
+below; please [contact][] me if needed.)@@
 
 This section tells you what changes affect you and your users.  The closer you
 were to a default install of the old gitolite, the less time a migration will

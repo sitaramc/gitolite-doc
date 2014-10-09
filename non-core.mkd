@@ -55,7 +55,7 @@ place for hooks -- gitolite doesn't *ship* with any hooks that are non-core.
 <pre style="font-family: 'Andale mono',monospace; margin-top: 0; font-weight: bold; padding: 4px; color: #ffffff; background-color: #000000;">
 
 .
-├──<span style="color: #00ff00">commands</span>
+├── <span style="color: #00ff00">commands</span>
 ├── lib
 │   └── Gitolite
 │       ├── <span style="color: #ff0000">Conf</span>
@@ -98,7 +98,7 @@ setup`, or at least `gitolite setup --hooks-only`.)@@
 <pre style="float: right; font-family: 'Andale mono',monospace; margin-top: 0; font-weight: bold; padding: 4px; color: #ffffff; background-color: #000000;">
 
 .
-├──<span style="color: #00ff00">commands</span>
+├── <span style="color: #00ff00">commands</span>
 ├── hooks
 │   └── <span style="color: #00ff00">common</span>
 │   └── <span style="color: #00ff00">repo-specific</span>

@@ -116,7 +116,7 @@ something I can help with.  Sorry.
 Most day-to-day administration is done by making changes to a clone of the
 gitolite-admin repo and pushing.  (There are some things that are done by
 editing `$HOME/.gitolite.rc` on the server, but those are too advanced for
-this tutorial so we will ignore that).
+this tutorial so we will ignore that for the most part).
 
 1.  To start administering gitolite, clone the gitolite-admin repo:
 
@@ -161,8 +161,16 @@ this tutorial so we will ignore that).
             RW+     =   alice
             R       =   ron
 
-    Save the file, then `git add conf; git commit -m 'new repo foo'; git
-    push`.
+    Save the file, then `git add conf; git commit -m 'new repo foo'.
+
+5.  On the server, edit the "$HOME/.gitolite.rc" file as follows:
+
+        # find the line which looks as follows:
+        GIT_CONFIG_KEYS                 =>  '',
+        # and edit it to look as follows:
+        GIT_CONFIG_KEYS                 =>  '.*',
+
+6.  Now issue a `git push` on the local computer.
 
     This will automatically the brand new repo called "foo" on the server, and
     alice will be able to clone from it, or push anything to it.

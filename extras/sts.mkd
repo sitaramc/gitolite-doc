@@ -457,9 +457,39 @@ say `ssh gitolite` and `git clone gitolite:reponame` and things will work.
 (By the way, the 'port' and 'identityfile' lines are needed only if you have
 non-default values, although I put them in anyway just to be complete).
 
+## more than one keypair
+
 If you have *more than one* pubkey with access to the *same* server, you
 **must** use this method to make git pick up the right key.  There is no other
 way to do this, as far as I know.
+
+A typical example would be if you wanted shell access to the gitolite server
+using one keypair, and gitolite-mediated access using another.  Here's how I
+do that, where my "id\_rsa" keypair has shell access, and my "sitaram" keypair
+has gitolite access:
+
+.#! conf/vim-color
+    host gitolite
+        user git
+        hostname gitolite.mydomain.com
+        port 22
+        identityfile ~/.ssh/sitaram
+
+    host gitolite-sh
+        user git
+        hostname gitolite.mydomain.com
+        port 22
+        identityfile ~/.ssh/id_rsa
+    # vim: set ft=sshconfig:
+.end
+
+Then I would use "ssh gitolite-ssh" to get a command line, and use the host
+alias "gitolite" in git clone and other commands, as well as for gitolite
+commands (like "ssh gitolite info").
+
+Just to be clear, please note that this assumes the authorized keys file on
+the gitolite hosting user has my "id\_rsa.pub" line, **without** the gitolite
+related forced command and options.
 
 [tut]: http://sites.google.com/site/senawario/home/gitolite-tutorial
 

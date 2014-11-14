@@ -371,8 +371,10 @@ configurations for all servers in one repo, yet have them act differently on
 different servers, by saying something like:
 
 .#! conf/vim-color
-    subconf "%HOSTNAME/*.conf"
+    include "%HOSTNAME/*.conf"
 .end
+
+(See [include][] for more on the 'include' command).
 
 You can use it in other places also, for example:
 

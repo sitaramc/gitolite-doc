@@ -78,6 +78,9 @@ will include the contents of the file "conf/foo.conf".
 *   If you ended up recursing, files that have been already processed once are
     skipped, with a warning.
 
+*   It is not a fatal error for an include file to be missing.  If it is a
+    glob, you won't even get a warning.
+
 <font color="gray">Advanced users: `subconf`, a command that is very closely
 related to `include`, is documented [here][subconf].</font>
 

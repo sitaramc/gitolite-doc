@@ -6,7 +6,7 @@ use 5.10.0;
 # run from gitolite-doc as "./mkdoc"
 
 # my $OUTDIR = "/tmp/doc2";
-my $OUTDIR = "$ENV{HOME}/imli/tech/repos/sitaramc.github.com/gitolite";
+my $OUTDIR = "$ENV{HOME}/gits/sitaramc.github.com/gitolite";
 unless (@ARGV) {
     system("rm     $OUTDIR/*.html");
     system("rm -rf $OUTDIR/images");

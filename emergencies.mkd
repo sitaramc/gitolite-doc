@@ -151,15 +151,23 @@ Here's a list of files and directories to deal with:
 
   * If you have your sshd configured to put the authorized\_keys file
     somewhere other than the default (which is in .ssh in the [hosting
-    user][hu]'s home directory).
+    user][hu]'s home directory), you'll probably have to roll your own ssh
+    handling, either disabling 'ssh-authkeys' in the rc file, or building on
+    that somehow (maybe a post-processing step that copies the relevant auth
+    keys lines from the default file to the other).
 
-  * Having sshd setup to not allow incoming ssh for the hosting user.  Check
-    things like 'Allowusers' setting in /etc/ssh/sshd\_config etc.
+  * If you have sshd setup to not allow incoming ssh for the hosting user,
+    gitolite won't work.  Check things like 'Allowusers' setting in
+    /etc/ssh/sshd\_config etc. to make sure.
 
-  * Having the home directory in a partition that is mounted noexec.
+  * If you have the home directory in a partition that is mounted noexec,
+    gitolite won't work.  I believe it would be sufficient if the ".gitolite"
+    directory were moved to a different mount and symlinked, but please test
+    thoroughly.  A failure to execute a hook does not throw up any errors or
+    warnings for you to notice!
 
-  * Having the default shell be something like /bin/false, and/or not having
-    the default shell be part of /etc/shells.
+  * If the default shell is something like /bin/false, and/or not listed in
+    /etc/shells, there might be problems.
 
 # things that are not gitolite problems {#ngp}
 

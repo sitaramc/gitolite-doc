@@ -344,7 +344,7 @@ concept of regular expressions for user names).
 **SECTION SUMMARY**: at this point you know that each rule basically specifies
 a repo, user, permission, and a "refex".
 
-## rule accumulation
+## rule accumulation {#accum}
 
 .#d
 

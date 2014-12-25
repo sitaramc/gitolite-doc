@@ -346,6 +346,54 @@ to be careful when constructing the VREF rule.  For any VREF/FROM/A/B, the
 result of running `ipcalc -n A/B` must be A, otherwise this won't work.  That
 is, the bits of the network address after the network bits must be zero).
 
+# wild repos
+
+## making exceptions for *specific* instances of a wild repo
+
+Sometimes you want to specify rules or config for specific instances of a wild
+repo, while still leaving it to be created by a user in the normal way.
+
+This **will not** work:
+
+.#! conf/vim-color
+    repo foo/..*
+        C                   =   blah blah
+        RW+                 =   CREATOR
+        RW                  =   WRITERS
+        R                   =   READERS
+
+    # this does NOT work
+    repo foo/special-1
+        RW+                 =   sitaram
+        option  foo.bar     =   baz
+.end
+
+The repo will be created as a **normal** (not wild) repo as soon as you push,
+which means you can't run the [perms][] command on it to add people to the
+READERS and WRITERS [roles][], or do other things that wild repos allow.
+
+The mental nudge you need to deal with this is to think what you would do if
+you had to write the same rule for more than one repo, say, any repo starting
+with "foo/special-" followed by a number.  You'd use a pattern.  And a pattern
+prevents an ordinary repo from being created.
+
+So do this:
+
+.#! conf/vim-color
+    # this will work
+    repo foo/special-[1]
+        RW+                 =   sitaram
+        option  foo.bar     =   baz
+.end
+
+Using a pattern for just one repo might sound like a kludge, but it's
+perfectly valid and supported.
+
+Note that you do NOT need a "C" rule in there, since the pattern is a subset
+of the previous one (`foo/..*`), everything there applies to this repo also.
+If you're not sure why that is, you may need to read up on [rule
+accumulation][accum].
+
 # moving stuff around {#cb-move}
 
 ## moving a gitolite install from one machine to another

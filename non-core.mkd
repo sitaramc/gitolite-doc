@@ -221,12 +221,9 @@ together, you can do that also.  Here's how.
 
     **WARNING**: if the hook already exists, it is silently overwritten.
 
-    **WARNING**: once the hook is placed, you can't remove it through
+    **WARNING**: @@gray((v3.5.x or below))@@ once the hook is placed, you can't remove it through
     gitolite.  That is, removing the option line won't do anything.  You'll
-    have to go to the server and remove it manually.  (You could, as a simple
-    work-around, create a "no-op" script that just does "exit 0", and change
-    the option line to point the hook to that, so it *effectively* gets
-    deleted!).
+    have to go to the server and remove it manually.
 
   * @@gray((v3.6+))@@ You can assign multiple targets for each hook.  For
     example, you could say

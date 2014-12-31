@@ -9,7 +9,7 @@ directories][clobber] in your `$HOME`.  Ideally, you should use a throwaway
 userid**.</font>
 
 Running gitolite's test suite is really just a superset of [trying it out
-safely[trying].
+safely][trying].
 
 To run the full test suite, create a **throw-away userid**, log in to it, then
 run these commands:

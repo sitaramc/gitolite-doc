@@ -164,5 +164,5 @@ this tutorial so we will ignore that).
     Save the file, then `git add conf; git commit -m 'new repo foo'; git
     push`.
 
-    This will automatically the brand new repo called "foo" on the server, and
+    This will automatically create a brand new repo called "foo" on the server, and
     alice will be able to clone from it, or push anything to it.

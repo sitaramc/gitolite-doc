@@ -46,7 +46,7 @@ margin (possibly preceded by a "Page table of contents").
 If you're not sure where to start, read the main page and the overview page,
 then look over the rest of the table of contents to decide.
 
-In addition, there's an [all-in-one][gitolite] page, with topics in the same
+In addition, there's an [**all-in-one**][gitolite] page, with topics in the same
 order as the main table of contents that you see on other pages.  If you want
 to search for something but don't know which page you saw it, load this and
 use your browser's find function to search.

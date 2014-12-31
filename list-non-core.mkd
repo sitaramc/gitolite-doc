@@ -56,6 +56,7 @@ Also note that not all of these commands are available remotely.
   * *[lock][locking]* -- lock binary files for exclusive use (in combination
     with the 'lock' VREF)
   * *[mirror][sync]* -- manually mirror a repo to a slave
+  * *option* @@gray((v3.6.3+))@@ -- allow repo owner to set options for a repo
   * **[perms][]** -- list or set permissions for wild repo
   * *[push][bypass]* -- push a gitolite repo locally, bypassing gitolite
   * *rsync* -- bundling support for gitolite

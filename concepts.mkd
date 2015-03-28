@@ -1,6 +1,6 @@
 <!-- options: toc -->
 
-% Concepts and Terminology
+% Concepts, Conventions, and Terminology
 
 include sidebar-toc
 
@@ -57,7 +57,7 @@ however, it may be a little easier for your users.  Authentication is by
 username + password, which, although much less secure than RSA keypairs, is
 conceptually easier for users.
 
-# hosting user {#hu}
+# the "hosting user" {#hu}
 
 When you install gitolite in ssh mode, you pick one specific user on the Unix
 system to be the "hosting user".  This is the user whose name goes into the
@@ -75,6 +75,23 @@ examples accordingly.  **Unless otherwise stated, everything that we do "on
 the server" is done in this userid (for ssh mode installations).**
 
 Of course you can have any number of "hosting users", but that's rare.
+
+# the "logical repo name" {#lrepo}
+
+Gitolite refers to repos using a logical repo name, which is whatever name you
+specified in the gitolite.conf file (described later).  The actual repo will
+be in `$HOME/repositories`, and will have a ".git" suffix.  So, for example,
+the logical repo name "foo" will be `$HOME/repositories/foo.git` on disk, and
+"bar/baz" will be `$HOME/repositories/bar/baz.git`.  The logical repo name is
+what you must use for all interactions with gitolite (within the conf file,
+repo name arguments to gitolite commands or API functions, etc.) unless
+specifically documented otherwise.
+
+One exception: you're allowed to add the ".git" extension in git commands
+(clone, fetch, push, ls-remote, archive) if you wish, because git itself
+allows it, and we'd like to be as transparent as possible.  The
+`$HOME/repositories` prefix should never be specified.  If you do specify it,
+and things appear to work, [something is wrong!][ybpfail].
 
 # the special gitolite-admin repo
 

@@ -96,11 +96,12 @@
 *   how does it work?
 *   who uses it?
 
-[Concepts and terminology][concepts]
+[Concepts, conventions, and terminology][concepts]
 
 *   authentication and authorisation
-*   the "hosting user"
 *   ssh mode and http mode
+*   the "hosting user"
+*   the "logical repo name"
 *   the special gitolite-admin repo
 
 [Before you start...][req]

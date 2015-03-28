@@ -503,11 +503,10 @@ gitolite.
 
 It also means git operations look for repos in `$HOME`.
 
-However, gitolite places all your repos in a subdirectory pointed to by
-`$REPO_BASE` in the rc file (default: `repositories`), and internally prefixes
-this before calling the actual git command you invoked.  Thus, the pathname of
-the repo that you use on the client is almost never the correct pathname on
-the server.  (This is by design.  Don't argue...)
+However, gitolite places all your repos in `~/repositories`, and internally
+prefixes this before calling the actual git command you invoked.  Thus, the
+pathname of the repo that you use on the client is almost never the correct
+pathname on the server.  (This is by design.  Don't argue...)
 
 This means that, you get 2 kinds of errors if you bypass gitolite
 
@@ -516,8 +515,7 @@ This means that, you get 2 kinds of errors if you bypass gitolite
     is not found.  Neither a clone/fetch nor a push will work.
 
   * Conversely, consider `git@server:repositories/reponame.git`.  The clone
-    operation will work -- you're using the full Unix path, (assuming default
-    `$REPO_BASE` setting), and so the shell finds the repo where you said it
-    would be.  However, when you push, gitolite's **update hook** kicks in,
-    and fails to run because some of the environment variables it is expecting
-    are not present.
+    operation will work -- you're using the full Unix path, and so the shell
+    finds the repo where you said it would be.  However, when you push,
+    gitolite's **update hook** kicks in, and fails to run because some of the
+    environment variables it is expecting are not present.

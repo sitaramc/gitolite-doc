@@ -5,6 +5,11 @@ use 5.10.0;
 
 # run from gitolite-doc as "./mkdoc"
 
+# this file is needed for my greps to work without too many errors, but should
+# NOT be present when running mkdoc.  So we delete it here and put it back
+# later (it's just an empty file anyway).
+unlink "html/deleted.html";
+
 # my $OUTDIR = "/tmp/doc2";
 my $OUTDIR = "$ENV{HOME}/data/gits/sitaramc.github.com/gitolite";
 unless (@ARGV) {
@@ -67,6 +72,9 @@ rename $$, "sidebar-toc";
 system("cp -d html/*.html $OUTDIR");
 system("cp images/* $OUTDIR/images");
 
+# put the empty file back
+_print("html/deleted.html", "");
+
 # bloody github doesn't like symlinks...
 convert_symlinks();
 
@@ -79,7 +87,7 @@ sub linkrefs_except {
 
 sub convert_symlinks {
     chdir $OUTDIR or die $!;
-    chdir ".." or dir $!;
+    chdir ".." or die $!;
     print STDERR "in: " . `pwd`;
 
     for my $l (`find . -name "*.html" -type l`) {

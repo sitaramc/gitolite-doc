@@ -40,6 +40,7 @@ Also note that not all of these commands are available remotely.
 (The more common/important commands are in bold).
 
   * *access* -- print or test access rights for repo/user
+  * *config* @@gray((v3.6.3+))@@ -- allow limited remote use of 'git config'
   * *create* -- create a wild repo
   * *creator* -- print or test creator name for wild repo
   * *D* -- lets you *D*elete wild repos created using the *C* permission :)
@@ -56,10 +57,14 @@ Also note that not all of these commands are available remotely.
   * *[lock][locking]* -- lock binary files for exclusive use (in combination
     with the 'lock' VREF)
   * *[mirror][sync]* -- manually mirror a repo to a slave
+  * *motd* @@gray((v3.6.1+))@@ -- set/remove a message of the day, per repo or for the whole
+    system
   * *option* @@gray((v3.6.3+))@@ -- allow repo owner to set options for a repo
   * **[perms][]** -- list or set permissions for wild repo
   * *[push][bypass]* -- push a gitolite repo locally, bypassing gitolite
-  * *rsync* -- bundling support for gitolite
+  * *readme* @@gray((v3.6.1+))@@ -- show, remove or set the README.html file for repo.
+  * *rsync* -- resumable downloads of git bundles (bundles are auto-created as
+    needed)
   * *sshkeys-lint* -- look for potential problems in ssh keys
   * *[sskm][]* -- self-service key management
   * *sudo* -- allows an admin (i.e., someone who has push rights to the

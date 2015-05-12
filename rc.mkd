@@ -1,13 +1,11 @@
+<!-- options: toc -->
+
 % the "rc" file (`$HOME/.gitolite.rc`)
 
 include sidebar-toc
 
 **IMPORTANT**: if you have a v3.0-v3.3 rc file it is documented [here][rc-33],
-and it will still work.  In fact internally the v3.4 rc file data gets
-converted to the v3.3 format.  That is, you don't have to upgrade your rc file
-just because you upgraded gitolite; you only need to do that if you wish to
-use any new features.  There's a simple program to help you do that
-(@@gray(v3.6.1)@@ -- see contrib/utils/rc-format-v3.4).
+and it will still work.  Please see appendix A below for details.
 
 @@gray(**If you're migrating from v2**, there are some settings that MUST be
 dealt with **before** running `gitolite setup`; please read the
@@ -19,16 +17,18 @@ the rc file".)@@
 @@box-r(Note: This page has several [forward references][fr]!)@@
 
 The rc file is designed to be the only thing unique to your site for most
-setups.  What is new is that it is easy to extend it when new needs come up,
-without having to touch core gitolite.
+setups.
+
+The rc file is well commented.  Please look at the `~/.gitolite.rc` file that
+gets installed when you setup gitolite.  **You can always get a default copy
+for your current version by running `gitolite print-default-rc`.**  (Please
+see appendix A for upgrade instructions.)
+
+# structure of the rc file
 
 The rc file is perl code, but you do NOT need to know perl to edit it.  Just
 mind the commas, use single quotes unless you know what you're doing, and make
 sure the brackets and braces stay matched up!
-
-The rc file is well commented.  Please look at the `~/.gitolite.rc` file that
-gets installed when you setup gitolite.  You can always get a default copy for
-your current version by running `gitolite print-default-rc`.
 
 As you can see there are 3 types of variables in it:
 
@@ -140,3 +140,47 @@ shell access to.
 
 Therefore, gitolite tries very hard to make sure that people in the first set
 are not allowed to do anything that gets them into the second set.
+
+# appendix A: upgrading the rc file
+
+First, note that upgrading the rc file is always *optional*.  However, it may
+help if you want to use any of the new features available in later gitolite
+releases, in the sense that the lines you need to add may already be present
+(commented out) in the rc file, so you just need to uncomment them instead of
+typing them in yourself.
+
+If you have a v3.0-v3.3 rc file it is documented [here][rc-33], and it will
+still work.  In fact internally the v3.4 rc file data gets converted to the
+v3.3 format.  There's a simple program to help you upgrade a v3.3 (or prior)
+rc file (in @@gray(v3.6.1+)@@, see contrib/utils/rc-format-v3.4), but it has
+probably not seen too much testing; please tread carefully and report any
+problems you find.
+
+Upgrading from any v3.4+ rc file to any later gitolite is fairly easy, though
+still manual.  One useful aid is that, as of v3.6.4, you can run `gitolite
+query-rc -d` to dump the entire rc structure to STDOUT.  **This only requires
+that gitolite be v3.6.4+; your rc file can still be the old one.**  You can
+use this to confirm you did not miss something during the manual rc upgrade.
+
+*   dump the current rc by running `gitolite query-rc -d > old.dump` (assuming
+    you upgraded to v3.6.4 or higher)
+
+*   save your old rc file: `mv ~/.gitolite.rc ~/old.gitolite.rc
+
+*   get a "default" rc for your current gitolite by running
+
+        gitolite print-default-rc > ~/.gitolite.rc
+
+*   use your favourite diff-ing editor on the old and the new files and figure
+    out what to carry over from the old rc file to the new one.
+
+        vimdiff ~/old.gitolite.rc ~/.gitolite.rc
+        # maybe kdiff3 or whatever
+
+    This is the tricky part of course!  Watch out for configs that got *moved*
+    around, or in some cases removed completely, not just new config items.
+
+*   dump the new rc by running `gitolite query-rc -d > new.dump`
+
+*   compare the 2 rc dumps to make sure you've got everything covered.
+

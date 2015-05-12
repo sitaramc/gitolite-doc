@@ -911,15 +911,14 @@ your understanding.
 to gitolite [options][], and the special users [gitweb and
 daemon][gitweb-daemon]).)@@
 
-Observant readers will notice that in the pictures under the section "when
-does gitolite check access", it was clear that check #2 only happens with an
-actual, known, ref.  Yet box #3 in the "putting it all together" section is
-checking whether the ref is unknown.  Why does it bother doing that?
+Normally, deny rules are ignored by access check #1 (the one that runs
+*before* git-upload-pack or git-receive-pack is called by gitolite-shell);
+they apply only to check #2 (the update hook check).
 
-That's because there are some situations where you want even *read* access
-(where the ref is unknown) to use "deny rules".  That is, you want to say "use
-check #2, not check #1, in gitolite-shell" (i.e., the yellow boxes within the
-green "gitolite-shell" box in the "when does gitolite check access" section).
+But sometimes you want this "pre-git" access check to respect deny rules;
+i.e., use the flow of check #2, not check #1.  You tell gitolite to do this by
+setting the "deny-rules" option for the repo; when you do that, the flow of
+check #2 is used for both stages, before git *and* in the update hook.
 
 ### example 1
 

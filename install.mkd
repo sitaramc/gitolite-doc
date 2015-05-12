@@ -198,6 +198,9 @@ may take a minute or so if you have more than a few thousand repos!
     arguments as before).
   * Run `gitolite setup`.
 
+After you upgrade gitolite, you may also want to upgrade your rc file
+(`~/.gitolite.rc`).  See the [rc file][rc] documentation for that.
+
 # appendix 1: moving servers {#moving}
 
 <!-- XXX TODO: maybe a nice picture? -->

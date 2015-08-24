@@ -39,6 +39,19 @@ in smart http mode.
 Make a copy of the script, go through it carefully, (possibly removing lines
 that delete files etc.), change values per your system, and only then run it.
 
+# allowing unauthenticated access
+
+If you want users to see repos without performing any HTTP authentication, you
+should first decide what repos they should have unauthenticated access to:
+
+    repo foo bar baz        # or maybe '@all'?
+        R   =   nobody
+
+Then in the rc file (`~/.gitolite.rc`), in the section marked "rc variables
+used by various features", add this (including the trailing comma):
+
+    HTTP_ANON_USER      =>  'nobody',
+
 # Making repositories available to both ssh and http mode clients
 
 This section has been contributed by Thomas Hager (duke at sigsegv dot at),

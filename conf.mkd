@@ -438,98 +438,53 @@ To be very specific, when we speak of "user" and "repo" in rules,
 *   "repo" means "repo, or a group that it is a member of, or a regex that
     matches it, or a group that contains a regex that matches it".
 
-## when does gitolite check access?
+# access control rule matching
 
-When do the access checks happen and what are the four pieces of data (repo,
-user, operation, ref) in each case?
+Access control rule matching is pretty simple.  From the previous section,
+you know what "permission", "refex", "user", and "repo" are.  Here's how the
+rules are used to decide whether to allow or deny a request.
 
-.#d
+Access is checked once only for "read" operations, but twice for "write"s.
 
-![](a1.png)
+(Note that the `deny-rules` option, mentioned below, is explained in more
+detail in a later section.)
 
-.#d
+**Check #1**: the first check happens as soon as gitolite-shell receives
+control (from sshd or httpd).  gitolite-shell will pass control to
+git-upload-pack or git-receive-pack only if this check succeeds.
 
-![](a2.png)
+*   collect all the rules pertaining to this repo *and* this user
+*   ignore all the refexes; they don't apply to the first access check
+*   **if** the `deny-rules` option is **not** in effect for this repo, discard
+    all the `-` (deny) rules
+*   look at the rules *in sequence*:
+    *   if you find a `-`, access is denied
+    *   for a "read" operation (clone, fetch, ...), if you find a rule
+        containing `R`, access is allowed
+    *   for a "write" operation (push), if you find a rule containing `W`,
+        access is allowed
+    *   if there are no more rules left, access is denied
 
-.#d
+**Check #2**: the second check only happens for "push" operations.  It is
+invoked by `git-receive-pack` running the gitolite-installed `update` hook.
+If access is denied, the update hook fails, and git then aborts the push for
+this ref.  (See `man githooks` for more.)
 
-These pictures might help -- the access checks are marked in yellow on them.
+In the following description, we use the word `operation` instead of `W`,
+because the actual operation could be a plain, fast-forward, push (`W`) or a
+rewind/delete (`+`).  @@gray(Other, less commonly used, values are "C", "D",
+or "M"; see [here][write-types].)@@
 
-The picture on the left is for a read (git clone, fetch, ls-remote).  There is
-only one access check for a read operation.  If access is denied, the
-operation aborts.  Otherwise, gitolite-shell invokes git-upload-pack.
+*   collect all the rules pertaining to this repo *and* this user
+*   discard all the rules where the refex does not match the ref (branch or
+    tag) being pushed
+*   look at the rules *in sequence*:
+    *   if you find a `-`, access is denied
+    *   if you find a rule containing the operation you are performing, access
+        is allowed
+    *   if there are no more rules left, access is denied
 
-Notice the information available to the access check.  The "oper" (operation)
-is "R", indicating a read operation.  The "ref" is listed as "unknown",
-although we could also call it "irrelevant"!
-
-**Access check #1** proceeds with those 4 bits of information, and either
-passes or fails.  If it passes, gitolite passes control to "git-upload-pack"
-and its job is done.
-
-----
-
-The flow for a push operation (the picture on the right) is *very* similar
-upto the first access check. The "oper" is "W" now, although the "ref" is
-still unknown. @@gray(Even though this *is* a push, at this stage in the
-protocol nothing on the server knows what branch or tag or combination of them
-are coming down the wire, since we haven't executed git-receive-pack yet!)@@
-
-If it succeeds, gitolite passes control to "git-receive-pack", but its job is
-not done yet.  *Git* will eventually invoke the update hook (see 'man
-githooks'). Gitolite has already grabbed this hook, which receives from git
-the ref name being pushed, as well as enough information to compute whether
-this push is a "fast-forward push" or a "rewind push".  Based on this,
-gitolite sets the "oper" field to "W" or "+", respectively.
-
-**Access check #2** proceeds with this information.  The result is sent back
-to git-receive-pack (in the form of an exit code; again, see 'man githooks'),
-and the push fails or succeeds based on that.
-
-.#t
-
-## putting it all together {#c1c2}
-
-At this point, we have the following pieces of information:
-
-*   A set of rules, each containing 4 pieces of data: repo, user, perm, refex.
-    They are in the sequence they were found in the conf file.
-
-    We discard all rules that do not apply to this repo and this user, which
-    means our set of rules have only two fields: perm, refex.
-
-    As a quick reminder, perm is one of R, RW, RW+, or `-`.
-
-*   Four elements that make up the access being attempted: repo, user, oper,
-    ref.
-
-    Again, as a reminder, the "oper" is **one letter**.  For "check #1" it is
-    either R or W, and for check #2 it can be W or +.
-
-@@gray(Note on permissions and "oper": there are other [types of
-permissions][write-types], but for our discussion these are enough.  The
-others are rare, and anyway it is easy to extrapolate to them.)@@
-
-With that background, here's the flow.  The one on the left is for check #1
-(ref is unknown) while the one on the right is for check #2 (ref is known).
-**Note** that the yellow (decision) boxes are numbered to help later
-discussion.
-
-.#d
-
-![](a3.png)
-
-.#d
-
-![](a4.png)
-
-.#t
-
-As you can see, deny rules are ignored by check #1 -- they're not tested in
-any way.  For check #2, if there is a deny rule whose refex matched the ref,
-access is denied (as you'd expect).
-
-### an example
+## an example
 
 .#d
 
@@ -623,24 +578,22 @@ So we discard all those rules, which leaves us, for repo "foo" and user
 So what happens when dilbert tries to push a branch called "xyz"?
 
 At check #1, the data gitolite has is that "oper" is "W" (and ref of course is
-unknown).  Decision box #1 will skip lines 10 and 11 (deny rules are not
-processed during check #1).  Line 12 supplies a perm of "RW+", which contains
-"W" (the "oper") so access is allowed.
+unknown).  We discard lines 10 and 11 (the `deny-rules` option is off by
+default, so we ignore `-` rules).  Line 12 supplies a perm of "RW+", which
+contains "W" (the "oper") so access is allowed.
 
 At check #2, the data gitolite has is that "oper" is "W" and ref is
-`refs/heads/xyz`.  Decision box 3 will skip the first three rules, since the
-ref does not match any of those refexes.  Rule 13 will pass through decision
-box 3, then box 4 (since it is *not* a deny rule).
+`refs/heads/xyz`.  We discard the first three rules, since the ref does not
+match any of those refexes.  That leaves just line 13.
 
-At this point we're at decision box 5.  If the push were a fast-forward push,
-the "oper" would be "W", and since it is contained in the perm for rule 13,
-access is allowed.
+If the push were a fast-forward push, the "oper" would be "W", and since it is
+contained in the perm for rule 13, access is allowed.
 
 However, if he were to try a rewind-push, then the "oper" would be "+", which
-is not contained in "RW", so box #5 would fail, control would go back for
-the next rule, and since there aren't any more, access would be denied.
+is not contained in "RW", it wouldn't match, then control would go back for
+the *next* rule, and since there aren't any more, access would be denied.
 
-### tracing the access control decision
+## tracing the access control decision
 
 .#d
 
@@ -707,6 +660,250 @@ And if you try a force push:
 I hope that was useful!  Be sure you correlated the output of 'gitolite access
 -s' with the rule workflow pictures and corresponding descriptions to cement
 your understanding.
+
+## read access respecting deny rules {#deny-rules}
+
+@@box-r(Note: This section has one or more [forward references][fr], referring
+to gitolite [options][], and the special users [gitweb and
+daemon][gitweb-daemon]).)@@
+
+Normally, deny rules are ignored by access check #1 (the one that runs
+*before* git-upload-pack or git-receive-pack is called by gitolite-shell);
+they apply only to check #2 (the update hook check).
+
+But sometimes you want this "pre-git" access check to respect deny rules;
+i.e., use the flow of check #2, not check #1.  You tell gitolite to do this by
+setting the "deny-rules" option for the repo; when you do that, the flow of
+check #2 is used for both stages, before git *and* in the update hook.
+
+## example 1
+
+Here's an example. Here, we have lots of repos, which should all be accessible
+by gitweb or daemon, so we want the convenience provided by lines 6 and 7 (we
+don't want to put line 7 in *each* repo).  However, we also have some secret
+repos (maybe the gitolite-admin repo and some others that we will list), which
+we want to prevent gitweb or daemon from seeing.
+
+How do we do that?
+
+.#d
+
+.#! conf/vim-color
+    @secret = gitolite-admin secret-repo/..*
+    repo @secret
+        -   =   gitweb daemon
+
+
+    repo @all
+        R   =   gitweb daemon
+
+    # ...other repos and rules...
+
+    # vim: set nu:
+.end
+
+.#d
+
+The naive approach -- putting in a deny rule just for those repos -- doesn't
+work.  In fact nothing else seems to work either; you'll have to replace the
+`@all` with an exhaustive list of *all repos other than the secret repos*.
+
+That's... painful!
+
+.#r
+
+.#d
+
+.#! conf/vim-color
+    @secret = gitolite-admin secret-repo/..*
+    repo @secret
+        -   =   gitweb daemon
+        option deny-rules = 1
+
+    repo @all
+        R   =   gitweb daemon
+
+    # ...other repos and rules...
+
+    # vim: set nu:
+.end
+
+.#d
+
+What you really want is for that repo to always use check #2, even when it
+doesn't actually have a ref to test for.
+
+This is done by adding *one* line, line 4 in this example.  This sets a
+gitolite ["option"][options] that says you want "deny rules" to be applicable
+even for read access.
+
+Once you do that, all you need to do is to ensure that the first rule
+encountered by these two "users" for those repos is a deny rule, so that it
+can take effect first.  In this example, the placement of lines 2, 3 vis-a-vis
+lines 6, 7 matters -- don't switch them!
+
+.#t
+
+## example 2
+
+<div style="float: right; margin-left: 4px">
+
+.#! conf/vim-color
+    @open = git gitolite foss/..* [...]
+
+    repo @all
+        -   =   gitweb daemon
+        option deny-rules = 1
+
+    repo @open
+        R   =   gitweb daemon
+        option deny-rules = 0
+.end
+
+</div>
+
+In this example the "open" repos are fewer in number, so it is the opposite
+situation to the above in terms of our ability to enumerate all the repos.
+
+To see why this works, you need to understand that for [options][] and
+[config][git-config] lines, a later setting [overrides][override_conf] earlier
+ones.  So we set it to 1 for all repos, then selectively set it to 0 for some.
+
+This means the "deny-rules" option applies to *all the repos except the "open"
+repos*, and so the first rule encountered by gitweb and daemon is a deny rule,
+so they are denied read access.  The "open" repos, on the other hand, get the
+normal default behaviour, which is to ignore deny rules for read access, and
+thus they only see the "R" permission.
+
+# appendix 1: different types of write operations {#write-types}
+
+Git supplies enough information to the update hook to be able to distinguish
+several types of writes.
+
+The most common are:
+
+  * `RW` -- create a ref or fast-forward push a ref.  No rewinds or deletes.
+  * `RW+` -- create, fast-forward push, rewind push, or delete a ref.
+
+Sometimes you want to allow people to push, but not *create* a ref.  Or
+rewind, but not *delete* a ref.  The `C` and `D` qualifiers help here.
+
+  * If a rule specifies `RWC` or `RW+C`, then *rules that do NOT have the C
+    qualifier will no longer permit **creating** a ref*.
+
+    <font color="gray">Please do not confuse this with the standalone `C`
+    permission that allows someone to [create][] a **repo**</font>
+
+  * If a rule specifies `RWD` or `RW+D`, then *rules that do NOT have the D
+    qualifier will no longer permit **deleting** a ref*.
+
+Note: These two can be combined, so you can have `RWCD` and `RW+CD` as well.
+
+One very rare need is to reject merge commits (a commit series that is not a
+straight line of commits).  The `M` qualifier helps here:
+
+  * When a rule has `M` appended to the permissions, *rules that do NOT have
+    it will reject a commit sequence that contains a merge commit* (i.e., they
+    only accept a straight line series of commits).
+
+## summary of permissions {#permsum}
+
+The full set of permissions, in regex syntax, is `-|R|RW+?C?D?M?`.  This
+expands to one of `-`, `R`, `RW`, `RW+`, `RWC`, `RW+C`, `RWD`, `RW+D`, `RWCD`,
+or `RW+CD`, all but the first two optionally followed by an `M`.
+
+# appendix 2: gitolite access check flow
+
+Here's lots more detail on the access check process, with flow diagrams.
+
+When do the access checks happen and what are the four pieces of data (repo,
+user, operation, ref) in each case?
+
+.#d
+
+![](a1.png)
+
+.#d
+
+![](a2.png)
+
+.#d
+
+In these pictures the access checks are marked in yellow.
+
+The picture on the left is for a read (git clone, fetch, ls-remote).  There is
+only one access check for a read operation.  If access is denied, the
+operation aborts.  Otherwise, gitolite-shell invokes git-upload-pack.
+
+Notice the information available to the access check.  The "oper" (operation)
+is "R", indicating a read operation.  The "ref" is listed as "unknown",
+although we could also call it "irrelevant"!
+
+**Access check #1** proceeds with those 4 bits of information, and either
+passes or fails.  If it passes, gitolite passes control to "git-upload-pack"
+and its job is done.
+
+----
+
+The flow for a push operation (the picture on the right) is *very* similar
+upto the first access check. The "oper" is "W" now, although the "ref" is
+still unknown. @@gray(Even though this *is* a push, at this stage in the
+protocol nothing on the server knows what branch or tag or combination of them
+are coming down the wire, since we haven't executed git-receive-pack yet!)@@
+
+If it succeeds, gitolite passes control to "git-receive-pack", but its job is
+not done yet.  *Git* will eventually invoke the update hook (see 'man
+githooks'). Gitolite has already grabbed this hook, which receives from git
+the ref name being pushed, as well as enough information to compute whether
+this push is a "fast-forward push" or a "rewind push".  Based on this,
+gitolite sets the "oper" field to "W" or "+", respectively.
+
+**Access check #2** proceeds with this information.  The result is sent back
+to git-receive-pack (in the form of an exit code; again, see 'man githooks'),
+and the push fails or succeeds based on that.
+
+.#t
+
+## putting it all together {#c1c2}
+
+At this point, we have the following pieces of information:
+
+*   A set of rules, each containing 4 pieces of data: repo, user, perm, refex.
+    They are in the sequence they were found in the conf file.
+
+    We discard all rules that do not apply to this repo and this user, which
+    means our set of rules have only two fields: perm, refex.
+
+    As a quick reminder, perm is one of R, RW, RW+, or `-`.
+
+*   Four elements that make up the access being attempted: repo, user, oper,
+    ref.
+
+    Again, as a reminder, the "oper" is **one letter**.  For "check #1" it is
+    either R or W, and for check #2 it can be W or +.
+
+@@gray(Note on permissions and "oper": there are other [types of
+permissions][write-types], but for our discussion these are enough.  The
+others are rare, and anyway it is easy to extrapolate to them.)@@
+
+With that background, here's the flow.  The one on the left is for check #1
+(ref is unknown) while the one on the right is for check #2 (ref is known).
+**Note** that the yellow (decision) boxes are numbered to help later
+discussion.
+
+.#d
+
+![](a3.png)
+
+.#d
+
+![](a4.png)
+
+.#t
+
+As you can see, deny rules are ignored by check #1 -- they're not tested in
+any way.  For check #2, if there is a deny rule whose refex matched the ref,
+access is denied (as you'd expect).
 
 .aa a1.png
 
@@ -905,153 +1102,3 @@ your understanding.
 
 .end
 
-## read access respecting deny rules {#deny-rules}
-
-@@box-r(Note: This section has one or more [forward references][fr], referring
-to gitolite [options][], and the special users [gitweb and
-daemon][gitweb-daemon]).)@@
-
-Normally, deny rules are ignored by access check #1 (the one that runs
-*before* git-upload-pack or git-receive-pack is called by gitolite-shell);
-they apply only to check #2 (the update hook check).
-
-But sometimes you want this "pre-git" access check to respect deny rules;
-i.e., use the flow of check #2, not check #1.  You tell gitolite to do this by
-setting the "deny-rules" option for the repo; when you do that, the flow of
-check #2 is used for both stages, before git *and* in the update hook.
-
-### example 1
-
-Here's an example. Here, we have lots of repos, which should all be accessible
-by gitweb or daemon, so we want the convenience provided by lines 6 and 7 (we
-don't want to put line 7 in *each* repo).  However, we also have some secret
-repos (maybe the gitolite-admin repo and some others that we will list), which
-we want to prevent gitweb or daemon from seeing.
-
-How do we do that?
-
-.#d
-
-.#! conf/vim-color
-    @secret = gitolite-admin secret-repo/..*
-    repo @secret
-        -   =   gitweb daemon
-
-
-    repo @all
-        R   =   gitweb daemon
-
-    # ...other repos and rules...
-
-    # vim: set nu:
-.end
-
-.#d
-
-The naive approach -- putting in a deny rule just for those repos -- doesn't
-work.  In fact nothing else seems to work either; you'll have to replace the
-`@all` with an exhaustive list of *all repos other than the secret repos*.
-
-That's... painful!
-
-.#r
-
-.#d
-
-.#! conf/vim-color
-    @secret = gitolite-admin secret-repo/..*
-    repo @secret
-        -   =   gitweb daemon
-        option deny-rules = 1
-
-    repo @all
-        R   =   gitweb daemon
-
-    # ...other repos and rules...
-
-    # vim: set nu:
-.end
-
-.#d
-
-What you really want is for that repo to always use check #2, even when it
-doesn't actually have a ref to test for.
-
-This is done by adding *one* line, line 4 in this example.  This sets a
-gitolite ["option"][options] that says you want "deny rules" to be applicable
-even for read access.
-
-Once you do that, all you need to do is to ensure that the first rule
-encountered by these two "users" for those repos is a deny rule, so that it
-can take effect first.  In this example, the placement of lines 2, 3 vis-a-vis
-lines 6, 7 matters -- don't switch them!
-
-.#t
-
-### example 2
-
-<div style="float: right; margin-left: 4px">
-
-.#! conf/vim-color
-    @open = git gitolite foss/..* [...]
-
-    repo @all
-        -   =   gitweb daemon
-        option deny-rules = 1
-
-    repo @open
-        R   =   gitweb daemon
-        option deny-rules = 0
-.end
-
-</div>
-
-In this example the "open" repos are fewer in number, so it is the opposite
-situation to the above in terms of our ability to enumerate all the repos.
-
-To see why this works, you need to understand that for [options][] and
-[config][git-config] lines, a later setting [overrides][override_conf] earlier
-ones.  So we set it to 1 for all repos, then selectively set it to 0 for some.
-
-This means the "deny-rules" option applies to *all the repos except the "open"
-repos*, and so the first rule encountered by gitweb and daemon is a deny rule,
-so they are denied read access.  The "open" repos, on the other hand, get the
-normal default behaviour, which is to ignore deny rules for read access, and
-thus they only see the "R" permission.
-
-# appendix 1: different types of write operations {#write-types}
-
-Git supplies enough information to the update hook to be able to distinguish
-several types of writes.
-
-The most common are:
-
-  * `RW` -- create a ref or fast-forward push a ref.  No rewinds or deletes.
-  * `RW+` -- create, fast-forward push, rewind push, or delete a ref.
-
-Sometimes you want to allow people to push, but not *create* a ref.  Or
-rewind, but not *delete* a ref.  The `C` and `D` qualifiers help here.
-
-  * If a rule specifies `RWC` or `RW+C`, then *rules that do NOT have the C
-    qualifier will no longer permit **creating** a ref*.
-
-    <font color="gray">Please do not confuse this with the standalone `C`
-    permission that allows someone to [create][] a **repo**</font>
-
-  * If a rule specifies `RWD` or `RW+D`, then *rules that do NOT have the D
-    qualifier will no longer permit **deleting** a ref*.
-
-Note: These two can be combined, so you can have `RWCD` and `RW+CD` as well.
-
-One very rare need is to reject merge commits (a commit series that is not a
-straight line of commits).  The `M` qualifier helps here:
-
-  * When a rule has `M` appended to the permissions, *rules that do NOT have
-    it will reject a commit sequence that contains a merge commit* (i.e., they
-    only accept a straight line series of commits).
-
-## summary of permissions {#permsum}
-
-The full set of permissions, in regex syntax, is `-|R|RW+?C?D?M?`.  This
-expands to one of `-`, `R`, `RW`, `RW+`, `RWC`, `RW+C`, `RWD`, `RW+D`, `RWCD`,
-or `RW+CD`, all but the first two optionally followed by an `M`.

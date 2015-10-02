@@ -40,6 +40,9 @@ anyway.  If you want to make sure, there's a section on trying it out safely.
     not seem to be enough).
   * Openssh (almost any version).  Optional if you're using [smart
     http][http].
+      * **IMPORTANT**: although a default openssh config will not do this (AFAIK),
+        **do not** allow the user to set environment variables if you care about
+        security at all.
   * A dedicated Unix userid to be the hosting user, usually "git" but it can
     be any user, even your own normal one.  (If you're using an RPM/DEB the
     install probably created one called "gitolite").

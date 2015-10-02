@@ -142,6 +142,10 @@ Here's a list of files and directories to deal with:
 
 # non-standard configs that'll trip you up {#nonstd}
 
+  * **IMPORTANT**: although a default openssh config will not do this (AFAIK),
+    **do not** allow the user to set environment variables if you care about
+    security at all.
+
   * If your 'git' binary is in a non-PATH location, or you have more than one
     version and want a specific one to be picked up, you will have to add a
     line like this at the end of the rc file (outside the `%RC` hash, but

@@ -245,6 +245,41 @@ to apply them only to certain repos:
 
 5.  add, commit, and push the admin repo.
 
+# triggers
+
+## adding your own triggers
+
+First, write your trigger code, using the documentation [here][triggers].
+Note especially the sections "common arguments" and "trigger-specific
+arguments".  Look in the shipped triggers for ideas.
+
+Let's say your trigger is called `foo`, and it will be a `PRE_GIT` trigger.
+
+1.  add this line in the rc file, within the `%RC` block, if it's not already
+    present, or uncomment it if it's already present and commented out:
+
+        LOCAL_CODE => "$ENV{HOME}/local",
+
+2.  copy the program `foo` into `$HOME/local/triggers`.  (Don't forget the
+    `chmod +x`!)
+
+3.  edit `~/.gitolite.rc` again, and look for a `PRE_GIT` section.  If it
+    exists, add `'foo',` (note the trailing comma!) to it.  If it does not
+    exist, add this block just before the `ENABLE` section:
+
+        PRE_GIT =>
+        [
+            'foo'
+        ],
+
+    (again, note the trailing comma at the end of the block!)
+
+    After saving the file test that this went through by running `gitolite
+    query-rc PRE_GIT`; your `foo` should be in the output list.  If it's not,
+    back up and double check your work.
+
+That should be it.
+
 # VREFs {#cb-vrefs}
 
 ## adding your own VREFs

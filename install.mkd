@@ -210,8 +210,7 @@ After you upgrade gitolite, you may also want to upgrade your rc file
 Nothing in any of the gitolite install/setup/etc will ever touch the *data* in
 any repository except the gitolite-admin repo.  The only thing it will
 normally touch is the `update` hook.  So one fool-proof way of "moving"
-servers is this (XXX TODO XXX -- test this and remove the next phrase)
-untested but should work; feedback appreciated):
+servers is this:
 
 1.  Clone the latest gitolite-admin repo from the old server to your
     workstation.  Make sure you have an admin key that has RW+ rights to the

@@ -53,8 +53,8 @@ Here's how to do that:
     reset --hard' to an older commit, etc.  Anything you need to fix the
     problem, really.
 
-  * Run `gitolite push` (or possibly `gitolite push -f`).  Note that's
-    'gitolite push', not 'git push'.
+  * Run `gitolite push` (or possibly `gitolite push -f`).  @@red(**Note that's
+    'gitolite push', not 'git push'**.)@@
 
 <font color="red">
 **NOTE**: gitolite does **no access checking** when you do this!

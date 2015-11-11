@@ -86,8 +86,8 @@ member is held until I can clear it; subsequent emails from the same email
 address do not get held up).
 
   * Mailing list for support and general discussion:
-      * Post: gitolite@googlegroups.com
       * Subscribe: gitolite+subscribe@googlegroups.com
+      * Post: gitolite@googlegroups.com
 
 If you don't want to participate in the discussions and only want to be
 informed of releases, security announcements, etc., you can subscribe to the

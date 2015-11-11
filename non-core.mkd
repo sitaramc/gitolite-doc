@@ -186,6 +186,11 @@ name is given in the `LOCAL_CODE` rc variable, then run `gitolite setup`.
 
 ### repo-specific hooks {#rsh}
 
+@@red(**WARNING**: If your site makes a distinction between "right to push the
+admin repo" and "right to run arbitrary commands on the server" (i.e., if not
+all of your "admins" have shell access to the server), this is a security
+risk. If that is the case, **do not enable this feature**.)@@
+
 If you want to add hooks only to specific repos, you can just do it manually
 if you wish -- just log on to the server and add hooks (except update hook
 and, for the special gitolite-admin repo, the post-update hook -- touch these

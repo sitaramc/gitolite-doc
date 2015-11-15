@@ -257,6 +257,28 @@ together, you can do that also.  Here's how.
             option hook.post-receive    =   ""
 .end
 
+  * @@gray((v3.6.5+))@@ You can add hooks incrementally.  For example:
+.#! conf/vim-color
+        repo    @all
+            option hook.post-receive.00 =   mail-admins
+            option hook.post-receive.01 =   deploy
+        # (and later)
+        repo    foo
+            option hook.post-receive.00 =   mail-users      #1
+            option hook.post-receive.01 =   ""              #2
+        # (and maybe still later)
+        repo    @foss
+            option hook.post-receive.02 =   save-push-sigs
+.end
+
+    Assuming `foo` is a member of `@foss`, this declares 2 post-receive hooks
+    for it: mail-users and save-push-sigs.  The suffix (in this example, "00",
+    "01") can actually be any simple word.  Using a suffix keeps the option
+    names unique, which allows you to override or delete specific options, as
+    we did in the lines marked '#1' and '#2'.  The suffix also determines the
+    order in which the options are used in applying hooks to the repo.  If the
+    order doesn't matter to you, just make sure they're unique.
+
 ## syntactic sugar {#sugar}
 
 Sugar scripts help you change the perceived syntax of the conf language.  The

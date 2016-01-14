@@ -245,6 +245,9 @@ together, you can do that also.  Here's how.
     independent post-receive hooks (including sending them info over their
     STDIN as documented in 'man githooks').
 
+    **For pre-receive or pre-auto-gc you should not use more than one hook.
+    If you really need more than one, ask on the mailing list.**
+
   * @@gray((v3.6+))@@ You can change these hooks by saying:
 .#! conf/vim-color
         repo    foo

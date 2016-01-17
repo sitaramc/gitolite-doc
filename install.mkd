@@ -7,10 +7,15 @@ include sidebar-toc
 @@box-r(**NOTE**: this page is about an ssh mode installation.  There's a
 different page for [http mode][http] installation if you need that.)@@
 
-This page talks about installing the software and setting it up.  The install
+This page talks about installing the software manually (i.e., not using a
+package manager) and setting it up.  The install
 step gets the code to where you want it.  The setup step creates the files and
 directories gitolite needs, including the special gitolite-admin repo, and
 makes you an administrator so you can manage it remotely.
+
+If you install gitolite using a package manager, you should check your
+distro-standard mechanisms or distro-supplied documentation for how to
+complete the installation.
 
 @@red(**NOTE** on package manager installs)@@: make sure you get gitolite
 **v3.x**.  The correct package you want may be called "gitolite3", even though

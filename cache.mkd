@@ -6,6 +6,8 @@ include sidebar-toc
 
 (requires v3.6.1)
 
+**WARNING: this has not been tested in a while.  YMMV**
+
 Gitolite can optionally use the Redis in-memory key-value database for a
 little speed boost for really large sites.
 
@@ -21,7 +23,7 @@ better.  However, Redis does have one real advantage: cache [timeout][]s!
 Support for this feature is limited to verifiable gitolite bugs, if you find
 any; I can't help you with redis itself.
 
-# how
+# how does caching work?
 
 To use this feature, just install Redis, then the perl driver "Redis.pm".
 Install or upgrade Gitolite to the latest master, then uncomment (or add, if
@@ -36,7 +38,7 @@ Then perform some gitolite operation (anything that requires any form of
 access checking).  Redis should start automatically and the right things
 should happen; see below if it does not.
 
-# troubleshooting
+# troubleshooting caching
 
 If you ever kill the redis-server be sure to also remove the socket file
 `~/.redis-gitolite.sock`.  Conversely if you ever remove the sock file be sure
@@ -49,7 +51,7 @@ try again.)
 passed to gitolite, causing a security breach.  If anyone has time I'd
 appreciate a review of the code.
 
-# details
+# caching details
 
 ## what is cached
 

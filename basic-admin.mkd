@@ -272,6 +272,8 @@ First, on the server:
       * All the repo names end in ".git".
       * All the files and directories are owned and writable by the gitolite
         [hosting user][hu] (especially true if you copied them as root).
+      * There are no symbolic links left over from wherever the files were
+        brought from.
 
   * Run `gitolite setup`.  **If you forget this step, you can also forget
     about write access control!**

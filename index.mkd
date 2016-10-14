@@ -16,8 +16,7 @@ fine-grained access control and many more powerful features.
 
 # download {#dl -}
 
-Gitolite can be downloaded from `git://github.com/sitaramc/gitolite` or
-`https://code.google.com/p/gitolite/`.
+Gitolite can be downloaded from `git://github.com/sitaramc/gitolite`.
 
 If your Unix-fu and ssh-fu are good, installing gitolite is as simple as
 copying your public key over to the hosting user, and running a couple of

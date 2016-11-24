@@ -55,11 +55,11 @@ differences are in the rc file, mirroring, "NAME/" rules, and delegation.
 
 >   ----
 
-The `check-g2-compat` program attempts to identify any *big* issues you will
+**The `check-g2-compat` program attempts to identify any *big* issues you will
 be facing; run that first.  See [later][cg2c] in this page for what its
 messages mean.  If it does not report any issues, your migrate will probably
 go quickly.  I still suggest you go through the links below in case that
-program missed something.
+program missed something.**
 
 ## incompatible features
 

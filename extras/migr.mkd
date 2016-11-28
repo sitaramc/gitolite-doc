@@ -158,7 +158,7 @@ Some of them have links where there is more detail than I want to put here.
     Similarly, 'getdesc' and 'setdesc' have been merged into 'desc'.
 
   * Several 'ADC's -- please ask on the mailing list if you're using any that
-	you don't see in the new 
+    you don't see in the new 
 
   * [gl-time][g2i-gl-time]: the CpuTime module replaces gl-time.
 

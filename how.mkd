@@ -1,4 +1,4 @@
-<!-- to: slidy-2 -->
+<!-- options: to=slidy-2 -->
 
 % authentication and authorization in gitolite
 

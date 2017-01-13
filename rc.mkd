@@ -165,7 +165,7 @@ use this to confirm you did not miss something during the manual rc upgrade.
 *   dump the current rc by running `gitolite query-rc -d > old.dump` (assuming
     you upgraded to v3.6.4 or higher)
 
-*   save your old rc file: `mv ~/.gitolite.rc ~/old.gitolite.rc
+*   save your old rc file: `mv ~/.gitolite.rc ~/old.gitolite.rc`
 
 *   get a "default" rc for your current gitolite by running
 
@@ -175,7 +175,7 @@ use this to confirm you did not miss something during the manual rc upgrade.
     out what to carry over from the old rc file to the new one.
 
         vimdiff ~/old.gitolite.rc ~/.gitolite.rc
-        # maybe kdiff3 or whatever
+        # or maybe kdiff3 or whatever
 
     This is the tricky part of course!  Watch out for configs that got *moved*
     around, or in some cases removed completely, not just new config items.

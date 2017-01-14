@@ -56,6 +56,26 @@ available to [wild][] repos.
         config hooks.emailprefix = "[%GL_REPO] "
 .end
 
+# @@gray((v3.6.7+))@@ expanding a group name
+
+If you add
+
+    EXPAND_GROUPS_IN_CONFIG     =>  1,
+
+to the rc file (suggested location: just after the `GIT_CONFIG_KEYS` line),
+then the *value* of a config line will have groupnames expanded.  For example:
+
+    @admins = sitaramc@gmail.com jdoe@example.com
+    ...
+    repo foo
+        ...
+        config hooks.mailinglist = @admins
+
+will behave as if the two email addresses were explicitly listed in the config
+line.  However, if there is no such group, the text will be left as-is.  Also,
+for safety, only word characters (alphanumerics and underscore) are expected
+as part of the group name.
+
 # overriding config values {#override_conf}
 
 You can repeat the 'config' line as many times as you like, and the *last*

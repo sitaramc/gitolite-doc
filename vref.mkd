@@ -12,6 +12,11 @@ who stop reading halfway!
 
 VREFs are a mechanism to add additional constraints to a push.
 
+They are also the simplest way to add your old update hooks to gitolite --
+they'll just work, no coding changes needed.  This documentation will give you
+all the details, but if you're in a hurry, the [cookbook][]'s section on
+"adding your own update hooks" may work better for you.
+
 # quick intro/example
 
 .#d

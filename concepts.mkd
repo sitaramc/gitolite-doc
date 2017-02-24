@@ -33,8 +33,8 @@ So let's loosely define these words:
 When you use gitolite, it's in one of two modes: ssh mode, or http mode.  In
 ssh mode, your users will authenticate themselves to your server's "sshd" (ssh
 daemon), while in http mode they will be talking to your web server.  A user
-who fails to authenticate himself will not make it past that step, so gitolite
-is not even involved.
+who fails the web server's authentication will not make it past that step, so
+gitolite is not even involved.
 
 If authentication succeeds, sshd or httpd will pass control to gitolite, which
 can then figure out whether to allow you to do whatever it is you want to

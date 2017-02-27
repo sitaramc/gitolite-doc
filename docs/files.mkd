@@ -1,0 +1,49 @@
+# gitolite files and directories
+
+----
+
+# directories
+
+Gitolite creates and uses the following files and directories:
+
+  * `~/repositories` -- the actual (bare) repositories are here
+  * `~/.gitolite.rc` -- configuration parameters that must be done directly on
+    the server
+  * `~/.gitolite` -- gitolite's "working" directory.  This contains everything
+    else that gitolite needs.  (Warning: you're not supposed to fiddle with
+    the files and directories within; instead, make changes in a clone of the
+    gitolite-admin repository and push, and those appear magically here).
+
+Once the install/setup is done, any (or all) of these may be moved
+elsewhere and replaced by symlinks.  The most common reason for
+locating `~/repositories` somewhere else is disk space, but FHS
+compliance could also be a reason.
+
+In addition, the following are of interest:
+
+  * `~/.ssh` -- if you're using ssh (as opposed to http), since this is where
+    the `authorized_keys` file is kept
+
+# special files
+
+You may want to backup the contents of `~/.gitolite/logs` if you care about
+auditability etc.
+
+# inside a "gitolite repo"
+
+A gitolite repo is just like a normal bare repo on any normal git server.
+There are a few extra files placed in the repo directory whose names start
+with "gl-", and there is also an update hook placed in the hooks subdirectory,
+but that's about it, for the most part.
+
+In other words, you can treat a gitolite-managed repo just like any other bare
+repo as long as you leave those files alone.
+
+# gitolite software
+
+The above list does not include the gitolite software itself.
+
+Gitolite offers you 3 ways to install software.  After cloning the gitolite
+sources, run the install command in it with a `-h` argument to see what they
+are.  Where the actual software is found depends on that.
+

@@ -1,0 +1,96 @@
+# installing on a smart http git server
+
+----
+
+!!! note "Note:"
+    "smart http" refers to the feature that came with git 1.6.6, late 2009 or
+    so.  The base documentation for this is `man git-http-backend`.  Do
+    **NOT** read `Documentation/howto/setup-git-server-over-http.txt` and
+    think that is the same or even relevant -- that is from 2006 and is quite
+    different (and arguably obsolete).
+
+# WARNINGS and important notes
+
+  * Please read [authentication versus authorisation][auth] first, and make
+    sure you understand what is gitolite's responsibility and what isn't.
+
+  * I have tested this only on stock Fedora (whatever is the current version);
+    YDMV.
+
+[auth]: concepts/#authentication-and-authorisation
+
+# assumptions:
+
+  * Apache 2.x and git installed.
+  * Httpd runs under the "apache" userid; adjust instructions below if not.
+  * Similarly for "/var/www" and other file names/locations.
+
+# instructions
+
+In place of detailed instructions, there is a script called
+`t/smart-http.root-setup`.  **Do NOT run this script as is -- it is actually
+meant for my testing setup and deletes stuff**.  However, it does provide an
+excellent (and working!) narration of what you need to do to install gitolite
+in smart http mode.
+
+Make a copy of the script, go through it carefully, (possibly removing lines
+that delete files etc.), change values per your system, and only then run it.
+
+!!! note "Note:"
+
+    The `GIT_PROJECT_ROOT` variable (see "man git-http-backend") is no longer
+    optional.  Make sure you set it to some place outside apache's
+    `DOCUMENT_ROOT`.</span>
+
+# allowing unauthenticated access
+
+If you want users to see repos without performing any HTTP authentication, you
+should first decide what repos they should have unauthenticated access to:
+
+    repo foo bar baz        # or maybe '@all'?
+        R   =   nobody
+
+Then in the rc file (`~/.gitolite.rc`), in the section marked "rc variables
+used by various features", add this (including the trailing comma):
+
+    HTTP_ANON_USER      =>  'nobody',
+
+# Making repositories available to both ssh and http mode clients
+
+This section has been contributed by Thomas Hager (duke at sigsegv dot at),
+and is available [here](contrib/ssh-and-http).
+
+# usage
+
+## client side
+
+Git URLs look like `http://user:password@server/git/reponame.git`.
+
+The custom commands, like "info", "expand" should be handled as follows.  The
+command name will come just after the `/git/`, followed by a `?`, followed by
+the arguments, with `+` representing a space.  Here are some examples:
+
+```sh
+# ssh git@server info
+curl http://user:password@server/git/info
+# ssh git@server info repopatt
+curl http://user:password@server/git/info?repopatt
+# ssh git@server info repopatt user1 user2
+curl http://user:password@server/git/info?repopatt+user1+user2
+```
+
+With a few nice shell aliases, you won't even notice the horrible convolutions
+here ;-)  See t/smart-http for a couple of useful ones.
+
+## server side
+
+The `gitolite` command (for example, `gitolite compile`, `gitolite query-rc`,
+and so on) *can* be run on the server, but it's not straightforward.  Assuming
+you installed exactly as given in this page, you should
+
+  * get a shell by using, say, `su -s /bin/bash - apache`
+  * run `export HOME=$HOME/gitolite-home`
+  * run `export PATH=$PATH:$HOME/bin`
+
+and *then* you can run `gitolite <subcommand>`
+

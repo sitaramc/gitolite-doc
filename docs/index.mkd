@@ -1,0 +1,112 @@
+# Hosting Git Repositories
+
+----
+
+Gitolite allows you to setup git hosting on a central server, with
+fine-grained access control and many more powerful features.
+
+# install/setup
+
+<span class="box-r">If you're installing via your package manager, make sure
+you get the right one; it's often called `gitolite3`.</span>
+
+Source code is at <https://github.com/sitaramc/gitolite>.
+
+If your Unix-fu and ssh-fu are good, take a look at the [[quick install]]
+page.  Otherwise follow the documentation flow, skipping whatever you think
+you don't need.
+
+# documentation
+
+<span class="green box-r" style="padding: 10px"> **(April 2014): There's a
+[book on gitolite][book] out**.  I've received some emails over the years
+asking where to donate for gitolite to show your appreciation, and I've always
+refused politely.  Well, if you insist... buy the book :-) </span>
+
+In general, the sections (see links in the navigation bar at the top) should
+be fairly self-explanatory, and reading through the documentation as it flows
+(i.e., using the "Next" link at the top of each page) should work fine.  There
+are some forward references here and there, but you can ignore those links on
+a first pass.
+
+**In addition**,
+
+*   there's a **[[fool proof setup]]** guide with detailed help showing one
+    fool-proof way to install, as long as you follow instructions faithfully!
+
+*   once you've installed and setup, there's the **[[cookbook]]** with recipes
+    for common tasks.
+
+# TROUBLESHOOTING
+
+The [emergencies](emergencies) page helps with all sorts of install/setup issues,
+recovering from lost keys and other self-inflicted wounds, lists some common
+(and some uncommon!) errors and non-standard configs that may trip you up.
+
+# contact/support
+
+## security issues
+
+<span class="red">If you think you found a possible **security issue**, please email me
+(<sitaramc@gmail.com>) directly.</span>
+
+## mailing list(s)
+
+For all other communications, please use the mailing list.  **NOTE**: The
+first email from a new member is held until I can clear it; subsequent emails
+from the same email address do not get held up.
+
+Mailing list for support and general discussion:
+
+*   Subscribe: <gitolite+subscribe@googlegroups.com>
+*   Post: <gitolite@googlegroups.com>
+
+There's also a low traffic, one-way, mailing list for release and security
+announcements:
+
+*   Subscribe: <gitolite-announce+subscribe@googlegroups.com>
+
+If you wish to send me code, please see the file called CONTRIBUTING in the
+source distribution.
+
+## IRC
+
+Our IRC channel is `#gitolite` on freenode.  I live in India (UTC+0530 time
+zone), but there are a few regulars (*thanks, guys, you know who you are!*)
+from other times zones.  That said, it's not heavy traffic and you may have to
+wait a while for an answer, depending on the time of day and day of week.
+
+There are also many gitolite-knowledgeable people on the git channel `#git`.
+
+# license
+
+The gitolite software is copyright Sitaram Chamarty and is licensed under the
+GPL v2; please see the file called COPYING in the source distribution.
+
+This **documentation**, which is maintained separately from the main gitolite
+source code, is copyright Sitaram Chamarty and is provided under a [Creative
+Commons Attribution-NonCommercial-ShareAlike 3.0 Unported
+License](http://creativecommons.org/licenses/by-nc-sa/3.0/).
+
+However, certain parts are contributed by others who may have chosen other
+licenses; their names and license will be mentioned in the respective files.
+
+Documentation for a software product will naturally contain code examples.  I
+believe that the principle of fair use should cover use of those snippets; see
+especially factors 3 and 4 in the list of factors
+[here](http://en.wikipedia.org/wiki/Fair_use#Fair_use_under_United_States_law).
+
+If you're not convinced that it would be fair use, then you may consider those
+code snippets, as well as associated "comments" if any, to be under the GPLv2
+license.  Licensing is about intent, and the intent of these examples is that
+you use them wherever and however you can use gitolite itself.
+
+!!! note "Note:"
+
+    GIT is a trademark of Software Freedom Conservancy and my use of
+    "Gitolite" is under license.
+
+[basic]: basic.html
+[advanced]: advanced.html
+[book]: http://www.packtpub.com/gitolite-essentials/book
+

@@ -1,0 +1,229 @@
+# non-core features shipped with gitolite
+
+----
+
+**Important Notes on "non-core" features**:
+
+1.  The ["non-core" gitolite](non-core) page is the starting point for all
+    information about ... non-core gitolite :)
+
+2.  This page decribes many of the non-core features that come with gitolite.
+    If a non-core feature is shipped with gitolite, but information about it
+    is not found in this page, it can be found within the source code; please
+    look there.
+
+    [Commands](non-core#gitolite-commands), however, have some extra magic,
+    which is not available to the other types of non-core programs:
+
+      * Running the command with a single `-h` option (i.e., `gitolite <command> -h`
+        or `ssh git@host <command> -h`), will display a suitable
+        message.  Please report a bug to me if one of them doesn't.
+
+      * Running 'help', (either as `gitolite help` on the server, or
+        `ssh git@host help` remotely), will give you a list of commands you are
+        allowed to run.
+
+3.  Non-core code is **meant** to be [localised for your site][localcode] if
+    you don't like what the shipped version does.  You can even maintain it
+    [within your gitolite-admin repo][pushcode] if you wish.
+
+[localcode]: non-core/#for-your-non-core-programs
+[pushcode]: non-core/#using-the-gitolite-admin-repo-to-manage-non-core-code
+
+# commands
+
+This is a list of commands that are available in gitolite, with brief
+descriptions and, if available, a link to more detailed information.  Note
+that in most cases running it with `-h` will give you enough to work with.
+
+Also note that not all of these commands are available remotely.
+
+(The more common/important commands are in bold).
+
+  * *access* -- print or test access rights for repo/user
+  * *config* <span class="gray">(v3.6.3+)</span> -- allow limited remote use of 'git config'
+  * *create* -- create a wild repo
+  * *creator* -- print or test creator name for wild repo
+  * *D* -- lets you *D*elete wild repos created using the *C* permission :)
+  * **desc** -- show/set description for wild repo
+  * *fork* -- fork a repo on the server.  This uses the `-l` option to git
+    clone, so it runs really fast
+  * *git-config* -- print (or text existence of) 'config' values in the repo.
+    (Don't forget that `option foo.bar = 1` is merely syntactic sugar for
+    `config gitolite-options.foo.bar = 1`, so this can be used to query
+    gitolite options also
+  * **help** -- see note 1 at the top of this page
+  * *htpasswd* -- sets your htpasswd
+  * **[info][]** -- print git/gitolite version, list repos you have access to
+  * *[lock](locking)* -- lock binary files for exclusive use (in combination
+    with the 'lock' VREF)
+  * *[mirror][sync]* -- manually mirror a repo to a slave
+  * *motd* <span class="gray">(v3.6.1+)</span> -- set/remove a message of the day, per repo or for the whole
+    system
+  * *option* <span class="gray">(v3.6.3+)</span> -- allow repo owner to set options for a repo
+  * **[perms][]** -- list or set permissions for wild repo
+  * *[push][bypass]* -- push a gitolite repo locally, bypassing gitolite
+  * *readme* <span class="gray">(v3.6.1+)</span> -- show, remove or set the README.html file for repo.
+  * *rsync* -- resumable downloads of git bundles (bundles are auto-created as
+    needed)
+  * *sshkeys-lint* -- look for potential problems in ssh keys
+  * *[sskm](contrib/sskm)* -- self-service key management
+  * *sudo* -- allows an admin (i.e., someone who has push rights to the
+    'gitolite-admin' repo) to run any remote command as some other user.  This
+    is useful, for example, when a user claims he is unable to access a repo,
+    and you need to check the 'info' output for him, etc.  However, it does
+    not work the other way, sorry!
+  * *symbolic-ref* -- run `git symbolic-ref` on a repo, remotely
+  * *who-pushed* -- determine who pushed a given commit
+  * *writable* -- disable/enable writes to specific repo (or all repos, if
+    you're an admin)
+
+[info]: user#the-info-command
+[sync]: mirroring#manually-synchronising-a-slave-repo
+[perms]: user/#setget-additional-permissions-for-repos-you-created
+[bypass]: emergencies/#bypassing-gitolite
+
+# syntactic sugar
+
+The following "sugar" programs are available:
+
+  * *continuation-lines* -- allow C-style backslash escaped continuation lines
+    in the conf file
+  * *keysubdirs-as-groups* -- use the last component of the sub-directory name
+    within keydir as a group name
+  * **macros** -- simple line-wise macro processor
+
+# triggers
+
+Here's a list of **features** that are enabled by [[triggers]], or a
+combination of a trigger and something else, like a command.
+
+  * *Alias* -- allow repos to have aliases
+  * *AutoCreate* -- deny auto-create of wild repos on R or RW access
+  * *bg* -- allow long running post-compile/post-create jobs to be
+    backgrounded
+  * *CpuTime* -- CPU and elapsed times for gitolite+git
+  * **[Mirroring](mirroring)** -- mirroring all or some repos
+  * *Motd* <span class="gray">(v3.6.1+)</span> -- allows printing a message of the day to
+    STDERR in ssh mode
+  * *[partial-copy][]* -- simulated read control for branches (in combination
+    with the partial-copy VREF)
+  * *RefexExpr* -- (in combination with VREF/refex-expr) logical expressions
+    over refexes, like "refex-1 and not refex-2".  (Example: changing file
+    'foo' but not on 'master' branch)
+  * *renice* -- renice the git operation
+  * *RepoUmask* -- repo-specific umask settings
+  * *Shell* -- see "giving shell access to gitolite users" in the [ssh
+    troubleshooting and tips](sts) page.  (Internally enables the
+    'ssh-authkeys-shell-users' trigger also).
+  * *ssh-authkeys-split* -- split pubkey files with multiple keys into
+    separate files with one pubkey each
+  * *update-description-file* -- if you want the 'description' file to be
+    updated instead of the 'gitweb.description' config entry (e.g. cgit users)
+  * *upstream* -- manage local, gitolite-controlled, copies of read-only
+    upstream repos
+
+In addition, the following post-compile trigger scripts are enabled by
+default, so are included here only for completeness and in case you wish to
+disable them:
+
+  * ssh-authkeys -- process keys in keydir/ and add/update appropriate lines
+    to the authorized keys file
+  * update-git-configs -- run `git config` in each repo to add/update entries
+    as needed
+  * update-git-daemon-access-list -- create/delete the 'git-daemon-export-ok'
+    files in each repo as needed
+  * update-gitweb-access-list -- create the "projects.list" file that gitweb
+    uses to determine what repos to show/not show
+
+[partial-copy]: list-non-core#partial-copy-selective-read-control-for-branches
+
+# VREFs
+
+VREFs are a complex topic and have their [own page](vref) with lots more
+details.  However, here's a list of VREFs shipped with gitolite:
+
+  * *[COUNT][]* -- restrict pushes by number of changed or new files pushed
+  * *EMAIL-CHECK* -- check if all new commits are authored by the person pushing
+  * *[lock](locking)* -- lock binary files for exclusive use (in combination
+    with the 'lock' command)
+  * *MAX\_NEWBIN\_SIZE* -- restrict by size of new binary files (helps catch
+    people checking in random PDFs, JARs, WARs, etc.)
+  * **[NAME][]** -- restrict pushes by dir/file name
+  * [partial-copy][] -- simulated read control for branches (in combination
+    with the partial-copy trigger)
+  * *refex-expr* -- (in combination with the refex-expr trigger) logical
+    expressions over refexes, like "refex-1 and not refex-2".  (Example:
+    changing file 'foo' but not on 'master' branch)
+  * *[VOTES][votes]* -- voting on commits a la gerrit
+
+[COUNT]: vref-2#number-of-changed-or-new-files
+[NAME]: vref-2#restricting-pushes-by-dirfile-name
+[votes]: vref-2#voting-on-commits
+
+# details on some non-core programs
+
+These non-core programs needed more detail than could be provided in the
+source code, but did not fit anywhere else neatly enough.
+
+## partial-copy: selective read control for branches
+
+Git (and therefore gitolite) cannot do selective read control -- allowing
+someone to read branch A but not branch B.  It's the entire repo or nothing.
+
+<span class="box-r">Gerrit Code Review can do that, but that is because they have their
+own git (as well as their own sshd, and so on).  If code review is part of
+your access control decision, you really should consider Gerrit
+anyway.</span>
+
+The standard answer you get when you ask is "use separate repos" (where one
+contains all the branches, and one contains a subset of the branches).  This
+is nice in theory but in practice, when people are potentially *pushing* to
+both repos, you need to figure out how to keep them in sync.
+
+Gitolite can now help you do this.  Note that this is only for branches; you
+can't do this for files and directories.
+
+Here's how:
+
+1.  enable 'partial-copy' in the ENABLE list in the rc file.
+
+2.  for each repo "foo" which has secret branches that a certain set of
+    developers (we'll use a group called `@temp-emp` as an example) are not
+    supposed to see, do this:
+
+    ```gitolite
+    repo foo
+        # rules should allow @temp-emp NO ACCESS
+
+    repo foo-partialcopy-1
+        # first, a deny rule that allows no access to secret-branch
+        -   secret-branch               =   @all
+
+        # other rules; see notes below
+
+        -   VREF/partial-copy           =   @all
+        config gitolite.partialCopyOf   =   foo
+    ```
+
+    **IMPORTANT NOTES**:
+
+      * if you're using other VREFs, **make sure** this one is placed at the
+        end, after all the others.
+
+      * remember that any change allowed to be made to the partial-copy repo
+        will propagate to the main repo so make sure you use other rules to
+        restrict pushes to other branches and tags as needed.
+
+And that should be it.  **Please test it and let me know if it doesn't work!**
+
+WARNINGS:
+
+  * If you change the config to disallow something that used to be allowed,
+    you should delete the partial repo on the server and then run
+    `gitolite compile; gitolite trigger POST_COMPILE` to let it build again.
+
+  * Not tested with smart http; probably won't work.
+
+  * Also not tested with mirroring, or with wild card repos.
+

@@ -1,0 +1,79 @@
+site_name: Gitolite
+# repo_url: https://github.com/sitaramc/gitolite-doc
+
+pages:
+
+- home: index.mkd
+
+- what/why:
+    - overview: overview.mkd
+    - concepts, conventions, terminology: concepts.mkd
+
+- install and setup:
+    - (unix/ssh experts) quick install and setup: quick_install.mkd
+    - normal ssh mode install and setup: install.mkd
+    - (if all else fails) fool-proof, step-by-step, install and setup: fool_proof_setup.mkd
+    - HTTP mode install: http.mkd
+    - migrating from v2: migr.mkd
+
+- use:
+    - basic:
+        - basic administration: basic-admin.mkd
+        - the "conf" file (part 1): conf.mkd
+        - the "conf" file (part 2): conf-2.mkd
+        - the "rc" file: rc.mkd
+        - your users' view: user.mkd
+
+    - advanced:
+        - setting git-config values: git-config.mkd
+        - gitolite options: options.mkd
+        - ad hoc user-created ("wild") repos: wild.mkd
+        - virtual refs (part 1): vref.mkd
+        - virtual refs (part 2): vref-2.mkd
+        - delegation of admin duties: deleg.mkd
+        - gitweb and git-daemon: gitweb-daemon.mkd
+        - mirroring: mirroring.mkd
+
+    - customise:
+        - core and "non-core" gitolite: non-core.mkd
+        - writing your own non-core code: dev-notes.mkd
+        - gitolite triggers: triggers.mkd
+        - list of non-core programs shipped with gitolite: list-non-core.mkd
+
+    - (quick! how do I...) the cookbook: cookbook.mkd
+
+- HELP!:
+    - emergency!!: emergencies.mkd
+    - ssh:
+        - ssh: ssh.mkd
+        - how gitolite uses ssh: glssh.mkd
+        - ssh troubleshooting: sts.mkd
+    - regular expressions: regex.mkd
+
+- other docs:
+    - miscellaneous features: odds-and-ends.mkd
+    - using git namespaces: namespaces.mkd
+    - locking binary files: locking.mkd
+    - testing gitolite: testing.mkd
+    - packaging gitolite: package.mkd
+    - more about gitolite:
+        - gitolite files & directories: files.mkd
+        - the 3.3 format rc file: rc-33.mkd
+        - performance: perf.mkd
+    - contrib:
+        - Using both ssh and http: contrib/ssh-and-http.mkd
+        - Putty and Msysgit: contrib/putty.mkd
+        - Self-service key management: contrib/sskm.mkd
+        - User key management: contrib/ukm.mkd
+        - Emacs major mode: contrib/README-emacs.mkd
+    - no way!: no-way.mkd
+
+extra_css:
+    - css/gitolite.css
+markdown_extensions:
+    - toc:
+        permalink: 
+    - admonition:
+    - footnotes:
+    - wikilinks:
+    - def_list:

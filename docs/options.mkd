@@ -1,0 +1,57 @@
+# gitolite options
+
+----
+
+Some gitolite features are enabled, or gitolite's behaviour changed, by
+setting "options".
+
+A line like `option foo = 1` is really just syntactic sugar for
+`config gitolite-options.foo = 1`, so everything in the [[git-config]] page
+also applies here (especially the bit about [overriding config
+values](git-config/#overriding-config-values).
+
+**However**, these values are **not** written into git's own `config` file, so
+git (or other programs running `git config`) will not see them.  You can only
+query them using `gitolite git-config`, where they will appear in full in the
+output.
+
+Options are set by repo.  The syntax is very simple:
+
+    option  foo.bar     =   baz
+
+Of course this is useless if some other part of gitolite, or some external
+command, is not querying for the option key 'foo.bar'!
+
+Options are therefore documented in the section/page they belong in, not here.
+Here are some examples, although this list is not exhaustive:
+
+  * Ask gitolite to honor [deny rules][deny-rules]  during the pre-git check
+    also.
+
+  * Options related to [[mirroring]] -- tell gitolite who is the master server,
+    and who are the slaves, for each repo.
+
+  * The optional post-compile trigger `update-gitweb-daemon-from-options`
+    allows you to use options instead of special usernames gitweb and daemon
+    to determine access for those tools.
+
+  * You can set [repo-specific environment variables][rsev] for triggers and
+    hooks to test, which is very useful.
+
+[deny-rules]: conf-2/#read-access-respecting-deny-rules
+[rsev]: dev-notes#appendix-1-repo-specific-environment-variables
+
+Here's how to disable an option from a single repo if it was enabled earlier
+in a group (which you might guess from reading the [[git-config]] page):
+
+```gitolite
+@g = r1 r2 r3
+
+repo @g
+    option gitweb = 1
+
+# but repo r2 should not be accessible by gitweb
+repo r2
+    option gitweb = ""
+```
+

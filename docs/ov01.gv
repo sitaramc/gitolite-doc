@@ -1,0 +1,7 @@
+[] [c] gc   [ label = "git client" ]
+[] [c] ssh
+[] [g] sshd
+[] [g] grp  [ label = "git-receive-pack" ]
+.eq ssh sshd
+gc .. ssh .. sshd
+grp .. sshd [ dir = back ]

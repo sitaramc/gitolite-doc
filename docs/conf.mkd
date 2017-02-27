@@ -1,0 +1,397 @@
+# the "conf" file (`conf/gitolite.conf`)
+
+<center>(part 1)</center>
+
+----
+
+<span class="box-r">You might recall from the [basic
+administration](basic-admin) page that this file is part of the gitolite-admin
+repo.  You need to clone that repo, make and commit changes to this file, and
+push the commits back.</span>
+
+The `conf/gitolite.conf` file (often called just "the conf file" for short) is
+one of the two most important files in gitolite.  It specifies repo names and
+access rules, as well as repo options of various kinds and git-config values.
+
+Pretty much all day-to-day management, except [managing users][users], happens
+from this file.
+
+[users]: basic-admin/#addremove-users
+
+We'll use the following example to describe it's features.  <span class="gray">(A tip of
+the hat to Teemu Matilainen's gitolite vim-syntax file for the
+colors.)</span>
+
+```gitolite
+@staff              =   dilbert alice           # groups
+@projects           =   foo bar
+
+repo @projects baz                              # repos
+    RW+             =   @staff                  # rules
+    -       master  =   ashok
+    RW              =   ashok
+    R               =   wally
+
+    option deny-rules           =   1           # options
+    config hooks.emailprefix    = '[%GL_REPO] ' # git-config
+```
+
+# basic syntax
+
+As the example above shows, the syntax is fairly straightforward and simple.
+
+*   In general, everything is **space separated**; there are no commas,
+    semicolons, etc., in the syntax.
+*   **Comments** are in the usual shell-ish style.
+*   **User names** and **repo names** are as simple as possible; they must
+    start with an alphanumeric, but after that they can also contain `.`, `_`,
+    or `-`. Usernames can optionally be followed by an `@` and a domainname
+    containing at least one `.` (this allows you to use an email address as
+    someone's username).
+*   **Group names** are like simple usernames (i.e., not email addresses) but
+    start with an `@` sign.
+*   Reponames can contain `/` characters (this allows you to put your repos in
+    a tree-structure for convenience).
+*   There are no continuation lines by default.  You do not need them; the
+    section on [groups][] will tell you how you can break up large lists of
+    names in a group definition into multiple lines. <span class="gray">(But if you *must*
+    have them, you can optionally enable them; look for "continuation-lines"
+    in `~/.gitolite.rc`).</span>
+
+[groups]: conf/#group-definitions
+
+# include files
+
+Gitolite allows you to break up the configuration into multiple files and
+include them in the main file for convenience.  For example:
+
+    include "foo.conf"
+
+will include the contents of the file "conf/foo.conf".
+
+*   You can also use a glob (`include "*.conf"`), or put your include files
+    into subdirectories of "conf" (`include "foo/bar.conf"`), or both
+    (`include "repos/*.conf"`).
+
+*   Included files are always searched from the gitolite-admin repo's `conf/`
+    directory, unless you supplied an absolute path.  (Note: in the interests
+    of cloning the admin-repo sanely you should avoid absolute paths!)
+
+*   If you end up recursing, files that have been already processed once are
+    skipped, with a warning.
+
+*   It is not a fatal error for an include file to be missing.  If it is a
+    glob, you won't even get a warning.
+
+<font color="gray">Advanced users: `subconf`, a command that is very closely
+related to `include`, is documented [here][subconf].</font>
+
+[subconf]: deleg#the-subconf-command
+
+**Please note** that whenever you see "the `conf/gitolite.conf` file" or "the
+conf file" in gitolite documentation, it means the combined text after the
+include processing is done.
+
+# group definitions
+
+You can group repos or users for convenience.  The syntax is the same for both
+and does not distinguish; until you *use* the group name it could really be
+either.
+
+Here's an example:
+
+```gitolite
+@developers     =   dilbert alice wally
+```
+
+Group definitions accumulate; this is the same as the above:
+
+```gitolite
+@developers     =   dilbert
+@developers     =   alice
+@developers     =   wally
+```
+
+You can use one group in another group definition; the values will be expanded
+immediately (meaning later additions will not appear in the second group):
+
+```gitolite
+@developers     =   dilbert alice
+@interns        =   ashok
+@staff          =   @interns @developers
+@developers     =   wally
+
+# wally is NOT part of @staff
+```
+
+Here's a very simple but complete example of using groups:
+
+```gitolite
+@developers     =   dilbert alice wally
+@foss-repos     =   git gitolite
+
+repo @foss-repos
+    RW+         =   @developers
+```
+
+## special group `@all`
+
+`@all` is a special group name that is often convenient to use if you really
+mean "all repos" or "all users".
+
+## warnings on undefined groups
+
+Gitolite cannot truly catch undefined groups because the conf parser is
+1-pass, and you're allowed to define a group *after* it is used, like so:
+
+```gitolite
+repo foo
+    RW  =   @foo
+@foo = u1 u2
+```
+
+<span class="gray">(v3.5.3+)</span> However, in a simplistic attempt to help
+people tearing their hair out because of a typo, gitolite will warn if a group
+is not defined when it is used.  So if you defined it later, either ignore the
+warning or move the definition up.
+
+Note that these warnings do NOT appear if you're [getting user group info from
+LDAP][ldap].
+
+[ldap]: conf/#getting-user-group-info-from-ldap
+
+## getting user group info from LDAP
+
+Gitolite's groups are pretty convenient, but some organisations already have
+similar (or sufficient) information in their LDAP store.
+
+Gitolite can tap into that information, with a little help.  Write a program
+which, given a username, queries your LDAP store and returns a space-separated
+list of groups that the user is a member of.  Then put the full path to this
+program in an [[rc]] variable called `GROUPLIST_PGM`, like so:
+
+    GROUPLIST_PGM           =>  '/home/git/bin/ldap-query-groups',
+
+Now you can use those groupnames in access rules in gitolite, because the user
+is a member of those groups as well as any normal gitolite groups you may have
+added him to in the conf file.
+
+Caution: your program must do its own logging if you want the audit trail of
+"why/how did this user get access to this repo at this time?" to resolve
+properly.  Gitolite does not do any logging of the results of the queries
+because for people who don't need it that would be a huge waste.
+
+# access rules
+
+<span class="box-r">Some of the pictures are thanks (*enormous* thanks!) to someone who
+contributed them but does not want to be named (go figure!).  She even
+converted them to ditaa format when I asked; these are not as pretty as what
+she sent me originally but they're vim-editable in source form :-)</span>
+
+This section talks about how gitolite's access rules work.  It's a **very
+important** section, and well worth spending some time on.
+
+Gitolite's access rules are designed to be easy to use for common situations,
+such as some of the examples you saw earlier.  However, they also pack a lot
+of power and flexibility.
+
+Access rules decide whether a particular access is allowed or denied.  An
+access is defined by four pieces of data: "reponame, username, operation, and
+ref".  Each rule also has four similar pieces of data, and of course there are
+several rules -- some people have thousands! -- in the conf file. This section
+will try and explain how these rules are used to decide if a given operation
+is to be allowed or denied.
+
+----
+
+## what does a rule look like?
+
+You've seen some simple rules so far, for example in the [basic
+administration](basic-admin) page.  Here's a slightly more complex one, just
+for illustration.
+
+```gitolite
+repo foo bar
+
+    RW+                     =   alice @teamleads
+    -   master              =   dilbert @devteam
+    -   refs/tags/v[0-9]    =   dilbert @devteam
+    RW+ dev/                =   dilbert @devteam
+    RW                      =   dilbert @devteam
+    R                       =   @managers
+```
+
+A "repo" line names one or more repos, and is followed by one or more rule
+lines. All the rules from then till the next "repo" line apply to the repo(s)
+specified in the repo line -- in this example, the 'foo' and 'bar' repos.
+
+Each rule line has a "permission" field, zero or more "refex"es, and one or
+more user or user group name after the equal sign.
+
+<span class="gray">The "repo" line can also have repo groups, as we have seen in the
+section on [groups][] above.  Also, it can have regular expressions that match
+multiple repos.</span>
+
+Before describing the various fields more formally, here's a description of
+what this specific rule list is saying:
+
+*   alice and the team leads can do whatever they want (i.e., push, rewind, or
+    delete any branch or tag).
+
+*   dilbert and the dev team has these restrictions
+    1.  they can do anything to branches whose names start with "dev/"
+    2.  they can create or fast-forward push, but not rewind or delete, any
+        branch except master
+    3.  they can create (but not update/delete) any tag except tags starting
+        with "v" followed by a digit.
+
+*   managers can read the repo but they can't push anything.
+
+More formally, a rule line has the following fields:
+
+### the permission field
+
+The permission field gives the type of access this rule line permits. The most
+commonly used permissions are:
+
+  * R, to allow read operations only
+  * RW, to allow fast-forward push of a branch, or create new branch/tag
+  * RW+, to allow pretty much anything -- fast-forward, rewind or delete
+    branches or tags
+  * `-` (the minus sign), to **deny** access.
+
+<span class="gray">There are also other, less commonly used, [types of
+permissions][write-types].</span>
+
+[write-types]: conf-2/#appendix-1-different-types-of-write-operations
+
+### the "refex" field
+
+You cannot write rules for all possible branch and tag names (i.e., refs) that
+users will push.  The only sensible way to do this is to use [regular
+expressions](regex) instead.
+
+A refex is a word I made up to mean "a regex that matches a ref".
+
+In addition:
+
+  * If no refex is supplied, it defaults to `refs/.*`, for example in a rule
+    like this:
+
+        RW              =   alice
+
+  * A refex not starting with `refs/` <span class="gray">(or `VREF/`)</span> is assumed to
+    start with `refs/heads/`.  This means normal branches can be conveniently
+    written like this:
+
+        RW  master      =   alice
+        # becomes 'refs/heads/master' internally
+
+    while tags will need to be fully qualified
+
+        RW  refs/tags/v[0-9]    =   bob
+
+  * A refex is implicitly anchored at the start, but not at the end.  In
+    regular expression lingo, a `^` is assumed at the start (but no `$` at the
+    end is assumed).  So a refex of `master` will match all these refs:
+
+        refs/heads/master
+        refs/heads/master1
+        refs/heads/master2
+        refs/heads/master/full
+
+    More commonly, a refex of `refs/tags/v[0-9]` will match all versioned tags
+    (i.e., not just `v1` but also `v12`, `v1.2`, `v12345`, etc.)
+
+    If you want to restrict the match to just the one specific ref, add a $ at
+    the end, for example:
+
+        RW  master$     =   alice
+
+<span class="gray">You can also use [virtual refs](vref) to perform extra checks and
+controls that you can't do with just the normal ref (like refs/heads/master)
+being pushed.  The most common example is restricting pushes by dir/file name,
+but there are lots of other possibilities.</span>
+
+### user/user group list
+
+Like the repos on the repo line, you can have any number of user names and/or
+user group names on the rule line.  (However, please note that there is no
+concept of regular expressions for user names).
+
+**SECTION SUMMARY**: at this point you know that each rule basically specifies
+a repo, user, permission, and a "refex".
+
+----
+
+## rule accumulation
+
+*All* the rules for a repo need not be specified in one place.  For example,
+you might see something like this, perhaps at the top or bottom of the conf
+file:
+
+```gitolite
+# managers should be able to read any repo
+repo @all
+    R   =   @managers
+```
+
+or perhaps this:
+
+```gitolite
+# anyone can clone open source repos
+repo @FOSS
+    R   =   @all
+```
+
+Clearly, both these constructs affect repos which may have their own rules
+elsewhere.
+
+If a bunch of projects share some naming convention, you can specify any rules
+that are common to all of them by specifying the set of repos that are
+affected as a regular expression.  Notice that the regex can be defined
+directly in the repo line, or it can be defined in a group and the *group*
+used in the repo line; it's all the same to gitolite.
+
+```gitolite
+repo FOSS/..*
+    # ...rules for repos under FOSS/
+
+@secret     =   secret/..* private/..*
+repo @secret
+    # ...rules for repos under secret/ and private/
+```
+
+Finally, although not very common, you can certainly do things like this:
+
+```gitolite
+repo foo
+    # ...some rules...
+
+# ...other repos and rules...
+
+repo foo
+    # ...more rules for foo...
+```
+
+Note that the "other repos and rules" may indirectly include repo "foo" (for
+example it there were rules for "repo @all", or some other group that "foo"
+was a member of).
+
+When access is being checked for an operation against a repo, **all the rules
+that pertain to that repo are collected, in the order they were seen in the
+conf file**.
+
+Gitolite then **discards those rules that do *not* apply to the user whose
+access is being checked**.  (A rule applies to a user if the user's name
+appears in the rule (after the equal sign), or if he is a member of any of the
+group names that appear in the rule.)
+
+### defining "user" and "repo"
+
+To be very specific, when we speak of "user" and "repo" in rules,
+
+*   "user" means "user or a [group][groups] that he/she is a member of", and
+*   "repo" means "repo, or a group that it is a member of, or a regex that
+    matches it, or a group that contains a regex that matches it".
+

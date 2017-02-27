@@ -1,0 +1,82 @@
+# allowing access to gitweb and git-daemon
+
+----
+
+!!! danger "Note:"
+
+    Gitolite does **not** install or configure gitweb/git-daemon -- that is a
+    one-time setup you must do separately.
+
+# gitweb
+
+The following repos are deemed to be readable by gitweb:
+
+  * Any repos readable by the special user `gitweb`.
+  * Any repos containing one or more of the following types of lines:
+    (actually, any config variable starting with `gitweb`).
+
+        config gitweb.owner         =   owner name
+        config gitweb.description   =   some description
+        config gitweb.category      =   some category
+
+    Side note: the following shorter forms are available as [syntactic
+    sugar](non-core#syntactic-sugar) for the above longer forms:
+
+        owner       =   owner name
+        desc        =   some description
+        category    =   some category
+
+The list of gitweb-readable repos is written to a file whose name is given by
+the [[rc]] file variable `GITWEB_PROJECTS_LIST`.  The default value of this
+variable, if it is not specified or empty, is `$HOME/projects.list`.
+
+In addition, each of the config variables described above is written to the
+repo to which it pertains, so that gitweb can use them.
+
+## changing the UMASK
+
+Gitweb (or cgit, redmine, etc.) typically runs under a different userid, and
+the default permissions that gitolite sets make them unreadable.
+
+See the section on the `UMASK` variable in the page for the [rc file](rc).
+
+## repo-specific authorisation in gitweb
+
+Gitweb has a feature whereby it will call a (perl) function that you supply,
+passing it the full path to the repo being accessed.  If the remote user is
+authenticated, the username will be available, so your function can take those
+two pieces of information and return true or false to allow or deny the
+repository access.
+
+If you want to use gitolite's access rules in making this determination, you
+will first have to ensure that the HTTP username (i.e., the username known to
+apache/gitweb) is the same as the gitolite username.  If you're using
+gitolite's [[http]] mode, this is probably already true, but if you're using
+the more widely used ssh mode, you'll have to make sure they match.
+
+You then need to add [this code][gwch] to your gitweb.conf.
+
+[gwch]: gitweb.conf.html
+
+# git-daemon
+
+Any repo readable by the special user `daemon` is deemed to be readable by
+git-daemon.  For each of these repos, an empty file called
+`git-daemon-export-ok` is created in the repository (i.e., the `repo.git`
+directory inside `$HOME/repositories`).
+
+# tips
+
+Setting descriptions en-masse usually does not make sense, but you can
+certainly do things like
+
+    repo @all
+        R       =   gitweb daemon
+
+assuming you have other means of setting 'gitweb.description' and
+'gitweb.owner'.
+
+Also see [this][deny-rules] for a twist on that.
+
+[deny-rules]: conf-2/#read-access-respecting-deny-rules
+

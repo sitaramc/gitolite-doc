@@ -1,0 +1,61 @@
++---------------+
+|   git push    |
++-------+-------+
+        |
+        V
++---------------+
+|   (network)   |
++-------+-------+
+        |
+        v
++----------------+
+|gitolite‐shell  |
+|                |
+|repo  foo       |
+|user  alice     |
+|oper  W         |
+|ref   (unknown) |
+|cGRE            |
++----------------+
+|Access check #1 |
+|cYEL            |
++-----+------+---+
+(fail)|      |(pass)
+      v      |
++--------+   |
+| abort  |   |
+|cRED    |   |
++--------+   |
+             |
+             v
++-----------------+
+|git‐receive‐pack |
+|cGRE             |
++-------+---------+
+        |
+        v
++--------------------+
+|  update hook       |
+|                    |
+|repo  foo           |
+|user  alice         |
+|oper  W or '+'      |
+|ref   refs/heads/...|
+|(or)  refs/tags/... |
+|cGRE                |
++--------------------+
+|Access check #2     |
+|cYEL                |
++-----+------+-------+
+(fail)|      |(pass)
+      v      |
++--------+   |
+| abort  |   |
+|cRED    |   |
++--------+   |
+             |
+             v
++-----------------+
+| (push succeeds) |
+|cGRE             |
++-----------------+

@@ -1,0 +1,263 @@
+# namespace support in gitolite
+
+*This feature is only available in the 'namespaces' branch until enough people
+test it and tell me it works fine*.
+
+----
+
+**AVOID NASTY SURPRISES!**  Please read the entire page before attempting to
+use or install this.  Most non-core features of gitolite do not work with
+namespaces, and, worse, many of them will *fail silently*.  There are also
+security issues you need to be aware of.
+
+# background
+
+In many projects, developers need to push their work to some central place for
+others to fetch.  Namespaces allow you to give each developer what looks like
+her own repo or set of repos, while combining all these logical repos into one
+physical repo on the server.  This saves a lot of disk space if they all share
+a lot of common history.
+
+The logical repos look like normal repos to a git *client*; all the magic is
+on the server side.  (But see the "WARNINGS" section).
+
+# terminology
+
+There is one repo that is special, and several others that depend upon it or
+use it.  Depending on context, we use one of the following names:
+
+  * Storage context: backing repo/real repo, and logical repos
+  * [Workflow][imwf] context: blessed repo and developer repos
+
+<font color="gray">In addition, in the gitolite context you could say that the
+blessed repo is a normal (not "wild") repo and the logical repos are [[wild]]
+repos, since that is the most convenient way to set this up.  However, it is
+not mandatory -- you can have a wild repo as a backing repo, and/or a normal
+repo as a logical repo if you wish.</font>
+
+[imwf]: http://git-scm.com/book/en/Distributed-Git-Distributed-Workflows#Integration-Manager-Workflow
+
+# setup
+
+First, add the following lines to the rc file, as indicated:
+
+    # add this line as the *last* item in the PRE_GIT trigger list.  In
+    # particular, it should be *after* the Mirroring::pre_git line if you're
+    # using mirroring.
+    'Namespaces::pre_git',
+
+    # add this line as the *first* item in the POST_GIT trigger list.  In
+    # particular, it should be *before* the Mirroring::post_git line if you're
+    # using mirroring.
+    'Namespaces::post_git',
+
+Then use the following example conf below as a guide and roll your own.  This
+example is from a mail to the gitolite list by Javier Domingo ("Mirroring
+forks", 13-11-2012), modified slightly.
+
+```gitolite
+# backing repos, normal (non-wild), serving as blessed repos
+repo    linux git gitolite [...other projects...]
+    RW+     =   integration-manager
+    R       =   @all
+
+# logical repos, wild, created by devs as needed
+repo    CREATOR/[a-zA-Z0-9].*
+    C       =   @all
+    RW+     =   CREATOR
+    R       =   READERS @all
+    option namespace.pattern = %/* is @1 in @2
+```
+
+# use
+
+A developer doesn't have to do anything differently.  She will still run,
+e.g., `git clone git@host:alice/linux` to auto-create and clone a [[wild]]
+repo for herself, then add a remote to the "backing" repo, fetch it, start
+working, and eventually push her work to alice/linux.
+
+However, she might notice some differences.  To begin with, her first push of
+an enormous code base, to what she thought was an empty repo on the server,
+might go surprisingly fast :)
+
+Secondly, a lot of *gitolite* commands (and other features) won't work.  See
+the "WARNINGS" section below for more.
+
+# details
+
+The option line above has 3 parts separated by the words "is" and "in":
+
+    <pattern> is <namespace> in <backing repo>
+
+When a user attempts to access a logical repo (say "alice/linux"), the
+namespace pattern for that repo is applied to the repo name as follows:
+
+  * a percent sign matches a single component in the repo name
+  * an asterisk matches one or more components
+
+Once the matching is done, each "at-digit" combination is replaced by the
+corresponding matched segment to derive the namespace and the backing repo
+name.
+
+Some examples may help:
+
+  * Here's a simple one that separate the first component from the rest:
+
+    ```gitolite
+        option namespace.pattern = %/* is @1 in @2
+    ```
+
+    A reponame of 'alice/linux' gives you a namespace of 'alice' and a backing
+    reponame of 'linux'.  Similarly, 'alice/linux/2.2' gives you 'alice' and
+    'linux/2.2' (which means a repo of that name has to exist!); notice how
+    the asterisk grabs up all the remaining components in the repo name.
+
+  * This one separates the first, the second, and all the rest, but combines
+    them in a different order:
+
+    ```gitolite
+        option namespace.pattern = %/%/* is @1/@3 in @2
+    ```
+
+    A reponame of 'alice/linux/2.2' gives you 'alice/2.2' and 'linux', while a
+    reponame of 'alice/linux/2.2/smp' gives you 'alice/2.2/smp' and 'linux'.
+
+  * Here's another example on the same lines:
+
+    ```gitolite
+        option namespace.pattern = %/%/%/* is @3/@2/@4 in @1
+    ```
+
+    A reponame of 'linux/kernel/torvalds/linux-2.6' gives you a namespace of
+    'torvalds/kernel/linux-2.6' and a backing repo name of 'linux'.
+
+  * Here's an interesting example, given in full to explain better.  The basic
+    problem is that one of our backing repos is not a simple name (like 'git'
+    or 'linux'); it is 'sitaramc/gitolite'.
+
+    In addition, any developer-owned repo that has 3 or more components is not
+    a fork of anything at all, and should not be subject to namespace
+    processing (i.e., it's just a normal repo)
+
+    ```gitolite
+    # backing repos
+    repo sitaramc/gitolite linux git
+        ...access rules for backing repos...
+    # logical repos
+    repo CREATOR/..*
+        C   =   @team
+        RW+ =   CREATOR
+        R   =   @all
+        option namespace.pattern-1 = %/gitolite is @1 in sitaramc/gitolite
+        option namespace.pattern-2 = %/% is @1 in @2
+        option namespace.pattern-3 = %/%/* is none in @1/@2/@3
+    ```
+
+    Firstly, this shows how to specify more than one namespace pattern.  Each
+    pattern is tried in *lexically* sorted order until a match is found.
+    (Warning: "lexically sorted" means 'namespace.pattern-10' sorts before
+    'namespace.pattern-2'!)
+
+    Secondly, the example shows that you can hardcode anything, like we did
+    for the backing reponame in pattern 1.
+
+    Thirdly, it shows how you can specify a pattern that disables namespacing,
+    like the last pattern.  When the backing repo name ends up being exactly
+    the same as the original repo name, gitolite notices this and treats it as
+    a real repo, not as a logical repo.  (If this confuses you, ignore it and
+    use some other pattern, say `CREATOR/personal/..*` for developers personal
+    repos, and don't give them namespace pattern options).
+
+    Here are some example results from this setup:
+
+        alice/gitolite              ->  alice, sitaramc/gitolite (pattern 1)
+        alice/linux                 ->  alice, linux (pattern 2)
+        alice/linux/2.2             ->  (namespace processing disabled)
+        alice/personal/foo          ->  (namespace processing disabled)
+
+  * Here's an example with some errors:
+
+    ```gitolite
+        option namespace.pattern-1 = %/gitolite is @1 in sitaramc/gitolite
+        option namespace.pattern-2 = %/% is @1 in @2
+        option namespace.pattern-3 = %/%/* is @1/@3 in @2
+    ```
+
+    If you try 'alice/gitolite/foo' in this setup, it will only match the 3rd
+    pattern.  The backing repo name will be 'gitolite', which probably doesn't
+    exist, and git will complain.
+
+    Also, without rule 3, trying a repo with more than 2 components won't
+    work.  Gitolite will complain that no namespace options matched.  This
+    would indicate a discrepancy between the `repo [...]` line governing those
+    options and the options themselves; you need to fine tune one or the
+    others to fix things.
+
+# WARNINGS
+
+## SECURITY
+
+**First and most important**, please read 'man gitnamespaces' for important
+security information about namespaces.
+
+Secondly, please note that gitolite's access control decisions are made based
+on the repo name that the user supplies, even if that is only a logical repo.
+E.g., in a sequence like this:
+
+    git clone git@server:alice/linux                        # 1
+    cd alice
+    git remote add backing git@server:linux
+    git fetch backing                                       # 2
+    git checkout master
+    git push origin master                                  # 3
+
+Lines 1 and 3 use the access list for the logical repo ("alice/linux") to
+allow or reject a push, while line 2, which is directly contacting the
+"backing" repo, use that repo's access rules.
+
+In particular, Alice does **not** need write access to the backing repo for
+the push to succeed!
+
+## gitolite functionality
+
+Most things you're used to in gitolite won't work with logical repos.  From
+the client point of view, **the only features guaranteed to work on logical
+repos are**:
+
+  * normal git operations (clone, fetch, push)
+  * creating a new [[wild]] repo
+  * the [perms][] command (except the "-c" flag)
+
+[perms]: user/#setget-additional-permissions-for-repos-you-created
+
+From a server/admin point of view, **the following will not work for logical
+repos, and may even fail silently!**:
+
+  * smart-http mode
+  * the 'config' line in gitolite.conf
+  * any 'option's affecting a physical repo, like RepoUmask
+  * anything that expects to be recorded somewhere in the bare repo directory.
+  * ...and anything else not explicitly listed as "working" in this doc ;-)
+
+## gitolite functionality -- mirroring
+
+Mirroring works, but **all the logical repos and the backing repo should have
+the same mirroring setup**.  I.e., which server is the master, who are the
+slaves, are redirects allowed, if so from where, etc., etc., etc., should all
+have the same values for all of them.  I cannot over-emphasise the importance
+of this for proper mirroring.
+
+# other notes
+
+The "backing repo" needs to exist.  If it is itself a [[wild]] repo, it must
+be auto-created *before* a logical repo that hangs off of it is accessed.
+
+The logical repo must also be mentioned in the gitolite.conf file in some way,
+as you saw in the example.  Access control decisions are made based on this
+one, not the backing repo.
+
+One *quirk* is that, if the logical repo is a wild repo, then an actual repo
+with that name *is* created on disk.  Gitolite needs a place to keep its
+repo-specific permissions so it has to do that.  You will find, however, that
+the objects directory is pretty much empty, even after a lot of activity.
+

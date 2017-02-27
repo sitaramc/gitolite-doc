@@ -1,0 +1,29 @@
+#!/bin/bash
+
+# this can only be done from a terminal; do not try to run it from cron or
+# some other headless mechanism
+
+die() { echo "$@"; exit 1; }
+
+[ -f mkdocs.yml ] || die "are you sure you're in the right directory?"
+
+# generate images
+bin/mkdocs.pre-build.image-gen `find . -name "*.gv" -o -name "*.aa"`
+
+# check for dirty tree
+x="`git -c color.ui=always status -suno`"
+echo "$x"
+[ -z "$x" ] || die "dirty tree?"
+
+# generate mkd with vim-syntax; this step is slow, but this is the simplest
+# way to support gitolite syntax highlighting in arbitrary markdown.
+for i in `find docs -name "*.mkd" -type f`
+do
+    echo -n >&2 $i...
+    [ -f $i ] || { echo >&2 "skipping $i"; continue; }
+    bin/mkdocs.pre-build.mkd-filter < $i > i && mv i $i
+    echo >&2 "done"
+done
+
+# build site
+~/.local/bin/mkdocs build

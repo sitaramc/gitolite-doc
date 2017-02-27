@@ -1,0 +1,158 @@
+# fool-proof, step-by-step, install and setup
+
+----
+
+This page is useful if the normal [[install]] instructions did not work for
+you.
+
+# pre-requisites, etc
+
+These are the pre-requisites:
+
+  * Any Linux machine on which git has already been installed.
+  * Probably any BSD or legacy system like Solaris will also work, but I have
+    not tested them.
+      * I do not consider Apple devices to be Unix enough; it should work, but
+        please do not ask me for help if it does not.
+
+This page has several restrictions and constraints that seem unnecessary to
+people who **do** understand ssh. That's the whole point -- I'm compensating
+for lack of ssh knowledge by removing things that trip people up.
+
+If even this page does not help you install gitolite, I probably cannot help
+you.  Either you did not follow the instructions carefully <font
+color="gray">(maybe some task has to be run on your workstation, but you ran
+it on the server, or you ran something as root when it should be as the
+hosting user, etc.)</font>, or your environment is far too different from
+standard Unix, or you have some other problem.  In any case, it is not
+something I can help with.  Sorry.
+
+# assumptions
+
+  * Your name is Ron.  Substitute accordingly in the instructions below.
+
+  * You have a workstation.
+
+  * You have a server called `server`.
+
+  * You have root access on this server.
+
+# installation tasks
+
+1.  Create a new userid on the server, say `git`.  This will be the **hosting
+    user**.  ("hosting user" means when you're done installing, your users
+    will use URLs like `git@server:reponame` or `ssh://git@server/reponame`).
+
+    **Make sure this is a NEW userid**.
+
+    If the name you want already exists, then:
+
+      * Log in as root.
+      * If you have any data on that user's HOME directory save it somewhere
+        else.
+      * Delete the userid.
+      * Completely wipe out (erase) the home directory of the user (since on
+        most systems merely deleting the user does not remove the home
+        directory).
+      * Re-create the userid again.
+
+2.  If you don't already have one, make yourself an ssh keypair **on your
+    workstation**.
+
+    Do NOT add this public key to the authorised keys file on the newly
+    created hosting user!
+
+    Your ONLY access to the new (`git`) userid should be by logging onto the
+    server as root, then running `su - git`.
+
+3.  Now copy the pubkey from your workstation (`~/.ssh/id_rsa.pub`) to the
+    server as `/tmp/ron.pub`.  (Your name is Ron, remember?)
+
+4.  Log on to the server as root.
+
+5.  Switch to the `git` user:
+
+        su - git
+
+6.  Clone the gitolite source code
+
+        git clone git://github.com/sitaramc/gitolite
+
+7.  Install it
+
+        cd $HOME
+        mkdir -p bin
+        gitolite/install -to $HOME/bin
+
+8.  Set it up
+
+        cd $HOME
+        $HOME/bin/gitolite setup -pk /tmp/ron.pub
+
+9.  Now go to your workstation and type in
+
+        git ls-remote git@server:gitolite-admin
+
+    This should return something like
+
+        9dd8aab60bac5e54ccf887a87b4f3d35c96b05e4    HEAD
+        9dd8aab60bac5e54ccf887a87b4f3d35c96b05e4    refs/heads/master
+
+    (do I have to mention that your SHAs will be different?)
+
+# administration tasks
+
+Most day-to-day administration is done by making changes to a clone of the
+gitolite-admin repo and pushing.  (There are some things that are done by
+editing `$HOME/.gitolite.rc` on the server, but those are too advanced for
+this tutorial so we will ignore that).
+
+1.  To start administering gitolite, clone the gitolite-admin repo:
+
+        git clone git@server:gitolite-admin
+
+2.  Now go to the new directory this creates, and look around:
+
+        cd gitolite-admin
+        ls -A
+
+    which gives you
+
+        conf/  .git/  keydir/
+
+    Ignoring the ".git" and exploring further:
+
+        ls -A conf keydir
+
+    which says:
+
+        conf:
+        gitolite.conf
+
+        keydir:
+        ron.pub
+
+3.  Let's say you want to add your colleague Alice.  She has sent you her ssh
+    public key by email (the file is called `id_rsa.pub`).  Save this file as
+    /tmp/alice.pub, then do this:
+
+        # still in your gitolite-admin clone, from the previous step
+        cp /tmp/alice.pub keydir
+        git add keydir
+        git commit -m 'new user alice'
+        git push
+
+4.  Well, that might not be sufficient.  There aren't any new repos for alice
+    to play with, yet.  So here's what you do: edit "conf/gitolite.conf" and
+    add something like to the end:
+
+        repo foo
+            RW+     =   alice
+            R       =   ron
+
+    Save the file, then `git add conf; git commit -m 'new repo foo'; git
+    push`.
+
+    This will automatically create a brand new repo called "foo" on the server, and
+    alice will be able to clone from it, or push anything to it.
+

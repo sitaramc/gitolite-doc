@@ -1,0 +1,15 @@
+[] [c] gc  [ label = "git client" ]
+[] [c] ssh
+[] [g] sshd
+[] [y] gs  [ label = "gitolite-shell"   ]
+[] [g] grp [ label = "git-receive-pack" ]
+[] [y] uh  [ label = "update hook"   ]
+.eq ssh sshd
+gc .. ssh .. sshd
+uh .. grp .. gs .. sshd [ dir = back ]
+[] [r] d1 [ label = "deny" ]
+[] [r] d2 [ label = "deny" ]
+.eq gs d1
+.eq uh d2
+gs -> d1 [ style = dashed label = "?" ]
+uh -> d2 [ style = dashed label = "?" ]

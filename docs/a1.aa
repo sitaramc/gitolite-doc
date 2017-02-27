@@ -1,0 +1,34 @@
++---------------+
+|git clone/fetch|
++-------+-------+
+        |
+        V
++---------------+
+|   (network)   |
++-------+-------+
+        |
+        v
++----------------+
+|gitolite‐shell  |
+|                |
+|repo  foo       |
+|user  alice     |
+|oper  R         |
+|ref   (unknown) |
+|cGRE            |
++----------------+
+|Access check #1 |
+|cYEL            |
++-----+------+---+
+(fail)|      |(pass)
+      v      |
++--------+   |
+| abort  |   |
+|cRED    |   |
++--------+   |
+             |
+             v
++-----------------+
+| git‐upload‐pack |
+|cGRE             |
++-----------------+

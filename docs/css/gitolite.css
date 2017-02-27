@@ -1,0 +1,96 @@
+<style type="text/css">
+<!--
+/* somehow the first class is being ignored... */
+.dummy       { color: #ff0000; }
+.WarningMsg  { color: #ff0000; font-weight:      bold;    }
+.Constant    { color: #ffa0a0; }
+.Statement   { color: #ffff60; font-weight:      bold;    }
+.PreProc     { color: #ff80ff; }
+.LineNr      { color: #ffff00; }
+.Comment     { color: #80a0ff; }
+.Type        { color: #60ff60; font-weight:      bold;    }
+.Special     { color: #ffa500; }
+.Identifier  { color: #40ffff; }
+.Error       { color: #ffffff; background-color: #ff0000; padding-bottom: 1px; }
+.Todo        { color: #0000ff; background-color: #ffff00; padding-bottom: 1px; }
+
+.red         { color: red }
+.blue        { color: blue }
+.green       { color: green }
+.gray        { color: gray }
+.pink        { color: pink }
+
+.box         { background-color:#e0e0e0 }
+.bg-red      { background-color:#ffe0e0 }
+.bg-green    { background-color:#e0ffe0 }
+.bg-blue     { background-color:#e0e0ff }
+
+/* couldn't resist the name! */
+.wd40        { width: 40% !important }
+
+.box-l       { float: left;  padding: 0px 0.5em; background-color: #e0e0e0; width:25%; margin-right: 4px; }
+.box-r       { float: right; padding: 0px 0.5em; background-color: #e0e0e0; width:25%; margin-left:  4px; }
+
+.fl-l        { float: left;  padding: 0px 0.5em;                                       margin-right: 4px; }
+.fl-r        { float: right; padding: 0px 0.5em;                                       margin-left:  4px; }
+
+.admonition {
+    padding: 15px;
+    margin-bottom: 20px;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    text-align: left;
+}
+
+.admonition.note { /* csslint allow: adjoining-classes */
+    color: #3a87ad;
+    background-color: #d9edf7;
+    border-color: #bce8f1;
+}
+
+.admonition.warning { /* csslint allow: adjoining-classes */
+    color: #c09853;
+    background-color: #fcf8e3;
+    border-color: #fbeed5;
+}
+
+.admonition.danger { /* csslint allow: adjoining-classes */
+    color: #b94a48;
+    background-color: #f2dede;
+    border-color: #eed3d7;
+}
+
+.admonition-title {
+    font-weight: bold;
+    text-align: left;
+}
+
+/* get rid of that stupid grid in the default theme */
+body {
+    background: none;
+    color: #222;
+}
+
+h1,.h1{font-size:32px}
+h2,.h2{font-size:24px}
+h3,.h3{font-size:20px}
+h4,.h4{font-size:16px}
+h5,.h5{font-size:14px}
+h6,.h6{font-size:12px}
+
+div.col-md-9 h1:first-of-type {
+    text-align: center;
+    font-size: 40px;
+    font-weight: 300;
+}
+
+code {
+    padding: 1px;
+}
+
+/* div.col-md-9 p:first-of-type { */
+/*     text-align: center; */
+/* } */
+
+-->
+</style>

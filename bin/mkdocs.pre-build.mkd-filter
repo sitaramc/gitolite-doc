@@ -1,0 +1,81 @@
+#!/usr/bin/perl
+use strict;
+use warnings;
+use 5.10.0;
+use Data::Dumper;
+
+# does various conversions required before 'mkdocs build'.  Some are left as
+# placeholders, some are actually implemented.
+
+# input: mkd file
+# output: mkd file with appropriate conversions
+
+undef $/;
+my $mkd = <>;
+
+# postponed: convert 
+#   # download {#dl -}
+# to
+#   <h1 id="dl">download</h1>
+
+# convert
+#   ```LANG[-opt]
+#   ...
+#   ```
+# to appropriate HTML, inlined, using vim syntax highlighting.  (Yes, we are
+# using exactly 3 `'s, not any arbitrary number; we have no need for nesting
+# them so we don't care)
+
+$mkd =~ s(^( *)\`\`\`([^\n]+)\n(.*?)^ *\`\`\`\n)(htmlise($1, $2, $3))smeg;
+
+print $mkd;
+
+sub htmlise {
+    my($indent, $lang, $code) = @_;
+
+    # $lang may be a single word ('perl', 'gitolite'), or such a word followed
+    # by some vim config setting ('perl-nu'; will switch on line numbering).
+    # In reality, 'nu' is the only usable one here anyway...
+    $lang =~ s/-/ /g;
+
+    # remove the indentation before writing the temp file
+    $code =~ s/^$indent//gm if $indent;
+
+    my $tempfile = "$ENV{HOME}/tmp-mkdocs";
+    _print($tempfile, $code);
+
+    my $cmd = "vim -N -u /dev/null -c 'set ft=$lang bg=dark' -c 'syn on' -c TOhtml -c xa -- $tempfile";
+    system("xterm", "-e", $cmd);    # will produce "$tempfile.html"
+
+    my $pre = '<pre style="color: #ffffff; background-color: #000000;">';
+    my $ret = slurp("$tempfile.html");
+    $ret =~ s/^.*<pre id[^\n]+/$pre/s;
+    $ret =~ s(/pre>.*)(/pre>\n)s;
+
+    # put back the indentation we removed earlier, to put this text back in
+    # context for markdown
+    $ret =~ s/^/$indent/gm if $indent;
+
+    return $ret;
+}
+
+sub _open {
+    open( my $fh, $_[0], $_[1] ) or die "open $_[1] failed: $!\n";
+    return $fh;
+}
+
+sub _print {
+    my ( $file, @text ) = @_;
+    my $fh = _open( ">", "$file.$$" );
+    print $fh @text;
+    close($fh) or die "close $file failed: $! at ", (caller)[1], " line ", (caller)[2], "\n";
+    my $oldmode = ( ( stat $file )[2] );
+    rename "$file.$$", $file;
+    chmod $oldmode, $file if $oldmode;
+}
+
+sub slurp {
+    local $/ = undef;
+    my $fh = _open( "<", $_[0] );
+    return <$fh>;
+}

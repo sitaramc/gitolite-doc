@@ -1,0 +1,177 @@
+#!/usr/bin/perl
+use strict;
+use warnings;
+use 5.10.0;
+use Data::Dumper;
+
+# input:
+#   a list of files whose names end in ".gv" or ".aa"
+# output:
+#   each of those files converted to corresponding ".png" with the same base
+#   name (and in the same directory).
+
+my @list = @ARGV; @ARGV = ();
+
+# GV:: color codes to be used later
+#<<<
+my %colors = (
+    a   =>  'aquamarine',
+    b   =>  'skyblue',          B   =>  'blue3',
+    c   =>  'cyan',             C   =>  'cyan4',
+    g   =>  'green',            G   =>  'darkgreen',
+    m   =>  'magenta',
+    o   =>  'orange',           O   =>  'darkorange',
+    p   =>  'lightpink',
+    r   =>  'red',              R   =>  'red3',
+    w   =>  'white',
+    y   =>  'yellow',
+);
+#>>>
+
+for my $file (@list) {
+    next unless -r $file;
+    next unless $file =~ s/\.(gv|aa)$//;
+    my $type = $1;
+    print STDERR "image-gen: $file.$type...";
+
+    fig($type, "$file.png", slurp("$file.$type"));
+    print STDERR "\n";
+}
+
+
+# ----
+
+sub fig {
+    my ( $type, $filename, $fig ) = @_;
+
+    $^W = 1;
+
+    # generate the picture files and store them
+    if ( $type eq 'aa' ) {
+        gen_aa_fig( $filename, $fig );
+    } elsif ( $type eq 'gv' ) {
+        gen_gv_fig( $filename, $fig );
+    }
+
+    return '';
+}
+
+# ------------------
+
+sub gen_aa_fig {
+    my ( $filename, $fig ) = @_;
+
+    # TODO use mktemp later; this bloody thing does not use STDIN!
+    open( my $aa, ">", "/tmp/.$ENV{USER}.ditaa.in" ) or die "open tmp failed: $!\n";
+    print $aa $fig or die $!;
+    close $aa or die $!;
+    system("ditaa /tmp/.$ENV{USER}.ditaa.in $filename -o -E >/dev/null") and die "ditaa failed\n";
+}
+
+sub gen_gv_fig {
+    my ( $filename, $fig ) = @_;
+    $filename =~ /\.([a-z0-9]{1,4})$/ or die "need proper extension to tell 'dot' what type of image to produce";
+    my $type = $1;
+
+    $fig = gv_expand($fig) unless $fig =~ /^digraph/m;
+        # we use .gv for proper -- ready to dot -- gv files also, so careful there!
+    print STDERR $fig if exists $ENV{D};
+    open( my $dot, "|-", "/usr/bin/dot -T$type -o $filename" ) or die "$!";
+    print $dot $fig or die $!;
+    close $dot or die $!;
+}
+
+sub gv_expand {
+    local $_ = shift;
+
+    # this contains a full gv in my mini language
+
+    my $prefix = "digraph G {\ngraph [ labelloc = t ]\nnode[fontsize=12 height=0.1]";
+    my $suffix = "}";
+
+    # normalise whitespace
+    s/\h+/ /g;
+    s/^ //mg;
+    s/ $//mg;
+
+    # GV:: any dq string at the start of the line is a graph label.  It can be
+    # multi-line -- it ends with the closing dq, wherever that is.
+    if (/^"([^"]*)"$/m) {
+        my $mlgl = $1;
+        $mlgl =~ s/\v/\\n/g;
+        s/^"([^"]*)"$/graph [ label = "$mlgl" ]/m;
+    }
+
+    # GV:: fig foo path.png becomes a figure spec
+    s/\bfig (\w+) (\S+)/$1 [ image="$2" label="" shape=plaintext ]/mg;
+
+    # GV:: there's a lot of magic to do with edges
+
+    # GV:: ".ie" at the start of a line gets you an invisible edge.  This
+    # is used to equalise weights with some other picture where that edge
+    # was visible.  Without this, dot often distracts the viewer with
+    # unnecessary differences between these two pictures due to edges
+    # being pulled differently.
+    s/^\.ie (.*)$/$1 [ style = invis ]/mg;
+
+    # GV:: ".le" at the start of a line indicates a "light edge" (i.e., an
+    # edge whose weight is zero).  Note that this is kinda the opposite of
+    # the previous one.  In the previous one, you wanted to add a weight
+    # without showing an edge.  Here you want to show an edge without
+    # using its weight.
+    s/^\.le (.*)$/$1 [ constraint = false ]/mg;
+
+    # GV:: ".he" at the start gets you a "heavy edge", which tends to be
+    # shorter, straighter, and more vertical
+    s/^\.he (.*)$/$1 [ weight = 50 ]/mg;
+
+    # GV:: ".eq" at the start is used to give the same rank to the nodes
+    # whose names follow.  This may be needed to fix up skews caused by ".le"
+    s/^\.eq (.*)$/{ rank=same $1 }/mg;
+
+    # GV:: .. becomes -> (this is *purely* for typing convenience)
+    s/ \.\. / -> /g;
+
+    # GV:: -- as the first arrow gets you a dashed edge
+    s/^(\S+) -- (.*)$/$1 -> $2 [style = dashed, dir = none]/gm;
+
+    # GV:: node attributes
+
+    # GV:: [] at the start of a line gets you a box
+    s/^\[\] (.*)$/$1 [ shape = box ]/mg;
+
+    # GV:: <> at the start of a line gets you a diamond
+    s/^\<\> (.*)$/$1 [ shape = diamond ]/mg;
+
+    # GV:: [r] <space> nodename means fill color is red; similarly g/b
+    s/^\[([A-Za-z])\] (.*)$/"$2 [style=\"rounded,filled\", fillcolor=" . ($colors{$1} || 'pink') . "]"/gme;
+
+    # GV:: [yr] <space> nodename means yellow on red
+    s/^\[([A-Za-z])([A-Za-z])\] (.*)$/"$3 [style=\"rounded,filled\", fillcolor=" . ($colors{$2} || 'pink') . ", fontcolor=" .  ($colors{$1} || 'blue') . "]"/gme;
+
+    $_ = "$prefix\n$_$suffix\n";
+    return $_;
+}
+
+# ------------------------------------------------------------------------
+
+sub _open {
+    open( my $fh, $_[0], $_[1] ) or die "open $_[1] failed: $!\n";
+    return $fh;
+}
+
+sub _print {
+    my ( $file, @text ) = @_;
+    my $fh = _open( ">", "$file.$$" );
+    print $fh @text;
+    close($fh) or die "close $file failed: $! at ", (caller)[1], " line ", (caller)[2], "\n";
+    my $oldmode = ( ( stat $file )[2] );
+    rename "$file.$$", $file;
+    chmod $oldmode, $file if $oldmode;
+}
+
+sub slurp {
+    local $/ = undef;
+    my $fh = _open( "<", $_[0] );
+    return <$fh>;
+}

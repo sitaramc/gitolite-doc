@@ -1,0 +1,158 @@
+# migrating from gitolite v2
+
+----
+
+Gitolite v3 came out in April 2012.  Until now, my policy was that I would not
+support it except for critical issues, but I think by now (I am writing this
+in Feb 2017), it's time to cut it completely.
+
+As such, migration is also not supported.  Please perform a clean install of
+the latest gitolite and bring your existing repos into this new installation.
+Details below.
+
+The old, detailed, migration document is still available in the [archive
+directory][arch] of the gitolite-doc repo, if you really need it, but you're
+on your own.  After five years, it makes little sense to maintain all that in
+the active document hierarchy.
+
+Despite all that, this document *does* list some of the more important issues,
+mainly those that cause a significant change in behaviour.
+
+[arch]: https://github.com/sitaramc/gitolite-doc/tree/master/archive
+
+## step 1: backups
+
+*   take a backup of all `~/repositories` from the v2 server
+*   take an extra backup, in the form of a normal `git clone`, of the
+    `gitolite-admin` repository
+*   take a backup of `~/.gitolite.rc` and keep it handy
+*   (*optional but suggested*) take a backup of `~/.gitolite` and `~/.ssh`
+
+## step 2: install gitolite
+
+!!! danger "Important:"
+
+    If you are reusing the same [hosting user][hu] on the same server, for the
+    new setup, you will need to clean out the old one as much as you can so
+    its artefacts don't interfere with the new installation.  This means all
+    the files and directories you backed up above, including the optional
+    ones.
+
+To install, use one or more of the links in the "install" section in the
+navigation bar at the top.
+
+!!! note "Important:"
+
+    Do **NOT** change the `gitolite.conf` from the minimal one that a fresh
+    install creates at this stage.
+
+Smoke test the installation by cloning the `testing` repo and pushing some
+minor change to it.
+
+[hu]: concepts/#the-hosting-user
+
+## step 3: add existing repos
+
+Once the install is done, follow the instructions [here][existing] to bring in
+existing repos.
+
+At the point where it talks about adding repos to the gitolite.conf file, you
+can copy relevant bits from your old gitolite-admin repo.
+
+[existing]: basic-admin/#appendix-1-bringing-existing-repos-into-gitolite
+
+## step 4: identify any remaining changes needed
+
+If you're using any of the following features in your old (v2) setup, please
+make the appropriate changes as indicated.
+
+### NAME rules
+
+`NAME/` rules must be changed to `VREF/NAME/`.  Also, fallthru on all VREFs is
+"success" now, so any `NAME/` rules you have **MUST** change the rule list in
+some way to maintain the same restrictions.  The simplest is to add the
+following line to the end of each repo's rule list:
+
+    -   VREF/NAME/       =   @all
+
+### `subconf` command
+
+(This is also affected by the previous issue, 'NAME rules'; please read that
+as well).
+
+If you're using delegation in your admin conf setup, please add the following
+lines to the end of the gitolite-admin rules in your conf/gitolite.conf file:
+
+    repo gitolite-admin
+        -   VREF/NAME/       =   @all
+
+    subconf "fragments/*.conf"
+
+The first part compensates for fallthru now being a success when processing
+[VREF](vref) rules (NAME rules are just one specific VREF).  Although,
+**ideally**, you should change your rule list so that you no longer require
+that line.
+
+The second part explicitly says when and where to include the subconf files.
+(Before subconf was invented, this used to happen implicitly at the end of the
+main conf file, and was hardcoded to that specific glob.)
+
+### mirroring
+
+<!-- duplicated in mirroring.mkd with minor differences -->
+
+There are **several** important differences in mirroring; if you're using
+mirroring **please start from a clean slate on all slaves**, using the v3
+documentation on [[mirroring]].
+
+If you're not willing to do that, you may be able to use the older, more
+detailed, documentation [here][arch] to manage the migration.  However, I
+cannot support that (mainly due to lack of time).
+
+### rc file settings
+
+Many rc file settings have been dropped.  You should be able to get by without
+most of them, but some of them cause a significant change to behaviour:
+
+*   `GL_ALL_INCLUDES_SPECIAL`: @all always includes gitweb and daemon now.
+    Use deny-rules if you want to say `R = @all` but not have the repo(s) be
+    visible to gitweb or daemon.
+
+*   `GL_NO_DAEMON_NO_GITWEB`: the default will clobber your projects.list file
+    and git-daemon-export-ok files.
+
+    Comment out the 'daemon' and 'gitweb' lines in the ENABLE list in the rc
+    file.  Gitweb and daemon can now be separately disabled, instead of both
+    being tied to the same setting.
+
+*   `GL_NO_SETUP_AUTHKEYS`:  default will clobber your authkeys file.
+
+    Comment out all the line(s) that call ssh-authkeys in the rc file.
+
+*   `ADMIN_POST_UPDATE_CHAINS_TO` and `UPDATE_CHAINS_TO`:
+
+    For the former, add your script to the `POST_COMPILE` [trigger](triggers)
+    chain.  For the latter, use a [[vref]].  Don't forget to add a rule that
+    references the new VREF!
+
+### wild repos
+
+*   `gl-creater` files: these files need to be renamed to `gl-creator` (the
+    correct spelling at last, hooray!).  Suggested command sequence:
+
+    ```sh
+    cd $HOME/repositories
+    find . -type d -name "*.git" -prune | while read r
+    do
+        mv $r/gl-creater $r/gl-creator
+    done 2>/dev/null
+    ```
+
+*   `gl-perms` files: setting perms of R and RW will no longer work; you have
+    to say READERS and WRITERS now.  Suggested command:
+
+    ```sh
+    find `gitolite query-rc GL_REPO_BASE` -name gl-perms |
+        xargs perl -pi -e 's/\bR\b/READERS/;s/\bRW\b/WRITERS/'
+    ```
+

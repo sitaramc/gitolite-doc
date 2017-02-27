@@ -1,0 +1,86 @@
+# building the documentation
+
+----
+
+I changed from my homemade system to mkdocs, mainly due to the search
+facility.  (I'm sure there are any number of other static site generators out
+there, but this one seemed to have the smallest footprint and was easiest to
+install and get going).
+
+# building the docs
+
+*   Make sure the tree is not dirty.
+*   Run `bin/build`; take a few seconds and grabs the screen; just deal!
+*   Deploy `site/`
+*   Run `git checkout -f` to clean out the in-place changes done by the
+    syntax highlighting -- you **don't** want to check them in!
+
+# what doesn't work in mkdocs
+
+## no hidden docs
+
+Every document must appear in the document menu (top nav bar), even if it is
+several levels deep.  The only way to have a document rendered without putting
+it on the nav bar is not to even list a page hierarchy, which makes them all
+come out in alphabetical order, which is useless for a project of this size.
+
+Ironically, this doc will never be rendered -- you'll only see it in the
+source repo.
+
+## `foo bar` split across lines
+
+If a `foo bar` is split across lines due to vim formatting, the bloody output
+also shows it split there.  My constant OCD to reformat all paras has taken a
+hit, due to all these manually UN-formatted paragraphs.
+
+## TOC levels
+
+The 'cinder' theme gives you 3 levels, but does not scroll the side nav at
+all (i.e., if you have too many entries, you just won't see the ones that were
+below the window bottom)!  Sticking with default theme for now.
+
+## code highlight
+
+1.  the "codehilite" extension seems too complicated looking at the steps
+    described in
+    <https://pythonhosted.org/Markdown/extensions/code_hilite.html>
+
+2.  in any case they don't recognise gitolite syntax.
+
+So we just use the
+
+    ```LANG
+    ...code...
+    ```
+
+syntax and let our preprocessor fix things up using vim.  Kludgy, slow,
+annoying (all those xterms -- I need to implement caching for this), but it
+gets the job done with a minimum of fuss.
+
+## short anchors
+
+can only be created like:
+
+    <h1 id="dl">download</h1>
+
+Using
+
+    # <a id="dl" />download
+
+causes some weird artefacts in the generated page.
+
+At present I'm not using them at all; just using the long forms.
+
+<!--
+
+# notes
+
+from <https://pythonhosted.org/Markdown/extensions/admonition.html>
+
+    rST suggests the following types, but you’re free to use whatever you
+    want: attention, caution, danger, error, hint, important, note, tip,
+    warning.
+
+
+# vim: set ft=markdown:
+-->

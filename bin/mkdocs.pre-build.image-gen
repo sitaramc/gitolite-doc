@@ -5,12 +5,14 @@ use 5.10.0;
 use Data::Dumper;
 
 # input:
-#   a list of files whose names end in ".gv" or ".aa"
+#   input file: a file whose name ends in ".aa" or ".gv"
+#   output file: a file whose name should end in ".png" but we don't check
 # output:
-#   each of those files converted to corresponding ".png" with the same base
-#   name (and in the same directory).
+#   the output file, duh!
 
-my @list = @ARGV; @ARGV = ();
+my $in = shift;
+my $out = shift;
+@ARGV = ();
 
 # GV:: color codes to be used later
 #<<<
@@ -28,16 +30,11 @@ my %colors = (
 );
 #>>>
 
-for my $file (@list) {
-    next unless -r $file;
-    next unless $file =~ s/\.(gv|aa)$//;
-    my $type = $1;
-    print STDERR "image-gen: $file.$type...";
+next unless -r $in;
+next unless $in =~ /\.(gv|aa)$/;
+my $type = $1;
 
-    fig($type, "$file.png", slurp("$file.$type"));
-    print STDERR "\n";
-}
-
+fig($type, $out, slurp("$in"));
 
 # ----
 

@@ -1,4 +1,5 @@
 site_name: Gitolite
+docs_dir: gen-docs
 # repo_url: https://github.com/sitaramc/gitolite-doc
 
 pages:

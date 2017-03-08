@@ -49,5 +49,22 @@ cd ..
 # gitignore-aware)
 mv gen-docs .git
 
+# cater for people holding on to old links from gitinfo bot
+cd site
+for i in overview emergencies sts glssh migr
+do
+    sed -e "s/%BASE/$i/g" <<EOF > $i.html
+<html>
+    <head>
+        <title>redirecting...</title>
+        <meta http-equiv="refresh" content="0;URL='http://gitolite.com/gitolite/%BASE/index.html'" />
+    </head>
+    <body>
+        <p>This page has moved...</p>
+    </body>
+</html>
+EOF
+done
+
 echo next, run:
 echo 'rm -rf ../sitaramc.github.com/gitolite; mv site ../sitaramc.github.com/gitolite; cd ../sitaramc.github.com'

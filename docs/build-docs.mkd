@@ -17,6 +17,16 @@ install and get going).
 
 # what doesn't work in mkdocs
 
+## bad language guesses
+
+It seems to be too hard to make it turn off its "guess the language"
+pseudo-smartness when you use a plain indented code block.  And looking at the
+mailing list archives does not give me much hope this will be fixed.  So
+you're left with strange colors on some random words in many code blocks!
+
+(I could fence each of them with an explicit language but I'm reluctant to do
+that; plain markdown's plain indented code **should** be left plain, ideally!)
+
 ## no hidden docs
 
 Every document must appear in the document menu (top nav bar), even if it is

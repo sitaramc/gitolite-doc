@@ -44,7 +44,7 @@ sub htmlise {
     my $tempfile = "$ENV{HOME}/tmp-mkdocs";
     _print($tempfile, $code);
 
-    my $cmd = "vim -N -u /dev/null -c 'set ft=$lang bg=dark' -c 'syn on' -c TOhtml -c xa -- $tempfile";
+    my $cmd = "vim -N -u /dev/null -c 'syn on' -c 'set ft=$lang bg=dark' -c TOhtml -c xa -- $tempfile";
     system("xterm", "-e", $cmd);    # will produce "$tempfile.html"
 
     my $pre = '<pre style="color: #ffffff; background-color: #000000;">';

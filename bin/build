@@ -8,7 +8,9 @@ die() { echo "$@"; exit 1; }
 [ -f mkdocs.yml ] || die "are you sure you're in the right directory?"
 
 [ "$1" = "clean" ] && rm -rf gen-docs
-mkdir -p gen-docs
+mkdir -p gen-docs/{code,contrib,css}
+rsync -a docs/code gen-docs
+rsync -a docs/css  gen-docs
 
 cd docs
 
@@ -16,7 +18,7 @@ cd docs
 for f in `find . -name "*.gv"; find . -name "*.aa"`
 do
     new=${f/%aa/png}
-    new=${f/%gv/png}
+    new=${new/%gv/png}
     [ -f ../gen-docs/$new ] && [ ../gen-docs/$new -nt $f ] && continue
     echo -n >&2 $f...
     ../bin/mkdocs.pre-build.image-gen $f ../gen-docs/$new
@@ -29,9 +31,10 @@ for f in `find . -name "*.mkd"`
 do
     [ -f ../gen-docs/$f ] && [ ../gen-docs/$f -nt $f ] && continue
     echo -n >&2 $f...
-    bin/mkdocs.pre-build.mkd-filter < $f > ../gen-docs/$f
+    ../bin/mkdocs.pre-build.mkd-filter < $f > ../gen-docs/$f
     echo >&2 "done"
 done
 
 # build site
+cd ..
 ~/.local/bin/mkdocs build

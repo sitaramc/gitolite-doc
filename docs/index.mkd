@@ -25,16 +25,16 @@ refused politely.  Well, if you insist... buy the book :-) </span>
 
 In general, the sections (see links in the navigation bar at the top) should
 be fairly self-explanatory, and reading through the documentation as it flows
-(i.e., using the "Next" link at the top of each page) should work fine.  There
-are some forward references here and there, but you can ignore those links on
-a first pass.
+(i.e., using the "Next" link at the top right of each page) should work fine.
+There are some forward references here and there, but you can ignore those
+links on a first pass.
 
-**In addition**,
+!!! danger "In addition:"
 
-*   there's a **[[fool proof setup]]** guide with detailed help showing one
+    There's a **[[fool proof setup]]** guide with detailed help showing one
     fool-proof way to install, as long as you follow instructions faithfully!
 
-*   once you've installed and setup, there's the **[[cookbook]]** with recipes
+    Once you've installed and setup, there's the **[[cookbook]]** with recipes
     for common tasks.
 
 # TROUBLESHOOTING

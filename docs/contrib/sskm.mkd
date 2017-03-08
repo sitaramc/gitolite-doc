@@ -9,7 +9,7 @@ Follow this guide to add keys to or remove keys from your account. Note that you
 
 The key management is done using a command called `sskm`.  This command must be enabled for remote use by the admin (see [here][commands] for more on this).
 
-[commands]: non-core#gitolite-commands
+[commands]: ../non-core#gitolite-commands
 
 ----
 
@@ -242,5 +242,5 @@ command:
     by undoing the delete, will cause the key to effectively move to the root
     of the key store (i.e., the `keydir` directory in the gitolite-admin repo).
 
-[multi-key]: basic-admin#multiple-keys-per-user
+[multi-key]: ../basic-admin#multiple-keys-per-user
 

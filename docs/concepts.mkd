@@ -3,8 +3,10 @@
 ----
 
 <span class="box-r">(I assume you're at least somewhat familiar with **git**
-itself.  If not, the ["before you start..."](req) page has a list of topics
+itself.  If not, the ["before you start..."][req] page has a list of topics
 that you need to be familiar with, in order to use gitolite.)</span>
+
+[req]: install#before-you-start-pre-requisites
 
 This page will help newcomers get used to what we're talking about elsewhere.
 It also explains the special `gitolite-admin` repo and how it is used to do te

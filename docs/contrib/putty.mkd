@@ -9,7 +9,7 @@ If you need more help with putty or component programs I suggest looking at [the
 
 **If you are not already using Putty for SSH it is recommended you do _NOT_ use it with msysgit.**
 
-**Please note that this only covers the client side of things, and does not involve server side components to troubleshooting. For that, please see the [ssh-troubleshooting document](sts).**
+**Please note that this only covers the client side of things, and does not involve server side components to troubleshooting. For that, please see the [ssh-troubleshooting document](../sts).**
 
 <a name="msysgit_setup"/>
 

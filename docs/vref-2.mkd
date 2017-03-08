@@ -145,3 +145,5 @@ deal with the issue that when you push a new tag or branch, the "old" part
 is all 0's, and unless you consider `--all` existing branches and tags it
 becomes meaningless in terms of "number of new files" etc.
 
+[write-types]: conf-2/#appendix-1-different-types-of-write-operations
+

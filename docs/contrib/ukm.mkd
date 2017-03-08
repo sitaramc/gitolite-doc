@@ -13,11 +13,11 @@ must be enabled for remote use by both the [sysadmin](#SYSADMIN) and the
 [gitolite-admin](#GA) (see [here][commands] for more on this) or look
 below.
 
-[commands]: non-core#gitolite-commands
-[auth]: concepts/#authentication-and-authorisation
-[users]: basic-admin/#addremove-users
-[multi-key]: basic-admin#multiple-keys-per-user
-[perms]: user/#setget-additional-permissions-for-repos-you-created
+[commands]: ../non-core#gitolite-commands
+[auth]: ../concepts/#authentication-and-authorisation
+[users]: ../basic-admin/#addremove-users
+[multi-key]: ../basic-admin#multiple-keys-per-user
+[perms]: ../user/#setget-additional-permissions-for-repos-you-created
 
 
 ----
@@ -79,7 +79,7 @@ access.)
 ## Users that want more control over who can access their repositories
 
 Suppose the [gitolite administrator](#GA) of a research institute has
-set up gitolite to provide [wild repositories](wild) for example with
+set up gitolite to provide [wild repositories](../wild) for example with
 a `gitolite.conf` like this.
 
     repo gitolite-admin
@@ -144,7 +144,7 @@ the `ENABLE` array, i.e.,
 
     ENABLE => [ ..., 'ukm', ... ],
 
-in [.gitolite.rc](rc). (That's the preferred way for gitolite starting
+in [.gitolite.rc](../rc). (That's the preferred way for gitolite starting
 with version v3.4.)
 
 Instead of the above (in particular in gitolite v3.0-v3.3), add
@@ -159,7 +159,7 @@ them requires different values in the respective config files.
 
 There are two files where `ukm` must be configured.
 
-  * [.gitolite.rc](rc) (managed by a [sysadmin](#SYSADMIN) of the gitserver)
+  * [.gitolite.rc](../rc) (managed by a [sysadmin](#SYSADMIN) of the gitserver)
   * `gitolite-admin/conf/gitolite.conf` (managed by a
     [gitolite administrator](#GA))
 
@@ -188,7 +188,7 @@ managers to start a hierarchy of new users with the same rights as the
 initial users.
 
 The [system administrator](#SYSADMIN) must configure `ukm` for
-[guest key managers](#GKM) in [.gitolite.rc](rc) by adding something
+[guest key managers](#GKM) in [.gitolite.rc](../rc) by adding something
 like
 
     UKM_CONFIG => { FORBIDDEN_GUEST_PATTERN => qr(FORBIDDEN-PATTERN), },
@@ -277,7 +277,7 @@ multiple keys. It's a security issue. (Suppose Alice has added a guest
 MrBad all the permissions that `foo@example.org` has.)
 
 The [system administrator](#SYSADMIN) must enable `ukm` for
-[self key managers](#EKM) in [.gitolite.rc](rc) by adding
+[self key managers](#EKM) in [.gitolite.rc](../rc) by adding
 
     UKM_CONGFIG => { SELFKEY_MANAGEMENT => 1, },
 
@@ -456,7 +456,7 @@ probably fail. Then simply redo the command after a while.
 # Glossary
 
 * **sysadmin**<a id="SYSADMIN"></a>:
-  A person who is able to edit the [.gitolite.rc](rc) file on
+  A person who is able to edit the [.gitolite.rc](../rc) file on
   the server machine.
 
 * **gitolite administrator**<a id="GA"></a>:
@@ -522,7 +522,7 @@ did.
 # Ideas
 
 The command `ukm` has been created with also having the
-`keysubdirs-as-groups` [syntactic sugar](non-core) in mind. If a
+`keysubdirs-as-groups` [syntactic sugar](../non-core) in mind. If a
 [super key manager](#SKM) manages the respective keys in
 sub-directories with names `guest-key-managers/` and
 `self-key-managers/`, respectively, he/she can use the `ukm` command

@@ -10,10 +10,8 @@ install and get going).
 # building the docs
 
 *   Make sure the tree is not dirty.
-*   Run `bin/build`; take a few seconds and grabs the screen; just deal!
+*   Run `bin/build`; takes a few seconds and grabs the screen, sorry!
 *   Deploy `site/`
-*   Run `git checkout -f` to clean out the in-place changes done by the
-    syntax highlighting -- you **don't** want to check them in!
 
 # what doesn't work in mkdocs
 
@@ -34,8 +32,11 @@ several levels deep.  The only way to have a document rendered without putting
 it on the nav bar is not to even list a page hierarchy, which makes them all
 come out in alphabetical order, which is useless for a project of this size.
 
-Ironically, this doc will never be rendered -- you'll only see it in the
-source repo.
+The mailing list has some workarounds, but at the moment I am not using them.
+I'd already added all the documents willy-nilly anyway.
+
+Except, ironically, *this* document; this will never be rendered -- you'll
+only see it in the source repo.
 
 ## `foo bar` split across lines
 

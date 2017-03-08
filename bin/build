@@ -7,10 +7,12 @@ die() { echo "$@"; exit 1; }
 
 [ -f mkdocs.yml ] || die "are you sure you're in the right directory?"
 
+[ -d .git/gen-docs ] && mv .git/gen-docs .
 [ "$1" = "clean" ] && rm -rf gen-docs
 mkdir -p gen-docs/{code,contrib,css}
 rsync -a docs/code gen-docs
 rsync -a docs/css  gen-docs
+cp docs/gitweb.conf.html gen-docs
 
 cd docs
 
@@ -27,7 +29,7 @@ done
 
 # generate mkd with vim-syntax; this step is slow, but this is the simplest
 # way to support gitolite syntax highlighting in arbitrary markdown.
-for f in `find . -name "*.mkd"`
+for f in `find . -name "*.mkd" | sort`
 do
     [ -f ../gen-docs/$f ] && [ ../gen-docs/$f -nt $f ] && continue
     echo -n >&2 $f...
@@ -38,3 +40,10 @@ done
 # build site
 cd ..
 ~/.local/bin/mkdocs build
+
+# move them out of my way for normal use (some of my scripts are not
+# gitignore-aware)
+mv gen-docs .git
+
+echo next, run:
+echo 'rm -rf ../sitaramc.github.com/gitolite; mv site ../sitaramc.github.com/gitolite; cd ../sitaramc.github.com'

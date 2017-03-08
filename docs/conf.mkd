@@ -260,8 +260,8 @@ commonly used permissions are:
     branches or tags
   * `-` (the minus sign), to **deny** access.
 
-<span class="gray">There are also other, less commonly used, [types of
-permissions][write-types].</span>
+!!! danger ""
+    There are also other, less commonly used, [types of permissions][write-types].
 
 [write-types]: conf-2/#appendix-1-different-types-of-write-operations
 

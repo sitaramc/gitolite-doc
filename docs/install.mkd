@@ -1,15 +1,17 @@
-# before you start... (pre-requisites)
+# install and setup
 
 ----
 
-!!! danger "Notes:"
+!!! danger ""
     This page is about an ssh mode installation.  It should work for most
     people, but if you are an absolute newbie to Unix etc., you may want to
-    look into a very detailed, step-by-step, [fool-proof](fool_proof_setup)
-    set of instructions.
+    click [here](fool_proof_setup) for a very detailed, step-by-step,
+    hopefully fool-proof set of instructions.
 
     If ssh is not your thing, there's a different page for [http mode](http)
     installation.
+
+# before you start... (pre-requisites)
 
 ## your skills
 

@@ -9,7 +9,7 @@ userid**.</font>
 Running gitolite's test suite is really just a superset of [trying it out
 safely][trying].
 
-[trying]: req.mkd#trying-out-gitolite-safely
+[trying]: install#trying-out-gitolite-safely
 
 To run the full test suite, create a **throw-away userid**, log in to it, then
 run these commands:
@@ -47,7 +47,7 @@ otherwise take.
 If you think that defeats the purpose of the testing, you haven't read
 [this][auth] yet.
 
-# appendix 1 -- the clobber list {#clobber}
+# appendix 1 -- the clobber list
 
 When you [try out gitolite][trying] or run the test suite, the following files
 and directories in your \$HOME are potentially clobbered.
@@ -59,3 +59,5 @@ and directories in your \$HOME are potentially clobbered.
     repositories/
     .ssh/
 
+[auth]: concepts/#authentication-and-authorisation
+[clobber]: testing#appendix-1-the-clobber-list

@@ -2,7 +2,7 @@
 
 ----
 
-!!! danger "Note:"
+!!! danger ""
 
     Gitolite does **not** install or configure gitweb/git-daemon -- that is a
     one-time setup you must do separately.

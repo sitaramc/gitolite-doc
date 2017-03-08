@@ -179,7 +179,7 @@ be checked, and gitolite sets up the update hook on the repo to do that.
 
 ![](ov02.png)
 
-A more detailed explanation, with figures, is [here][how].
+A more detailed explanation, with figures, is [here](how.html).
 
 # who uses it?
 

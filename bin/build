@@ -3,6 +3,9 @@
 # this can only be done from a terminal; do not try to run it from cron or
 # some other headless mechanism
 
+# note: how.html is built manually, using
+#   cd docs; pdh -i how.mkd -o how.html -t html-N
+
 die() { echo "$@"; exit 1; }
 
 [ -f mkdocs.yml ] || die "are you sure you're in the right directory?"
@@ -13,6 +16,7 @@ mkdir -p gen-docs/{code,contrib,css}
 rsync -a docs/code gen-docs
 rsync -a docs/css  gen-docs
 cp docs/gitweb.conf.html gen-docs
+cp docs/how.html gen-docs
 
 cd docs
 

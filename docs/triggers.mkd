@@ -218,5 +218,5 @@ actually looks like.  For example:
     brand new env var that contains the *comment* field of the ssh pubkey that
     was used to gain access, using the information [here][kfn].
 
-[lff]: dev-notes#appendix-2-log-file-format
+[lff]: dev-notes/#appendix-2-log-file-format
 [kfn]: sts/#distinguishing-one-key-from-another

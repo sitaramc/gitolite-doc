@@ -20,7 +20,7 @@ The following repos are deemed to be readable by gitweb:
         config gitweb.category      =   some category
 
     Side note: the following shorter forms are available as [syntactic
-    sugar](non-core#syntactic-sugar) for the above longer forms:
+    sugar](non-core/#syntactic-sugar) for the above longer forms:
 
         owner       =   owner name
         desc        =   some description

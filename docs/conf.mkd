@@ -86,7 +86,7 @@ will include the contents of the file "conf/foo.conf".
 <font color="gray">Advanced users: `subconf`, a command that is very closely
 related to `include`, is documented [here][subconf].</font>
 
-[subconf]: deleg#the-subconf-command
+[subconf]: deleg/#the-subconf-command
 
 **Please note** that whenever you see "the `conf/gitolite.conf` file" or "the
 conf file" in gitolite documentation, it means the combined text after the

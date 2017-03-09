@@ -28,12 +28,12 @@ In addition, commands invoked by a remote client also have `GL_USER`, while
 hooks have `GL_USER` as well as `GL_REPO` (which is the [logical
 reponame][lrepo]).
 
-[lrepo]: concepts.mkd#the-logical-repo-name
+[lrepo]: concepts/#the-logical-repo-name
 
 A special form of the [option](options) syntax can be used to set
 [repo-specific environment variables][rsev].
 
-[rsev]: dev-notes#appendix-1-repo-specific-environment-variables
+[rsev]: dev-notes/#appendix-1-repo-specific-environment-variables
 
 Finally, note that triggers get a lot of relevant information from gitolite as
 arguments; see [here](triggers) for details.
@@ -125,7 +125,7 @@ trigger events, especially if they don't *need* any arguments.
 Syntactic sugar helpers are NOT complete, standalone, programs.  They must
 include a perl sub called `sugar_script` that takes in a listref, and returns
 a listref.  The listrefs point to a list that contains the entire conf file
-(with all [include](conf#include-files) processing already done).  You create a new list with
+(with all [include](conf/#include-files) processing already done).  You create a new list with
 contents modified as you like and return a ref to it.
 
 There are a couple of examples in src/syntactic-sugar.
@@ -321,7 +321,7 @@ The various log line formats are:
       * field 4: 'gitolite'
       * field 5 to end: arguments supplied to gitolite command, one per field
 
-[giving-shell]: sts#giving-shell-access-to-gitolite-users
+[giving-shell]: sts/#giving-shell-access-to-gitolite-users
 [write-types]: conf-2/#appendix-1-different-types-of-write-operations
 [bypass]: emergencies/#bypassing-gitolite
 

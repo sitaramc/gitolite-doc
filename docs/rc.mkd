@@ -113,7 +113,7 @@ then running that command with '-h' may give you additional information.
 
 [privesc]: rc/#security-note-gitolite-admin-and-shell-access
 [perms]: user/#setget-additional-permissions-for-repos-you-created
-[roles]: wild#roles
+[roles]: wild/#roles
 [localcode]: non-core/#for-your-non-core-programs
 
 # security note: gitolite admin and shell access

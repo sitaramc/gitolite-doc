@@ -78,7 +78,7 @@ After adding a default refex and expanding the supplied ones (see the
 [refex][] section earlier), this is what it looks like.  We've added line
 numbers for convenience; we'll see why later.
 
-[refex]: conf#the-refex-field
+[refex]: conf/#the-refex-field
 
 ```gitolite-nu
 # managers should be able to read any repo
@@ -290,7 +290,7 @@ so they are denied read access.  The "open" repos, on the other hand, get the
 normal default behaviour, which is to ignore deny rules for read access, and
 thus they only see the "R" permission.
 
-[override_conf]: git-config#overriding-config-values
+[override_conf]: git-config/#overriding-config-values
 
 ----
 
@@ -316,7 +316,7 @@ rewind, but not *delete* a ref.  The `C` and `D` qualifiers help here.
   * If a rule specifies `RWD` or `RW+D`, then *rules that do NOT have the D
     qualifier will no longer permit **deleting** a ref*.
 
-[create]: wild#user-creating-a-specific-repo
+[create]: wild/#user-creating-a-specific-repo
 
 Note: These two can be combined, so you can have `RWCD` and `RW+CD` as well.
 

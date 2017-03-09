@@ -8,7 +8,7 @@ repos (called **subconf**s) and hand over responsibility to manage them to
 access rules for any other sub-admin's repos.
 
 Delegation is achieved by combining two gitolite features:
-[subconf](deleg#the-subconf-command) and the [NAME VREF][NAME].
+[subconf](deleg/#the-subconf-command) and the [NAME VREF][NAME].
 
 [NAME]: vref-2/#restricting-pushes-by-dirfile-name
 

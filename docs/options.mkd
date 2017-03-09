@@ -39,7 +39,7 @@ Here are some examples, although this list is not exhaustive:
     hooks to test, which is very useful.
 
 [deny-rules]: conf-2/#read-access-respecting-deny-rules
-[rsev]: dev-notes#appendix-1-repo-specific-environment-variables
+[rsev]: dev-notes/#appendix-1-repo-specific-environment-variables
 
 Here's how to disable an option from a single repo if it was enabled earlier
 in a group (which you might guess from reading the [[git-config]] page):

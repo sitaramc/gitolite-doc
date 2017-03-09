@@ -12,7 +12,7 @@
     is not found in this page, it can be found within the source code; please
     look there.
 
-    [Commands](non-core#gitolite-commands), however, have some extra magic,
+    [Commands](non-core/#gitolite-commands), however, have some extra magic,
     which is not available to the other types of non-core programs:
 
       * Running the command with a single `-h` option (i.e., `gitolite <command> -h`
@@ -78,8 +78,8 @@ Also note that not all of these commands are available remotely.
   * *writable* -- disable/enable writes to specific repo (or all repos, if
     you're an admin)
 
-[info]: user#the-info-command
-[sync]: mirroring#manually-synchronising-a-slave-repo
+[info]: user/#the-info-command
+[sync]: mirroring/#manually-synchronising-a-slave-repo
 [perms]: user/#setget-additional-permissions-for-repos-you-created
 [bypass]: emergencies/#bypassing-gitolite
 
@@ -136,7 +136,7 @@ disable them:
   * update-gitweb-access-list -- create the "projects.list" file that gitweb
     uses to determine what repos to show/not show
 
-[partial-copy]: list-non-core#partial-copy-selective-read-control-for-branches
+[partial-copy]: list-non-core/#partial-copy-selective-read-control-for-branches
 
 # VREFs
 

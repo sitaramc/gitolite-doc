@@ -7,7 +7,7 @@
 !!! danger ""
 
     **Important**: This won't work unless the rc file has the right settings;
-    please see `$GIT_CONFIG_KEYS` in the [rc file doc](rc#specific-variables).
+    please see `$GIT_CONFIG_KEYS` in the [rc file doc](rc/#specific-variables).
 
 # basic syntax
 

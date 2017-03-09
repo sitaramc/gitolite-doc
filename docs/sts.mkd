@@ -202,7 +202,7 @@ to distinguish one key from another.  Sshd does not tell you even the
 fingerprint of the key that finally matched, so normally all you have is the
 `GL_USER` env var.
 
-[multi-key]: basic-admin#multiple-keys-per-user
+[multi-key]: basic-admin/#multiple-keys-per-user
 
 However, if you replace
 
@@ -523,4 +523,4 @@ This means that, you get 2 kinds of errors if you bypass gitolite
 [stsapp3]: sts/#appendix-3-ssh-client-may-not-be-offering-the-right-key
 [sshkeys-lint]: sts/#appendix-2-which-key-is-which-running-sshkeys-lint
 [ybpfail]: sts/#appendix-5-why-bypassing-gitolite-causes-a-problem
-[ssh-ha]: sts#appendix-4-ssh-host-aliases
+[ssh-ha]: sts/#appendix-4-ssh-host-aliases

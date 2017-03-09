@@ -64,7 +64,7 @@ WRITERS and READERS lists.
 
 Of course you can get much more creative if you add a few more [roles][].
 
-[roles]: wild#roles
+[roles]: wild/#roles
 
 <font color="gray">(I prefer using some prefix, say "u", as in
 `repo u/CREATOR/..*`.  This helps to keep user-created repos separate, and
@@ -90,7 +90,7 @@ First the one-time stuff:
 
   * [[install]] the software as normal
 
-  * run `gitolite setup -a dummy` instead of the normal [setup](install#setup)
+  * run `gitolite setup -a dummy` instead of the normal [setup](install/#setup)
     command
 
   * delete (or move away) `~/repositories/gitolite-admin.git`

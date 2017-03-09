@@ -49,7 +49,7 @@ names in the config file.  "Wildcard" repos are specified by a regex in the
 config file.  Try the [`info` command][info] and see if it shows any lines
 that look like regex patterns, (with a "C" permission).
 
-[info]: user#the-info-command
+[info]: user/#the-info-command
 
 If you see any, it means you are allowed to create brand new repos whose names
 fit that regex.  Normally, you create such repos simply by cloning them or
@@ -87,7 +87,7 @@ To give some flexibility to users, the admin could add rules like this:
     R       =   READERS
 ```
 
-<span class="gray">(he could also add other [roles](wild#roles) but then he
+<span class="gray">(he could also add other [roles](wild/#roles) but then he
 needs to read the documentation).</span>
 
 Once he does this, you can then use the `perms` command (run `ssh git@host perms -h`

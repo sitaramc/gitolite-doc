@@ -113,7 +113,7 @@ available to remote users (as `ssh git@host foo`), add the line:
 
 Note: the main documentation for this feature starts [here][hooks].
 
-[hooks]: non-core#hooks-and-gitolite
+[hooks]: non-core/#hooks-and-gitolite
 
 ## adding your own update hooks
 
@@ -414,7 +414,7 @@ which means you can't run the [perms][] command on it to add people to the
 READERS and WRITERS [roles][], or do other things that wild repos allow.
 
 [perms]: user/#setget-additional-permissions-for-repos-you-created
-[roles]: wild#roles
+[roles]: wild/#roles
 
 The mental nudge you need to deal with this is to think what you would do if
 you had to write the same rule for more than one repo, say, any repo starting
@@ -438,13 +438,13 @@ of the previous one (`foo/..*`), everything there applies to this repo also.
 If you're not sure why that is, you may need to read up on [rule
 accumulation][accum].
 
-[accum]: conf#rule-accumulation
+[accum]: conf/#rule-accumulation
 
 # moving stuff around
 
 ## moving a gitolite install from one machine to another
 
-[moving]: install#moving-servers
+[moving]: install/#moving-servers
 
 See [moving servers][moving].
 

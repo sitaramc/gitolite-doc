@@ -61,7 +61,7 @@ on the `VREF/COUNT/5` rule in the rule list above.
     success.**</span>
 
 [c1c2]: conf-2/#putting-it-all-together
-[refex]: conf#the-refex-field
+[refex]: conf/#the-refex-field
 [vref-args]: vref/#what-arguments-are-passed-to-the-vref-maker
 
 # basic use and understanding

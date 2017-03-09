@@ -7,7 +7,7 @@ gitolite directly on the server, i.e., without cloning the gitolite-admin
 repo, you can -- [here's how][ssa].  This is likely to be of interest mainly
 to puppet/chef type installations.</span>
 
-[ssa]: odds-and-ends#administering-gitolite-directly-on-the-server
+[ssa]: odds-and-ends/#administering-gitolite-directly-on-the-server
 
 Day-to-day management of a gitolite site is done by cloning the special
 'gitolite-admin' repo, making appropriate changes to it, and pushing it back
@@ -32,7 +32,7 @@ If this step fails, be sure to look at the two pages linked from the [[ssh]]
 page before asking for help.  A very basic first step is to run the `info`
 command (`ssh git@host info`); [this][info] page tells you what to expect.
 
-[info]: user#the-info-command
+[info]: user/#the-info-command
 
 # add/remove users
 

@@ -113,7 +113,7 @@ Here's a list of files and directories to deal with:
     use the same key to get shell access as well as access gitolite repos.
 
     Solution: use a different keypair for gitolite.  There's a wee bit more on
-    this in the [setup](install#setup) section of the install page.  Also see
+    this in the [setup](install/#setup) section of the install page.  Also see
     [why bypassing causes a problem][ybpfail] and both the pages linked from
     [[ssh]] for background.
 

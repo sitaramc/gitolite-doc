@@ -49,18 +49,19 @@ cd ..
 # gitignore-aware)
 mv gen-docs .git
 
-# cater for people holding on to old links from gitinfo bot
+# cater for people holding on to old links
 cd site
-for i in overview emergencies sts glssh migr
+for i in `find -type f -name index.html -printf "%h\n" | sort | cut -c3-`
 do
-    sed -e "s/%BASE/$i/g" <<EOF > $i.html
+    j=$(basename $i)
+    sed -e "s,%BASE,$i,g" <<EOF > $j.html
 <html>
     <head>
         <title>redirecting...</title>
-        <meta http-equiv="refresh" content="0;URL='http://gitolite.com/gitolite/%BASE/index.html'" />
+        <meta http-equiv="refresh" content="2;URL='http://gitolite.com/gitolite/%BASE/index.html'" />
     </head>
     <body>
-        <p>This page has moved...</p>
+        <p>This page has moved; redirecting...</p>
     </body>
 </html>
 EOF

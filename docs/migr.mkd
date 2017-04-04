@@ -152,7 +152,7 @@ most of them, but some of them cause a significant change to behaviour:
     to say READERS and WRITERS now.  Suggested command:
 
     ```sh
-    find `gitolite query-rc GL_REPO_BASE` -name gl-perms |
+    find \`gitolite query-rc GL_REPO_BASE\` -name gl-perms |
         xargs perl -pi -e 's/\bR\b/READERS/;s/\bRW\b/WRITERS/'
     ```
 

@@ -61,6 +61,7 @@ pages:
         - gitolite files & directories: files.mkd
         - the 3.3 format rc file: rc-33.mkd
         - performance: perf.mkd
+        - internals: internals.mkd
     - contrib:
         - Using both ssh and http: contrib/ssh-and-http.mkd
         - Putty and Msysgit: contrib/putty.mkd

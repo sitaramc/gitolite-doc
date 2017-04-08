@@ -182,3 +182,14 @@ use this to confirm you did not miss something during the manual rc upgrade.
 
 *   compare the 2 rc dumps to make sure you've got everything covered.
 
+<!--
+
+# appendix B: adding stuff to ENABLE
+
+adapt https://groups.google.com/forum/#!searchin/gitolite/NON_CORE/gitolite/2kZaqLohSz0/LsIo_W8B2I8J
+
+-   document 'before' option (default: goes to the end)
+-   document arguments supplied via ENABLE list
+
+-->
+

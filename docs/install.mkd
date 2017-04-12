@@ -1,5 +1,10 @@
 # install and setup
 
+!!! danger "IMPORTANT"
+    Almost nothing in gitolite requires `root` (with some obvious exceptions).
+    Unless the documentation says "do this from `root`", assume it is to be
+    done from the [hosting user][hu] account.
+
 ----
 
 !!! danger ""

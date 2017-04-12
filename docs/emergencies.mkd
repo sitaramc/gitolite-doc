@@ -4,6 +4,11 @@
 
 ----
 
+!!! danger "IMPORTANT"
+    Almost nothing in gitolite requires `root` (with some obvious exceptions).
+    Unless the documentation says "do this from `root`", assume it is to be
+    done from the [hosting user][hu] account.
+
 # install/setup issues
 
 Most install/setup issues in ssh mode are caused by lack of ssh knowledge.

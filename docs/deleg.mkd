@@ -141,3 +141,16 @@ If you feel the need to delegate even that, please just go the whole hog and
 give them separate gitolite instances (i.e., running on different servers, or
 at least under different gitolite hosting users on the same server)!
 
+<!--
+
+undocumented feature that I have "committed" to in the mailing list
+
+*   https://groups.google.com/forum/#!topic/gitolite/Aks-P_L5Ca4
+
+    group foo defined in subconf available in main as @foo.foo
+
+    (question: does this apply to @foo.bar also?  I.e., group bar in subconf
+    foo?)
+
+-->
+

@@ -220,3 +220,12 @@ actually looks like.  For example:
 
 [lff]: dev-notes/#appendix-2-log-file-format
 [kfn]: sts/#distinguishing-one-key-from-another
+
+<!--
+
+  - PRE_GIT, ACCESS_1, and ACCESS_2 must only write to STDERR
+
+  - perl triggers should not chdir() away
+
+-->
+

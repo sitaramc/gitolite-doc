@@ -372,3 +372,14 @@ Here's how to resolve this:
 
 And that should be all you need to do.
 
+<!--
+
+*   mirroring: when a redirected push fails on the master, it still does a
+    push-all-slaves?  yes because only the *client* knows that the push
+    failed.  The actual update happens in a grandchild process and
+    git-receive-pack does not propagate a non-0 exit status.  So we have no
+    way of knowing, short of recording the failure in some *other* place that
+    a grandparent task can inspect and act on.
+
+-->
+

@@ -306,6 +306,14 @@ returns a lot more meaningful results via STDOUT.
 Here are some examples.  I also advise you to keep a browser tab open to the
 doc on [VREF arguments][vref-args] as you look at these.
 
+!!! danger "Important:"
+
+    **VREFs only come into play for push operations.  When we say "access" in
+    this section, we mean only write access.**  If you want to restrict it
+    even for reads, you can do this in a `PRE_GIT` trigger; there's an example
+    in `contrib/triggers/IP-check` in the gitolite source tree that may be
+    useful as a template.
+
 [vref-args]: vref/#what-arguments-are-passed-to-the-vref-maker
 
 ### example 1: restricting by day of week
@@ -325,7 +333,7 @@ The code for this VREF is ridiculously simple:
 echo VREF/DAY/`date +%a`
 ```
 
-On encountering the VREF rules (i.e., when a junior dev tries to access this
+On encountering the VREF rules (i.e., when a junior dev tries to push to this
 repo), gitolite calls the "DAY" VREF-maker.  The code within the VREF maker
 simply echoes something like "VREF/DAY/Mon", where the last part is whatever
 the actual day of the week happens to be.
@@ -333,11 +341,11 @@ the actual day of the week happens to be.
 This output is then treated as a virtual ref and matched against the rules.
 On a Monday to Friday, nothing happens, because the VREFs generated do not
 match any deny rules (or indeed any rules at all).  On weekends, they do
-match, and the access is denied.
+match, and the push is denied.
 
 ### example 2: restricting by source IP address
 
-This one restricts junior developers to access this repo only from a specific
+This one restricts junior developers to push to this repo only from a specific
 network block.  The conf file here is slightly different.  We know that the
 VREF-maker will return with *some* network address (as you'll see in the code
 later), so we set it up so that the correct network block is allowed and
@@ -380,7 +388,7 @@ VREF/FROM/192.168.48.0/23.  This VREF matches the RW+ line.
 But if the IP is, say, 192.168.45.67, running `ipcalc -n 192.168.45.67/23`
 gives you 192.168.44.0.  The echo then send back VREF/FROM/192.18.44.0/23,
 which won't match the RW+ line, but will match the next one and thus deny
-access.
+the push.
 
 (One thing that may not be obvious in this specific example is that you have
 to be careful when constructing the VREF rule.  For any VREF/FROM/A/B, the

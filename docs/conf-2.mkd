@@ -417,3 +417,22 @@ As you can see, deny rules are ignored by check #1 -- they're not tested in
 any way.  For check #2, if there is a deny rule whose refex matched the ref,
 access is denied (as you'd expect).
 
+# appendix 3: embedding test code in your conf
+
+As of v3.6.7, it is possible to embed test code within gitolite.conf.  This
+can be useful if your conf file is complicated, and you need a way to make
+sure that any changes are not messing with your most important restrictions.
+
+Full details, including preparation and caveats, are in
+`contrib/utils/testconf`, but here's a teaser example:
+
+    repo foo
+        RW+     =   u1
+        RW      =   u2
+
+    =begin testconf
+    gitolite access -q foo u1 + any || echo FAILED
+    gitolite access -q foo u2 + any && echo FAILED
+    gitolite access -q foo u2 W any || echo FAILED
+    =end
+

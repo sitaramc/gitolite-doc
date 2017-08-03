@@ -92,13 +92,13 @@ variable instead of as a command line argument in this case.
 
 However, it has to be an authentication system that is compatible with sshd or
 httpd in some form.  Why?  Because the git *client* accessing the server only
-knows those 2 protocols to "speak git".  (Well, the `git://` protocol is
+knows those 2 protocols to "speak git".  (Well, the `https://` protocol is
 unauthenticated, and `file://` doesn't really apply to this discussion, so
 we're ignoring those).
 
 For example, let's say you have an LDAP-based authentication system somewhere.
 It is possible to make apache use that to authenticate users, so when a user
-accesses a git url using `http://sitaram:password@git.example.com/repo`, it is
+accesses a git url using `https://sitaram:password@git.example.com/repo`, it is
 LDAP that does the actual authentication.  [I wouldn't know how to do it but I
 know it is possible.  Patches to this doc explaining how are welcome!]
 

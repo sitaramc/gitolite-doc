@@ -5,7 +5,7 @@
 # (viewing this slideshow)
 
 This presentation uses [HTML
-Slidy](http://www.w3.org/Talks/Tools/Slidy2/Overview.html), a simple
+Slidy](https://www.w3.org/Talks/Tools/Slidy2/Overview.html), a simple
 presentation software from the W3C. Although there's a help button in the
 footer of each presentation, it's missing some important stuff, so here's a
 smaller but more complete summary of the keyboard controls.

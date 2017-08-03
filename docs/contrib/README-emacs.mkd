@@ -4,5 +4,5 @@
 
 - [GitHub][]
 
-[Emacs]: http://www.gnu.org/software/emacs
-[GitHub]: http://github.com/llloret/gitolite-emacs
+[Emacs]: https://www.gnu.org/software/emacs
+[GitHub]: https://github.com/llloret/gitolite-emacs

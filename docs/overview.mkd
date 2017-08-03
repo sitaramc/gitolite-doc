@@ -196,7 +196,7 @@ this is the default!) was initially done for them (their config file was so
 big that without the big-config changes gitolite would just run out of memory
 and die!).
 
-[fedora]: http://lists.fedoraproject.org/pipermail/devel-announce/2010-July/000647.html
+[fedora]: https://lists.fedoraproject.org/pipermail/devel-announce/2010-July/000647.html
 
 The **KDE project** [uses][kde] gitolite (in combination with redmine for
 issue tracking and reviewboard for code review).  Apart from the usual access
@@ -205,10 +205,10 @@ enabled by wildrepos and the accompanying commands.  Several of the changes to
 the "admin defined commands" were also inspired by KDE's needs.  See [section
 5][kdes5] and [section 6][kdes6] of the above linked page for details.
 
-[kde]: http://community.kde.org/Sysadmin/GitKdeOrgManual
-[kdes5]: http://community.kde.org/Sysadmin/GitKdeOrgManual#Server-side_commands
-[kdes6]: http://community.kde.org/Sysadmin/GitKdeOrgManual#Personal_repositories
-[kdera]: http://permalink.gmane.org/gmane.comp.kde.scm-interest/1437
+[kde]: https://community.kde.org/Sysadmin/GitKdeOrgManual
+[kdes5]: https://community.kde.org/Sysadmin/GitKdeOrgManual#Server-side_commands
+[kdes6]: https://community.kde.org/Sysadmin/GitKdeOrgManual#Personal_repositories
+[kdera]: https://permalink.gmane.org/gmane.comp.kde.scm-interest/1437
 
 **Prof. Hiren Patel** of the University of Waterloo is responsible for the
 existence of the fairly popular "[wildrepos](wild)" feature.  The
@@ -223,7 +223,7 @@ little one-man show!
 
 He explains his use of it [here][hiren].
 
-[hiren]: http://caesr.uwaterloo.ca/wildrepos-in-gitolite/
+[hiren]: https://caesr.uwaterloo.ca/wildrepos-in-gitolite/
 
 **Gentoo Linux** has [just moved][gentoo1] their git repositories from gitosis
 to gitolite. There are about 200 repositories, some of them are the so called
@@ -233,8 +233,8 @@ will be increased in the near future, as they are going to migrate some of
 their CVS/SVN repositories there, plus they are offering overlays hosting for
 users as well.
 
-[gentoo1]: http://archives.gentoo.org/gentoo-dev/msg_2812c9b9e768f64b46360ab17b9d0024.xml
-[gentoo2]: http://www.gentoo.org/proj/en/overlays/
+[gentoo1]: https://archives.gentoo.org/gentoo-dev/msg_2812c9b9e768f64b46360ab17b9d0024.xml
+[gentoo2]: https://www.gentoo.org/proj/en/overlays/
 
 **kernel.org**, the official distribution point for the Linux kernel, is the
 latest (as of 2011-10) high-visibility installation.  According to [this
@@ -252,9 +252,9 @@ In addition, kernel.org was responsible for a serious rethink of a few rough
 edges in gitolite, and smoothing them out was fun (the "playing with gitolite"
 stuff, making the test suite simpler, "deny" rules for the entire repo).
 
-[ko-ann]: http://lkml.org/lkml/2011/9/23/357
-[ko-why]: http://www.kernel.org/faq/#whygitolite
-[audit]: http://groups.google.com/group/gitolite/browse_thread/thread/8dc5242052b16d0f
+[ko-ann]: https://lkml.org/lkml/2011/9/23/357
+[ko-why]: https://www.kernel.org/faq/#whygitolite
+[audit]: https://groups.google.com/group/gitolite/browse_thread/thread/8dc5242052b16d0f
 
 The **Mageia Project** is [using][mageia-gitweb] gitolite 3 to manage its
 git repositories and access control. The repositories are [defined][mageia-def]
@@ -285,5 +285,5 @@ that gitolite benefits as much as they do; possibly more.
 
 [basic]: basic.html
 [advanced]: advanced.html
-[book]: http://www.packtpub.com/gitolite-essentials/book
+[book]: https://www.packtpub.com/gitolite-essentials/book
 

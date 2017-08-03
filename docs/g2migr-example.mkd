@@ -94,7 +94,7 @@ This is a quick and dirty program to catch some of the big issues.
 
     INFO        'see docs' usually means the pre-migration checklist in
                 "g2migr.html"; to get there, start from the main migration
-                page at http://sitaramc.github.com/gitolite/migr/
+                page at https://sitaramc.github.com/gitolite/migr/
 
     checking rc file...
     NOTE        GL_ADMINDIR is in the right place; assuming you did not mess with

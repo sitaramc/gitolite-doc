@@ -35,7 +35,7 @@ repos, since that is the most convenient way to set this up.  However, it is
 not mandatory -- you can have a wild repo as a backing repo, and/or a normal
 repo as a logical repo if you wish.</font>
 
-[imwf]: http://git-scm.com/book/en/Distributed-Git-Distributed-Workflows#Integration-Manager-Workflow
+[imwf]: https://git-scm.com/book/en/Distributed-Git-Distributed-Workflows#Integration-Manager-Workflow
 
 # setup
 

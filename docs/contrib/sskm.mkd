@@ -1,7 +1,7 @@
 # changing keys -- self service key management
 
 Copyright: Jeff Mitchell (jmitchell@kde.org).  Licensed under CC-BY-NC-SA
-unported 3.0, <http://creativecommons.org/licenses/by-nc-sa/3.0/>
+unported 3.0, <https://creativecommons.org/licenses/by-nc-sa/3.0/>
 
 [Note on v3 version: this has been manually spot-tested; there is no test suite.  Changes from v2 version are minimal so it should all work fine but please report errors!]
 

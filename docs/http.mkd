@@ -64,7 +64,7 @@ and is available [here](contrib/ssh-and-http).
 
 ## client side
 
-Git URLs look like `http://user:password@server/git/reponame.git`.
+Git URLs look like `https://user:password@server/git/reponame.git`.
 
 The custom commands, like "info", "expand" should be handled as follows.  The
 command name will come just after the `/git/`, followed by a `?`, followed by
@@ -72,11 +72,11 @@ the arguments, with `+` representing a space.  Here are some examples:
 
 ```sh
 # ssh git@server info
-curl http://user:password@server/git/info
+curl https://user:password@server/git/info
 # ssh git@server info repopatt
-curl http://user:password@server/git/info?repopatt
+curl https://user:password@server/git/info?repopatt
 # ssh git@server info repopatt user1 user2
-curl http://user:password@server/git/info?repopatt+user1+user2
+curl https://user:password@server/git/info?repopatt+user1+user2
 ```
 
 With a few nice shell aliases, you won't even notice the horrible convolutions

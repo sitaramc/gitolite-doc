@@ -76,7 +76,7 @@ something I can help with.  Sorry.
 
 6.  Clone the gitolite source code
 
-        git clone git://github.com/sitaramc/gitolite
+        git clone https://github.com/sitaramc/gitolite
 
 7.  Install it
 

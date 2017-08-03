@@ -4,8 +4,8 @@
 
 This section serves as a quick introduction to gitolite, and provides basic installation and setup instructions.  It cannot, however, replace the enormous amount of [documentation][gltoc] that gitolite comes with.
 
-[gldpg]: http://sitaramc.github.com/gitolite/progit.html
-[gltoc]: http://sitaramc.github.com/gitolite/master-toc.html
+[gldpg]: https://sitaramc.github.com/gitolite/progit.html
+[gltoc]: https://sitaramc.github.com/gitolite/master-toc.html
 
 Gitolite is an authorisation layer on top of git, relying on sshd or httpd for authentication.  (Recap: authentication is identifying who the user is, authorisation is deciding if he is allowed to do what he is attempting to).
 
@@ -19,7 +19,7 @@ Gitolite is somewhat unusual as far as "server" software goes -- access is via s
 
 To begin, create a user called `git` on your server and login to this user.  Copy your ssh pubkey (a file called `~/.ssh/id_rsa.pub` if you did a plain `ssh-keygen` with all the defaults) from your workstation, renaming it to `YourName.pub`.  Then run these commands:
 
-    git clone git://github.com/sitaramc/gitolite
+    git clone https://github.com/sitaramc/gitolite
     gitolite/install -ln
         # assumes $HOME/bin exists and is in your $PATH
     gitolite setup -pk $HOME/YourName.pub

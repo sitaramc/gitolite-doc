@@ -490,7 +490,7 @@ Just to be clear, please note that this assumes the authorized keys file on
 the gitolite hosting user has my "id\_rsa.pub" line, **without** the gitolite
 related forced command and options.
 
-[tut]: http://sites.google.com/site/senawario/home/gitolite-tutorial
+[tut]: https://sites.google.com/site/senawario/home/gitolite-tutorial
 
 # appendix 5: why bypassing gitolite causes a problem
 

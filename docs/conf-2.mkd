@@ -83,7 +83,7 @@ numbers for convenience; we'll see why later.
 ```gitolite-nu
 # managers should be able to read any repo
 repo @all
-    R   refs/.*             =   @managers
+    R                       =   @managers
 
     # ...other rules for other repos...
 
@@ -94,25 +94,25 @@ repo foo bar
     -   refs/tags/v[0-9]    =   dilbert @devteam
     RW+ refs/heads/dev/     =   dilbert @devteam
     RW  refs/.*             =   dilbert @devteam
-    R   refs/.*             =   @managers
+    R                       =   @managers
 ```
 
 This represents a set of rules that are basically this:
 
     repo    user        perm    ref                 (from line)
 
-     foo     @managers  R        refs/.\*                3
-     foo     alice      RW+      refs/.\*                9
-     foo     @teamleads RW+      refs/.\*                9
+     foo     @managers  R                                3
+     foo     alice      RW+      refs/.*                 9
+     foo     @teamleads RW+      refs/.*                 9
      foo     dilbert    -        refs/heads/master       10
      foo     @devteam   -        refs/heads/master       10
      foo     dilbert    -        refs/tags/v[0-9]        11
      foo     @devteam   -        refs/tags/v[0-9]        11
      foo     dilbert    RW+      refs/heads/dev/         12
      foo     @devteam   RW+      refs/heads/dev/         12
-     foo     dilbert    RW       refs/.\*                13
-     foo     @devteam   RW       refs/.\*                13
-     foo     @managers  R        refs/.\*                14
+     foo     dilbert    RW       refs/.*                 13
+     foo     @devteam   RW       refs/.*                 13
+     foo     @managers  R                                14
 
 Which of these rules apply for dilbert?  We'll assume he's not a team lead, as
 *that* would defeat the whole purpose of this example!  We *know* he's not a
@@ -128,7 +128,7 @@ So we discard all those rules, which leaves us, for repo "foo" and user
     -        refs/heads/master       10
     -        refs/tags/v[0-9]        11
     RW+      refs/heads/dev/         12
-    RW       refs/.\*                13
+    RW       refs/.*                 13
 
 So what happens when dilbert tries to push a branch called "xyz"?
 

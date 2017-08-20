@@ -383,3 +383,34 @@ And that should be all you need to do.
 
 -->
 
+# appendix D: fixing a broken slave
+
+Let's say you had
+
+    option mirror.master        =   mars
+    option mirror.slaves        =   phobos deimos
+
+and you then accidentally removed `phobos` and pushed.
+
+You quickly realise your error and put the line back, then push again, only to
+realise that phobos is now unreachable.  It took the previous push to heart
+and updated its internal state accordingly, and any subsequent attempts to
+touch the gitolite-admin repo on phobos results in the message:
+
+    FATAL: phobos: 'gitolite-admin' is mirrored but not here
+
+This is basically saying, "yes I see that repo in the config, but I (phobos)
+am neither the master nor one of the slaves for it, so please don't ask me
+about it!".  You're basically locked out of phobos now.
+
+The solution is this:
+
+  * log on to phobos' gitolite shell account
+
+  * edit `~/.gitolite/conf/gitolite.conf` to fix the mirroring options for the
+    gitolite-admin repo.
+
+  * run `gitolite setup`.
+
+That should do it.
+

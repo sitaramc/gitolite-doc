@@ -107,7 +107,7 @@ for details) happens in this module.
 `Conf::Load` is the other of the two workhorses of gitolite.
 
 The most important function it exports is `access`, which is used by
-`gitolite-shell` as well as the update hook code to check for permissions.
+`gitolite-shell` as well as by the update hook code to check for permissions.
 This code has a few optimisations, including very simple, localised, caching
 of parsed conf files when needed.
 
@@ -170,3 +170,95 @@ module contains a whole bunch of common routines used all over -- many of them
 not gitolite specific at all, Cache is not to be used for now (sorry,
 bitrotted by now I think... I may need to take it out behind the woodshed one
 of these days).
+
+# security notes
+
+All security issues should be reported directly to me (sitaramc@gmail.com),
+and not to the mailing list.
+
+(In the following text, the words MUST, SHOULD, etc. are loosely as defined in
+RFC 2119).
+
+1.  Gitolite's MUST protect everything in `~/repositories` from people who do
+    not have command line access to the user hosting the service, and do not
+    have "push" access rights to the gitolite-admin repository.
+
+    Specifically, gitolite MUST prevent such users from doing anything except
+    the following:
+
+    *   perform git operations they are allowed to by gitolite.conf
+    *   run *gitolite* commands that are enabled for remote use
+
+2.  People who have command line access are considered to be "in"; nothing in
+    gitolite attempts to protect from them (it's impossible anyway!)
+
+    But someone who does not have command line access, but *does* have push
+    access rights to the gitolite-admin repo (a "gitolite admin"), is a
+    special case.
+
+    Gitolite SHOULD prevent a gitolite admin from using that to pivot to
+    executing arbitrary commands on the server.  (This is why, for example,
+    the gitolite-admin repo can't have arbitrary "config" lines.)
+
+    However, many sites don't care about this distinction -- all their
+    gitolite admins already have shell access.
+
+    Thus, a violation of this is important and should be fixed, but not
+    considered critical.
+
+3.  Gitolite SHOULD try to make sure that the *gitolite* commands shipped with
+    gitolite do not indirectly enable violation of the restrictions in the
+    first bullet.  The seriousness of failing this depends on the command in
+    question (is the command enabled in the default setup, or even if it is
+    not, is it a popular and widely used command, etc.)
+
+4.  Gitolite SHOULD protect the local sysadmin from his own errors to some
+    extent.  For example, it should be possible to write a new "command" in
+    shell, without worrying about shell meta-characters sneaking in and
+    executing something; gitolite should prevent this from happening.
+
+5.  As you probably [knew][auth] already, gitolite does not do authentication;
+    it only deals with authorisation.  Still, gitolite MAY help the
+    administrator to setup authentication (as the default setup does when used
+    in ssh mode), but it is not mandatory.  In particular, use in http-mode
+    leaves gitolite completely out of the authentication picture.
+
+In order to achieve these goals, gitolite expects the files and directories on
+the server to have sane permissions and ownerships.  A decent POSIX file
+system, and a reasonable sshd config are also expected.
+
+[auth]: concepts/#authentication-and-authorisation
+
+Finally, a note on a couple of related items:
+
+*   Gitolite's stance on DOS (by authenticated users) is that if it is
+    fixable, it will be fixed, but it is not a critical issue, as long as the
+    log files cannot be tampered with.
+
+    A DOS by un-authenticated users is completely out of scope.
+
+*   Gitolite cannot benefit from perl's taint mode, which was made for a
+    different threat model.
+
+    Gitolite's threat model implicitly trusts anyone who has shell access to
+    the server, including all programs already on the server.  It's only
+    remote users that are considered a threat.
+
+    Perl's taint mode treats *anything* outside the program itself as suspect.
+    So, the rc file, the compiled config, the various internal files gitolite
+    stores housekeeping information in, etc., would all need to be untainted.
+
+    Since gitolite gets "suspicious" input only in one place, it's easier to
+    check that rigorously enough rather than use taint mode.
+
+# appendix A: accessing the documentation offline
+
+The source code for the documentation is in
+<https://github.com/sitaramc/gitolite-doc>.  Rendering it requires some work
+(TBD: details).
+
+For most purposes, it's simpler to clone
+<https://github.com/sitaramc/sitaramc.github.com> and use the 'gitolite'
+subdirectory within as your pre-rendered document base.  Open it in a
+JS-enabled browser and you can even do searches.
+

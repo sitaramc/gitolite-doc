@@ -179,7 +179,7 @@ and not to the mailing list.
 (In the following text, the words MUST, SHOULD, etc. are loosely as defined in
 RFC 2119).
 
-1.  Gitolite's MUST protect everything in `~/repositories` from people who do
+1.  Gitolite MUST protect everything in `~/repositories` from people who do
     not have command line access to the user hosting the service, and do not
     have "push" access rights to the gitolite-admin repository.
 

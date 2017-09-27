@@ -29,6 +29,7 @@ pages:
         - setting git-config values: git-config.mkd
         - gitolite options: options.mkd
         - ad hoc user-created ("wild") repos: wild.mkd
+        - using templates: templates.mkd
         - virtual refs (part 1): vref.mkd
         - virtual refs (part 2): vref-2.mkd
         - delegation of admin duties: deleg.mkd

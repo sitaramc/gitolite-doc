@@ -67,5 +67,10 @@ do
 EOF
 done
 
-echo next, run:
-echo 'rm -rf ../sitaramc.github.com/gitolite; mv site ../sitaramc.github.com/gitolite; cd ../sitaramc.github.com'
+cd ..
+rm -rf ../sitaramc.github.com/gitolite
+mv site ../sitaramc.github.com/gitolite
+cd ../sitaramc.github.com
+git add -u
+git ts
+git pall -f

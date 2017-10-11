@@ -202,14 +202,7 @@ First, on the server:
   * Run `gitolite setup`.  **If you forget this step, you can also forget
     about write access control!**
 
-[hu]: concepts/#the-hosting-user
-
-Then, back on your workstation:
-
-  * If the repos are normal repos, add them to the `conf/gitolite.conf` in
-    your clone of the admin repo, then commit and push the change.
-
-    If the repos are [wildcard](wild) repos that already match some repo regex
+  * If the repos are [wildcard](wild) repos that already match some repo regex
     in the conf file, you need to manually create the gl-creator file, like
     so:
 
@@ -217,6 +210,13 @@ Then, back on your workstation:
 
     I haven't yet found this to be common enough to bother wrapping it in a
     nice interface or command.
+
+[hu]: concepts/#the-hosting-user
+
+However, if the repos are normal repos, then, back on your workstation:
+
+  * Add them to the `conf/gitolite.conf` in your clone of the admin repo, then
+    commit and push the change.
 
 # appendix 2: old style multi-keys
 

@@ -239,6 +239,7 @@ to apply them only to certain repos:
     **For pre-receive or pre-auto-gc you should not use more than one hook.
     If you really need more than one, ask on the mailing list.**
 
+
 4.  add them to the repos you want them to be active in, in your conf file.
     For example:
 

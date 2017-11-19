@@ -129,18 +129,23 @@ You can get a list of available commands by running `ssh git@host help`.
 work but can't directly pull from each other (usually due to either a
 networking or authentication related reason, both common in corporate setups).
 
-Personal branches exist **in a namespace** of their own.  The syntax is
+Personal branches exist **in a sub-tree** of the `ref/heads/[...]` hierarchy.
+The syntax is
 
 ```gitolite
     RW+ personal/USER/  =   @userlist
 ```
 
-where the "personal" can be anything you like (but cannot be empty), and the
-"/USER/" part is **necessary (including both slashes)**.
+where (a) the "personal" can be anything you like, but cannot be empty, (b) the
+"/USER/" part is **necessary (including both slashes)**, and (c) the trailing
+slash can be optionally followed by additional restrictions on the ref name.
 
 A user "alice" (if she's in the userlist) can then push any branches inside
 `personal/alice/` (i.e., she can push `personal/alice/foo` and
-`personal/alice/bar`, but NOT `personal/alice`).
+`personal/alice/bar`, but NOT `personal/alice`).  As another example
+`personal/USER/[a-zA-Z0-9_]+$` would mean that alice can create
+`personal/alice/foo`, but not `personal/alice/foo/bar`, because a `/` is not
+allowed by the expression following the `/USER/`.
 
 (Background: at runtime the "USER" component will be replaced by the name of
 the invoking user.  Access is determined by the right hand side, as usual).

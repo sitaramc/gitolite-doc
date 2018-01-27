@@ -144,7 +144,7 @@ Some examples may help:
     repo sitaramc/gitolite linux git
         ...access rules for backing repos...
     # logical repos
-    repo CREATOR/..*
+    repo CREATOR/..\*
         C   =   @team
         RW+ =   CREATOR
         R   =   @all

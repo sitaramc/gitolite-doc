@@ -112,33 +112,26 @@ file settings and syntax.
 
 ## the initial setup and the [rc file](rc)
 
-For **each** server:
+On **each** server:
 
-  * Install gitolite normally on the server.  Make clones of the server's
-    'gitolite-admin' repo on your workstation so you can admin them all from
-    one place.
+  * Install gitolite normally.  Make clones of the server's 'gitolite-admin'
+    repo on your workstation so you can admin them all from one place.
 
   * Give the server a short, simple, "hostname" and set the HOSTNAME in the
     rc file (i.e., `~/.gitolite.rc` on the server) to this name, for example
     'mars'.  *Note: this has nothing to do with the hostname of the server in
     networking or DNS terms, or in OS terms.  This is internal to gitolite*.
 
-  * Run ssh-keygen if needed and get an ssh key pair for the server.
+  * Run ssh-keygen if needed and get an ssh key pair for the server.  Copy the
+    public key to a common area and name it after the host, but with 'server-'
+    prefixed.  For example, the pubkey for server 'mars' must be stored as
+    'server-mars.pub'.
 
-  * Copy the public part of each server's key (say, `id_rsa.pub`) to your
-    workstation, but rename it `server-<hostname>.pub`.  For example, the
-    pubkey from server `mars` must be renamed `server-mars.pub`.
+  * Copy all keys to all the admin repo clones on your workstation and and add
+    them as usual.  This is an `O(N^2)` operation ;-)
 
     You may have guessed that the prefix 'server-' is special, and
     distinguishes a human user from a mirroring peer.
-
-    At this point you have one public key for each server, with file names as
-    above, somewhere on your workstation.
-
-  * On *each* of the admin repo clones on your workstation, add *all* these
-    keys the same way you would add a user's key.
-
-    Don't forget to push the changes.
 
   * Create "host" aliases to refer to all other machines.  See [here][ssh-ha]
     for what/how.

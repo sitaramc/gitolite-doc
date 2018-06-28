@@ -112,7 +112,7 @@ file settings and syntax.
 
 ## the initial setup and the [rc file](rc)
 
-On **each** server:
+For **each** server:
 
   * Install gitolite normally.  Make clones of the server's 'gitolite-admin'
     repo on your workstation so you can admin them all from one place.
@@ -123,12 +123,15 @@ On **each** server:
     networking or DNS terms, or in OS terms.  This is internal to gitolite*.
 
   * Run ssh-keygen if needed and get an ssh key pair for the server.  Copy the
-    public key to a common area and name it after the host, but with 'server-'
-    prefixed.  For example, the pubkey for server 'mars' must be stored as
-    'server-mars.pub'.
+    public key to a common area (accessible to your workstation for copying)
+    and name it after the host, but with 'server-' prefixed.  For example, the
+    pubkey for server 'mars' must be stored as 'server-mars.pub'.
 
-  * Copy all keys to all the admin repo clones on your workstation and and add
-    them as usual.  This is an `O(N^2)` operation ;-)
+  * Copy *all* these pubkeys (i.e., one from each server) to *all* the admin
+    repo clones on your workstation and add them as usual.  This is an
+    `O(N^2)` operation ;-)
+
+    Don't forget to push the changes!
 
     You may have guessed that the prefix 'server-' is special, and
     distinguishes a human user from a mirroring peer.

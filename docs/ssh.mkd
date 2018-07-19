@@ -92,7 +92,7 @@ variable instead of as a command line argument in this case.
 
 However, it has to be an authentication system that is compatible with sshd or
 httpd in some form.  Why?  Because the git *client* accessing the server only
-knows those 2 protocols to "speak git".  (Well, the `https://` protocol is
+knows those 2 protocols to "speak git".  (Well, the `git://` protocol is
 unauthenticated, and `file://` doesn't really apply to this discussion, so
 we're ignoring those).
 

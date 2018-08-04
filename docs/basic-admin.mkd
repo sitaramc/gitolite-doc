@@ -186,6 +186,22 @@ important):
 
 With that out of the way, here's how to do this:
 
+!!! danger "Warning!"
+
+    Depending on how your gitolite.conf is setup, and how much time you take
+    between moving the repositories and completing the rest of the
+    instructions below, it may be possible for a user to read or write the
+    repos you are in the process of migrating.
+
+    To prevent writing, you can [disable write access][dw] to all repos before
+    you start this process.  Preventing reading is much harder, but at the
+    same time, most configurations will not have this problem.  If in doubt,
+    ask on the mailing list.
+
+    Either way, don't forget to re-enable access at the end of this process!
+
+[dr]: conf-2#read-access-respecting-deny-rules
+
 First, on the server:
 
   * Move the repos to `$HOME/repositories`.
@@ -212,6 +228,7 @@ First, on the server:
     nice interface or command.
 
 [hu]: concepts/#the-hosting-user
+[dw]: odds-and-ends/#disabling-pushes-to-take-backups
 
 However, if the repos are normal repos, then, back on your workstation:
 

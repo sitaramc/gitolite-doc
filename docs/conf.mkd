@@ -223,7 +223,12 @@ repo foo bar
 
 A "repo" line names one or more repos, and is followed by one or more rule
 lines. All the rules from then till the next "repo" line apply to the repo(s)
-specified in the repo line -- in this example, the 'foo' and 'bar' repos.
+specified in the repo line -- in this example, the 'foo' and 'bar' repos.  If
+there are no rule, [config][gc], or [option][go] lines before the next "repo"
+line, the repo line is silently ignored.
+
+[gc]: git-config
+[go]: options
 
 Each rule line has a "permission" field, zero or more "refex"es, and one or
 more user or user group name after the equal sign.

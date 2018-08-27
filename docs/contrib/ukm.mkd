@@ -293,7 +293,7 @@ same time.
         SELFKEY_MANAGEMENT => 1,
     },
 
-# How to use user key management? {#how-to-use-user-key-management}
+# How to use user key management?
 
 There are three subcommands of `ukm`, namely `list` (the default),`
 add`, and `del`.
@@ -492,7 +492,7 @@ probably fail. Then simply redo the command after a while.
   without the `.pub` extension.
 
   If called by a guest key manager it's an email address and if called
-  by a self key manager, it's an alphanumeric identifier allowed to with an `@`
+  by a self key manager, it's an alphanumeric identifier with an `@`
   prepended.
 
 * **USERID**<a id="USERID"></a>:

@@ -482,7 +482,7 @@ host gitolite-sh
     identityfile ~/.ssh/id_rsa
 ```
 
-Then I would use "ssh gitolite-ssh" to get a command line, and use the host
+Then I would use "ssh gitolite-sh" to get a command line, and use the host
 alias "gitolite" in git clone and other commands, as well as for gitolite
 commands (like "ssh gitolite info").
 

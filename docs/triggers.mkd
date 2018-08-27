@@ -31,7 +31,7 @@ If you intend to write your own triggers, it's a good idea to examine a
 default install of gitolite, paying attention to:
 
   * the path names in various trigger lists in the rc file,
-  * corresponding path names in the src/ directory in gitolite source, and
+  * corresponding path names in the src/ directory in gitolite source,
   * and for perl modules, the package names and function names within.
 
 # manually firing triggers

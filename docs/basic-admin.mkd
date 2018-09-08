@@ -188,6 +188,8 @@ With that out of the way, here's how to do this:
 
 !!! danger "Warning!"
 
+    This warning applies to versions before v3.6.9.
+
     Depending on how your gitolite.conf is setup, and how much time you take
     between moving the repositories and completing the rest of the
     instructions below, it may be possible for a user to read or write the

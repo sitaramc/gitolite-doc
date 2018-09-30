@@ -188,7 +188,7 @@ With that out of the way, here's how to do this:
 
 !!! danger "Warning!"
 
-    This warning applies to versions before v3.6.9.
+    This warning applies to versions before v3.6.10.
 
     Depending on how your gitolite.conf is setup, and how much time you take
     between moving the repositories and completing the rest of the
@@ -217,8 +217,11 @@ First, on the server:
       * There are no symbolic links left over from wherever the files were
         brought from.
 
-  * Run `gitolite setup`.  **If you forget this step, you can also forget
-    about write access control!**
+  * Run the following three commands:
+
+        gitolite compile
+        gitolite setup --hooks-only
+        gitolite trigger POST_COMPILE
 
   * If the repos are [wildcard](wild) repos that already match some repo regex
     in the conf file, you need to manually create the gl-creator file, like

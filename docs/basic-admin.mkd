@@ -7,7 +7,7 @@ gitolite directly on the server, i.e., without cloning the gitolite-admin
 repo, you can -- [here's how][ssa].  This is likely to be of interest mainly
 to puppet/chef type installations.</span>
 
-[ssa]: odds-and-ends/#administering-gitolite-directly-on-the-server
+[ssa]: odds-and-ends#administering-gitolite-directly-on-the-server
 
 Day-to-day management of a gitolite site is done by cloning the special
 'gitolite-admin' repo, making appropriate changes to it, and pushing it back
@@ -28,11 +28,11 @@ NOTE that (1) you must not include the `repositories/` part (gitolite handles
 that internally), and (2) you may include the ".git" at the end but it is
 optional.
 
-If this step fails, be sure to look at the two pages linked from the [[ssh]]
+If this step fails, be sure to look at the two pages linked from the [ssh](ssh)
 page before asking for help.  A very basic first step is to run the `info`
 command (`ssh git@host info`); [this][info] page tells you what to expect.
 
-[info]: user/#the-info-command
+[info]: user#the-info-command
 
 # add/remove users
 
@@ -41,7 +41,7 @@ gitolite in http mode, adding and removing users is outside the scope of
 gitolite.</span>
 
 Strictly speaking, gitolite doesn't know where users come from.  (If that
-surprises you, go back to the [[concepts]] page and read the section on
+surprises you, go back to the [concepts](concepts) page and read the section on
 "authentication and authorisation"). However, gitolite does help with
 ssh-based authentication, by making it easy to add and remove users from
 `~/.ssh/authorized_keys`.
@@ -96,7 +96,7 @@ will continue to be supported but has proved hard to explain!
 
 # add, remove, and rename repos
 
-[existing]: basic-admin/#appendix-1-bringing-existing-repos-into-gitolite
+[existing]: basic-admin#appendix-1-bringing-existing-repos-into-gitolite
 
 !!! warning ""
 
@@ -139,7 +139,7 @@ repo bar    # WRONG; 'foo' is now forgotten
 If you have too many to fit on one line comfortably, you can create and use a
 [repo group][groups]:
 
-[groups]: conf/#group-definitions
+[groups]: conf#group-definitions
 
 ```gitolite
 @myrepos    =   foo
@@ -176,7 +176,7 @@ important):
 !!! danger "Warning!"
 
     Gitolite **will clobber** any existing `update` hook in your repos when
-    you do this.  Please see either the [[cookbook]] or the [[non-core]] page
+    you do this.  Please see either the [cookbook](cookbook) or the [non-core](non-core) page
     for information on how to make your existing update hook work with
     gitolite.
 
@@ -232,8 +232,8 @@ First, on the server:
     I haven't yet found this to be common enough to bother wrapping it in a
     nice interface or command.
 
-[hu]: concepts/#the-hosting-user
-[dw]: odds-and-ends/#disabling-pushes-to-take-backups
+[hu]: concepts#the-hosting-user
+[dw]: odds-and-ends#disabling-pushes-to-take-backups
 
 However, if the repos are normal repos, then, back on your workstation:
 

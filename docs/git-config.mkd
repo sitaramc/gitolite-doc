@@ -7,7 +7,7 @@
 !!! danger ""
 
     **Important**: This won't work unless the rc file has the right settings;
-    please see `$GIT_CONFIG_KEYS` in the [rc file doc](rc/#specific-variables).
+    please see `$GIT_CONFIG_KEYS` in the [rc file doc](rc#specific-variables).
 
 # basic syntax
 
@@ -42,7 +42,7 @@ example).  Other forms of the `git config` command (`--add`, the
 
 You can also use the special values `%GL_REPO` and `%GL_CREATOR` in the
 string.  The former is available to all repos, while the latter is only
-available to [[wild]] repos.
+available to [wild](wild) repos.
 
 ```gitolite
 repo foo bar baz

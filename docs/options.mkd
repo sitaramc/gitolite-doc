@@ -6,9 +6,9 @@ Some gitolite features are enabled, or gitolite's behaviour changed, by
 setting "options".
 
 A line like `option foo = 1` is really just syntactic sugar for
-`config gitolite-options.foo = 1`, so everything in the [[git-config]] page
+`config gitolite-options.foo = 1`, so everything in the [git-config](git-config) page
 also applies here (especially the bit about [overriding config
-values](git-config/#overriding-config-values).
+values](git-config#overriding-config-values).
 
 **However**, these values are **not** written into git's own `config` file, so
 git (or other programs running `git config`) will not see them.  You can only
@@ -28,7 +28,7 @@ Here are some examples, although this list is not exhaustive:
   * Ask gitolite to honor [deny rules][deny-rules]  during the pre-git check
     also.
 
-  * Options related to [[mirroring]] -- tell gitolite who is the master server,
+  * Options related to [mirroring](mirroring) -- tell gitolite who is the master server,
     and who are the slaves, for each repo.
 
   * The optional post-compile trigger `update-gitweb-daemon-from-options`
@@ -38,11 +38,11 @@ Here are some examples, although this list is not exhaustive:
   * You can set [repo-specific environment variables][rsev] for triggers and
     hooks to test, which is very useful.
 
-[deny-rules]: conf-2/#read-access-respecting-deny-rules
-[rsev]: dev-notes/#appendix-1-repo-specific-environment-variables
+[deny-rules]: conf-2#read-access-respecting-deny-rules
+[rsev]: dev-notes#appendix-1-repo-specific-environment-variables
 
 Here's how to disable an option from a single repo if it was enabled earlier
-in a group (which you might guess from reading the [[git-config]] page):
+in a group (which you might guess from reading the [git-config](git-config) page):
 
 ```gitolite
 @g = r1 r2 r3

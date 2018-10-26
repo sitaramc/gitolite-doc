@@ -54,8 +54,8 @@ A lot of the following discussion involves understanding these factors:
 
     This mapping is saved in a file called `gl-perms` in the repo directory.
 
-[role]: wild/#roles
-[perms]: user/#setget-additional-permissions-for-repos-you-created
+[role]: wild#roles
+[perms]: user#setget-additional-permissions-for-repos-you-created
 
 # types of performance issues
 
@@ -173,9 +173,9 @@ takes time.  And depends on how fast your disk is, too.
 The appendix has a solution for this, using a perl module called Memoize
 (comes standard with perl); check down there for details.
 
-[agds]: odds-and-ends/#administering-gitolite-directly-on-the-server
-[rsag]: gitweb-daemon/#repo-specific-authorisation-in-gitweb
-[lff]: dev-notes/#appendix-2-log-file-format
+[agds]: odds-and-ends#administering-gitolite-directly-on-the-server
+[rsag]: gitweb-daemon#repo-specific-authorisation-in-gitweb
+[lff]: dev-notes#appendix-2-log-file-format
 
 # appendix 1: using `memoize`
 

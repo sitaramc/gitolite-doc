@@ -87,7 +87,7 @@ information.
   * `ROLES`, hash, default keys 'READERS' and 'WRITERS'
 
     This specifies the role names allowed to be used by users running the
-    [perms][] command.  The [[wild]] repos doc has more info on roles.
+    [perms][] command.  The [wild](wild) repos doc has more info on roles.
 
   * `DEFAULT_ROLE_PERMS`, string, default undef
 
@@ -112,5 +112,5 @@ information.
     This is described in more detail [here][localcode].  Please be aware
     **this must be a FULL path**, not a relative path.
 
-[perms]: user/#setget-additional-permissions-for-repos-you-created
-[localcode]: non-core/#for-your-non-core-programs
+[perms]: user#setget-additional-permissions-for-repos-you-created
+[localcode]: non-core#for-your-non-core-programs

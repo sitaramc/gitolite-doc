@@ -31,7 +31,7 @@ tricks that gitolite can do.
 
     Surprised?  [This][auth] might help explain better.
 
-[auth]: concepts/#authentication-and-authorisation
+[auth]: concepts#authentication-and-authorisation
 
 ## naming conventions used
 
@@ -202,7 +202,7 @@ to distinguish one key from another.  Sshd does not tell you even the
 fingerprint of the key that finally matched, so normally all you have is the
 `GL_USER` env var.
 
-[multi-key]: basic-admin/#multiple-keys-per-user
+[multi-key]: basic-admin#multiple-keys-per-user
 
 However, if you replace
 
@@ -519,8 +519,8 @@ This means that, you get 2 kinds of errors if you bypass gitolite
     gitolite's **update hook** kicks in, and fails to run because some of the
     environment variables it is expecting are not present.
 
-[stsapp1]: sts/#appendix-1-ssh-daemon-asks-for-a-password
-[stsapp3]: sts/#appendix-3-ssh-client-may-not-be-offering-the-right-key
-[sshkeys-lint]: sts/#appendix-2-which-key-is-which-running-sshkeys-lint
-[ybpfail]: sts/#appendix-5-why-bypassing-gitolite-causes-a-problem
-[ssh-ha]: sts/#appendix-4-ssh-host-aliases
+[stsapp1]: sts#appendix-1-ssh-daemon-asks-for-a-password
+[stsapp3]: sts#appendix-3-ssh-client-may-not-be-offering-the-right-key
+[sshkeys-lint]: sts#appendix-2-which-key-is-which-running-sshkeys-lint
+[ybpfail]: sts#appendix-5-why-bypassing-gitolite-causes-a-problem
+[ssh-ha]: sts#appendix-4-ssh-host-aliases

@@ -8,9 +8,9 @@ repos (called **subconf**s) and hand over responsibility to manage them to
 access rules for any other sub-admin's repos.
 
 Delegation is achieved by combining two gitolite features:
-[subconf](deleg/#the-subconf-command) and the [NAME VREF][NAME].
+[subconf](deleg#the-subconf-command) and the [NAME VREF][NAME].
 
-[NAME]: vref-2/#restricting-pushes-by-dirfile-name
+[NAME]: vref-2#restricting-pushes-by-dirfile-name
 
 # example
 
@@ -145,7 +145,7 @@ at least under different gitolite hosting users on the same server)!
 
 undocumented feature that I have "committed" to in the mailing list
 
-*   https://groups.google.com/forum/#!topic/gitolite/Aks-P_L5Ca4
+*   https://groups.google.com/forum#!topic/gitolite/Aks-P_L5Ca4
 
     group foo defined in subconf available in main as @foo.foo
 

@@ -16,7 +16,7 @@ access rules, as well as repo options of various kinds and git-config values.
 Pretty much all day-to-day management, except [managing users][users], happens
 from this file.
 
-[users]: basic-admin/#addremove-users
+[users]: basic-admin#addremove-users
 
 We'll use the following example to describe it's features.  <span class="gray">(A tip of
 the hat to Teemu Matilainen's gitolite vim-syntax file for the
@@ -58,7 +58,7 @@ As the example above shows, the syntax is fairly straightforward and simple.
     have them, you can optionally enable them; look for "continuation-lines"
     in `~/.gitolite.rc`).</span>
 
-[groups]: conf/#group-definitions
+[groups]: conf#group-definitions
 
 # include files
 
@@ -86,7 +86,7 @@ will include the contents of the file "conf/foo.conf".
 <font color="gray">Advanced users: `subconf`, a command that is very closely
 related to `include`, is documented [here][subconf].</font>
 
-[subconf]: deleg/#the-subconf-command
+[subconf]: deleg#the-subconf-command
 
 **Please note** that whenever you see "the `conf/gitolite.conf` file" or "the
 conf file" in gitolite documentation, it means the combined text after the
@@ -158,7 +158,7 @@ warning or move the definition up.
 Note that these warnings do NOT appear if you're [getting user group info from
 LDAP][ldap].
 
-[ldap]: conf/#getting-user-group-info-from-ldap
+[ldap]: conf#getting-user-group-info-from-ldap
 
 ## getting user group info from LDAP
 
@@ -168,7 +168,7 @@ similar (or sufficient) information in their LDAP store.
 Gitolite can tap into that information, with a little help.  Write a program
 which, given a username, queries your LDAP store and returns a space-separated
 list of groups that the user is a member of.  Then put the full path to this
-program in an [[rc]] variable called `GROUPLIST_PGM`, like so:
+program in an [rc](rc) variable called `GROUPLIST_PGM`, like so:
 
     GROUPLIST_PGM           =>  '/home/git/bin/ldap-query-groups',
 
@@ -268,7 +268,7 @@ commonly used permissions are:
 !!! danger ""
     There are also other, less commonly used, [types of permissions][write-types].
 
-[write-types]: conf-2/#appendix-1-different-types-of-write-operations
+[write-types]: conf-2#appendix-1-different-types-of-write-operations
 
 ### the "refex" field
 

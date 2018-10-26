@@ -12,7 +12,7 @@ you get the right one; it's often called `gitolite3`.</span>
 
 Source code is at <https://github.com/sitaramc/gitolite>.
 
-If your Unix-fu and ssh-fu are good, take a look at the [[quick install]]
+If your Unix-fu and ssh-fu are good, take a look at the [quick install](quick_install)
 page.  Otherwise follow the documentation flow, skipping whatever you think
 you don't need.
 
@@ -31,10 +31,10 @@ links on a first pass.
 
 !!! danger "In addition:"
 
-    There's a **[[fool proof setup]]** guide with detailed help showing one
+    There's a **[fool proof setup](fool_proof_setup)** guide with detailed help showing one
     fool-proof way to install, as long as you follow instructions faithfully!
 
-    Once you've installed and setup, there's the **[[cookbook]]** with recipes
+    Once you've installed and setup, there's the **[cookbook](cookbook)** with recipes
     for common tasks.
 
 # TROUBLESHOOTING

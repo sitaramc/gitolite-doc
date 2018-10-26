@@ -83,7 +83,7 @@ then running that command with '-h' may give you additional information.
   * `ROLES`, hash, default keys 'READERS' and 'WRITERS'
 
     This specifies the role names allowed to be used by users running the
-    [perms][] command.  The [[wild]] repos doc has more info on roles.
+    [perms][] command.  The [wild](wild) repos doc has more info on roles.
 
   * `OWNER_ROLENAME`, string, default undef
 
@@ -111,10 +111,10 @@ then running that command with '-h' may give you additional information.
     This is described in more detail [here][localcode].  Please be aware
     **this must be a FULL path**, not a relative path.
 
-[privesc]: rc/#security-note-gitolite-admin-and-shell-access
-[perms]: user/#setget-additional-permissions-for-repos-you-created
-[roles]: wild/#roles
-[localcode]: non-core/#for-your-non-core-programs
+[privesc]: rc#security-note-gitolite-admin-and-shell-access
+[perms]: user#setget-additional-permissions-for-repos-you-created
+[roles]: wild#roles
+[localcode]: non-core#for-your-non-core-programs
 
 # security note: gitolite admin and shell access
 
@@ -186,7 +186,7 @@ use this to confirm you did not miss something during the manual rc upgrade.
 
 # appendix B: adding stuff to ENABLE
 
-adapt https://groups.google.com/forum/#!searchin/gitolite/NON_CORE/gitolite/2kZaqLohSz0/LsIo_W8B2I8J
+adapt https://groups.google.com/forum#!searchin/gitolite/NON_CORE/gitolite/2kZaqLohSz0/LsIo_W8B2I8J
 
 -   document 'before' option (default: goes to the end)
 -   document arguments supplied via ENABLE list

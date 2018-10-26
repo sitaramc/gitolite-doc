@@ -49,25 +49,26 @@ cd ..
 # gitignore-aware)
 mv gen-docs .git
 
-# cater for people holding on to old links
-cd site
-for i in `find -type f -name index.html -printf "%h\n" | sort | cut -c3-`
-do
-    j=$(basename $i)
-    sed -e "s,%BASE,$i,g" <<EOF > $j.html
-<html>
-    <head>
-        <title>redirecting...</title>
-        <meta http-equiv="refresh" content="2;URL='http://gitolite.com/gitolite/%BASE/index.html'" />
-    </head>
-    <body>
-        <p>This page has moved; redirecting...</p>
-    </body>
-</html>
-EOF
-done
+# # cater for people holding on to old links
+# cd site
+# for i in `find -type f -name index.html -printf "%h\n" | sort | cut -c3-`
+# do
+#     j=$(basename $i)
+#     sed -e "s,%BASE,$i,g" <<EOF > $j.html
+# <html>
+#     <head>
+#         <title>redirecting...</title>
+#         <meta http-equiv="refresh" content="2;URL='http://gitolite.com/gitolite/%BASE/index.html'" />
+#     </head>
+#     <body>
+#         <p>This page has moved; redirecting...</p>
+#     </body>
+# </html>
+# EOF
+# done
+#
+# cd ..
 
-cd ..
 rm -rf ../sitaramc.github.com/gitolite
 mv site ../sitaramc.github.com/gitolite
 cd ../sitaramc.github.com

@@ -24,7 +24,7 @@
     anything here.
 
 *   If you're installing gitolite, you're a "system admin", like it or not.
-    Since most people use the ssh mode, **[[ssh]]** is therefore a necessary
+    Since most people use the ssh mode, **[ssh](ssh)** is therefore a necessary
     skill.  Please take the time to learn at least enough to get passwordless
     access working.
 
@@ -84,8 +84,8 @@
     authorized keys file should be placed in some directory other than the
     default, expect trouble).
 
-[existing]: basic-admin/#appendix-1-bringing-existing-repos-into-gitolite
-[hu]: concepts/#the-hosting-user
+[existing]: basic-admin#appendix-1-bringing-existing-repos-into-gitolite
+[hu]: concepts#the-hosting-user
 
 # trying out gitolite safely
 
@@ -98,7 +98,7 @@ system permanently.
 directories][clobber] in your `$HOME`.  Ideally, you should use a throwaway
 userid**.</font>
 
-[clobber]: testing/#appendix-1-the-clobber-list-clobber
+[clobber]: testing#appendix-1-the-clobber-list-clobber
 
 Just create a **throw-away userid**, log in to it, then run these commands:
 
@@ -249,9 +249,9 @@ If that completes without any warnings, you are done.  If it had a warning,
 you probably supplied a key which already has shell access to the server.
 That won't work; you'll have to generate and use a different key pair for
 gitolite access and use [host aliases][ssh-ha] to distinguish between the two.
-While you're there, read both the [[ssh]] pages.  Twice.
+While you're there, read both the [ssh](ssh) pages.  Twice.
 
-[ssh-ha]: sts/#appendix-4-ssh-host-aliases
+[ssh-ha]: sts#appendix-4-ssh-host-aliases
 
 # upgrades
 
@@ -279,7 +279,7 @@ servers is this:
 2.  Install gitolite on the new server, using the same key for the admin as
     for the old server.
 
-3.  Copy the [[rc]] file from the old server, overwriting this one.
+3.  Copy the [rc](rc) file from the old server, overwriting this one.
 
 4.  [Disable][writable] the old server so people won't push to it.
 
@@ -295,4 +295,4 @@ servers is this:
 
 7.  Run `gitolite setup` on the server.
 
-[writable]: odds-and-ends/#disabling-pushes-to-take-backups
+[writable]: odds-and-ends#disabling-pushes-to-take-backups

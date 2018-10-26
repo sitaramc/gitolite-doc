@@ -13,11 +13,11 @@ must be enabled for remote use by both the [sysadmin](#SYSADMIN) and the
 [gitolite-admin](#GA) (see [here][commands] for more on this) or look
 below.
 
-[commands]: ../non-core/#gitolite-commands
-[auth]: ../concepts/#authentication-and-authorisation
-[users]: ../basic-admin/#addremove-users
-[multi-key]: ../basic-admin/#multiple-keys-per-user
-[perms]: ../user/#setget-additional-permissions-for-repos-you-created
+[commands]: ../non-core#gitolite-commands
+[auth]: ../concepts#authentication-and-authorisation
+[users]: ../basic-admin#addremove-users
+[multi-key]: ../basic-admin#multiple-keys-per-user
+[perms]: ../user#setget-additional-permissions-for-repos-you-created
 
 
 ----

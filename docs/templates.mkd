@@ -322,8 +322,8 @@ gitolite admin or a server-side backend, *not* by a gitolite user.  (However,
 this feature piggy-backs on a lot of the code for wild repos, adding just a
 wee bit -- the "duh" comment earlier in this document -- to complete it).
 
-[perms]: user/#setget-additional-permissions-for-repos-you-created
-[perbr]: user/#personal-branches
-[group]: conf/#group-definitions
-[accum]: conf/#rule-accumulation
+[perms]: user#setget-additional-permissions-for-repos-you-created
+[perbr]: user#personal-branches
+[group]: conf#group-definitions
+[accum]: conf#rule-accumulation
 

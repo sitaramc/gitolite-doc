@@ -17,7 +17,7 @@
   * I have tested this only on stock Fedora (whatever is the current version);
     YDMV.
 
-[auth]: concepts/#authentication-and-authorisation
+[auth]: concepts#authentication-and-authorisation
 
 # assumptions:
 

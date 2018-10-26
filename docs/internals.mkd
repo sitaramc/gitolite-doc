@@ -3,15 +3,15 @@
 This page is for people who may want to hack on **core** gitolite itself.
 This is **not** the page for people who merely want to customise their site
 (i.e., write their own VREFs, triggers, etc.); for that please start with the
-[[non-core]] page.
+[non-core](non-core) page.
 
 ----
 
 This document assumes you're familiar with the material in the [how does it
-work](overview/#how-does-it-work) section in the "overview" document, as well
-as the [[concepts]] page.  If you're not familiar with ssh, and in particular
+work](overview#how-does-it-work) section in the "overview" document, as well
+as the [concepts](concepts) page.  If you're not familiar with ssh, and in particular
 how programs like gitolite use ssh to simulate many users over one Unix user,
-the [[ssh]] page has useful info.
+the [ssh](ssh) page has useful info.
 
 <!--
 
@@ -113,7 +113,7 @@ of parsed conf files when needed.
 
 TODO: How the `access` function does its thing will be written up in more
 detail as I find time, but TLDR: it calls `rules` which builds up a list of
-the rules that apply.  Also see [this](conf/#defining-user-and-repo) until I
+the rules that apply.  Also see [this](conf#defining-user-and-repo) until I
 manage to write it up in more detail.
 
 Other functions are `git_config`, which returns a list of config values
@@ -130,7 +130,7 @@ validate user inputs of various kinds; all ending in `_PATT`).
 
 The only complicated part of this is how the `non_core_expand` function takes
 the `$non_core` variable (currently 63 lines long!) and converts it into a set
-of arrays, one for each of the [[triggers]] types.  You can see the effect of
+of arrays, one for each of the [triggers](triggers) types.  You can see the effect of
 this logic by uncommenting something in the ENABLE list in the rc file, then
 running `gitolite query-rc PRE_GIT`, etc.
 
@@ -160,7 +160,7 @@ permission terms).  We need to compare the old and the new SHAs in various
 ways to determine if it's a rewind, or a delete, or a create, etc., which may
 make a difference to the access.
 
-TODO: expand on VREF handling.  For now please read [[vref]] to get the
+TODO: expand on VREF handling.  For now please read [vref](vref) to get the
 general idea of *what* it does, while I find time to write up the *how*.
 
 # the rest...
@@ -227,7 +227,7 @@ In order to achieve these goals, gitolite expects the files and directories on
 the server to have sane permissions and ownerships.  A decent POSIX file
 system, and a reasonable sshd config are also expected.
 
-[auth]: concepts/#authentication-and-authorisation
+[auth]: concepts#authentication-and-authorisation
 
 Finally, a note on a couple of related items:
 

@@ -2,7 +2,7 @@
 
 ----
 
-This page is useful if the normal [[install]] instructions did not work for
+This page is useful if the normal [install](install) instructions did not work for
 you.
 
 # pre-requisites, etc

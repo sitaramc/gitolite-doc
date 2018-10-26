@@ -3,7 +3,7 @@
 ----
 
 If you're installing gitolite, you're a "system admin", like it or not.  If
-you're using the default ssh mode (i.e., not [[http]] mode), ssh is a
+you're using the default ssh mode (i.e., not [http](http) mode), ssh is a
 necessary skill.  Please take the time to learn at least enough to get
 passwordless access working.
 
@@ -23,11 +23,11 @@ help:</span>
 This section will explain why an "ssh issue" is almost never a "gitolite
 issue", and, indirectly, why I dont get too excited about the former.
 
-To start with, as [this][auth] section of the [[concepts]] page explained,
+To start with, as [this][auth] section of the [concepts](concepts) page explained,
 <font color="red">**Gitolite does not do authentication.  It only does
 authorisation**.</font>
 
-[auth]: concepts/#authentication-and-authorisation
+[auth]: concepts#authentication-and-authorisation
 
 Let's recap the definition of those words:
 
@@ -74,7 +74,7 @@ Even if you [lost the admin key][lost-key], the docs tell you how to recover
 from such errors.  You do need some password based method to get a shell
 command line on the server, of course.
 
-[lost-key]: emergencies/#lost-admin-keyaccess
+[lost-key]: emergencies#lost-admin-keyaccess
 
 # using other authentication systems with gitolite
 

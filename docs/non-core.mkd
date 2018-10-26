@@ -57,7 +57,7 @@ Among these, the directories in green are considered "non-core", while the
 ones in red are considered "core".  In addition, the two files "gitolite" and
 "gitolite-shell" in src are also considered "core"
 
-You might notice that there are two locations for [[triggers]]; that is simply
+You might notice that there are two locations for [triggers](triggers); that is simply
 because there are two types of them.  You might also notice that there is no
 place for hooks -- gitolite doesn't *ship* with any hooks that are non-core.
 
@@ -105,7 +105,7 @@ to take effect.</span>
     effectively be able to run any arbitrary command on the server.**  See
     [gitolite admin and shell access][privesc] for more background.
 
-[privesc]: rc/#security-note-gitolite-admin-and-shell-access
+[privesc]: rc#security-note-gitolite-admin-and-shell-access
 
 The location given in `LOCAL_CODE` could be anywhere on disk, like say
 `$ENV{HOME}/local`.
@@ -151,14 +151,14 @@ Naturally, a remote user will see a much smaller list than the server user.
 
 You allow a command to be run from remote clients by adding its name to (or
 uncommenting it if it's already added but commented out) the ENABLE list in
-the [[rc]] file.
+the [rc](rc) file.
 
 ## hooks and gitolite
 
 You can install any hooks except these:
 
   * (all repos) Gitolite reserves the `update` hook.  See the "hooks" section
-    in [dev-notes](dev-notes/#hooks) if you want additional update hook
+    in [dev-notes](dev-notes#hooks) if you want additional update hook
     functionality.
 
   * (gitolite-admin repo only) Gitolite reserves the `post-update` hook.
@@ -168,8 +168,8 @@ above, especially [this][localcode] and [this][pushcode].  The summary is that
 you put them in the "hooks/common" sub-directory within the directory whose
 name is given in the `LOCAL_CODE` rc variable, then run `gitolite setup`.
 
-[localcode]: non-core/#for-your-non-core-programs
-[pushcode]: non-core/#using-the-gitolite-admin-repo-to-manage-non-core-code
+[localcode]: non-core#for-your-non-core-programs
+[pushcode]: non-core#using-the-gitolite-admin-repo-to-manage-non-core-code
 
 ### repo-specific hooks
 
@@ -280,7 +280,7 @@ together, you can do that also.  Here's how.
     order in which the options are used in applying hooks to the repo.  If the
     order doesn't matter to you, just make sure they're unique.
 
-[addtrig]: triggers/#adding-your-own-scripts-to-a-trigger
+[addtrig]: triggers#adding-your-own-scripts-to-a-trigger
 
 ## syntactic sugar
 
@@ -292,7 +292,7 @@ That way, the admin sees additional features (like allowing continuation
 lines), while the parser in the core gitolite engine does not change.
 
 If you want to write your own sugar scripts, please read the "your own sugar"
-section in [[dev-notes]] first then email me.
+section in [dev-notes](dev-notes) first then email me.
 
 You enable a sugar script by uncommenting the feature name in the ENABLE list
 in the rc file.

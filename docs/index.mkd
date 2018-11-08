@@ -61,6 +61,10 @@ Mailing list for support and general discussion:
 *   Subscribe: <gitolite+subscribe@googlegroups.com>
 *   Post: <gitolite@googlegroups.com>
 
+(If you're unwilling to join the mailing list, you can still send me direct
+mail if it's something simple, obvious, or quick.  But if the issue needs
+multiple mails and/or some discussion, I prefer the mailing list.)
+
 There's also a low traffic, one-way, mailing list for release and security
 announcements:
 

@@ -168,7 +168,7 @@ For **each** server:
     ```gitolite
     repo gitolite-admin
         RW+     =   some-local-admin
-
+    # possibly other rules
         option mirror.master    =   mars
         option mirror.slaves    =   phobos
     ```

@@ -253,7 +253,7 @@ edges in gitolite, and smoothing them out was fun (the "playing with gitolite"
 stuff, making the test suite simpler, "deny" rules for the entire repo).
 
 [ko-ann]: https://lkml.org/lkml/2011/9/23/357
-[ko-why]: https://www.kernel.org/faq#whygitolite
+[ko-why]: https://www.kernel.org/category/faq.html#how-does-kernel-org-provide-its-users-access-to-the-git-trees
 [audit]: https://groups.google.com/group/gitolite/browse_thread/thread/8dc5242052b16d0f
 
 The **Mageia Project** is [using][mageia-gitweb] gitolite 3 to manage its

@@ -73,5 +73,6 @@ rm -rf ../sitaramc.github.com/gitolite
 mv site ../sitaramc.github.com/gitolite
 cd ../sitaramc.github.com
 git add -u
+read -p "hit enter to start 'git ts' followed by a push:"
 git ts
 git pall -f

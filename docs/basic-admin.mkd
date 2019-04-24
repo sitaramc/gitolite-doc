@@ -94,6 +94,10 @@ user.
 Please see appendix 2 at the bottom of this document for an older way that
 will continue to be supported but has proved hard to explain!
 
+(Finally, if you *insist* on wanting to actually put all the keys for a user
+into a single, multi-line, pubkey file, it is possible.  For details, see the
+program `src/triggers/post-compile/ssh-authkeys-split` in the source.)
+
 # add, remove, and rename repos
 
 [existing]: basic-admin#appendix-1-bringing-existing-repos-into-gitolite

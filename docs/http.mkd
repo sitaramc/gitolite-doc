@@ -55,6 +55,18 @@ used by various features", add this (including the trailing comma):
 
     HTTP_ANON_USER      =>  'nobody',
 
+**Updated 2019-10-19**
+
+The above does not seem to work any more.  The way it was supposed to work was
+that the user could supply a userid, or not.  If he did not, then gitolite
+would notice (the environment variable `REMOTE_USER` would be empty) and would
+then use whatever was specified above (in this case, `nobody`).
+
+This does not seem to happen any more.  Apache seems to insist on a userid,
+period.  Unfortunately I am very far from being an expert in apache
+configuration, so, if someone can make this work *without* requiring any
+userid at all, please let me know.
+
 # Making repositories available to both ssh and http mode clients
 
 This section has been contributed by Thomas Hager (duke at sigsegv dot at),

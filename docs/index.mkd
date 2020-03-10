@@ -52,9 +52,14 @@ recovering from lost keys and other self-inflicted wounds, lists some common
 
 ## mailing list(s)
 
-For all other communications, please use the mailing list.  **NOTE**: The
-first email from a new member is held until I can clear it; subsequent emails
-from the same email address do not get held up.
+For all other communications, please use the mailing list.  This has some
+advantages over sending direct to me (if I'm not available, someone else might
+respond; someone else may have additional info that I may not have thought of,
+or experiences to share; the issue becomes searchable for future reference;
+and finally, it keeps me honest!)
+
+**NOTE**: The first email from a new member is held until I can clear it;
+subsequent emails from the same email address do not get held up.
 
 Mailing list for support and general discussion:
 

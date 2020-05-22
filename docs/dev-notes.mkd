@@ -325,6 +325,8 @@ The various log line formats are:
 [write-types]: conf-2#appendix-1-different-types-of-write-operations
 [bypass]: emergencies#bypassing-gitolite
 
+# appendix 3: sending log lines to syslog
+
 Gitolite allows you to send log entries to syslog.  To do that, uncomment one
 of the commented out values for LOG\_DEST in the rc file.  If your rc file
 does not have any such lines, add one of the following lines just after the

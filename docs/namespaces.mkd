@@ -243,7 +243,7 @@ repos, and may even fail silently!**:
 
 Mirroring works, but **all the logical repos and the backing repo should have
 the same mirroring setup**.  I.e., which server is the master, who are the
-slaves, are redirects allowed, if so from where, etc., etc., etc., should all
+copies, are redirects allowed, if so from where, etc., etc., etc., should all
 have the same values for all of them.  I cannot over-emphasise the importance
 of this for proper mirroring.
 

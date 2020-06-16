@@ -57,7 +57,7 @@ Also note that not all of these commands are available remotely.
   * **[info][]** -- print git/gitolite version, list repos you have access to
   * *[lock](locking)* -- lock binary files for exclusive use (in combination
     with the 'lock' VREF)
-  * *[mirror][sync]* -- manually mirror a repo to a slave
+  * *[mirror][sync]* -- manually mirror a repo to a copy
   * *motd* <span class="gray">(v3.6.1+)</span> -- set/remove a message of the day, per repo or for the whole
     system
   * *option* <span class="gray">(v3.6.3+)</span> -- allow repo owner to set options for a repo
@@ -79,7 +79,7 @@ Also note that not all of these commands are available remotely.
     you're an admin)
 
 [info]: user#the-info-command
-[sync]: mirroring#manually-synchronising-a-slave-repo
+[sync]: mirroring#manually-synchronising-a-copy-repo
 [perms]: user#setget-additional-permissions-for-repos-you-created
 [bypass]: emergencies#bypassing-gitolite
 

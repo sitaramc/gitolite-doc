@@ -29,7 +29,7 @@ Here are some examples, although this list is not exhaustive:
     also.
 
   * Options related to [mirroring](mirroring) -- tell gitolite who is the master server,
-    and who are the slaves, for each repo.
+    and who are the copies, for each repo.
 
   * The optional post-compile trigger `update-gitweb-daemon-from-options`
     allows you to use options instead of special usernames gitweb and daemon

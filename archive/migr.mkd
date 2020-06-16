@@ -463,7 +463,7 @@ There are several changes with regard to mirroring:
     this:
 .#! conf/vim-color
     option mirror.master        =   sam
-    option mirror.slaves        =   frodo gollum
+    option mirror.copies        =   frodo gollum
 .end
 
     The redirectOK looks like this:
@@ -471,7 +471,7 @@ There are several changes with regard to mirroring:
     option mirror.redirectOK    =   frodo
 .end
 
-    The special value "true" to say that all slaves are trusted is now "all":
+    The special value "true" to say that all copies are trusted is now "all":
 .#! conf/vim-color
     option mirror.redirectOK    =   all
 .end
@@ -488,7 +488,7 @@ There are several changes with regard to mirroring:
 
   * The command to resync mirrors is 'mirror', run just like any other
     [command][commands].  In particular, you can run `gitolite mirror -h` to
-    get help.  It cannot be run from a slave to ask a master to push (unlike
+    get help.  It cannot be run from a copy to ask a master to push (unlike
     in the old system) but what's more convenient is that any user who has any
     access to the master can run it remotely (if you allow it) to invoke a
     push.

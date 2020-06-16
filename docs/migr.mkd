@@ -102,7 +102,7 @@ main conf file, and was hardcoded to that specific glob.)
 <!-- duplicated in mirroring.mkd with minor differences -->
 
 There are **several** important differences in mirroring; if you're using
-mirroring **please start from a clean slate on all slaves**, using the v3
+mirroring **please start from a clean slate on all copies**, using the v3
 documentation on [mirroring](mirroring).
 
 If you're not willing to do that, you may be able to use the older, more

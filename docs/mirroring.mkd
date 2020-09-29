@@ -296,6 +296,19 @@ from a user and transparently redirect them to the *master*.
 This simplifies things for users in complex setups, letting them use their
 local mirror for both fetch and push access to all repos.
 
+!!! note "Note:"
+
+    Just to be clear, the actual push will still happen only on the master,
+    which needs to be up (the redirection is at the **ssh** level).  It's main
+    use is in geographically distributed setups, where users are encouraged to
+    use a nearer node as their "fetch" remote, but, without this feature,
+    they'd have to use the actual master node as the "push" remote.  This
+    allows users to use the same (nearby) node as the "push" remote also.
+
+    It is also useful if the master dies, and the administrator redesignates
+    some other node as the master.  In that situation, only users who had the
+    original master as a remote need to update their remote URLs.
+
 The syntax for enabling this is one of these:
 
 ```gitolite

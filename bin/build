@@ -6,6 +6,9 @@
 # note: how.html is built manually, using
 #   cd docs; pdh -i how.mkd -o how.html -t html-N
 
+# also, a lot of things in here are kinda hardcoded to my setup; if someone
+# really wants me to clean it up so that it is more generic, I'll work on it
+
 die() { echo "$@"; exit 1; }
 
 [ -f mkdocs.yml ] || die "are you sure you're in the right directory?"
@@ -73,6 +76,6 @@ rm -rf ../sitaramc.github.com/gitolite
 mv site ../sitaramc.github.com/gitolite
 cd ../sitaramc.github.com
 git add -u
-read -p "hit enter to start 'git ts' followed by a push:"
-git ts
+read -p "hit enter to start 'gs' followed by a push:"
+vim -s <(echo ':call Gs()'; echo :only)
 git pall -f

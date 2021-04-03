@@ -251,6 +251,7 @@ to apply them only to certain repos:
 5.  add, commit, and push the admin repo.
 
 [addtrig]: triggers#adding-your-own-scripts-to-a-trigger
+[addtrigp]: triggers#adding-a-perl-module-as-a-trigger
 
 # triggers
 
@@ -259,6 +260,12 @@ to apply them only to certain repos:
 First, write your trigger code, using the documentation [here](triggers).
 Note especially the sections "common arguments" and "trigger-specific
 arguments".  Look in the shipped triggers for ideas.
+
+!!! danger "Note:"
+
+    If your trigger is a perl module, as opposed to a standalone script or
+    executable, please see the section on [adding a perl module as a
+    trigger][addtrigp].
 
 Let's say your trigger is called `foo`, and it will be a `PRE_GIT` trigger.
 

@@ -187,6 +187,25 @@ Since the ENABLE list pulls in the rest of the trigger entries, this will be
 
 As you can see, the 'foo' gets added to the top of the list.
 
+## adding a perl module as a trigger
+
+If your trigger is a perl module, as opposed to a standalone script or
+executable, the process is almost the same as above, except what you add to
+the rc file it looks like this:
+
+    POST_CREATE                 =>
+        [
+            'Foo::post_create'
+        ],
+
+Gitolite will add the `Gitolite::Triggers::` prefix to the name given there.
+
+The subroutine to be run (in this example, `post_create`) is looked for in the
+`Gitolite::Triggers::Foo` package, so this requires that the perl module
+start with a package header like this:
+
+    package Gitolite::Triggers::Foo;
+
 ## displaying the resulting trigger list
 
 You can use the 'gitolite query-rc' command to see what the trigger list

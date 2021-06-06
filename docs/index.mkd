@@ -80,7 +80,7 @@ source distribution.
 
 ## IRC
 
-Our IRC channel is `#gitolite` on freenode.  I live in India (UTC+0530 time
+Our IRC channel is `#gitolite` on libera.chat.  I live in India (UTC+0530 time
 zone), but there are a few regulars (*thanks, guys, you know who you are!*)
 from other times zones.  That said, it's not heavy traffic and you may have to
 wait a while for an answer, depending on the time of day and day of week.

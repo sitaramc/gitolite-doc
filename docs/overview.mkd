@@ -266,10 +266,10 @@ ldap directory into the gitolite configuration.
 Gitolite and mgagit are installed using rpm packages and
 [a puppet module][mageia-puppet].
 
-[mageia-gitweb]: http://gitweb.mageia.org/
-[mageia-def]: http://gitweb.mageia.org/infrastructure/repositories/software/
-[mgagit]: http://gitweb.mageia.org/software/infrastructure/mgagit/
-[mageia-puppet]: http://svnweb.mageia.org/adm/puppet/deployment/mgagit/
+[mageia-gitweb]: https://gitweb.mageia.org/
+[mageia-def]: https://gitweb.mageia.org/infrastructure/repositories/software/
+[mgagit]: https://gitweb.mageia.org/software/infrastructure/mgagit/
+[mageia-puppet]: https://svnweb.mageia.org/adm/puppet/deployment/mgagit/
 
 ----
 

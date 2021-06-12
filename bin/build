@@ -61,7 +61,7 @@ mv gen-docs .git
 # <html>
 #     <head>
 #         <title>redirecting...</title>
-#         <meta http-equiv="refresh" content="2;URL='http://gitolite.com/gitolite/%BASE/index.html'" />
+#         <meta http-equiv="refresh" content="2;URL='https://gitolite.com/gitolite/%BASE/index.html'" />
 #     </head>
 #     <body>
 #         <p>This page has moved; redirecting...</p>

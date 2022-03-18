@@ -182,14 +182,47 @@ use this to confirm you did not miss something during the manual rc upgrade.
 
 *   compare the 2 rc dumps to make sure you've got everything covered.
 
+# appendix B: making a trigger run *after* the built-in ones
+
+For most purposes, the section on [adding your own scripts to a
+trigger][addtrig] works fine.
+
+[addtrig]: triggers#adding-your-own-scripts-to-a-trigger
+
+But triggers added that way, run *before* the built-in triggers, which you can
+also confirm by running `gitolite query-rc -d` and looking for your trigger in
+the output.
+
+If you need your trigger to run *after* the built-in ones, it *is* possible,
+it's a wee bit more work.
+
+Let's say you have a post-compile script called "my-custom-config", and you
+want it to run *after* the shipped post-compile scripts. Here's what you do:
+
+*   add something like 'my-cust' (could be anything you like, as long as
+    it matches the next step) to the ENABLE list in the rc file. Dont
+    forget the trailing comma if it's not the last element (and in perl
+    you can add a trailing comma even if it *is* the last element)
+
+*   after the ENABLE list, but still within the RC hash, add this:
+
+        NON_CORE => "
+        my-cust POST_COMPILE post-compile/my-custom-config
+        ",
+
+    The words in caps are fixed. The others you know, and as you can see
+    the "my-cust" here matches the "my-cust" in the ENABLE list.
+
+After you do this, you can test whether it worked or not:
+
+    gitolite query-rc POST_COMPILE
+
+and it should show you what it thinks are the items in that list, in the
+order it has them.
+
 <!--
-
-# appendix B: adding stuff to ENABLE
-
-adapt https://groups.google.com/forum#!searchin/gitolite/NON_CORE/gitolite/2kZaqLohSz0/LsIo_W8B2I8J
+-   from https://groups.google.com/forum#!searchin/gitolite/NON_CORE/gitolite/2kZaqLohSz0/LsIo_W8B2I8J
 
 -   document 'before' option (default: goes to the end)
 -   document arguments supplied via ENABLE list
-
 -->
-

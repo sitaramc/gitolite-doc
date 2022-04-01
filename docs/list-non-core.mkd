@@ -199,9 +199,9 @@ Here's how:
     repo foo-partialcopy-1
         # first, a deny rule that allows no access to secret-branch
         -   secret-branch               =   @all
-
+        #
         # other rules; see notes below
-
+        #
         -   VREF/partial-copy           =   @all
         config gitolite.partialCopyOf   =   foo
     ```

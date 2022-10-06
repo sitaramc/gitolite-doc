@@ -162,7 +162,7 @@ If it exits with a non-zero, the push dies regardless of what is printed (see
 
 ## mimicking a plain old update hook
 
-If the VREF maker exists with a non-zero exit code, then regardless of what it
+If the VREF maker exits with a non-zero exit code, then regardless of what it
 prints or does not, the push dies.
 
 This is just like a plain 'update' hook.  Since the first 3 arguments (see

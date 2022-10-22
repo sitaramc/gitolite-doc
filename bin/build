@@ -77,5 +77,5 @@ mv site ../sitaramc.github.com/gitolite
 cd ../sitaramc.github.com
 git add -u
 read -p "hit enter to start 'gs' followed by a push:"
-vim -s <(echo ':call Gs()'; echo :only)
+vim -s <(echo gs; echo :only)
 git pall -f

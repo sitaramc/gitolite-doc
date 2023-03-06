@@ -48,6 +48,9 @@ done
 cd ..
 ~/.local/bin/mkdocs build
 
+# 2023-03-07 somehow this is overwriting how.html, despite it not being listed in the yml, so we need to copy it again
+cp docs/how.html site
+
 # move them out of my way for normal use (some of my scripts are not
 # gitignore-aware)
 mv gen-docs .git

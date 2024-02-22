@@ -59,6 +59,7 @@ nav:
     - locking binary files: locking.mkd
     - testing gitolite: testing.mkd
     - packaging gitolite: package.mkd
+    - gitolite and ssh certs: gitolite-and-ssh-certs.mkd
     - more about gitolite:
         - gitolite files & directories: files.mkd
         - the 3.3 format rc file: rc-33.mkd

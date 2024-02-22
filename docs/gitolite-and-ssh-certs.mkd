@@ -1,0 +1,189 @@
+# gitolite and ssh certificates
+
+(Background: there have been a few emails over the years about this on the
+mailing list, and I tried to understand how ssh certs work and so on back
+then, culminating in [this
+email](https://groups.google.com/g/gitolite/c/XouuE3s3DMs/m/6_HbGJKzAgAJ).
+That was still too open-ended, because there's more than one way to do it and
+none of them is canonical in any sense.  And even though there were other
+emails from folks who tried it themselves, none of those seemed to hit all the
+important points either.  So I finally found some time to work on this; hope
+it helps.)
+
+## objectives
+
+-   should not interfere in any way with existing ssh setup for other services
+    on the same machine, whether they are using certificates or not
+-   *if* the site is already using ssh certs, should piggy-back on existing
+    setup, (whether it is homegrown, or something like teleport) and impose
+    minimal demands on them
+    -   specifically, we should not require separate certificates for
+        gitoliite, or require people to create separate keys for gitolite, etc.
+-   finally, it should not require any changes to gitolite core
+    -   [this](https://gitolite.com/gitolite/ssh.html#but-but-you-have-all-that-ssh-stuff-in-gitolite)
+        may be useful as additional context for this
+
+!!! note "Note:"
+    Gitolite has an additional constraint on top of whatever any ssh cert
+    management system can natively handle.  The system user is "git", and the
+    "forced command" requires an argument that represents the user's "gitolite
+    username".
+
+The simplest way to deal with this, for, say, user "alice", is to present the
+pubkey to the CA system, asking for principals "gitolite" and
+"gitolite-user:alice" to be added to the certificate.
+
+The principal "gitolite" is used to allow login.  The principal
+"gitolite-user:alice" is not actually used for any login, but is *extracted*
+from the logged in certificate and passed to "gitolite-shell" as the gitolite
+username.
+
+Any other method seems to violate one of our objectives.
+
+!!! note "Specifically..."
+    ...notice that if you already use ssh certs, you only have to:
+    (1) add the "Match User git" section to sshd config
+    (3) add the two supporting files (see last bullet in the "detailed steps" section), and
+    (3) ask the CA to add two principals to the certificates they issue, if
+    the user is a gitolite user (see below)
+
+## host certs and user certs
+
+There are two parts to certificate usage.  One deals with the "host key" and
+its fingerprint; this is the piece that sometimes shows messages like this:
+
+    The authenticity of host '127.0.0.1 (127.0.0.1)' can't be established.
+    [...etc...]
+
+or, worse, this:
+
+    @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+    @    WARNING: REMOTE HOST IDENTIFICATION HAS CHANGED!     @
+    @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+    IT IS POSSIBLE THAT SOMEONE IS DOING SOMETHING NASTY!
+    [...and so on...]
+
+User certs (authenticating the user) is where there are several ways of doing
+things.  What follows is one very simple way of using ssh certs, **but this is
+by no means prescriptive** and you may have a better way that I did not think
+of.
+
+## detailed steps
+
+This takes a "default" ssh setup and does just enough to get this working.
+
+-   create CA keys.  *Note that normally the CA keys are on a different
+    machine, and pubkeys to be signed have to be copied to that machine, then
+    the certs produced copied back.  We're ignoring all those details here.*
+
+    ```bash
+    cd /etc/ssh
+    ssh-keygen -f user_ca -C user_ca
+    ssh-keygen -f host_ca -C host_ca
+    ```
+
+-   sign the (already existing) host key
+
+    ```bash
+    cd /etc/ssh
+    ssh-keygen -s host_ca -I CA-server -h -n testpc ssh_host_rsa_key
+    # (...similarly ed25519, ecdsa, etc...)
+    ```
+
+-   add the following to sshd config.  Most systems now allow you to add
+    related entries in a separate file within, typically,
+    `/etc/ssh/sshd_config.d/` so you may be able to do that also.
+
+    Don't forget to restart sshd after this.
+
+    ```sshdconfig
+    # host cert: make the server "offer" this host-key-certificate when a user
+    # tries to login
+    HostCertificate /etc/ssh/ssh_host_rsa_key-cert.pub
+    # ...similarly other host key certs...
+
+    # user certs: make host trust user certificates
+    TrustedUserCAKeys /etc/ssh/user_ca.pub
+    # we have only one CA for now so we just use the CA pub key as is, but
+    # in real life this could be a separate file with multiple CA pubkeys,
+    # one per line
+
+    # just for the git user, force command "/usr/local/bin/gl-wrapper"
+    # from within an AuthorizedPrincipalsFile.
+    Match User git
+        # once you have migrated everyone to certs, uncomment this line and
+        # restart sshd
+        # AuthorizedKeysFile none
+        #
+        # expose auth info: this creates an env var $SSH_USER_AUTH pointing
+        # to a file that contains the certificate used, from which we
+        # extract the gitolite-user
+        ExposeAuthInfo yes
+        #
+        AuthorizedPrincipalsFile /etc/ssh/gitolite-apf
+        # this file contains just one line:
+        #       restrict,command="/usr/local/bin/gl-wrapper" gitolite
+        # gl-wrapper will parse $SSH_USER_AUTH and extract the gitolite
+        # username from it, then call gitolite-shell
+        #
+        # you may have to edit the path of gitolite-shell within
+        # /usr/local/bin/gl-wrapper
+    ```
+
+-   make the "client" accept this CA as a host CA.  This will be the same for
+    every client, since sites usually only have one CA.
+
+    ```bash
+    cd /etc/ssh
+    (echo -n "@cert-authority testpc "; cat host_ca.pub) > ssh_known_hosts
+    ```
+
+-   sign user pubkeys and produce certs to be given back to them.
+
+    This is how you setup a gitolite user.  You need to assign both the
+    generic "gitolite" principal, so that the user can log in to "git", and
+    also a specific one to identify the person's gitolite username.
+
+    ```bash
+    ssh-keygen -s user_ca -I user-1 -n gitolite,gitolite-user:alice alice.pub
+    ssh-keygen -s user_ca -I user-2 -n gitolite,gitolite-user:carol carol.pub
+    ```
+
+    Note the principal `gitolite-user:alice` -- this gets parsed to "alice" as
+    we will see later.
+
+-   install supporting file and script:
+
+    -   `/etc/ssh/gitolite-apf` should contain just one line:
+
+        ```sshconfig
+        restrict,command="/usr/local/bin/gl-wrapper" gitolite
+        ```
+
+    -   `/usr/local/bin/gl-wrapper` should contain this (and should be
+        executable):
+
+        ```bash
+        #!/bin/bash
+
+        # $SSH_USER_AUTH is set by sshd because we enabled \`ExposeAuthInfo\`.
+        # It contains the cert used to login, which we parse to get the
+        # gitolite username from the output.  The parsing is a bit simplistic
+        # but works fine.
+        gl_user=$(cat $SSH_USER_AUTH |
+            grep '^publickey' |
+            cut -f2- -d' ' |
+            ssh-keygen -L -f - |
+            grep -E -o gitolite-user:'\S+' |
+            cut -f2 -d:
+            )
+
+        exec /home/git/gitolite/src/gitolite-shell $gl_user
+        # BE SURE TO CHANGE THE ABOVE PATH!
+        ```
+
+    !!! note "Sidenote"
+        If it seems like parsing the output of what in git parlance would be
+        called "porcelain" is not a good idea, I'm in good company.
+        <https://en.wikibooks.org/wiki/OpenSSH/Cookbook/Certificate-based_Authentication#Forced_Commands_with_User_Certificates>
+        does exactly the same thing :)

@@ -225,6 +225,26 @@ You can then write an INPUT trigger to do whatever you need with the file
 name, which is in `$ARGV[1]` (the second argument).  The actual file is
 available at `$ENV{GL_ADMIN_BASE}/$ARGV[1]` if you need its contents.
 
+## customising the authorized key options
+
+By default, the options used in the `authorized_keys` file, to restrict remote
+users, are:
+
+    no-port-forwarding,no-X11-forwarding,no-agent-forwarding,no-pty
+
+However, sometimes people want to add some other option, or remove one of the
+above restrictions, etc.  The way to do this is to define a new variable in
+the RC file:
+
+    # add this just before the ENABLE list
+    AUTH_OPTIONS => "...your option list...",
+    # (note the trailing "," there!)
+
+!!! danger "Warning"
+    The value you supply completely replaces the default, it is not *in
+    addition* to it.  You must include all the options you need, even those
+    that are in the default list, if you use this feature.
+
 ## simulating ssh-copy-id
 
 don't have `ssh-copy-id`?  This is broadly what that command does, if you want

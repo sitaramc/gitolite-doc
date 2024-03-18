@@ -51,6 +51,7 @@ with mode **0700** and owned by user and group **git**. Add the following conten
 
     export GIT_PROJECT_ROOT="/opt/git/repositories"
     export GITOLITE_HTTP_HOME="/opt/git"
+    # WARNING: do not add a trailing slash to the value of GITOLITE_HTTP_HOME
 
     exec ${GITOLITE_HTTP_HOME}/gitolite-source/src/gitolite-shell
 

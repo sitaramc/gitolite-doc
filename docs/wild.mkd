@@ -260,3 +260,8 @@ But, as I said in [this mail](https://groups.google.com/d/msg/gitolite/nFbnQuO0z
     to actually understand how this larger group become the "owner".
 ```
 
+<!--
+
+# appendix 2: handing off the repo to someone else #TODO
+
+-->

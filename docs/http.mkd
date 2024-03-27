@@ -74,6 +74,11 @@ and is available [here](contrib/ssh-and-http).
 
 # usage
 
+!!! danger "Warning:"
+    Http mode does not seem capable of setting an exit code when things fail,
+    unlike ssh mode.  Therefore, using an http-hosted gitolite in scripts may
+    need more care and thought.
+
 ## client side
 
 Git URLs look like `https://user:password@server/git/reponame.git`.

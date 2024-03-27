@@ -1,14 +1,7 @@
 # gitolite and ssh certificates
 
-(Background: there have been a few emails over the years about this on the
-mailing list, and I tried to understand how ssh certs work and so on back
-then, culminating in [this
-email](https://groups.google.com/g/gitolite/c/XouuE3s3DMs/m/6_HbGJKzAgAJ).
-That was still too open-ended, because there's more than one way to do it and
-none of them is canonical in any sense.  And even though there were other
-emails from folks who tried it themselves, none of those seemed to hit all the
-important points either.  So I finally found some time to work on this; hope
-it helps.)
+Please see the Appendix at the bottom for background and earlier discussions
+of this topic on the mailing list.
 
 ## objectives
 
@@ -41,11 +34,10 @@ username.
 Any other method seems to violate one of our objectives.
 
 !!! note "Specifically..."
-    ...notice that if you already use ssh certs, you only have to:
-    (1) add the "Match User git" section to sshd config
-    (3) add the two supporting files (see last bullet in the "detailed steps" section), and
-    (3) ask the CA to add two principals to the certificates they issue, if
-    the user is a gitolite user (see below)
+    ...notice that if you already use ssh certs, you only have to:  
+    (1) add the "Match User git" section to sshd config  
+    (2) add the two supporting files (see last bullet in the "detailed steps" section), and  
+    (3) ask the CA to add two principals to the certificates they issue, if the user is a gitolite user (see below)
 
 ## host certs and user certs
 
@@ -187,3 +179,35 @@ This takes a "default" ssh setup and does just enough to get this working.
         called "porcelain" is not a good idea, I'm in good company.
         <https://en.wikibooks.org/wiki/OpenSSH/Cookbook/Certificate-based_Authentication#Forced_Commands_with_User_Certificates>
         does exactly the same thing :)
+
+## Appendix -- background and discussion
+
+There have been a few emails over the years about this on the mailing list,
+and I tried to understand how ssh certs work and so on back then, culminating
+in [this email](https://groups.google.com/g/gitolite/c/XouuE3s3DMs/m/6_HbGJKzAgAJ).
+That was still too open-ended, because there's more than one way to do it and
+none of them is canonical in any sense.  And even though there were other
+emails from folks who tried it themselves, none of those seemed to hit all the
+important points either.
+
+One of the mechanisms discussed in that earlier email was "without root
+access".  Sadly, the only way to do this is to dedicate the entire ssh-cert
+mechanism for the exclusive use of gitolite.  This is not very useful, since
+at least some of the reasons that make ssh certs better than ssh pubkeys, do
+not apply to gitolite (the admin repo is a single source of auditable truth
+for who can access what, and removing a user is trivially achieved by deleting
+his key from `keydir/`).  Thus, if you're using certs only for gitolite I'm
+not even sure it is worth doing.
+
+This means the best mechanism will integrate cleanly with any existing use of
+ssh certs in the organisation, which is what this method focuses on.
+
+We're also not considering revocation.  Any org using ssh certs should think
+about this from a larger perspective, not just gitolite, along with the
+decision on how the pubkeys are actually going to be signed.  The popular
+strategy seems to be to use a web-based system tied into some corporate
+"userid" to authenticate the user and issue him a cert, either with a
+previously stored pubkey or a freshly pasted/uploaded one, and make the cert
+very short-lived (typically 5-15 minutes, though sometimes I have heard of
+certs valid for 8-9 hours).
+

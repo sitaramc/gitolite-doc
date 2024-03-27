@@ -226,3 +226,32 @@ order it has them.
 -   document 'before' option (default: goes to the end)
 -   document arguments supplied via ENABLE list
 -->
+
+# appendix C: overriding safety-net patterns
+
+Apart from [`UNSAFE_PATT`][unsafepatt], there are other patterns that
+gitolite uses to prevent various attacks.  They're all defined in `Rc.pm` in
+the source, but you can override any of them in `~/.gitolite.rc` if needed.
+
+[unsafepatt]: git-config.html#compensating-for-unsafe_patt-and-other-patterns
+
+!!! danger "DANGER!"
+
+    Overriding any of these regexes may impact the security of the
+    installation severly if you are not careful.  You have been warned!
+
+The patterns are:
+
+    $REMOTE_COMMAND_PATT  =                qr(^[-0-9a-zA-Z._\@/+ :,\%=]*$);
+    $REF_OR_FILENAME_PATT =     qr(^[0-9a-zA-Z][-0-9a-zA-Z._\@/+ :,]*$);
+    $REPONAME_PATT        =  qr(^\@?[0-9a-zA-Z][-0-9a-zA-Z._\@/+]*$);
+    $REPOPATT_PATT        = qr(^\@?[[0-9a-zA-Z][-0-9a-zA-Z._\@/+\\^$|()[\]*?{},]*$);
+    $USERNAME_PATT        =  qr(^\@?[0-9a-zA-Z][-0-9a-zA-Z._\@+]*$);
+
+To override any of them, just add a new definition for the pattern at the
+**very end** of your rc file, just before the `1;` line.  E.g., to allow
+usernames to have a leading underscore, you might add:
+
+    $USERNAME_PATT        =  qr(^\@?[_0-9a-zA-Z][-0-9a-zA-Z._\@+]*$);
+
+Needless to say you should be very comfortable with regexes to attempt this :)

@@ -102,7 +102,7 @@ As you can see, the general idea is to place the most generic ones (`repo @all`,
 or repo regex like `repo foo.*`) first, and place more specific ones
 later to override the generic settings.
 
-# compensating for UNSAFE\_PATT
+# compensating for UNSAFE\_PATT (and other patterns)
 
 An important feature in gitolite is that you can share the admin load with
 more people, **without** having to give all of them shell access on the

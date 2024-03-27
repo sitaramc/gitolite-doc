@@ -213,6 +213,46 @@ actually looks like.  For example:
 
     gitolite query-rc POST_CREATE
 
+<!--
+(ref: https://groups.google.com/forum/#!searchin/gitolite/NON_CORE/gitolite/2kZaqLohSz0/LsIo_W8B2I8J )
+-->
+<!--
+
+## running your script AFTER the defaults
+
+By default, your custom scripts will run *before* the shipped ones (e.g., look
+at where `foo` landed in the example above).
+
+There is a way to make `foo` land *after* the shipped scripts, but it is not
+documented because it never came up till now, and I don't want to commit to it
+in case I want to change the implementation.
+
+Let's say your post-compile script is called "my-custom-config". Here's what
+you do:
+
+-   add something like 'my-cust' (could be anything you like, as long as it
+    matches the next step) to the ENABLE list in the rc file. Dont forget the
+    trailing comma if it's not the last element (and in perl you can add a
+    trailing comma even if it *is* the last element)
+
+-   after the ENABLE list, but still within the RC hash, add this:
+
+        NON_CORE => "
+        my-cust POST_COMPILE post-compile/my-custom-config
+        ",
+
+    The words in caps are fixed. The others you know, and as you can see the
+    "my-cust" here matches the "my-cust" in the ENABLE list.
+
+-   After you do this, you can test whether it worked or not:
+
+        gitolite query-rc POST_COMPILE
+
+    and it should show you what it thinks are the items in that list, in the
+    order it has them.
+
+-->
+
 # tips and examples
 
 1.  If you have code that latches onto more than one trigger, collecting data

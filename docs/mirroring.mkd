@@ -237,6 +237,17 @@ To make that happen, use option lines like this instead of those shown above:
 Except for the addition of a `.nosync` just after `copies`, all the other
 rules are the same as before.
 
+This setting will generate a warning that a "manual mirror push [is]
+pending" for each copy that has the `nosync` option.  If you're sure you
+don't need those warnings, you can upgrade to the latest gitolite, and
+use `nosync-quiet` as the option instead.
+
+```gitolite
+    option mirror.copies.nosync-quiet-1   =   phobos deimos
+```
+
+(Eventually, this will appear in v3.6.14)
+
 # <span class="gray">(v3.6.1+)</span> mirroring failures
 
 Since mirror pushes happen asynchronously (i.e, the user who originally pushed

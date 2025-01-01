@@ -188,6 +188,22 @@ A more detailed explanation, with figures, is [here](how.html).
     to describe your use of it or add a link to your own description of it
     here.  Of course, you can anonymise it as much as you need to.
 
+**NOTE**: some of the links below may be outdated/bit-rotted.  As I find new links or someone points me to them I'll post them here with an approximate date.  (I'll keep the old text/links as-is for now).
+
+**Update 2021 July**
+
+-   Operating Systems
+    -   Linux <https://korg.docs.kernel.org/gitolite/index.html>; they moved to gitolite after kernel.org was compromised via a developer workstation in 2011 <https://lkml.org/lkml/2011/9/23/357>
+    -   FreeBSD (unable to find a proper link, I only found out when they asked a question on the gitolite mailing list: <https://groups.google.com/g/gitolite/c/6qdyDDBjJ30/m/e0RndHSQAQAJ>)
+
+-   Linux distributions:
+    -   Fedora <https://fedoraproject.org/wiki/Package_Source_Control#Authorization>
+    -   KDE Neon <https://community.kde.org/Neon/Git>
+    -   Gentoo (can't find a decent link, but <https://wiki.gentoo.org/wiki/User:Robbat2> has made several commits to gitolite over the years, e.g., <https://github.com/gitolite/gitolite/commit/766fd7d46ebb82f9d0134886a3fc5228b4df3936>)
+    -   Mageia <https://wiki.mageia.org/en/Git_Migration#Git_Authentication>
+
+**Older text follows:** (TODO: curate this properly and remove dead links)
+
 The **Fedora Project** controls access to over 10,000 package management
 repositories accessed by over 1,000 package maintainers [using
 gitolite][fedora].  This is probably the largest *confirmed* gitolite
@@ -239,8 +255,8 @@ users as well.
 **kernel.org**, the official distribution point for the Linux kernel, is the
 latest (as of 2011-10) high-visibility installation.  According to [this
 email][ko-ann] to the lkml, kernel.org decided to use gitolite for access
-controlling their git repos.  Their [FAQ entry][ko-why] describes at a high
-level why they chose gitolite.
+controlling their git repos.  ~~Their [FAQ entry][ko-why] describes at a high
+level why they chose gitolite.~~ (this link no longer has that info; see up above for some newer links).
 
 This move also prompted the first ever security audit of gitolite by an
 outside party.  Gitolite did great; see [here][audit] for details.  [NOTE: v3

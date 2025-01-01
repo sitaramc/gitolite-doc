@@ -1,12 +1,2 @@
 (collected this info for someone at work but I didn't eventually send it... keeping it here as a placeholder)
 
--   Operating Systems
-    -   Linux (https://korg.docs.kernel.org/gitolite/index.html); they moved to gitolite after kernel.org was compromised via a developer workstation in 2011 (https://lkml.org/lkml/2011/9/23/357)
-    -   FreeBSD (unable to find a proper link, I only found out when they asked a question on the gitolite mailing list: https://groups.google.com/g/gitolite/c/6qdyDDBjJ30/m/e0RndHSQAQAJ)
-
--   Linux distributions:
-    -   Fedora (https://fedoraproject.org/wiki/Package_Source_Control#Authorization)
-    -   KDE Neon (https://community.kde.org/Neon/Git)
-    -   Gentoo (can't find a decent link, but https://wiki.gentoo.org/wiki/User:Robbat2 has made several commits to gitolite over the years, e.g., https://github.com/gitolite/gitolite/commit/766fd7d46ebb82f9d0134886a3fc5228b4df3936)
-    -   Mageia (https://wiki.mageia.org/en/Git_Migration#Git_Authentication)
-

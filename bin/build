@@ -46,7 +46,7 @@ done
 
 # build site
 cd ..
-~/.local/bin/mkdocs build
+mkdocs build
 
 # 2023-03-07 somehow this is overwriting how.html, despite it not being listed in the yml, so we need to copy it again
 cp docs/how.html site
@@ -81,4 +81,4 @@ cd ../sitaramc.github.com
 git add -u
 read -p "hit enter to start 'gs' followed by a push:"
 vim -s <(echo gs; echo :only)
-git pall -f
+# git pall -f

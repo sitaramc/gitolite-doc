@@ -255,8 +255,7 @@ users as well.
 **kernel.org**, the official distribution point for the Linux kernel, is the
 latest (as of 2011-10) high-visibility installation.  According to [this
 email][ko-ann] to the lkml, kernel.org decided to use gitolite for access
-controlling their git repos.  ~~Their [FAQ entry][ko-why] describes at a high
-level why they chose gitolite.~~ (this link no longer has that info; see up above for some newer links).
+controlling their git repos.
 
 This move also prompted the first ever security audit of gitolite by an
 outside party.  Gitolite did great; see [here][audit] for details.  [NOTE: v3
@@ -301,5 +300,4 @@ that gitolite benefits as much as they do; possibly more.
 
 [basic]: basic.html
 [advanced]: advanced.html
-[book]: https://www.packtpub.com/gitolite-essentials/book
 

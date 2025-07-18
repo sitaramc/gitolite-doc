@@ -445,6 +445,10 @@ you're using ssh-agent, otherwise these new keys may not work.
     In that case, add the key you want using `ssh-add ~/.ssh/YourName` and try
     the access again.
 
+    (Long overdue update: A better solution is to add `IdentitiesOnly yes` to
+    the host entry in your `~/.ssh/config` file.  This setting fixes the weird
+    quirk described above.)
+
 # appendix 4: ssh host aliases
 
 (or "making git use the right options for ssh")

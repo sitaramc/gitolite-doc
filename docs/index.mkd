@@ -117,5 +117,5 @@ you use them wherever and however you can use gitolite itself.
 
 [basic]: basic.html
 [advanced]: advanced.html
-[book]: https://www.packtpub.com/gitolite-essentials/book
+[book]: https://www.packtpub.com/en-us/product/gitolite-essentials-9781783282388
 

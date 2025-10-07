@@ -85,7 +85,7 @@
     default, expect trouble).
 
 [existing]: basic-admin#appendix-1-bringing-existing-repos-into-gitolite
-[hu]: concepts#the-hosting-user
+[hu]: concepts.mkd#the-hosting-user
 
 # trying out gitolite safely
 

@@ -14,12 +14,13 @@ die() { echo "$@"; exit 1; }
 [ -f mkdocs.yml ] || die "are you sure you're in the right directory?"
 
 [ -d .git/gen-docs ] && mv .git/gen-docs .
+
 [ "$1" = "clean" ] && rm -rf gen-docs
 mkdir -p gen-docs/{code,contrib,css}
 rsync -a docs/code gen-docs
 rsync -a docs/css  gen-docs
-cp docs/gitweb.conf.html gen-docs
-cp docs/how.html gen-docs
+# temp cp docs/gitweb.conf.html gen-docs
+# temp cp docs/how.html gen-docs
 
 cd docs
 
@@ -49,11 +50,11 @@ cd ..
 mkdocs build
 
 # 2023-03-07 somehow this is overwriting how.html, despite it not being listed in the yml, so we need to copy it again
-cp docs/how.html site
+# temp cp docs/how.html site
 
 # move them out of my way for normal use (some of my scripts are not
 # gitignore-aware)
-mv gen-docs .git
+# temp mv gen-docs .git
 
 # # cater for people holding on to old links
 # cd site
@@ -75,10 +76,10 @@ mv gen-docs .git
 #
 # cd ..
 
-rm -rf ../sitaramc.github.com/gitolite
-mv site ../sitaramc.github.com/gitolite
-cd ../sitaramc.github.com
-git add -u
-read -p "hit enter to start 'gs' followed by a push:"
-vim -s <(echo gs; echo :only)
-# git pall -f
+# temp rm -rf ../sitaramc.github.com/gitolite
+# temp mv site ../sitaramc.github.com/gitolite
+# temp cd ../sitaramc.github.com
+# temp git add -u
+# temp read -p "hit enter to start 'gs' followed by a push:"
+# temp vim -s <(echo gs; echo :only)
+# temp # git pall -f

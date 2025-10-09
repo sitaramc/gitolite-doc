@@ -36,7 +36,7 @@ repo @projects baz                              # repos
     config hooks.emailprefix    = '[%GL_REPO] ' # git-config
 ```
 
-# basic syntax
+## basic syntax
 
 As the example above shows, the syntax is fairly straightforward and simple.
 
@@ -60,7 +60,7 @@ As the example above shows, the syntax is fairly straightforward and simple.
 
 [groups]: conf.md#group-definitions
 
-# include files
+## include files
 
 Gitolite allows you to break up the configuration into multiple files and
 include them in the main file for convenience.  For example:
@@ -92,7 +92,7 @@ related to `include`, is documented [here][subconf].</font>
 conf file" in gitolite documentation, it means the combined text after the
 include processing is done.
 
-# group definitions
+## group definitions
 
 You can group repos or users for convenience.  The syntax is the same for both
 and does not distinguish; until you *use* the group name it could really be
@@ -134,12 +134,12 @@ repo @foss-repos
     RW+         =   @developers
 ```
 
-## special group `@all`
+### special group `@all`
 
 `@all` is a special group name that is often convenient to use if you really
 mean "all repos" or "all users".
 
-## warnings on undefined groups
+### warnings on undefined groups
 
 Gitolite cannot truly catch undefined groups because the conf parser is
 1-pass, and you're allowed to define a group *after* it is used, like so:
@@ -160,7 +160,7 @@ LDAP][ldap].
 
 [ldap]: conf.md#getting-user-group-info-from-ldap
 
-## getting user group info from LDAP
+### getting user group info from LDAP
 
 Gitolite's groups are pretty convenient, but some organisations already have
 similar (or sufficient) information in their LDAP store.
@@ -181,7 +181,7 @@ Caution: your program must do its own logging if you want the audit trail of
 properly.  Gitolite does not do any logging of the results of the queries
 because for people who don't need it that would be a huge waste.
 
-# access rules
+## access rules
 
 <span class="box-r">Some of the pictures are thanks (*enormous* thanks!) to someone who
 contributed them but does not want to be named (go figure!).  She even
@@ -204,7 +204,7 @@ is to be allowed or denied.
 
 ----
 
-## what does a rule look like?
+### what does a rule look like?
 
 You've seen some simple rules so far, for example in the [basic
 administration](basic-admin.md) page.  Here's a slightly more complex one, just
@@ -254,7 +254,7 @@ what this specific rule list is saying:
 
 More formally, a rule line has the following fields:
 
-### the permission field
+#### the permission field
 
 The permission field gives the type of access this rule line permits. The most
 commonly used permissions are:
@@ -270,7 +270,7 @@ commonly used permissions are:
 
 [write-types]: conf-2.md#appendix-1-different-types-of-write-operations
 
-### the "refex" field
+#### the "refex" field
 
 You cannot write rules for all possible branch and tag names (i.e., refs) that
 users will push.  The only sensible way to do this is to use [regular
@@ -318,7 +318,7 @@ controls that you can't do with just the normal ref (like refs/heads/master)
 being pushed.  The most common example is restricting pushes by dir/file name,
 but there are lots of other possibilities.</span>
 
-### user/user group list
+#### user/user group list
 
 Like the repos on the repo line, you can have any number of user names and/or
 user group names on the rule line.  (However, please note that there is no
@@ -329,7 +329,7 @@ a repo, user, permission, and a "refex".
 
 ----
 
-## rule accumulation
+### rule accumulation
 
 *All* the rules for a repo need not be specified in one place.  For example,
 you might see something like this, perhaps at the top or bottom of the conf
@@ -392,7 +392,7 @@ access is being checked**.  (A rule applies to a user if the user's name
 appears in the rule (after the equal sign), or if he is a member of any of the
 group names that appear in the rule.)
 
-### defining "user" and "repo"
+#### defining "user" and "repo"
 
 To be very specific, when we speak of "user" and "repo" in rules,
 

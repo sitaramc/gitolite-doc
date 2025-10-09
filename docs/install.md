@@ -16,9 +16,9 @@
     If ssh is not your thing, there's a different page for [http mode](http.md)
     installation.
 
-# before you start... (pre-requisites)
+## before you start... (pre-requisites)
 
-## your skills
+### your skills
 
 *   Please DO read the [concepts and terminology](concepts.md) page before doing
     anything here.
@@ -45,7 +45,7 @@
 *   [Regular expressions](regex.md) are a big part of gitolite in many places but
     familiarity is not necessary to do *basic* access control.
 
-## your server
+### your server
 
 *   Any Unix system with a posix compatible "sh" and a **sane** file system.
 *   Git version 1.6.6 or later.
@@ -60,13 +60,13 @@
     be any user, even your own normal one.  (If you're using an RPM/DEB the
     install probably created one called "gitolite").
 
-## you and your users' clients
+### you and your users' clients
 
 *   Openssh client.
 *   Git 1.6.6 or later.  Almost any git client will work, as long as it knows
     how to use ssh keys and send the right one along.
 
-## cautions and caveats
+### cautions and caveats
 
 **Please take note of the following points**:
 
@@ -87,7 +87,7 @@
 [existing]: basic-admin.md#appendix-1-bringing-existing-repos-into-gitolite
 [hu]: concepts.md#the-hosting-user
 
-# trying out gitolite safely
+## trying out gitolite safely
 
 If you're not sure if gitolite is right for you or your system, it's easy to
 take it for a trial run, in ssh mode, and play with all of its features
@@ -130,7 +130,7 @@ URLs look like `user:repo`, so for example you can clone the admin repo by
 So start by cloning the admin repo, and try out whatever you want!
 
 
-# install and setup
+## install and setup
 
 This section talks about installing the software manually (i.e., not using a
 package manager) and setting it up.  The install step gets the code to where
@@ -151,7 +151,7 @@ complete the installation.
 
 [cl]: https://github.com/sitaramc/gitolite/blob/master/CHANGELOG
 
-## (a graphical overview)
+### (a graphical overview)
 
 Here's a graphical overview of what files/directories are affected by each
 step in the install+setup process.  Alice is installing gitolite, with herself
@@ -172,7 +172,7 @@ Note also that you only need ONE real user on the server.  In our example it
 is git.  In particular, you do NOT create Unix userids for your gitolite
 users.
 
-## prepare for the install
+### prepare for the install
 
 The simplest, most foolproof, way of ensuring that your gitolite install +
 setup will succeed is to use a brand new userid as the hosting user.  If that
@@ -188,7 +188,7 @@ machine!</span>
 keys you intend to use with gitolite are present in it.  But again, if you're
 not an ssh guru, you should probably play safe.</span>
 
-## get the software
+### get the software
 
 Get the software using git-clone:
 
@@ -199,7 +199,7 @@ git clone https://github.com/sitaramc/gitolite
 You can use this as is, or you can check out the latest tag to make sure
 you're running a tagged version instead of just the current 'master'.
 
-## install
+### install
 
 Gitolite has one server side command: `gitolite`.  You don't need to place it
 anywhere special; in the worst case you can run it with the full path.
@@ -235,7 +235,7 @@ Creating a symlink doesn't need a separate program but 'install' also runs
 `git describe` to create a VERSION file, which can be very important if you
 want support :-)
 
-## setup
+### setup
 
 For the first-time setup, you need to have a public key file (usually from
 the admin's workstation) ready.  If the main gitolite admin's username is
@@ -253,7 +253,7 @@ While you're there, read both the [ssh](ssh.md) pages.  Twice.
 
 [ssh-ha]: sts.md#appendix-4-ssh-host-aliases
 
-# upgrades
+## upgrades
 
   * Update your clone of the gitolite source.
   * Repeat the install command you used earlier (make sure you use the same
@@ -263,7 +263,7 @@ While you're there, read both the [ssh](ssh.md) pages.  Twice.
 After you upgrade gitolite, you may also want to upgrade your rc file
 (`~/.gitolite.rc`).  See the [rc file](rc.md) documentation for that.
 
-# moving servers
+## moving servers
 
 <!-- XXX TODO: maybe a nice picture? -->
 

@@ -22,7 +22,7 @@ below.
 
 ----
 
-# Important Warning!
+## Important Warning!
 
 User key management undermines the fundamental principle of gitolite
 (see [authentication versus authorisation][auth]) by allowing certain
@@ -31,7 +31,7 @@ can login to the server with a **password**, just in case something
 breaks and the `.ssh/authorized_keys` file for the user running
 gitolite on the server is messed up.
 
-# General note
+## General note
 
 Although gitolite deals in its core only with authorisation, by
 default it uses ssh as its authentication mechanism. Sure, ssh is
@@ -55,9 +55,9 @@ In the following description we assume that there is an entry like
 
 in the client's `~/.ssh/config` file.
 
-# Who might be interested?
+## Who might be interested?
 
-## The gitolite admin
+### The gitolite admin
 
 Adding a new public key to the system means to copy the key into
 `gitolite/keydir` commit and push.
@@ -76,7 +76,7 @@ system. (Note, we assume that the [gitolite administrator](#GA) has no
 shell access to the server; only the [sysadmin](#SYSADMIN) has shell
 access.)
 
-## Users that want more control over who can access their repositories
+### Users that want more control over who can access their repositories
 
 Suppose the [gitolite administrator](#GA) of a research institute has
 set up gitolite to provide [wild repositories](../wild.md) for example with
@@ -116,7 +116,7 @@ perhaps even faster in saying:
 
 The effect would be the same.
 
-## Users that want to manage multiple keys
+### Users that want to manage multiple keys
 
 Suppose, you have different computers and a different ssh key for each
 of them. You would like to tell gitolite that all these different keys
@@ -129,7 +129,7 @@ which name you are known to gitolite.
 
 You can add new keys to this identity and remove them at your will.
 
-# How to enable user key management?
+## How to enable user key management?
 
 The ``ukm`` command is contributed code and lives under
 ``contrib/commands/ukm`` in the gitolite source tree.
@@ -152,7 +152,7 @@ Instead of the above (in particular in gitolite v3.0-v3.3), add
 
     COMMANDS => {..., 'ukm' => 1, ... },
 
-# How to configure user key management and who can use it?
+## How to configure user key management and who can use it?
 
 As described above there are three main use cases for `ukm`. Each of
 them requires different values in the respective config files.
@@ -170,11 +170,11 @@ knows 3 roles.
   * [guest key manager](#GKM)
   * [self key manager](#EKM)
 
-## [Super key managers](#SKM)
+### [Super key managers](#SKM)
 
 When ``ukm`` is enabled, nothing else must be configured.
 
-## [Guest key managers](#GKM)
+### [Guest key managers](#GKM)
 
 The [gitolite administrator](#GA) defines guest key managers by
 creating a group `@guest-key-managers` in
@@ -257,7 +257,7 @@ purposes.
      [super key managers](#SKM). In other words, those patterns are
      reserved for in-house [USERIDs](#USERID).
 
-## [Self key managers](#EKM)
+### [Self key managers](#EKM)
 
 The [gitolite administrator](#GA) defines [self key managers](#EKM) by
 creating a group `@self-key-managers` in
@@ -293,7 +293,7 @@ same time.
         SELFKEY_MANAGEMENT => 1,
     },
 
-# How to use user key management?
+## How to use user key management?
 
 There are three subcommands of `ukm`, namely `list` (the default),`
 add`, and `del`.
@@ -311,7 +311,7 @@ By convention, take as guest key the proper email address of the
 guest. That not only makes for a unique ID, it also gives you a hint
 to whom this key belongs.
 
-## List managed keys
+### List managed keys
 
 A [guest key manager](#GKM) and [self key manager](#EKM) can list all
 their personally managed keys via:
@@ -329,16 +329,16 @@ The result will show the fingerprints of the keys, the corresponding
 [USERID](#USERID) and the [KEYID](#KEYID) by which one can refer to
 the key on the commandline.
 
-## Add a new public key
+### Add a new public key
 
-### Add a new key as a super key manager
+#### Add a new key as a super key manager
 
 A [super key manager](#SKM) can nearly add any key, but `ukm` does not
 accept a different key, i.e., different fingerprint, for the same
 [KEYID](#KEYID). Also a double dot is not allowed in the
 [KEYID](#KEYID).
 
-### Add a new key as a guest key manager
+#### Add a new key as a guest key manager
 
 The command for this is:
 
@@ -365,7 +365,7 @@ rejects to add the key.
     characters, i.e., guest key managers are not allowed to add
     [multiple keys](#MULTIKEY) for one user.
 
-### Add a new key as a self key manager
+#### Add a new key as a self key manager
 
 Adding a self key is a bit more complicated, since the user must
 confirm that he/she is in possession of the corresponding private key.
@@ -388,7 +388,7 @@ scheduled for addition and a session key is returned on stdin. That
 session key must be used to confirm the addition of the new public key
 as shown above.
 
-## Delete a key
+### Delete a key
 
 A [super key manager](#SKM) can delete any key by simply giving its
 [KEYID](#KEYID) in a command like this
@@ -398,7 +398,7 @@ A [super key manager](#SKM) can delete any key by simply giving its
 The `ukm` command, however, prevents a [super key manager](#SKM) from
 removing his/her last key.
 
-### Delete a guest key
+#### Delete a guest key
 
 The command for this is:
 
@@ -421,7 +421,7 @@ You might want to run
 
 Repeat this for other roles such as `READERS` instead of `WRITERS`.
 
-### Delete a self key
+#### Delete a self key
 
 The command for this is:
 
@@ -445,7 +445,7 @@ a passphrase is not a good excuse and should result in removal of the
 corresponding key from the system, i.e., contacting the
 [gitolite administrator](#GA).)
 
-# Generic Errors
+## Generic Errors
 
 Key management is done via creating a temporary clone of the
 `gitolite-admin` repository, changing, committing, and pushing back.
@@ -453,7 +453,7 @@ In cases where two people are trying to modify the `gitolite-admin`
 repository at the same time, one of the push commands will most
 probably fail. Then simply redo the command after a while.
 
-# Glossary
+## Glossary
 
 * **sysadmin**<a id="SYSADMIN"></a>:
   A person who is able to edit the [.gitolite.rc](../rc.md) file on
@@ -500,7 +500,7 @@ probably fail. Then simply redo the command after a while.
   into a USERID which is used inside `conf/gitolite.conf` or for the
   [perms][] [command][commands] of gitolite.
 
-# Security note
+## Security note
 
 <a id="MULTIKEY" />
 [Super key managers](#SKM) can basically add any key.
@@ -512,14 +512,14 @@ Suppose Alice adds `bob.pub` as `bob@example.org` and David adds
 and not Bob has the private key correspoinding to `eve.pub`.) This
 basically gives Eve the same rights as Bob.
 
-# Important notes for the admin
+## Important notes for the admin
 
 Note that `ukm` clones, changes, and pushes back the `gitolite-admin`
 repo. This means, even if you are the only administrator, you should
 never `git push -f`, because that might override something `ukm`
 did.
 
-# Ideas
+## Ideas
 
 The command `ukm` has been created with also having the
 `keysubdirs-as-groups` [syntactic sugar](../non-core.md) in mind. If a

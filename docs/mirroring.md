@@ -23,7 +23,7 @@
     on 2020-08-04), v3.6.12.  For most people, until you upgrade, this
     documentation will have some terminology differences.
 
-# quick intro
+## quick intro
 
 Mirroring is simple: you have one "master" server and one or more "copy"
 servers.  The copies get updates only from the master; to the rest of the
@@ -58,7 +58,7 @@ Here's a more complete description of what gitolite can do:
     write to their local mirror for *all* repos, even if their local mirror is
     only a copy for some.
 
-# caveats
+## caveats
 
   * Mirroring by itself will never *create* a repo on a copy; it has to exist
     and be prepared to receive updates from the master.
@@ -113,12 +113,12 @@ Here's a more complete description of what gitolite can do:
 
 [bypass]: emergencies.md#bypassing-gitolite
 
-# setting up mirroring
+## setting up mirroring
 
 This is in two parts: the initial setup and the rc file, followed by the conf
 file settings and syntax.
 
-## the initial setup and the [rc file](rc.md)
+### the initial setup and the [rc file](rc.md)
 
 For **each** server:
 
@@ -192,7 +192,7 @@ For **each** server:
 [ssh-ha]: sts.md#appendix-4-ssh-host-aliases
 [commands]: non-core.md#gitolite-commands
 
-## conf file settings and syntax
+### conf file settings and syntax
 
 Mirroring is defined by the following [options](options.md).  You can have different
 settings for different repos, and of course some repos may not have any mirror
@@ -221,7 +221,7 @@ have several copy lists, as long as the config key starts with
 
 Do not repeat a key; then only the last line for that key will be effective.
 
-### <span class="gray">(v3.6+)</span> preventing automatic sync
+#### <span class="gray">(v3.6+)</span> preventing automatic sync
 
 Sometimes you don't want a repo to be mirrored automatically (as soon as
 someone pushes to the master) to all the copies.  For whatever reasons, you
@@ -248,7 +248,7 @@ use `nosync-quiet` as the option instead.
 
 (Eventually, this will appear in v3.6.14)
 
-# <span class="gray">(v3.6.1+)</span> mirroring failures
+## <span class="gray">(v3.6.1+)</span> mirroring failures
 
 Since mirror pushes happen asynchronously (i.e, the user who originally pushed
 does not have to wait for the mirrors to be synced), any mirror push failures
@@ -277,7 +277,7 @@ You can see the mirror status of any repo using the 'mirror status' command;
 the command line help for the mirror command ('gitolite mirror -h' or 'ssh
 git@host mirror -h') has details.
 
-# manually synchronising a copy repo
+## manually synchronising a copy repo
 
 You can use the `gitolite mirror push` command on a master to manually
 synchronise any of its copies.  Try it with `-h` to get usage info.
@@ -295,7 +295,7 @@ details.
 Note: if your version of the mirror command does not support 'list copies',
 use `gitolite git-config -r reponame mirror.copies | cut -f3` instead.
 
-# redirected pushes
+## redirected pushes
 
 **Please read carefully; there are security implications if you enable this
 for mirrors NOT under your control**.
@@ -349,7 +349,7 @@ second one trusts only some copies.
 
 [rules]: conf.md#access-rules
 
-# appendix A: HOSTNAME substitution
+## appendix A: HOSTNAME substitution
 
 Wherever gitolite sees the word `%HOSTNAME`, it will replace it with the
 HOSTNAME supplied in the rc file, if one was supplied.  This lets you maintain
@@ -371,14 +371,14 @@ You can use it in other places also, for example:
 (you still have to define @mars-admins, @phobos-admins, etc., but the actual
 VREF is now one line instead of one for each server!)
 
-# appendix B: efficiency versus paranoia
+## appendix B: efficiency versus paranoia
 
 If you're paranoid enough to use mirrors, you should be paranoid enough to
 set this on each server, despite the possible CPU overhead:
 
     git config --global receive.fsckObjects true
 
-# appendix C: moving the admin repo to a different master
+## appendix C: moving the admin repo to a different master
 
 Moving only some repos (other than the gitolite-admin repo) to a different
 master is easy.  Just make the change in the gitolite.conf file, add, commit,
@@ -418,7 +418,7 @@ And that should be all you need to do.
 
 -->
 
-# appendix D: fixing a broken copy
+## appendix D: fixing a broken copy
 
 Let's say you had
 

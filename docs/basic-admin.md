@@ -17,7 +17,7 @@ with some details on what happens after the push.
 <span class="red">In other words, do **NOT** add new repos or users manually on the
 server!</span>
 
-# clone the gitolite-admin repo
+## clone the gitolite-admin repo
 
 To clone the admin repo, go to the workstation where the public key used in
 'setup' came from, and run this:
@@ -34,7 +34,7 @@ command (`ssh git@host info`); [this][info] page tells you what to expect.
 
 [info]: user.md#the-info-command
 
-# add/remove users
+## add/remove users
 
 <span class="gray">NOTE: This section only applies to ssh mode.  If you've installed
 gitolite in http mode, adding and removing users is outside the scope of
@@ -80,7 +80,7 @@ the changes specified.
 `$HOME/.ssh/id_rsa.pub` on her workstation.  Please make sure it is in
 openssh's default format.
 
-## multiple keys per user
+### multiple keys per user
 
 You can put pubkeys in subdirectories within "keydir/", because the user name
 is simply the *base name* of the public key file name.  That is,
@@ -98,7 +98,7 @@ will continue to be supported but has proved hard to explain!
 into a single, multi-line, pubkey file, it is possible.  For details, see the
 program `src/triggers/post-compile/ssh-authkeys-split` in the source.)
 
-# add, remove, and rename repos
+## add, remove, and rename repos
 
 [existing]: basic-admin.md#appendix-1-bringing-existing-repos-into-gitolite
 
@@ -157,7 +157,7 @@ repo @myrepos
     RW+     =   alice
 ```
 
-## removing/renaming a repo
+### removing/renaming a repo
 
 Removing a repo is not so straightforward.  You certainly must remove the
 appropriate lines from the `conf/gitolite.conf` file, but gitolite will not
@@ -175,7 +175,7 @@ important):
   * Change the name in the conf/gitolite.conf file in your gitolite-admin repo
     clone, and add/commit/push.
 
-# appendix 1: bringing existing repos into gitolite
+## appendix 1: bringing existing repos into gitolite
 
 !!! danger "Warning!"
 
@@ -244,7 +244,7 @@ However, if the repos are normal repos, then, back on your workstation:
   * Add them to the `conf/gitolite.conf` in your clone of the admin repo, then
     commit and push the change.
 
-# appendix 2: old style multi-keys
+## appendix 2: old style multi-keys
 
 There is another way that involves creating key files like `alice@home.pub`
 and `alice@laptop.pub`, but there is a complication because gitolite also

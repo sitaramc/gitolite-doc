@@ -2,7 +2,7 @@
 
 ----
 
-# directories
+## directories
 
 Gitolite creates and uses the following files and directories:
 
@@ -24,12 +24,12 @@ In addition, the following are of interest:
   * `~/.ssh` -- if you're using ssh (as opposed to http), since this is where
     the `authorized_keys` file is kept
 
-# special files
+## special files
 
 You may want to backup the contents of `~/.gitolite/logs` if you care about
 auditability etc.
 
-# inside a "gitolite repo"
+## inside a "gitolite repo"
 
 A gitolite repo is just like a normal bare repo on any normal git server.
 There are a few extra files placed in the repo directory whose names start
@@ -39,7 +39,7 @@ but that's about it, for the most part.
 In other words, you can treat a gitolite-managed repo just like any other bare
 repo as long as you leave those files alone.
 
-# gitolite software
+## gitolite software
 
 The above list does not include the gitolite software itself.
 

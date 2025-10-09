@@ -19,7 +19,7 @@ Documentation for non-core gitolite is organised as follows:
 
 ----
 
-# core versus non-core
+## core versus non-core
 
 Gitolite has five types of non-core code:
 
@@ -32,9 +32,9 @@ Gitolite has five types of non-core code:
     different name to avoid confusion and constant disambiguation in the docs.
   * *VREFs* are extensions to the access control check part of gitolite.
 
-# locations...
+## locations...
 
-## ...for non-core programs shipped with gitolite
+### ...for non-core programs shipped with gitolite
 
 <pre style="float: right; font-family: 'Andale mono',monospace; margin-top: 0; font-weight: bold; padding: 4px; color: #ffffff; background-color: #000000;">
 .
@@ -61,7 +61,7 @@ You might notice that there are two locations for [triggers](triggers.md); that 
 because there are two types of them.  You might also notice that there is no
 place for hooks -- gitolite doesn't *ship* with any hooks that are non-core.
 
-## ...for *your* non-core programs
+### ...for *your* non-core programs
 
 <pre style="float: right; font-family: 'Andale mono',monospace; margin-top: 0; font-weight: bold; padding: 4px; color: #ffffff; background-color: #000000; margin: 8px">
 .
@@ -97,7 +97,7 @@ here, neither of which exist in the shipped non-core code.  Also, the
 must run `gitolite setup`, or at least `gitolite setup --hooks-only`, for it
 to take effect.</span>
 
-## using the gitolite-admin repo to manage non-core code
+### using the gitolite-admin repo to manage non-core code
 
 !!! danger "Important security note:"
 
@@ -128,9 +128,9 @@ paths, in the location pointed to by LOCAL\_CODE.
 
 (Note: when you do this, gitolite takes care of running `gitolite setup --hooks-only` when you change any hooks and push).
 
-# types of non-core programs
+## types of non-core programs
 
-## gitolite "commands"
+### gitolite "commands"
 
 Gitolite comes with several commands that users can run.  Remote users run
 commands by saying:
@@ -153,7 +153,7 @@ You allow a command to be run from remote clients by adding its name to (or
 uncommenting it if it's already added but commented out) the ENABLE list in
 the [rc](rc.md) file.
 
-## hooks and gitolite
+### hooks and gitolite
 
 You can install any hooks except these:
 
@@ -171,7 +171,7 @@ name is given in the `LOCAL_CODE` rc variable, then run `gitolite setup`.
 [localcode]: non-core.md#for-your-non-core-programs
 [pushcode]: non-core.md#using-the-gitolite-admin-repo-to-manage-non-core-code
 
-### repo-specific hooks
+#### repo-specific hooks
 
 !!! danger "Important security note:"
 
@@ -282,7 +282,7 @@ together, you can do that also.  Here's how.
 
 [addtrig]: triggers.md#adding-your-own-scripts-to-a-trigger
 
-## syntactic sugar
+### syntactic sugar
 
 Sugar scripts help you change the perceived syntax of the conf language.  The
 base syntax of the language is very simple, so sugar scripts take something
@@ -297,11 +297,11 @@ section in [dev-notes](dev-notes.md) first then email me.
 You enable a sugar script by uncommenting the feature name in the ENABLE list
 in the rc file.
 
-## triggers
+### triggers
 
 Triggers have their own [page](triggers.md).
 
-## VREFs
+### VREFs
 
 VREFs also have their own [page](vref.md).
 

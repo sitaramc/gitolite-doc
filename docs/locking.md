@@ -23,13 +23,13 @@ containing source code.
 
 ----
 
-# problem description
+## problem description
 
 Our users are alice, bob, and carol.  Our repo is foo.  It has some "odt"
 files in the "doc/" directory.  We want to make sure these odt files never get
 into a "merge" situation.
 
-# admin/setup
+## admin/setup
 
 First, someone with shell access to the server must add 'lock' to the ENABLE
 list in the rc file.
@@ -45,7 +45,7 @@ repo foo
 However, see below for the difference between "RW" and "RW+" from the point of
 view of this feature and adjust permissions accordingly.
 
-# user view
+## user view
 
 Here's a summary:
 
@@ -65,7 +65,7 @@ For best results, everyone on the team should:
   * Understand that breaking a lock require additional, (out of band)
     communication.  It is upto the team's policies what that entails.
 
-# detailed example
+## detailed example
 
 Alice declares her intent to work on "d1.odt":
 

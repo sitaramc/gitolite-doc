@@ -9,7 +9,7 @@
     Unless the documentation says "do this from `root`", assume it is to be
     done from the [hosting user][hu] account.
 
-# install/setup issues
+## install/setup issues
 
 Most install/setup issues in ssh mode are caused by lack of ssh knowledge.
 Ssh is a complex beast, and can cause problems for people who are not familiar
@@ -18,7 +18,7 @@ with its quirks.
 **Be prepared to spend some time reading the [ssh](ssh.md) documentation that comes
 with gitolite**.
 
-# lost admin key/access
+## lost admin key/access
 
 If you lost your gitolite **admin** key or access, here's what you do.  We'll
 assume your username is "alice" (i.e., alice has RW or RW+ permissions on the
@@ -32,7 +32,7 @@ gitolite-admin repo).
 That's it; the new alice.pub file replaces whatever existed in the repo
 before.
 
-# bypassing gitolite
+## bypassing gitolite
 
 You may have lost access because of a conf file error, in which case the above
 trick (which merely changes a pubkey) won't help.  What you want is to make
@@ -56,9 +56,9 @@ Here's how to do that:
 **NOTE**: gitolite does **no access checking** when you do this!
 </font>
 
-# botched something?
+## botched something?
 
-## fixing botched repos
+### fixing botched repos
 
 If you copied some repos from somewhere else, or mucked with the hooks for
 some reason, or deleted any gitolite-specific files, or tried any other
@@ -81,7 +81,7 @@ and guessable by looking at those files on any other wild repo.
 
 [perms]: user.md#setget-additional-permissions-for-repos-you-created
 
-## cleaning out a botched install
+### cleaning out a botched install
 
 Here's a list of files and directories to deal with:
 
@@ -115,7 +115,7 @@ Here's a list of files and directories to deal with:
 
     Gitolite does not touch any other files in the ssh directory.
 
-# common errors
+## common errors
 
   * `WARNING: keydir/<yourname>.pub duplicates a non-gitolite key, sshd will ignore it`
 
@@ -145,11 +145,11 @@ Here's a list of files and directories to deal with:
 
 [ybpfail]: sts.md#appendix-5-why-bypassing-gitolite-causes-a-problem
 
-# uncommon errors
+## uncommon errors
 
 (This page intentionally left blank)
 
-# non-standard configs that'll trip you up
+## non-standard configs that'll trip you up
 
   * **IMPORTANT**: although a default openssh config will not do this (AFAIK),
     **do not** allow the user to set environment variables if you care about
@@ -184,7 +184,7 @@ Here's a list of files and directories to deal with:
 
 [hu]: concepts.md#the-hosting-user
 
-# things that are not gitolite problems
+## things that are not gitolite problems
 
 There are several things that appear to be gitolite problems but are not.  I
 cannot help with most of these (although the good folks on irc or the mailing

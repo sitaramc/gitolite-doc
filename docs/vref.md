@@ -17,7 +17,7 @@ own update hooks".
     sense until you read further, but I had to put it up here for folks who
     stop reading halfway!
 
-# quick intro/example
+## quick intro/example
 
 Here's an example to start you off.
 
@@ -64,7 +64,7 @@ on the `VREF/COUNT/5` rule in the rule list above.
 [refex]: conf.md#the-refex-field
 [vref-args]: vref.md#what-arguments-are-passed-to-the-vref-maker
 
-# basic use and understanding
+## basic use and understanding
 
 Normally, rules deal with branches and tags (which git collectively calls
 "refs").  The "ref" is a property of the push which gitolite checks against
@@ -96,12 +96,12 @@ rules:
     Fallthru is success here, which means the (virtual) ref must be
     **explicitly denied** in order for the push to fail.
 
-# advanced use
+## advanced use
 
 More complex uses are possible, but may be harder to understand.  You may want
 to experiment with the rules to solidify your understanding as you read this.
 
-## differences from normal refs
+### differences from normal refs
 
 We know where normal refs (like `refs/heads/master` or `refs/tags/v1.0`) come
 from -- they are supplied by git itself when it calls the update hook.
@@ -125,7 +125,7 @@ Here's how it works.
     does *not* cause failure.  Other than that, the checking is done the same
     way as for a normal ref, viz., as described in the flow for [check #2][c1c2].
 
-## generating virtual refs
+### generating virtual refs
 
 Gitolite uses the VREF rules themselves to help it generate the virtual refs.
 
@@ -158,9 +158,9 @@ It should exit with an exit code of zero in either case.
 If it exits with a non-zero, the push dies regardless of what is printed (see
 "mimicking a plain old update hook" for why this is useful).
 
-# more details and nuances
+## more details and nuances
 
-## mimicking a plain old update hook
+### mimicking a plain old update hook
 
 If the VREF maker exits with a non-zero exit code, then regardless of what it
 prints or does not, the push dies.
@@ -180,7 +180,7 @@ repo foo    # or maybe even 'repo @all'
 
 That's it.
 
-## what if the VREF-maker prints a different virtual ref?
+### what if the VREF-maker prints a different virtual ref?
 
 Unless you know what you're upto, don't do that.
 
@@ -219,7 +219,7 @@ repo bar
     -   VREF/Hour/2[0-9]        =   @junior-devs
 ```
 
-## why is fallthru considered success with VREFs
+### why is fallthru considered success with VREFs
 
 Virtual refs are **best used** (1) as **additional** "deny" rules, performing
 extra checks that core gitolite cannot.  You usually want such extra checks
@@ -251,7 +251,7 @@ list:
 
 </font>
 
-## what if the VREF-maker prints something that's not even a virtual ref?
+### what if the VREF-maker prints something that's not even a virtual ref?
 
 The VREF-maker can print anything it wants to STDOUT.  Lines not starting with
 `VREF/` are printed as is (so your VREF-maker can do mostly-normal printing to
@@ -264,7 +264,7 @@ treated as a virtual ref, while the rest, if any, is a message to be added to
 the standard "...DENIED..." message that gitolite will print if that refex
 matches and the rule is a deny rule.
 
-## in what order are VREF-makers called?
+### in what order are VREF-makers called?
 
 VREF-makers are called in the sequence in which they appear in the conf file.
 
@@ -273,7 +273,7 @@ same arguments more than once, and the VREF-maker code for the NAME VREF
 (which is special) is called only once regardless of how many times it appears
 but these details should not concern anyone but a developer.
 
-## what arguments are passed to the vref-maker?
+### what arguments are passed to the vref-maker?
 
   * Arguments **1, 2, 3**: the `ref`, `oldsha`, and `newsha` that git passed
     to the update hook (see `man githooks`).

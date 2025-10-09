@@ -7,11 +7,11 @@
     please click the "next" button up there on the right for a more leisurely,
     detailed, drive through the install process.
 
-## distro package install
+### distro package install
 
 Tip: look for packages called 'gitolite3' before you look for 'gitolite'.
 
-## install from source
+### install from source
 
 If you're comfortable with Unix and ssh, just copy your ssh public key from
 your workstation to the hosting user, then do something like this:

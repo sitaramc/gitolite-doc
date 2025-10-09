@@ -5,7 +5,7 @@
 Gitolite allows you to setup git hosting on a central server, with
 fine-grained access control and many more powerful features.
 
-# what is gitolite?
+## what is gitolite?
 
 Gitolite is an access control layer on top of git.  Here are the features that
 most people see:
@@ -24,9 +24,9 @@ most people see:
     "smart http" mode if you prefer (this may require root access for the
     initial setup).
 
-# why might you need it?
+## why might you need it?
 
-## access control
+### access control
 
 Git by itself does not do any access control -- it relies on the transport
 medium to do authentication ("who are you?"), and on OS file permissions to do
@@ -40,7 +40,7 @@ are simple and don't change too often.
 
 However, gitolite does this much better, and offers many more features.
 
-### basic use case
+#### basic use case
 
 Gitolite is useful in any server that is going to host multiple git
 repositories, each with many developers, where "anyone can do anything to any
@@ -79,7 +79,7 @@ repo foo
     RW  refs/heads/tags/v[0-9]  =   ashok
 ```
 
-## other features
+### other features
 
 Gitolite has many more features, as you might guess from the amount of
 documentation (see links in the nav bar at the top).  Here's a quick sample:
@@ -95,9 +95,9 @@ documentation (see links in the nav bar at the top).  Here's a quick sample:
 *   Users can create their own repos and set access rights (if you allow
     them).
 
-## alternatives to gitolite
+### alternatives to gitolite
 
-### unix permissions and ACLs
+#### unix permissions and ACLs
 
 If you're a masochist, you could probably do example 1 with Unix permissions
 and facls.  But you can't do example 2 -- git is not designed to allow that!
@@ -112,7 +112,7 @@ Here are some other disadvantages of the Unix ACL method:
     their group memberships, and then correlating all these manually.
 *   Auditing historical permissions or permission changes is impossible.
 
-### Gerrit Code Review
+#### Gerrit Code Review
 
 The best real alternative to gitolite is Gerrit Code Review.  If code review
 is an essential part of your workflow, you should use Gerrit.
@@ -140,7 +140,7 @@ annotated tags, nor does it check author/committer identity.  However, it is
 trivial to add your own code to do either (or if someone contributes it, to
 just "enable" what ships with gitolite in a disabled state).
 
-### gitlab, gogs, gitblit, and others
+#### gitlab, gogs, gitblit, and others
 
 There are several alternatives which offer a full web-based GUI, for
 administrators or users or both.  They also offer a lot of enterprise features
@@ -150,7 +150,7 @@ discussions, comments on code, pull requests, etc.)
 However, they are unlikely to be as [customisable](non-core.md) as gitolite is,
 if you care about that sort of thing.
 
-# how does it work?
+## how does it work?
 
 At a very high level, gitolite relies on **sshd** (or **httpd** if you're
 using the smart http mode) to authenticate the user and supply the username.
@@ -181,7 +181,7 @@ be checked, and gitolite sets up the update hook on the repo to do that.
 
 A more detailed explanation, with figures, is [here](how.html).
 
-# who uses it?
+## who uses it?
 
 !!! note ""
     If you're using gitolite and find it very useful in some way, I would love

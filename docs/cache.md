@@ -21,7 +21,7 @@ better.  However, Redis does have one real advantage: cache [timeout][]s!
 Support for this feature is limited to verifiable gitolite bugs, if you find
 any; I can't help you with redis itself.
 
-# how does caching work?
+## how does caching work?
 
 To use this feature, just install Redis, then the perl driver "Redis.pm".
 Install or upgrade Gitolite to the latest master, then uncomment (or add, if
@@ -36,7 +36,7 @@ Then perform some gitolite operation (anything that requires any form of
 access checking).  Redis should start automatically and the right things
 should happen; see below if it does not.
 
-# troubleshooting caching
+## troubleshooting caching
 
 If you ever kill the redis-server be sure to also remove the socket file
 `~/.redis-gitolite.sock`.  Conversely if you ever remove the sock file be sure
@@ -49,9 +49,9 @@ try again.)
 passed to gitolite, causing a security breach.  If anyone has time I'd
 appreciate a review of the code.
 
-# caching details
+## caching details
 
-## what is cached
+### what is cached
 
 At present, gitolite caches only one specific function: the "access()"
 function.  This is available from the shell as the 'gitolite access ...'
@@ -65,7 +65,7 @@ down.
 Finally, if you run 'perms', the cache entries *for that specific repo* are
 also flushed.
 
-## how long is it cached {#timeout}
+### how long is it cached {#timeout}
 
 Redis has a timeout feature that can delete entries after a certain period of
 time has elapsed since they were created or updated.  Gitolite sets a timeout

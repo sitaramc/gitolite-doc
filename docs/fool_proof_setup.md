@@ -5,7 +5,7 @@
 This page is useful if the normal [install](install.md) instructions did not work for
 you.
 
-# pre-requisites, etc
+## pre-requisites, etc
 
 These are the pre-requisites:
 
@@ -27,7 +27,7 @@ hosting user, etc.)</font>, or your environment is far too different from
 standard Unix, or you have some other problem.  In any case, it is not
 something I can help with.  Sorry.
 
-# assumptions
+## assumptions
 
   * Your name is Ron.  Substitute accordingly in the instructions below.
 
@@ -37,7 +37,7 @@ something I can help with.  Sorry.
 
   * You have root access on this server.
 
-# installation tasks
+## installation tasks
 
 1.  Create a new userid on the server, say `git`.  This will be the **hosting
     user**.  ("hosting user" means when you're done installing, your users
@@ -100,7 +100,7 @@ something I can help with.  Sorry.
 
     (do I have to mention that your SHAs will be different?)
 
-# administration tasks
+## administration tasks
 
 Most day-to-day administration is done by making changes to a clone of the
 gitolite-admin repo and pushing.  (There are some things that are done by

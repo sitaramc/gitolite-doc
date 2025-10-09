@@ -12,7 +12,7 @@ This page will help newcomers get used to what we're talking about elsewhere.
 It also explains the special `gitolite-admin` repo and how it is used to do te
 day-to-day management of a gitolite server.
 
-# authentication and authorisation
+## authentication and authorisation
 
 <span class="red">**Gitolite does not do authentication.  It only does
 authorisation.**</span>
@@ -33,7 +33,7 @@ succeeds, sshd or httpd will pass control to gitolite, which then performs the
 authorisation check -- i.e., figure out whether to allow you to do whatever it
 is you want to whatever repo you decided to touch.
 
-# ssh mode and http mode
+## ssh mode and http mode
 
 Git allows authenticated remote access using these two mechanisms: ssh and
 http.  Gitolite supports both.
@@ -50,7 +50,7 @@ however, it may be a little easier for your users.  Authentication is by
 username + password, which, although much less secure than ssh keypairs, is
 conceptually easier for users.
 
-# The "hosting user"
+## The "hosting user"
 
 <span class="box-r">If you're wondering how it distinguishes between different
 users when they are all logging into "git", [this page](glssh.md) has answers!</span>
@@ -68,7 +68,7 @@ the server" is done in this userid (for ssh mode installations).**
 
 Of course you can have any number of "hosting users", but that's rare.
 
-# the "logical repo name"
+## the "logical repo name"
 
 Gitolite refers to repos using a logical repo name, which is whatever name you
 specified in the gitolite.conf file (described later).  The actual repo will
@@ -87,7 +87,7 @@ and things appear to work, [something is wrong!][ybpfail].
 
 [ybpfail]: sts.md#appendix-5-why-bypassing-gitolite-causes-a-problem
 
-# the special gitolite-admin repo
+## the special gitolite-admin repo
 
 Gitolite manages git repos.  Among them is a repo called "gitolite-admin",
 which is a very special repository that helps you add and remove users and

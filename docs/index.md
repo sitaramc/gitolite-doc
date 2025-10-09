@@ -5,7 +5,7 @@
 Gitolite allows you to setup git hosting on a central server, with
 fine-grained access control and many more powerful features.
 
-# install/setup
+## install/setup
 
 <span class="box-r">If you're installing via your package manager, make sure
 you get the right one; it's often called `gitolite3`.</span>
@@ -16,7 +16,7 @@ If your Unix-fu and ssh-fu are good, take a look at the [quick install](quick_in
 page.  Otherwise follow the documentation flow, skipping whatever you think
 you don't need.
 
-# documentation
+## documentation
 
 <span class="green box-r" style="padding: 10px"> **(April 2014): There's a
 [book on gitolite][book] out**.  I've received some emails over the years
@@ -37,20 +37,20 @@ links on a first pass.
     Once you've installed and setup, there's the **[cookbook](cookbook.md)** with recipes
     for common tasks.
 
-# TROUBLESHOOTING
+## TROUBLESHOOTING
 
 The [emergencies](emergencies.md) page helps with all sorts of install/setup issues,
 recovering from lost keys and other self-inflicted wounds, lists some common
 (and some uncommon!) errors and non-standard configs that may trip you up.
 
-# contact/support
+## contact/support
 
-## security issues
+### security issues
 
 <span class="red">If you think you found a possible **security issue**, please email me
 (<sitaramc@gmail.com>) directly.</span>
 
-## mailing list(s)
+### mailing list(s)
 
 For all other communications, please use the mailing list.  This has some
 advantages over sending direct to me (if I'm not available, someone else might
@@ -78,7 +78,7 @@ announcements:
 If you wish to send me code, please see the file called CONTRIBUTING in the
 source distribution.
 
-## IRC
+### IRC
 
 Our IRC channel is `#gitolite` on libera.chat.  I live in India (UTC+0530 time
 zone), but there are a few regulars (*thanks, guys, you know who you are!*)
@@ -87,7 +87,7 @@ wait a while for an answer, depending on the time of day and day of week.
 
 There are also many gitolite-knowledgeable people on the git channel `#git`.
 
-# license
+## license
 
 The gitolite software is copyright Sitaram Chamarty and is licensed under the
 GPL v2; please see the file called COPYING in the source distribution.

@@ -16,7 +16,7 @@ this page.
     of code, not just one program with the same name as the hook, like git
     does.
 
-# types of trigger programs
+## types of trigger programs
 
 There are two types of trigger programs.  Standalone scripts are placed in
 triggers or its subdirectories.  Such scripts are quick and easy to write in
@@ -34,7 +34,7 @@ default install of gitolite, paying attention to:
   * corresponding path names in the src/ directory in gitolite source,
   * and for perl modules, the package names and function names within.
 
-# manually firing triggers
+## manually firing triggers
 
 It's easy to manually fire triggers from the server command line.  For
 example:
@@ -45,7 +45,7 @@ However if the triggered code depends on arguments (see next section) this
 won't work.  (The `POST_COMPILE` trigger programs all just happen to not
 require any arguments, so it works).
 
-# common arguments
+## common arguments
 
 Triggers receive the following arguments:
 
@@ -59,7 +59,7 @@ Triggers receive the following arguments:
 3.  And finally, zero or more arguments specific to the trigger, as given in
     the next section.
 
-# trigger-specific arguments and other details
+## trigger-specific arguments and other details
 
 Here are the **rest of** the arguments for each trigger, plus a brief
 description of when the trigger runs.  (Note that when the repo name is passed
@@ -149,7 +149,7 @@ in as an argument, it is without the '.git' suffix).
 
     No extra arguments.
 
-# adding your own scripts to a trigger
+## adding your own scripts to a trigger
 
 <span class="box-r">Note: for gitolite v3.3 or less, adding your own scripts
 to a trigger list was simply a matter of finding the trigger name in the rc
@@ -187,7 +187,7 @@ Since the ENABLE list pulls in the rest of the trigger entries, this will be
 
 As you can see, the 'foo' gets added to the top of the list.
 
-## adding a perl module as a trigger
+### adding a perl module as a trigger
 
 If your trigger is a perl module, as opposed to a standalone script or
 executable, the process is almost the same as above, except what you add to
@@ -206,7 +206,7 @@ start with a package header like this:
 
     package Gitolite::Triggers::Foo;
 
-## displaying the resulting trigger list
+### displaying the resulting trigger list
 
 You can use the 'gitolite query-rc' command to see what the trigger list
 actually looks like.  For example:
@@ -218,7 +218,7 @@ actually looks like.  For example:
 -->
 <!--
 
-## running your script AFTER the defaults
+### running your script AFTER the defaults
 
 By default, your custom scripts will run *before* the shipped ones (e.g., look
 at where `foo` landed in the example above).
@@ -253,7 +253,7 @@ you do:
 
 -->
 
-# tips and examples
+## tips and examples
 
 1.  If you have code that latches onto more than one trigger, collecting data
     (such as for logging), then the outputs may be intermixed.  You can record

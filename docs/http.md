@@ -9,7 +9,7 @@
     think that is the same or even relevant -- that is from 2006 and is quite
     different (and arguably obsolete).
 
-# WARNINGS and important notes
+## WARNINGS and important notes
 
   * Please read [authentication versus authorisation][auth] first, and make
     sure you understand what is gitolite's responsibility and what isn't.
@@ -19,13 +19,13 @@
 
 [auth]: concepts.md#authentication-and-authorisation
 
-# assumptions:
+## assumptions
 
   * Apache 2.x and git installed.
   * Httpd runs under the "apache" userid; adjust instructions below if not.
   * Similarly for "/var/www" and other file names/locations.
 
-# instructions
+## instructions
 
 In place of detailed instructions, there is a script called
 `t/smart-http.root-setup`.  **Do NOT run this script as is -- it is actually
@@ -42,7 +42,7 @@ that delete files etc.), change values per your system, and only then run it.
     optional.  Make sure you set it to some place outside apache's
     `DOCUMENT_ROOT`.</span>
 
-# allowing unauthenticated access
+## allowing unauthenticated access
 
 If you want users to see repos without performing any HTTP authentication, you
 should first decide what repos they should have unauthenticated access to:
@@ -67,19 +67,19 @@ period.  Unfortunately I am very far from being an expert in apache
 configuration, so, if someone can make this work *without* requiring any
 userid at all, please let me know.
 
-# Making repositories available to both ssh and http mode clients
+## Making repositories available to both ssh and http mode clients
 
 This section has been contributed by Thomas Hager (duke at sigsegv dot at),
 and is available [here](contrib/ssh-and-http.md).
 
-# usage
+## usage
 
 !!! danger "Warning:"
     Http mode does not seem capable of setting an exit code when things fail,
     unlike ssh mode.  Therefore, using an http-hosted gitolite in scripts may
     need more care and thought.
 
-## client side
+### client side
 
 Git URLs look like `https://user:password@server/git/reponame.git`.
 
@@ -99,7 +99,7 @@ curl https://user:password@server/git/info?repopatt+user1+user2
 With a few nice shell aliases, you won't even notice the horrible convolutions
 here ;-)  See t/smart-http for a couple of useful ones.
 
-## server side
+### server side
 
 The `gitolite` command (for example, `gitolite compile`, `gitolite query-rc`,
 and so on) *can* be run on the server, but it's not straightforward.  Assuming

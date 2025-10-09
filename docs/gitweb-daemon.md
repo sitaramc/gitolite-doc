@@ -7,7 +7,7 @@
     Gitolite does **not** install or configure gitweb/git-daemon -- that is a
     one-time setup you must do separately.
 
-# gitweb
+## gitweb
 
 The following repos are deemed to be readable by gitweb:
 
@@ -33,14 +33,14 @@ variable, if it is not specified or empty, is `$HOME/projects.list`.
 In addition, each of the config variables described above is written to the
 repo to which it pertains, so that gitweb can use them.
 
-## changing the UMASK
+### changing the UMASK
 
 Gitweb (or cgit, redmine, etc.) typically runs under a different userid, and
 the default permissions that gitolite sets make them unreadable.
 
 See the section on the `UMASK` variable in the page for the [rc file](rc.md).
 
-## repo-specific authorisation in gitweb
+### repo-specific authorisation in gitweb
 
 Gitweb has a feature whereby it will call a (perl) function that you supply,
 passing it the full path to the repo being accessed.  If the remote user is
@@ -58,14 +58,14 @@ You then need to add [this code][gwch] to your gitweb.conf.
 
 [gwch]: gitweb.conf.html
 
-# git-daemon
+## git-daemon
 
 Any repo readable by the special user `daemon` is deemed to be readable by
 git-daemon.  For each of these repos, an empty file called
 `git-daemon-export-ok` is created in the repository (i.e., the `repo.git`
 directory inside `$HOME/repositories`).
 
-# tips
+## tips
 
 Setting descriptions en-masse usually does not make sense, but you can
 certainly do things like

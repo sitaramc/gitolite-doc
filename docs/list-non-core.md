@@ -30,7 +30,7 @@
 [localcode]: non-core.md#for-your-non-core-programs
 [pushcode]: non-core.md#using-the-gitolite-admin-repo-to-manage-non-core-code
 
-# commands
+## commands
 
 This is a list of commands that are available in gitolite, with brief
 descriptions and, if available, a link to more detailed information.  Note
@@ -83,7 +83,7 @@ Also note that not all of these commands are available remotely.
 [perms]: user.md#setget-additional-permissions-for-repos-you-created
 [bypass]: emergencies.md#bypassing-gitolite
 
-# syntactic sugar
+## syntactic sugar
 
 The following "sugar" programs are available:
 
@@ -93,7 +93,7 @@ The following "sugar" programs are available:
     within keydir as a group name
   * **macros** -- simple line-wise macro processor
 
-# triggers
+## triggers
 
 Here's a list of **features** that are enabled by [triggers](triggers.md), or a
 combination of a trigger and something else, like a command.
@@ -138,7 +138,7 @@ disable them:
 
 [partial-copy]: list-non-core.md#partial-copy-selective-read-control-for-branches
 
-# VREFs
+## VREFs
 
 VREFs are a complex topic and have their [own page](vref.md) with lots more
 details.  However, here's a list of VREFs shipped with gitolite:
@@ -161,12 +161,12 @@ details.  However, here's a list of VREFs shipped with gitolite:
 [NAME]: vref-2.md#restricting-pushes-by-dirfile-name
 [votes]: vref-2.md#voting-on-commits
 
-# details on some non-core programs
+## details on some non-core programs
 
 These non-core programs needed more detail than could be provided in the
 source code, but did not fit anywhere else neatly enough.
 
-## partial-copy: selective read control for branches
+### partial-copy: selective read control for branches
 
 Git (and therefore gitolite) cannot do selective read control -- allowing
 someone to read branch A but not branch B.  It's the entire repo or nothing.

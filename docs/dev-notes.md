@@ -11,7 +11,7 @@ scripts.  *Installing* them, including "where and how", is described
 Note: the [non-core](non-core.md) page is the starting point for all information about
 customising gitolite.
 
-# environment variables and other inputs
+## environment variables and other inputs
 
 In general, the following environment variables should always be available:
 
@@ -38,9 +38,9 @@ A special form of the [option](options.md) syntax can be used to set
 Finally, note that triggers get a lot of relevant information from gitolite as
 arguments; see [here](triggers.md) for details.
 
-# APIs
+## APIs
 
-## the shell API
+### the shell API
 
 The following commands exist to help you write shell scripts that interact
 easily with gitolite.  Each of them responds to `-h` so please run that for
@@ -63,7 +63,7 @@ more info.
 In addition, you can also look at the comments in src/lib/Gitolite/Easy.pm
 (the perl API module) for ideas.
 
-## the perl API
+### the perl API
 
 ...is implemented by `Gitolite::Easy`; the comments in
 src/lib/Gitolite/Easy.pm serve as documentation.
@@ -72,23 +72,23 @@ Note that some of the perl functions called by Easy.pm will change the current
 directory to something else, without saving and restoring the directory.
 Patches (to Easy.pm *only*) welcome.
 
-# writing your own...
+## writing your own...
 
-## ...commands
+### ...commands
 
 Commands are standalone programs, in any language you like.  They simply
 receive the arguments you append.  In addition, the env var `GL_USER` is
 available if it is being run remotely.  src/commands/desc is the best example
 at present.
 
-## ...hooks
+### ...hooks
 
-### anything but the update hook
+#### anything but the update hook
 
 If you want to add any hook other than the update hook, 'man githooks' is all
 you need.
 
-### update hook
+#### update hook
 
 If you want to add additional `update` hook functionality, do this:
 
@@ -112,7 +112,7 @@ Note: a normal update hook expects 3 arguments (ref, old SHA, new SHA).  A
 VREF will get those three, followed by at least 4 more.  Your VREF should just
 ignore the extra args.
 
-## ...trigger programs
+### ...trigger programs
 
 Trigger programs run at specific points in gitolite's execution, with specific
 arguments being passed to them.  See the [triggers](triggers.md) page for details.
@@ -120,7 +120,7 @@ arguments being passed to them.  See the [triggers](triggers.md) page for detail
 You can write programs that are both manually runnable as well as callable by
 trigger events, especially if they don't *need* any arguments.
 
-## ..."sugar"
+### ..."sugar"
 
 Syntactic sugar helpers are NOT complete, standalone, programs.  They must
 include a perl sub called `sugar_script` that takes in a listref, and returns
@@ -130,7 +130,7 @@ contents modified as you like and return a ref to it.
 
 There are a couple of examples in src/syntactic-sugar.
 
-# appendix 1: repo-specific environment variables
+## appendix 1: repo-specific environment variables
 
 A special form of the [option](options.md) syntax can be used to set
 repo-specific environment variables that are visible to gitolite triggers and
@@ -184,7 +184,7 @@ options and configs set for the repo, like:
 
 The new method is much more convenient, as you can see.</font>
 
-# appendix 2: log file format
+## appendix 2: log file format
 
 Here's a brief description of gitolite's log file format.  All fields are tab
 separated.
@@ -325,7 +325,7 @@ The various log line formats are:
 [write-types]: conf-2.md#appendix-1-different-types-of-write-operations
 [bypass]: emergencies.md#bypassing-gitolite
 
-# appendix 3: sending log lines to syslog
+## appendix 3: sending log lines to syslog
 
 Gitolite allows you to send log entries to syslog.  To do that, uncomment one
 of the commented out values for LOG\_DEST in the rc file.  If your rc file

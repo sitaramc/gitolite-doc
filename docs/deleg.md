@@ -12,7 +12,7 @@ Delegation is achieved by combining two gitolite features:
 
 [NAME]: vref-2.md#restricting-pushes-by-dirfile-name
 
-# example
+## example
 
 Here's a sample conf that does delegation:
 
@@ -48,7 +48,7 @@ gitolite-admin repo:
 
 Now all we need is to see what this "subconf" thing is all about.
 
-# the subconf command
+## the subconf command
 
 Subconf is exactly like the include command in syntax:
 
@@ -83,7 +83,7 @@ then the subconf can only accept repo statements that refer to 'foo', '@foo',
 **Note**: the subconf name "master" is special; it is the default subconf in
 effect for the main conf file and has no restrictions.
 
-## how the "subconf name" is derived
+### how the "subconf name" is derived
 
 For subconf lines that look just like include statements, i.e.,
 
@@ -106,9 +106,9 @@ subconf foo "frob/*.conf"
 In this variation, regardless of what file in "frob/" is being read, the
 subconf name in effect is "foo".
 
-# security notes
+## security notes
 
-## group names
+### group names
 
 You can use "@group"s defined in the main config file but do not attempt to
 redefine or extend them in your own subconf file.  If you must extend a group
@@ -122,7 +122,7 @@ redefine or extend them in your own subconf file.  If you must extend a group
 Group names you define in your subconf will not clash even if the exact same
 name is used in another subconf file, so you need not worry about that.
 
-## delegating pubkeys
+### delegating pubkeys
 
 Short answer: not gonna happen.
 

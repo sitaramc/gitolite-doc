@@ -8,7 +8,7 @@ single set of rules in the config file.  The [regex](regex.md) can also include 
 word `CREATOR` in it, allowing you to parametrise the name of the user
 creating the repo.
 
-# quick intro/example
+## quick intro/example
 
 If you're curious about the feature but you aren't sure if you want to read
 the whole page, here's a very simple example.
@@ -60,7 +60,7 @@ actual conf file or any admin intervention.
 And that's it for our quick intro example.  The rest of this page will explain
 all this in much more detail.
 
-# declaring wild repos in the conf file
+## declaring wild repos in the conf file
 
 Here's a slightly more detailed example, starting with what the admin puts in
 the conf file:
@@ -84,7 +84,7 @@ are about creating *branches*, not *repos*.</span>
 
 [write-types]: conf-2.md#appendix-1-different-types-of-write-operations
 
-# (**user**) creating a specific repo
+## (**user**) creating a specific repo
 
 For now, ignore the special usernames READERS and WRITERS, and just create a
 new repo, as user "u4" (a student):
@@ -93,7 +93,7 @@ new repo, as user "u4" (a student):
     Initialized empty Git repository in /home/git/repositories/assignments/u4/a12.git/
     warning: You appear to have cloned an empty repository.
 
-# a slightly different example
+## a slightly different example
 
 Here's how the same example would look if you did not want the CREATOR's name
 to be part of the actual repo name.
@@ -117,9 +117,9 @@ You could also replace the C line like this:
 
 and have a TA create the repos in advance.
 
-# repo regex patterns
+## repo regex patterns
 
-## regex pattern versus normal repo
+### regex pattern versus normal repo
 
 Due to projects like `gtk+`, the `+` character is now considered a valid
 character for an *ordinary* repo.  Therefore, a regex like `foo/.+` does not
@@ -128,7 +128,7 @@ look like a [regex](regex.md) to gitolite.  Use `foo/..*` if you want that.
 Also, `..*` by itself is not considered a valid repo regex.  Try
 `[a-zA-Z0-9].*`.  `CREATOR/..*` will also work.
 
-## line-anchored regexes
+### line-anchored regexes
 
 A regex like
 
@@ -154,7 +154,7 @@ metacharacters.
 
 [refex]: conf.md#the-refex-field
 
-# roles
+## roles
 
 The words READERS and WRITERS are called "role" names.  The access rules in
 the conf file decide what permissions these roles have, but they don't say
@@ -165,7 +165,7 @@ You can run `ssh git@host perms -h` for detailed help, but in brief, that
 command lets you give and take away roles to users.  [This][perms] has some
 more detail.
 
-## adding other roles
+### adding other roles
 
 If you want to have more than just the 2 default roles, say something like:
 
@@ -184,7 +184,7 @@ repo foo/..*
   RW+D              =   MANAGERS
 ```
 
-### <font color="red">**IMPORTANT WARNING ABOUT THIS FEATURE**</font>
+#### <font color="red">**IMPORTANT WARNING ABOUT THIS FEATURE**</font>
 
 !!! danger ""
 
@@ -197,7 +197,7 @@ You can keep things sane by using UPPERCASE names for roles, while keeping all
 your user and group names lowercase; then you don't have to worry about this
 problem.
 
-## setting default roles
+### setting default roles
 
 You can setup some default role assignments as soon as a new wild repo is
 created.
@@ -220,16 +220,16 @@ If you want to simulate the old (pre v3.5) `DEFAULT_ROLE_PERMS` rc file
 variable, just add them under a `repo @all` line.  (Remember that this only
 affects newly created wild repos, despite the '@all' name).
 
-## specifying owners
+### specifying owners
 
 See the section on `OWNER_ROLENAME` in the [rc file page](rc.md).
 
-# listing wild repos
+## listing wild repos
 
 In order to see what repositories were created from a wildcard, use the 'info'
 command.  Try `ssh git@host info -h` to get help on the info command.
 
-# deleting a wild repo
+## deleting a wild repo
 
 Run the whimsically named "D" command -- try `ssh git@host D -h` for more info
 on how to delete a wild repo.  (Yes the command is "D"; it's meant to be a
@@ -237,7 +237,7 @@ counterpart to the "C" permission that allowed you to create the repo in the
 first place).  Of course this only works if your admin has enabled the command
 (gitolite ships with the command disabled for remote use).
 
-# appendix 1: owner and creator
+## appendix 1: owner and creator
 
 A wild repo is created by one specific user.  This user is usually called the
 **creator** of the repo: his username is placed in a file called gl-creator in
@@ -262,6 +262,6 @@ But, as I said in [this mail](https://groups.google.com/d/msg/gitolite/nFbnQuO0z
 
 <!--
 
-# appendix 2: handing off the repo to someone else #TODO
+## appendix 2: handing off the repo to someone else #TODO
 
 -->

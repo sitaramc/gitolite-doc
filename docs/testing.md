@@ -48,7 +48,7 @@ otherwise take.
 If you think that defeats the purpose of the testing, you haven't read
 [this][auth] yet.
 
-# appendix 1 -- the clobber list
+## appendix 1 -- the clobber list
 
 When you [try out gitolite][trying] or run the test suite, the following files
 and directories in your \$HOME are potentially clobbered.

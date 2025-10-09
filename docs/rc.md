@@ -15,7 +15,7 @@ gets installed when you setup gitolite.  **You can always get a default copy
 for your current version by running `gitolite print-default-rc`.**  (Please
 see appendix A for upgrade instructions.)
 
-# structure of the rc file
+## structure of the rc file
 
 The rc file is perl code, but you do NOT need to know perl to edit it.  Just
 mind the commas, use single quotes unless you know what you're doing, and make
@@ -32,7 +32,7 @@ the actual rc file or in each of their individual documentation files around;
 start with ["non-core" gitolite](non-core.md).  If a setting is used by a command
 then running that command with '-h' may give you additional information.
 
-# specific variables
+## specific variables
 
   * `$UMASK`, octal, default `0077`
 
@@ -116,7 +116,7 @@ then running that command with '-h' may give you additional information.
 [roles]: wild.md#roles
 [localcode]: non-core.md#for-your-non-core-programs
 
-# security note: gitolite admin and shell access
+## security note: gitolite admin and shell access
 
 People sometimes ask why this file is also not revision controlled.  Here's
 why.
@@ -139,7 +139,7 @@ are not allowed to do anything that gets them into the second set.
     repo, push the change, then replace `~/.gitolite.rc` with a symlink to
     `~/.gitolite/.gitolite.rc`.</span>
 
-# appendix A: upgrading the rc file
+## appendix A: upgrading the rc file
 
 First, note that upgrading the rc file is always *optional*.  However, it may
 help if you want to use any of the new features available in later gitolite
@@ -182,7 +182,7 @@ use this to confirm you did not miss something during the manual rc upgrade.
 
 *   compare the 2 rc dumps to make sure you've got everything covered.
 
-# appendix B: making a trigger run *after* the built-in ones
+## appendix B: making a trigger run *after* the built-in ones
 
 For most purposes, the section on [adding your own scripts to a
 trigger][addtrig] works fine.
@@ -227,7 +227,7 @@ order it has them.
 -   document arguments supplied via ENABLE list
 -->
 
-# appendix C: overriding safety-net patterns
+## appendix C: overriding safety-net patterns
 
 Apart from [`UNSAFE_PATT`][unsafepatt], there are other patterns that
 gitolite uses to prevent various attacks.  They're all defined in `Rc.pm` in

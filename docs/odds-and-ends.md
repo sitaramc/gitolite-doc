@@ -4,7 +4,7 @@
 
 This page has a bunch of features that didn't seem to fit anywhere.
 
-# disabling pushes to take backups
+## disabling pushes to take backups
 
 The `writable` command allows you to disable pushes to all repos or just the
 named repo, in order to do file-system level things to the repo directory that
@@ -12,7 +12,7 @@ require it not to change, like using normal backup software.
 
 Run `gitolite writable -h` for more info.
 
-# putting 'repositories' and '.gitolite' elsewhere
+## putting 'repositories' and '.gitolite' elsewhere
 
 Gitolite insists that the "repositories" and ".gitolite" directories be in
 `$HOME`.  If you want them somewhere else:
@@ -21,7 +21,7 @@ Gitolite insists that the "repositories" and ".gitolite" directories be in
   * *then* move those directories to wherever you want and replace them with
     symlinks pointing to the new location.
 
-# using pubkeys obtained from elsewhere
+## using pubkeys obtained from elsewhere
 
 If you're not managing keys via the gitolite-admin repo, but getting them from
 somewhere else, you'll want to periodically "update" the keys.
@@ -41,7 +41,7 @@ Then write a script that
 
 Run this from cron or however you want.
 
-# giving users their own repos
+## giving users their own repos
 
 (Please see [this](wild.md) for background on the ideas in this section).
 
@@ -70,7 +70,7 @@ Of course you can get much more creative if you add a few more [roles][].
 `repo u/CREATOR/..*`.  This helps to keep user-created repos separate, and
 avoid name clashes in some far-fetched scenarios).</font>
 
-# administering gitolite directly on the server
+## administering gitolite directly on the server
 
 The main use of managing gitolite via the admin repo is that you get to
 version control the access rules.  But for large sites, there's another use:

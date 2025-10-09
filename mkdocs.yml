@@ -10,6 +10,9 @@ theme:
     - navigation.footer
     - search.suggest
     - search.highlight
+plugins:
+  - search
+  - offline
 # repo_url: https://github.com/sitaramc/gitolite-doc
 
 nav:

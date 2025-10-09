@@ -7,15 +7,15 @@ facility.  (I'm sure there are any number of other static site generators out
 there, but this one seemed to have the smallest footprint and was easiest to
 install and get going).
 
-# building the docs
+## building the docs
 
 *   Make sure the tree is not dirty.
 *   Run `bin/build`; takes a few seconds and grabs the screen, sorry!
 *   Deploy `site/`
 
-# what doesn't work in mkdocs
+## what doesn't work in mkdocs
 
-## bad language guesses
+### bad language guesses
 
 It seems to be too hard to make it turn off its "guess the language"
 pseudo-smartness when you use a plain indented code block.  And looking at the
@@ -25,7 +25,7 @@ you're left with strange colors on some random words in many code blocks!
 (I could fence each of them with an explicit language but I'm reluctant to do
 that; plain markdown's plain indented code **should** be left plain, ideally!)
 
-## no hidden docs
+### no hidden docs
 
 Every document must appear in the document menu (top nav bar), even if it is
 several levels deep.  The only way to have a document rendered without putting
@@ -38,19 +38,19 @@ I'd already added all the documents willy-nilly anyway.
 Except, ironically, *this* document; this will never be rendered -- you'll
 only see it in the source repo.
 
-## `foo bar` split across lines
+### `foo bar` split across lines
 
 If a `foo bar` is split across lines due to vim formatting, the bloody output
 also shows it split there.  My constant OCD to reformat all paras has taken a
 hit, due to all these manually UN-formatted paragraphs.
 
-## TOC levels
+### TOC levels
 
 The 'cinder' theme gives you 3 levels, but does not scroll the side nav at
 all (i.e., if you have too many entries, you just won't see the ones that were
 below the window bottom)!  Sticking with default theme for now.
 
-## code highlight
+### code highlight
 
 1.  the "codehilite" extension seems too complicated looking at the steps
     described in
@@ -68,7 +68,7 @@ syntax and let our preprocessor fix things up using vim.  Kludgy, slow,
 annoying (all those xterms -- I need to implement caching for this), but it
 gets the job done with a minimum of fuss.
 
-## short anchors
+### short anchors
 
 can only be created like:
 
@@ -84,7 +84,7 @@ At present I'm not using them at all; just using the long forms.
 
 <!--
 
-# notes
+## notes
 
 from <https://pythonhosted.org/Markdown/extensions/admonition.html>
 
@@ -93,5 +93,5 @@ from <https://pythonhosted.org/Markdown/extensions/admonition.html>
     warning.
 
 
-# vim: set ft=markdown:
+## vim: set ft=markdown:
 -->

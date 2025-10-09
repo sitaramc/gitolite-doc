@@ -8,7 +8,7 @@ difference for really large sites.
 
 ----
 
-# factors affecting gitolite performance
+## factors affecting gitolite performance
 
 A lot of the following discussion involves understanding these factors:
 
@@ -57,11 +57,11 @@ A lot of the following discussion involves understanding these factors:
 [role]: wild.md#roles
 [perms]: user.md#setget-additional-permissions-for-repos-you-created
 
-# types of performance issues
+## types of performance issues
 
 Gitolite performance can be discussed in four different scenarios:
 
-## normal git activity
+### normal git activity
 
 A user accesses a git repo using git clone, fetch, push, etc.
 
@@ -69,14 +69,14 @@ Gitolite is heavily optimised for the day to day "developer" activity by
 users.  You should *never* have any issues with this, regardless of what mix
 of factors (affecting performance; see above) you have.
 
-## admin push
+### admin push
 
 An admin does a "push" to the "gitolite-admin" repo (or does the
 equivalent when [administering gitolite directly on the server][agds]).
 
 What happens then can be divided into two distinct parts.
 
-### `gitolite compile`
+#### `gitolite compile`
 
 The first part is `gitolite compile`.  This is influenced by the conf file
 size as well as the number of normal repos.  For each normal repo, gitolite
@@ -114,7 +114,7 @@ couple of attempts to mitigate this.
 
 [templates]: templates.md
 
-### `gitolite trigger POST_COMPILE`
+#### `gitolite trigger POST_COMPILE`
 
 The second part runs all the `POST_COMPILE` triggers scripts.  On a default
 installation, this includes maintaining `~/.ssh/authorised_keys`, updating
@@ -131,7 +131,7 @@ to each of them (see "scan ALL repos" section later).  For example, the
 trigger script that updates the "projects.list" file for gitweb needs to check
 every repo to see if the user `gitweb` is allowed `R`ead access to it.
 
-## new wild repo
+### new wild repo
 
 A user creates a brand new "wild" repo.
 
@@ -151,7 +151,7 @@ after a user runs a wild repo create -- any subtask of that 'create' that
 takes more than a second is a problem.  Send details to the mailing list so we
 can discuss and fix whatever can be fixed.
 
-## scan ALL repos
+### scan ALL repos
 
 There are a few activities that scan **all** repos, looking for a given
 user's permission on **each** of them:
@@ -177,13 +177,13 @@ The appendix has a solution for this, using a perl module called Memoize
 [rsag]: gitweb-daemon.md#repo-specific-authorisation-in-gitweb
 [lff]: dev-notes.md#appendix-2-log-file-format
 
-# appendix 1: using `memoize`
+## appendix 1: using `memoize`
 
 It seems that perl's Memoize module does a great job at helping with the "scan
 ALL repos" use case, at least after the first time a user accesses gitweb or
 runs the 'info' command.
 
-## gitweb
+### gitweb
 
 To start with, here's tested code to add into gitweb.conf:
 
@@ -243,6 +243,6 @@ The second is easily solved by asking them to run that command we created.
 
 That's it.
 
-## the `info` command
+### the `info` command
 
 TODO: see if the info command can also benefit from something similar!

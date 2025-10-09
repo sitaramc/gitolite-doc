@@ -19,7 +19,7 @@ gitolite to work, because you'll be attacking the wrong problem.
 So please please please understand this before tearing your hair out and
 blaming ***git/gitolite*** for whatever is going wrong with your setup :-)
 
-# ssh basics
+## ssh basics
 
 Let's start with some basics, focusing *only* on the pieces relevant to
 `gitolite`.  If this is not detailed enough, please use google and learn more
@@ -92,7 +92,7 @@ from somewhere, or maybe buy the OReilly ssh book.
 
 [users]: basic-admin.md#addremove-users
 
-# how does gitolite use all this ssh magic?
+## how does gitolite use all this ssh magic?
 
 These are two different questions you ought to be having by now: 
 
@@ -100,7 +100,7 @@ These are two different questions you ought to be having by now:
     logging in as the same remote user "git".
   * How does it restrict what I can do within a repository.
 
-## restricting shell access/distinguishing one user from another
+### restricting shell access/distinguishing one user from another
 
 The answer to the first question is the `command=` we talked about before.  If
 you look in the `authorized_keys` file, you'll see entries like this (I chopped
@@ -131,7 +131,7 @@ at its config file, and either allows or rejects the request.
 But this cannot differentiate between different branches within a repo; that
 has to be done separately.
 
-## restricting branch level actions
+### restricting branch level actions
 
 [If you look inside the git source tree, there's a file among the "howto"s in
 there called `update-hook-example.txt`, which was the inspiration for this

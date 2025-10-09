@@ -18,7 +18,7 @@ help:</span>
     covers almost every known ssh related issue.  If you find something
     missing, send me an email with details so I can update it.
 
-# ssh related features
+## ssh related features
 
 This section will explain why an "ssh issue" is almost never a "gitolite
 issue", and, indirectly, why I dont get too excited about the former.
@@ -49,7 +49,7 @@ be, and usually *isn't*, an actual *unix* username).
 
 As you can see, authentication happens before gitolite is called.
 
-## but... but... you have all that ssh stuff in gitolite!
+### but... but... you have all that ssh stuff in gitolite!
 
 No I don't.  Not in "core" gitolite from v3 onwards :-)
 
@@ -61,7 +61,7 @@ with something else of your choice.
 For example, in both [smart http](http.md) and ldap-backed sshd, gitolite has no
 role to play in creating users, setting up their passwords/keys, etc.
 
-## so you're basically saying you won't support "X"
+### so you're basically saying you won't support "X"
 
 (where "X" is some ssh related behaviour change or feature)
 
@@ -76,7 +76,7 @@ command line on the server, of course.
 
 [lost-key]: emergencies.md#lost-admin-keyaccess
 
-# using other authentication systems with gitolite
+## using other authentication systems with gitolite
 
 The bottom line in terms of how to invoke gitolite has been described above,
 and as long as you manage to do that gitolite won't even know how the

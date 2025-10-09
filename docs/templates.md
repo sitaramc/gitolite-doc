@@ -6,7 +6,7 @@ This feature was added late September 2017, after 3.6.7.  In terms of
 versioning, it will be part of 3.6.8, or you could just grab the latest from
 github.
 
-# overview
+## overview
 
 This feature describes a new method of specifying gitolite rules.
 
@@ -70,7 +70,7 @@ Notice that `foo` and `bar` use different sets of templates: `foo` is a
 public-readable repo that controls who can push versioned tags (releases),
 while `bar` is a basic repo which supports [personal branches][perbr].
 
-# advantages
+## advantages
 
 There are a few advantages with this approach:
 
@@ -104,9 +104,9 @@ There are a few advantages with this approach:
 3.  Makes gitolite compile much faster, especially if you have thousands (or
     tens of thousands) of repos.
 
-# how does it work?
+## how does it work?
 
-## a repo and its users
+### a repo and its users
 
 The [wildcard](wild.md) repos feature already has a way to dissociate the actual
 user names from the rule set in gitolite.conf.  For example, you can say
@@ -130,7 +130,7 @@ In other words, we've taken the actual users (say alice, bob, etc) out of the
 gitolite.conf file, and thus any changes to the users/roles no longer need to
 involve gitolite.conf.
 
-## a repo and its *rules*
+### a repo and its *rules*
 
 In a "duh! Why didn't I think of this till now" moment, I realised I can do
 the same for the *rules* that apply to a repo -- take that association out of
@@ -140,7 +140,7 @@ are doing.
 This list of templates is also stored in a plain text file just like the one
 that contains the user/role mappings, and in the same directory.
 
-# usage and syntax
+## usage and syntax
 
 First, you have to add all the new "roles" to the `ROLES` hash in
 `~/.gitolite.rc`.  If you edit that file, you'll see two pre-created roles
@@ -251,7 +251,7 @@ A few additional points:
     =end
     ```
 
-# bypassing gitolite.conf for *huge* sites
+## bypassing gitolite.conf for *huge* sites
 
 Some sites have all their access control information in a web-based system,
 and generate gitolite.conf as needed.  If they have tens of thousands of
@@ -266,7 +266,7 @@ doesn't even have to touch gitolite or gitolite.conf (assuming the templates
 and roles are already defined in gitolite.conf and `~/.gitolite.rc` of
 course!)
 
-## generating the text files externally
+### generating the text files externally
 
 The actual text files involved are very simple.  Remember these files go into
 `~/repositories/$REPO.git` (or more accurately, `$(gitolite query-rc GL_REPO_BASE)/$REPO.git`).
@@ -289,7 +289,7 @@ and the file `gl-perms` is:
 
 Again, this text is exactly the same as in the gitolite.conf!
 
-## creating new repos
+### creating new repos
 
 Gitolite has no mechanism to create repos out of thin air, so if you don't
 want to go via gitolite.conf, one way to do this is to add the following lines
@@ -307,7 +307,7 @@ and then, at the server, run this:
 That creates the repo, and you can now populate its `gl-perms` and
 `gl-repo-groups` files.
 
-# thanks to...
+## thanks to...
 
 ...pingou on irc, and the Fedora project, for having 42,000 repos in a conf
 file over 560,000 lines long.  Which made me think about this real hard for
@@ -315,7 +315,7 @@ days, including two false starts (one of which I published and have just now
 reverted, and one which was so kludgey I refuse to acknowledge it exists --
 thank God I did not publish that!)
 
-# miscellanea
+## miscellanea
 
 This feature is not the same as [wild](wild.md) repos; repos here are created by the
 gitolite admin or a server-side backend, *not* by a gitolite user.  (However,

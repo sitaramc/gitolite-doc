@@ -10,7 +10,7 @@ use or install this.  Most non-core features of gitolite do not work with
 namespaces, and, worse, many of them will *fail silently*.  There are also
 security issues you need to be aware of.
 
-# background
+## background
 
 In many projects, developers need to push their work to some central place for
 others to fetch.  Namespaces allow you to give each developer what looks like
@@ -21,7 +21,7 @@ a lot of common history.
 The logical repos look like normal repos to a git *client*; all the magic is
 on the server side.  (But see the "WARNINGS" section).
 
-# terminology
+## terminology
 
 There is one repo that is special, and several others that depend upon it or
 use it.  Depending on context, we use one of the following names:
@@ -37,7 +37,7 @@ repo as a logical repo if you wish.</font>
 
 [imwf]: https://git-scm.com/book/en/Distributed-Git-Distributed-Workflows#Integration-Manager-Workflow
 
-# setup
+## setup
 
 First, add the following lines to the rc file, as indicated:
 
@@ -69,7 +69,7 @@ repo    CREATOR/[a-zA-Z0-9].*
     option namespace.pattern = %/* is @1 in @2
 ```
 
-# use
+## use
 
 A developer doesn't have to do anything differently.  She will still run,
 e.g., `git clone git@host:alice/linux` to auto-create and clone a [wild](wild.md)
@@ -83,7 +83,7 @@ might go surprisingly fast :)
 Secondly, a lot of *gitolite* commands (and other features) won't work.  See
 the "WARNINGS" section below for more.
 
-# details
+## details
 
 The option line above has 3 parts separated by the words "is" and "in":
 
@@ -193,9 +193,9 @@ Some examples may help:
     options and the options themselves; you need to fine tune one or the
     others to fix things.
 
-# WARNINGS
+## WARNINGS
 
-## SECURITY
+### SECURITY
 
 **First and most important**, please read 'man gitnamespaces' for important
 security information about namespaces.
@@ -218,7 +218,7 @@ allow or reject a push, while line 2, which is directly contacting the
 In particular, Alice does **not** need write access to the backing repo for
 the push to succeed!
 
-## gitolite functionality
+### gitolite functionality
 
 Most things you're used to in gitolite won't work with logical repos.  From
 the client point of view, **the only features guaranteed to work on logical
@@ -239,7 +239,7 @@ repos, and may even fail silently!**:
   * anything that expects to be recorded somewhere in the bare repo directory.
   * ...and anything else not explicitly listed as "working" in this doc ;-)
 
-## gitolite functionality -- mirroring
+### gitolite functionality -- mirroring
 
 Mirroring works, but **all the logical repos and the backing repo should have
 the same mirroring setup**.  I.e., which server is the master, who are the
@@ -247,7 +247,7 @@ copies, are redirects allowed, if so from where, etc., etc., etc., should all
 have the same values for all of them.  I cannot over-emphasise the importance
 of this for proper mirroring.
 
-# other notes
+## other notes
 
 The "backing repo" needs to exist.  If it is itself a [wild](wild.md) repo, it must
 be auto-created *before* a logical repo that hangs off of it is accessed.

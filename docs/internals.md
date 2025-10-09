@@ -22,7 +22,7 @@ that's what I will suggest!
 
 -->
 
-# what is "core"
+## what is "core"
 
 The core code consists mainly of `src/gitolite`, `src/gitolite-shell`, and all
 the perl modules in `src/lib/Gitolite` except `src/lib/Gitolite/Triggers`.
@@ -37,16 +37,16 @@ gitolite):
 *   triggers in `src/triggers` and `src/triggers/post-compile`: ssh-authkeys,
     ssh-authkeys-shell-users, update-git-configs, set-default-roles, 
 
-# entry points
+## entry points
 
-## gitolite
+### gitolite
 
 Most server-side operations that gitolite supports are invoked via the
 `gitolite` command.  This includes initial setup and maintenance, some
 built-in commands (run 'gitolite -h' to see them), and finally the commands in
 `src/commands` (run 'gitolite help' to get a list).
 
-## gitolite-shell
+### gitolite-shell
 
 All remote access is via the `gitolite-shell` command, (invoked, of course, by
 sshd).  This includes both git operations (clone, fetch, push) as well as
@@ -58,7 +58,7 @@ even allowed to read/write this repo at all?") and then calls git proper.
 Most of the code in this is housekeeping; the real action happens in one of
 the modules.
 
-# the Conf module
+## the Conf module
 
 The `Conf` module and its child modules deal with the gitolite.conf file.
 
@@ -69,12 +69,12 @@ in `Conf::Store`.
 Please note the parser is a very simple line-oriented parser using simple
 regexes; the DSL for the gitolite.conf file is intentionally very simple.
 
-## `Conf::Explode`
+### `Conf::Explode`
 
 This deals with "exploding" the main gitolite.conf file into a single perl
 list with all 'include' files recursively expanded.
 
-## `Conf::Sugar`
+### `Conf::Sugar`
 
 This calls `Conf::Explode` to get the full set of conf lines, then applies a
 series of "syntactic sugar" transformations to them.  This keeps the main
@@ -84,7 +84,7 @@ writing the rules.
 Some transformations are built-in and hardcoded, but a site can add their own
 site-local transformations if they like.
 
-## `Conf::Store`
+### `Conf::Store`
 
 `Conf::Store` is one of the two workhorses of gitolite.  It exports functions
 related to processing parsed lines and storing the parsed output for later
@@ -102,7 +102,7 @@ repos.
 From a security perspective, dealing with 'subconf' (see [delegation](deleg.md)
 for details) happens in this module.
 
-## `Conf::Load`
+### `Conf::Load`
 
 `Conf::Load` is the other of the two workhorses of gitolite.
 
@@ -122,7 +122,7 @@ specified in the conf file.
 Finally, this is where all the "list-" commands that 'gitolite -h' shows you
 (e.g., 'gitolite list-repos') land up.
 
-# the Rc module
+## the Rc module
 
 The rc file (`~/.gitolite.rc`) is processed here.  In addition, it also
 declares a bunch of constants (like the all-important regex patterns to
@@ -141,7 +141,7 @@ file).
 Finally, the trigger function is also exported by this module.  This is the
 function that actually runs all the programs tied to each trigger.
 
-# the Hooks module
+## the Hooks module
 
 This is where the code for the update hook (all repos) and the post-update
 hook (gitolite-admin repo only) can be found.
@@ -163,7 +163,7 @@ make a difference to the access.
 TODO: expand on VREF handling.  For now please read [vref](vref.md) to get the
 general idea of *what* it does, while I find time to write up the *how*.
 
-# the rest...
+## the rest...
 
 ...is TBD (to be done).  Briefly, the Test module is for testing, the Common
 module contains a whole bunch of common routines used all over -- many of them
@@ -171,7 +171,7 @@ not gitolite specific at all, Cache is not to be used for now (sorry,
 bitrotted by now I think... I may need to take it out behind the woodshed one
 of these days).
 
-# security notes
+## security notes
 
 All security issues should be reported directly to me (sitaramc@gmail.com),
 and not to the mailing list.
@@ -251,7 +251,7 @@ Finally, a note on a couple of related items:
     Since gitolite gets "suspicious" input only in one place, it's easier to
     check that rigorously enough rather than use taint mode.
 
-# appendix A: accessing the documentation offline
+## appendix A: accessing the documentation offline
 
 The source code for the documentation is in
 <https://github.com/sitaramc/gitolite-doc>.  Rendering it requires some work

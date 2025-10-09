@@ -5,7 +5,7 @@
 This page talks about what gitolite looks like to non-admins, and the commands
 and features available to them.
 
-# accessing gitolite
+## accessing gitolite
 
 The most common setup is based on ssh, where your admin asks you to send him
 your public key, and uses that to setup your access.
@@ -34,7 +34,7 @@ work.  The only things to note are:
     like) but **gitolite** commands in general (see below) will not like the
     additional ".git" at the end.
 
-# the info command
+## the info command
 
 The only command that is *always* available to every user is the `info`
 command (run `ssh git@host info -h` for help), which tells you what version of
@@ -42,7 +42,7 @@ gitolite and git are on the server, and what repositories you have access to.
 The list of repos is very useful if you have doubts about the spelling of some
 new repo that you know was setup.
 
-# normal and wild repos
+## normal and wild repos
 
 Gitolite has two kinds of repos.  Normal repos are specified by their full
 names in the config file.  "Wildcard" repos are specified by a regex in the
@@ -59,9 +59,9 @@ pushing to them -- gitolite automatically creates the repo on the server side.
 When you create such a repo, your "ownership" of it (as far as gitolite is
 concerned) is automatically recorded by gitolite.
 
-# other commands
+## other commands
 
-## set/get additional permissions for repos you created
+### set/get additional permissions for repos you created
 
 The gitolite config may have several permissions lines for your repo, like so:
 
@@ -104,11 +104,11 @@ change what access a role has, but you *can* say which users have that role.
     that your admin will tell you what "roles" he added into rules for your
     repos, and what permissions those roles have.
 
-## adding a description to repos you created
+### adding a description to repos you created
 
 The `desc` command is extremely simple.  Run `ssh git@host desc -h` for help.
 
-# "site-local" commands
+## "site-local" commands
 
 The main purpose of gitolite is to prevent you from getting a shell.  But
 there are commands that you often need to run on the server (i.e., cannot be
@@ -123,7 +123,7 @@ Think of these commands as equivalent to those in `COMMAND_DIR` in `man git-shel
 
 You can get a list of available commands by running `ssh git@host help`.
 
-# "personal" branches
+## "personal" branches
 
 "personal" branches are great for environments where developers need to share
 work but can't directly pull from each other (usually due to either a

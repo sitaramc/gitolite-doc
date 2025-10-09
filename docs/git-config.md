@@ -9,7 +9,7 @@
     **Important**: This won't work unless the rc file has the right settings;
     please see `$GIT_CONFIG_KEYS` in the [rc file doc](rc.md#specific-variables).
 
-# basic syntax
+## basic syntax
 
 The syntax is simple:
 
@@ -29,7 +29,7 @@ examples above) or "git config --unset-all section.key" (for the last
 example).  Other forms of the `git config` command (`--add`, the
 `value_regex`, etc) are not supported.
 
-## <span class="red">an important warning about **deleting** a config line</span>
+### <span class="red">an important warning about **deleting** a config line</span>
 
 !!! danger ""
 
@@ -38,7 +38,7 @@ example).  Other forms of the `git config` command (`--add`, the
     syntax in the last example to make gitolite execute a `--unset-all`
     operation on the given key.
 
-# substituting the repo name and the creator name
+## substituting the repo name and the creator name
 
 You can also use the special values `%GL_REPO` and `%GL_CREATOR` in the
 string.  The former is available to all repos, while the latter is only
@@ -50,7 +50,7 @@ repo foo bar baz
     config hooks.emailprefix = "[%GL_REPO] "
 ```
 
-# <span class="gray">(v3.6.7+)</span> expanding a group name
+## <span class="gray">(v3.6.7+)</span> expanding a group name
 
 If you add
 
@@ -72,7 +72,7 @@ line.  However, if there is no such group, the text will be left as-is.  Also,
 for safety, only word characters (alphanumerics and underscore) are expected
 as part of the group name.
 
-# overriding config values
+## overriding config values
 
 You can repeat the 'config' line as many times as you like, and the *last*
 occurrence will be the one in effect.  This allows you to override settings
@@ -83,7 +83,7 @@ repo @all
     config hooks.mailinglist = %GL_REPO-commits@example.tld
     config hooks.emailprefix = "[%GL_REPO] "
 
-# ... later ...
+... later ...
 
 repo customer-project
     # different mailing list
@@ -102,7 +102,7 @@ As you can see, the general idea is to place the most generic ones (`repo @all`,
 or repo regex like `repo foo.*`) first, and place more specific ones
 later to override the generic settings.
 
-# compensating for UNSAFE\_PATT (and other patterns)
+## compensating for UNSAFE\_PATT (and other patterns)
 
 An important feature in gitolite is that you can share the admin load with
 more people, **without** having to give all of them shell access on the

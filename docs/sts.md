@@ -10,9 +10,9 @@ This page should help you troubleshoot ssh-related problems in installing and
 accessing gitolite.  It also has a section of random ssh-related tips and
 tricks that gitolite can do.
 
-# IMPORTANT -- READ THIS FIRST
+## IMPORTANT -- READ THIS FIRST
 
-## caveats
+### caveats
 
   * Before reading this page, it is **mandatory** to read and **completely
     understand** [this](glssh.md), which is a very detailed look at how gitolite
@@ -33,7 +33,7 @@ tricks that gitolite can do.
 
 [auth]: concepts.md#authentication-and-authorisation
 
-## naming conventions used
+### naming conventions used
 
   * Your workstation is the **client**.  Your userid on the client does not
     matter, and it has no relation to your gitolite username.
@@ -42,7 +42,7 @@ tricks that gitolite can do.
     this is an RPM/DEB install, the hosting user is probably called
     "gitolite", however we will use "git" in this page.
 
-## taking stock -- relevant files and directories
+### taking stock -- relevant files and directories
 
   * The client has a `~/.ssh` containing a few keypairs.  It may also have a
     `config` file.
@@ -59,7 +59,7 @@ tricks that gitolite can do.
   * The server also has a `~/.gitolite/keydir` which contains a bunch of
     `*.pub` files.
 
-## normal gitolite key handling
+### normal gitolite key handling
 
 Here's how normal gitolite key handling works:
 
@@ -84,7 +84,7 @@ Here's how normal gitolite key handling works:
         lines are preserved.  Gitolite only touches lines that are found
         between gitolite's "marker" lines (`# gitolite start` and `# gitolite end`).
 
-# common ssh problems
+## common ssh problems
 
 Since I'm pretty sure at least some of you didn't bother to read the
 "IMPORTANT: PLEASE READ FIRST" section above, let me take a minute to point
@@ -127,7 +127,7 @@ background info.
     `fatal: 'reponame' does not appear to be a git repository`, and yet
     you are sure 'reponame' exists, you haven't mis-spelled it, etc.
 
-# step by step
+## step by step
 
 Since I'm pretty sure at least some of you didn't bother to read the
 "IMPORTANT: PLEASE READ FIRST" section above, let me take a minute to point
@@ -150,9 +150,9 @@ Done?  OK, now the general outline for ssh troubleshooting is this:
     client, instead of the default key.  See [appendix 3][stsapp3] and
     [appendix 4][ssh-ha].
 
-# random tips, tricks, and notes
+## random tips, tricks, and notes
 
-## giving shell access to gitolite users
+### giving shell access to gitolite users
 
 Thanks to an idea from Jesse Keating, a single key can allow both gitolite
 access *and* shell access.
@@ -177,7 +177,7 @@ that needs to be interpolated into the value).
 Then run `gitolite compile; gitolite trigger POST_COMPILE` or push a dummy
 change to the admin repo.
 
-### the SHELL\_USERS\_LIST
+#### the SHELL\_USERS\_LIST
 
 If you're using gitolite v3.6 or below, it's slightly different.  You have to
 enable the trigger by uncommenting the 'Shell' line in the ENABLE list, but
@@ -195,7 +195,7 @@ change to the admin repo.
 work in 3.6.\*, but when 3.7 is released (whenever that may be), it will not
 work, and you will have to use the new syntax described above.
 
-## distinguishing one key from another
+### distinguishing one key from another
 
 Since a user can have [more than one key][multi-key], it is sometimes useful
 to distinguish one key from another.  Sshd does not tell you even the
@@ -225,7 +225,7 @@ You can then write an INPUT trigger to do whatever you need with the file
 name, which is in `$ARGV[1]` (the second argument).  The actual file is
 available at `$ENV{GL_ADMIN_BASE}/$ARGV[1]` if you need its contents.
 
-## customising the authorized key options
+### customising the authorized key options
 
 By default, the options used in the `authorized_keys` file, to restrict remote
 users, are:
@@ -245,7 +245,7 @@ the RC file:
     addition* to it.  You must include all the options you need, even those
     that are in the default list, if you use this feature.
 
-## simulating ssh-copy-id
+### simulating ssh-copy-id
 
 don't have `ssh-copy-id`?  This is broadly what that command does, if you want
 to replicate it manually.  The input is your pubkey, typically
@@ -268,7 +268,7 @@ typically) also must be `go-w`, but that needs root.  And typically
 they're already set that way anyway.  (Or if they're not, you've got
 bigger problems than gitolite install not working!)]
 
-## problems with using non-openssh public keys
+### problems with using non-openssh public keys
 
 Gitolite accepts public keys only in openssh format.  Trying to use an "ssh2"
 key (used by proprietary SSH software) will not be a happy experience.
@@ -282,7 +282,7 @@ be done with it, is:
 
 then use the resulting pubkey as you normally would in gitolite.
 
-## windows issues
+### windows issues
 
 On windows, I have only used msysgit, and the openssh that comes with it.
 Over time, I have grown to distrust putty/plink due to the number of people
@@ -293,7 +293,7 @@ putty/plink, including environment variables, etc., and then try again.
 
 Thankfully, someone contributed [this](contrib/putty.md).
 
-# appendix 1: ssh daemon asks for a password
+## appendix 1: ssh daemon asks for a password
 
 >   **NOTE**: This section should be useful to anyone trying to get
 >   password-less access working.  It is not necessarily specific to gitolite,
@@ -372,7 +372,7 @@ This is a quick checklist:
     this file for messages matching the approximate time of your last attempt
     to login, to see if they tell you what is the problem.
 
-# appendix 2: which key is which -- running sshkeys-lint
+## appendix 2: which key is which -- running sshkeys-lint
 
 The sshkeys-lint program can be run on the server or the client.  Run it with
 '-h' to get a help message.
@@ -407,7 +407,7 @@ need.  Be careful:
   * If you're running ssh-agent, you may have to delete (using `ssh-add -D`)
     and re-add identities for it to pick up the renamed ones correctly.
 
-## typical cause(s)
+### typical cause(s)
 
 The admin often has passwordless shell access to `git@server` already, and
 then used that same key to get access to gitolite (i.e., copied that same
@@ -423,7 +423,7 @@ as YourName.pub, then run `gitolite setup -pk YourName.pub` on the server.
 Remember to adjust your agent identities using ssh-add -D and ssh-add if
 you're using ssh-agent, otherwise these new keys may not work.
 
-# appendix 3: ssh client may not be offering the right key
+## appendix 3: ssh client may not be offering the right key
 
   * Make sure the right private key is being offered.  Run ssh in very
     verbose mode and look for the word "Offering", like so:
@@ -449,7 +449,7 @@ you're using ssh-agent, otherwise these new keys may not work.
     the host entry in your `~/.ssh/config` file.  This setting fixes the weird
     quirk described above.)
 
-# appendix 4: ssh host aliases
+## appendix 4: ssh host aliases
 
 (or "making git use the right options for ssh")
 
@@ -481,7 +481,7 @@ say `ssh gitolite` and `git clone gitolite:reponame` and things will work.
 (By the way, the 'port' and 'identityfile' lines are needed only if you have
 non-default values, although I put them in anyway just to be complete).
 
-## more than one keypair
+### more than one keypair
 
 If you have *more than one* pubkey with access to the *same* server, you
 **must** use this method to make git pick up the right key.  There is no other
@@ -516,7 +516,7 @@ related forced command and options.
 
 [tut]: https://sites.google.com/site/senawario/home/gitolite-tutorial
 
-# appendix 5: why bypassing gitolite causes a problem
+## appendix 5: why bypassing gitolite causes a problem
 
 When you bypass gitolite, you end up running your normal shell instead of the
 special gitolite entry point script `gitolite-shell`.

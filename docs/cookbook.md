@@ -17,9 +17,9 @@ it faster, simply because it's organised differently.
 Maybe this will help.  If you run into problems, please check the main
 documentation before asking for help.
 
-# administration
+## administration
 
-## separating "key admin" from "repo admin"
+### separating "key admin" from "repo admin"
 
 In gitolite, the person who controls the keys is the most critical in terms of
 security -- because he can always add his own key in your name :-)
@@ -41,9 +41,9 @@ repo gitolite-admin
 include "actual.conf"
 ```
 
-# access
+## access
 
-## looking up repo access from external tools
+### looking up repo access from external tools
 
 There are two supported interfaces for this, one in perl and one in shell.
 Other languages should probably use the shell mode.  (The shell mode has a
@@ -78,7 +78,7 @@ You can even test for access to specific branches:
 <span class="gray">If your gitolite is older than v3.6, you must use the full ref name;
 just 'master' won't do.</span>
 
-## allowing access by other programs
+### allowing access by other programs
 
 Giving external tools (like apache) access to gitolite repositories involves
 making sure that the unix owner/group and permissions settings allow this.
@@ -86,9 +86,9 @@ This is all described in the UMASK section in the page on the [rc file](rc.md),
 because that's the only setting that gitolite controls; every thing else is
 pure Unix.
 
-# commands
+## commands
 
-## adding your own commands
+### adding your own commands
 
 To add a command, say `foo`, do this:
 
@@ -100,7 +100,7 @@ To add a command, say `foo`, do this:
 2.  copy the program `foo` into `$HOME/local/commands`.  (Don't forget the
     `chmod +x`!)
 
-## making commands available to remote users
+### making commands available to remote users
 
 Once you do the above, `foo` is available as `gitolite foo`.  To make it
 available to remote users (as `ssh git@host foo`), add the line:
@@ -109,13 +109,13 @@ available to remote users (as `ssh git@host foo`), add the line:
 
 (including the comma at the end) to the ENABLE list in the rc file.
 
-# hooks
+## hooks
 
 Note: the main documentation for this feature starts [here][hooks].
 
 [hooks]: non-core.md#hooks-and-gitolite
 
-## adding your own update hooks
+### adding your own update hooks
 
 You have some update hooks (for example crlf checking) that you want to
 include in gitolite.  Assuming the hook itself is tested and works as a normal
@@ -153,7 +153,7 @@ hook should do), here's how to do this:
 
     Either way, add/commit/push the change to the gitolite-admin repo.
 
-## adding other (non-update) hooks
+### adding other (non-update) hooks
 
 Say you want other hooks, like a post-receive hook.  Here's how:
 
@@ -174,7 +174,7 @@ Say you want other hooks, like a post-receive hook.  Here's how:
 3.  run `gitolite setup` to have the hooks propagate to existing repos (repos
     created after this will get them anyway).
 
-## variation: maintain these hooks in the gitolite-admin repo
+### variation: maintain these hooks in the gitolite-admin repo
 
 !!! danger "Important security note:"
 
@@ -209,7 +209,7 @@ For update hooks, you will of course need to add VREF rule lines to
 appropriate repos in the conf file.  For non-update hooks, you **don't** need
 to run 'gitolite setup' on the server; the push takes care of that.
 
-## <span class="gray">(v3.6+)</span> variation: repo-specific hooks
+### <span class="gray">(v3.6+)</span> variation: repo-specific hooks
 
 Until now, the non-update hooks you specified apply to all repos.  Here's how
 to apply them only to certain repos:
@@ -253,9 +253,9 @@ to apply them only to certain repos:
 [addtrig]: triggers.md#adding-your-own-scripts-to-a-trigger
 [addtrigp]: triggers.md#adding-a-perl-module-as-a-trigger
 
-# triggers
+## triggers
 
-## adding your own triggers
+### adding your own triggers
 
 First, write your trigger code, using the documentation [here](triggers.md).
 Note especially the sections "common arguments" and "trigger-specific
@@ -294,14 +294,14 @@ Let's say your trigger is called `foo`, and it will be a `PRE_GIT` trigger.
 
 That should be it.
 
-# VREFs
+## VREFs
 
-## adding your own VREFs
+### adding your own VREFs
 
 Adding VREFs is the same as adding the update hook, so please see the section
 on "adding your own update hooks" above.
 
-## example VREFs
+### example VREFs
 
 However, *writing* a proper VREF is not the same as writing a normal git
 "update hook".  A proper VREF does more than just take 3 arguments, do
@@ -324,7 +324,7 @@ doc on [VREF arguments][vref-args] as you look at these.
 
 [vref-args]: vref.md#what-arguments-are-passed-to-the-vref-maker
 
-### example 1: restricting by day of week
+#### example 1: restricting by day of week
 
 Here's the conf extract to say "junior devs can only push on weekdays":
 
@@ -351,7 +351,7 @@ On a Monday to Friday, nothing happens, because the VREFs generated do not
 match any deny rules (or indeed any rules at all).  On weekends, they do
 match, and the push is denied.
 
-### example 2: restricting by source IP address
+#### example 2: restricting by source IP address
 
 This one restricts junior developers to push to this repo only from a specific
 network block.  The conf file here is slightly different.  We know that the
@@ -403,9 +403,9 @@ to be careful when constructing the VREF rule.  For any VREF/FROM/A/B, the
 result of running `ipcalc -n A/B` must be A, otherwise this won't work.  That
 is, the bits of the network address after the network bits must be zero).
 
-# wild repos
+## wild repos
 
-## making exceptions for *specific* instances of a wild repo
+### making exceptions for *specific* instances of a wild repo
 
 Sometimes you want to specify rules or config for specific instances of a wild
 repo, while still leaving it to be created by a user in the normal way.
@@ -456,9 +456,9 @@ accumulation][accum].
 
 [accum]: conf.md#rule-accumulation
 
-# moving stuff around
+## moving stuff around
 
-## moving a gitolite install from one machine to another
+### moving a gitolite install from one machine to another
 
 [moving]: install.md#moving-servers
 

@@ -4,7 +4,7 @@
 
 ----
 
-# access control rule matching
+## access control rule matching
 
 Access control rule matching is pretty simple.  From the previous section,
 you know what "permission", "refex", "user", and "repo" are.  Here's how the
@@ -50,7 +50,7 @@ or "M"; see [here][write-types].</span>
         is allowed
     *   if there are no more rules left, access is denied
 
-## an example
+### an example
 
 Just to be clear, let's work out an example of what happens when dilbert tries
 to push a branch called "xyz".
@@ -150,7 +150,7 @@ the *next* rule, and since there aren't any more, access would be denied.
 
 ----
 
-# tracing the access control decision
+## tracing the access control decision
 
 <span class="gray">(v3.6.1)</span> Gitolite can help you trace this logic quickly and easily.
 Here's one example run, with the above rules.  This one tests whether dilbert
@@ -200,7 +200,7 @@ I hope that was useful!  Be sure you correlated the output of 'gitolite access
 -s' with the rule workflow pictures and corresponding descriptions to cement
 your understanding.
 
-# read access respecting deny rules
+## read access respecting deny rules
 
 Normally, deny rules are ignored by access check #1 (the one that runs
 *before* git-upload-pack or git-receive-pack is called by gitolite-shell);
@@ -211,7 +211,7 @@ i.e., use the flow of check #2, not check #1.  You tell gitolite to do this by
 setting the "deny-rules" option for the repo; when you do that, the flow of
 check #2 is used for both stages, before git *and* in the update hook.
 
-## example 1
+### example 1
 
 Here's an example. Here, we have lots of repos, which should all be accessible
 by gitweb or daemon, so we want the convenience provided by lines 6 and 7 (we
@@ -263,7 +263,7 @@ encountered by these two "users" for those repos is a deny rule, so that it
 can take effect first.  In this example, the placement of lines 2, 3 vis-a-vis
 lines 6, 7 matters -- don't switch them!
 
-## example 2
+### example 2
 
 In this example the "open" repos are fewer in number, so it is the opposite
 situation to the above in terms of our ability to enumerate all the repos.
@@ -294,7 +294,7 @@ thus they only see the "R" permission.
 
 ----
 
-# appendix 1: different types of write operations
+## appendix 1: different types of write operations
 
 Git supplies enough information to the update hook to be able to distinguish
 several types of writes.
@@ -327,7 +327,7 @@ straight line of commits).  The `M` qualifier helps here:
     it will reject a commit sequence that contains a merge commit* (i.e., they
     only accept a straight line series of commits).
 
-## summary of permissions
+### summary of permissions
 
 The full set of permissions, in regex syntax, is `-|R|RW+?C?D?M?`.  This
 expands to one of `-`, `R`, `RW`, `RW+`, `RWC`, `RW+C`, `RWD`, `RW+D`, `RWCD`,
@@ -335,7 +335,7 @@ or `RW+CD`, all but the first two optionally followed by an `M`.
 
 ----
 
-# appendix 2: gitolite access check flow
+## appendix 2: gitolite access check flow
 
 Here's lots more detail on the access check process, with flow diagrams.
 
@@ -382,7 +382,7 @@ and the push fails or succeeds based on that.
 
 [c1c2]: conf.md#putting-it-all-together
 
-## putting it all together
+### putting it all together
 
 At this point, we have the following pieces of information:
 
@@ -417,7 +417,7 @@ As you can see, deny rules are ignored by check #1 -- they're not tested in
 any way.  For check #2, if there is a deny rule whose refex matched the ref,
 access is denied (as you'd expect).
 
-# appendix 3: embedding test code in your conf
+## appendix 3: embedding test code in your conf
 
 As of v3.6.7, it is possible to embed test code within gitolite.conf.  This
 can be useful if your conf file is complicated, and you need a way to make

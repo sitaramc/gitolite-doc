@@ -2,7 +2,7 @@
 
 This shows what a typical migration would look like, using a test setup.
 
-# existing setup
+## existing setup
 
 The existing gitolite is the latest in the "g2" (v2.x) branch.
 
@@ -69,9 +69,9 @@ The config entries exist for all the baz/ repos:
     repositories/baz/u3.git/config:[foo]
     repositories/baz/u3.git/config-     bar = baz
 
-# preparing for the migration
+## preparing for the migration
 
-## getting v3
+### getting v3
 
 Fortunately this is easy here; I just happened to have the repo already
 fetched so I just had to switch branches.  You may have to 'git clone ...'
@@ -82,7 +82,7 @@ from github.
     Branch master set up to track remote branch master from origin.
     Switched to a new branch 'master'
 
-## run check-g2-compat
+### run check-g2-compat
 
 This is a quick and dirty program to catch some of the big issues.
 
@@ -108,11 +108,11 @@ This is a quick and dirty program to catch some of the big issues.
 
     ...all done...
 
-# the actual migration
+## the actual migration
 
 Here's the actual migration, step by step
 
-## step 1
+### step 1
 
     $ ls -a bin
     .                gl-admin-push    gl-install       gl-setup-authkeys  gl-VREF-DUPKEYS
@@ -145,12 +145,12 @@ hooks:
 
     $ rm -rf .gitolite
 
-## step 2
+### step 2
 
 I have no variables that *must* be preset, since the report by
 `check-g2-compat` is clear.
 
-## step 3
+### step 3
 
 Here we install the new gitolite.  Remember we already got the new software
 (in order to run 'check-g2-compat').
@@ -175,7 +175,7 @@ random name:
     $ gitolite setup -a admin
     Initialized empty Git repository in /home/git/repositories/gitolite-admin.git/
 
-## step 4
+### step 4
 
 Now go to your old clone, and push it:
 
@@ -220,7 +220,7 @@ those, add, and push:
     To /home/git/repositories/gitolite-admin.git
        1474770..4c2b41d  master -> master
 
-## step 5
+### step 5
 
 The only thing left is to fix up the gl-creater files:
 
@@ -232,7 +232,7 @@ The only thing left is to fix up the gl-creater files:
 
 And we're done!
 
-# checking things out
+## checking things out
 
 Let's see what repos u3 has:
 

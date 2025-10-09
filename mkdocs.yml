@@ -14,73 +14,73 @@ theme:
 
 nav:
 
-- home: index.mkd
+- home: index.md
 
 - what/why:
-    - overview: overview.mkd
-    - concepts, conventions, terminology: concepts.mkd
+    - overview: overview.md
+    - concepts, conventions, terminology: concepts.md
 
 - install and setup:
-    - (unix/ssh experts) quick install and setup: quick_install.mkd
-    - normal ssh mode install and setup: install.mkd
-    - (if all else fails) fool-proof, step-by-step, install and setup: fool_proof_setup.mkd
-    - HTTP mode install: http.mkd
-    - migrating from v2: migr.mkd
+    - (unix/ssh experts) quick install and setup: quick_install.md
+    - normal ssh mode install and setup: install.md
+    - (if all else fails) fool-proof, step-by-step, install and setup: fool_proof_setup.md
+    - HTTP mode install: http.md
+    - migrating from v2: migr.md
 
 - use:
     - basic:
-        - basic administration: basic-admin.mkd
-        - the "conf" file (part 1): conf.mkd
-        - the "conf" file (part 2): conf-2.mkd
-        - the "rc" file: rc.mkd
-        - your users' view: user.mkd
+        - basic administration: basic-admin.md
+        - the "conf" file (part 1): conf.md
+        - the "conf" file (part 2): conf-2.md
+        - the "rc" file: rc.md
+        - your users' view: user.md
 
     - advanced:
-        - setting git-config values: git-config.mkd
-        - gitolite options: options.mkd
-        - ad hoc user-created ("wild") repos: wild.mkd
-        - using templates: templates.mkd
-        - virtual refs (part 1): vref.mkd
-        - virtual refs (part 2): vref-2.mkd
-        - delegation of admin duties: deleg.mkd
-        - gitweb and git-daemon: gitweb-daemon.mkd
-        - mirroring: mirroring.mkd
+        - setting git-config values: git-config.md
+        - gitolite options: options.md
+        - ad hoc user-created ("wild") repos: wild.md
+        - using templates: templates.md
+        - virtual refs (part 1): vref.md
+        - virtual refs (part 2): vref-2.md
+        - delegation of admin duties: deleg.md
+        - gitweb and git-daemon: gitweb-daemon.md
+        - mirroring: mirroring.md
 
     - customise:
-        - core and "non-core" gitolite: non-core.mkd
-        - writing your own non-core code: dev-notes.mkd
-        - gitolite triggers: triggers.mkd
-        - list of non-core programs shipped with gitolite: list-non-core.mkd
+        - core and "non-core" gitolite: non-core.md
+        - writing your own non-core code: dev-notes.md
+        - gitolite triggers: triggers.md
+        - list of non-core programs shipped with gitolite: list-non-core.md
 
-    - (quick! how do I...) the cookbook: cookbook.mkd
+    - (quick! how do I...) the cookbook: cookbook.md
 
 - HELP!:
-    - emergency!!: emergencies.mkd
+    - emergency!!: emergencies.md
     - ssh:
-        - ssh: ssh.mkd
-        - how gitolite uses ssh: glssh.mkd
-        - ssh troubleshooting: sts.mkd
-    - regular expressions: regex.mkd
+        - ssh: ssh.md
+        - how gitolite uses ssh: glssh.md
+        - ssh troubleshooting: sts.md
+    - regular expressions: regex.md
 
 - other docs:
-    - miscellaneous features: odds-and-ends.mkd
-    - using git namespaces: namespaces.mkd
-    - locking binary files: locking.mkd
-    - testing gitolite: testing.mkd
-    - packaging gitolite: package.mkd
-    - gitolite and ssh certs: gitolite-and-ssh-certs.mkd
+    - miscellaneous features: odds-and-ends.md
+    - using git namespaces: namespaces.md
+    - locking binary files: locking.md
+    - testing gitolite: testing.md
+    - packaging gitolite: package.md
+    - gitolite and ssh certs: gitolite-and-ssh-certs.md
     - more about gitolite:
-        - gitolite files & directories: files.mkd
-        - the 3.3 format rc file: rc-33.mkd
-        - performance: perf.mkd
-        - internals: internals.mkd
+        - gitolite files & directories: files.md
+        - the 3.3 format rc file: rc-33.md
+        - performance: perf.md
+        - internals: internals.md
     - contrib:
-        - Using both ssh and http: contrib/ssh-and-http.mkd
-        - Putty and Msysgit: contrib/putty.mkd
-        - Self-service key management: contrib/sskm.mkd
-        - User key management: contrib/ukm.mkd
-        - Emacs major mode: contrib/README-emacs.mkd
-    - no way!: no-way.mkd
+        - Using both ssh and http: contrib/ssh-and-http.md
+        - Putty and Msysgit: contrib/putty.md
+        - Self-service key management: contrib/sskm.md
+        - User key management: contrib/ukm.md
+        - Emacs major mode: contrib/README-emacs.md
+    - no way!: no-way.md
 
 extra_css:
     - css/gitolite.css

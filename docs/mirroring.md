@@ -4,7 +4,7 @@
 
 !!! danger "v2 mirroring users:"
 
-    <!-- duplicated in migr.mkd with minor differences -->
+    <!-- duplicated in migr.md with minor differences -->
 
     There are **several** important differences in mirroring; it's best to
     **start from a clean slate on all copies**, using this documentation.

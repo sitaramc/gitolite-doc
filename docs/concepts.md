@@ -119,7 +119,7 @@ repo bar
 
 Here's what happens when you commit the changes/additions to these files and
 push them to the server.  Since we've already seen the ssh/sshd part of this
-process (in the [overview](overview.mkd) page), we'll start off from
+process (in the [overview](overview.md) page), we'll start off from
 "git-receive-pack":
 
 ![](ct02.png)

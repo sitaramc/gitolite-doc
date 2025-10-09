@@ -2,7 +2,7 @@
 
 ----
 
-This page is useful if the normal [install](install.mkd) instructions did not work for
+This page is useful if the normal [install](install.md) instructions did not work for
 you.
 
 # pre-requisites, etc

@@ -7,11 +7,11 @@ use Data::Dumper;
 # does various conversions required before 'mkdocs build'.  Some are left as
 # placeholders, some are actually implemented.
 
-# input: mkd file
-# output: mkd file with appropriate conversions
+# input: md file
+# output: md file with appropriate conversions
 
 undef $/;
-my $mkd = <>;
+my $md = <>;
 
 # postponed: convert 
 #   # download {#dl -}
@@ -26,9 +26,9 @@ my $mkd = <>;
 # using exactly 3 `'s, not any arbitrary number; we have no need for nesting
 # them so we don't care)
 
-$mkd =~ s(^( *)\`\`\`([^\n]+)\n(.*?)^ *\`\`\`\n)(htmlise($1, $2, $3))smeg;
+$md =~ s(^( *)\`\`\`([^\n]+)\n(.*?)^ *\`\`\`\n)(htmlise($1, $2, $3))smeg;
 
-print $mkd;
+print $md;
 
 sub htmlise {
     my($indent, $lang, $code) = @_;

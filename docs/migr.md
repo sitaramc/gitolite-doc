@@ -99,7 +99,7 @@ main conf file, and was hardcoded to that specific glob.)
 
 ### mirroring
 
-<!-- duplicated in mirroring.mkd with minor differences -->
+<!-- duplicated in mirroring.md with minor differences -->
 
 There are **several** important differences in mirroring; if you're using
 mirroring **please start from a clean slate on all copies**, using the v3

@@ -4,7 +4,7 @@
 # some other headless mechanism
 
 # note: how.html is built manually, using
-#   cd docs; pdh -i how.mkd -o how.html -t html-N
+#   cd docs; pdh -i how.md -o how.html -t html-N
 
 # also, a lot of things in here are kinda hardcoded to my setup; if someone
 # really wants me to clean it up so that it is more generic, I'll work on it
@@ -35,13 +35,13 @@ do
     echo >&2 "done"
 done
 
-# generate mkd with vim-syntax; this step is slow, but this is the simplest
+# generate md with vim-syntax; this step is slow, but this is the simplest
 # way to support gitolite syntax highlighting in arbitrary markdown.
-for f in `find . -name "*.mkd" | sort`
+for f in `find . -name "*.md" | sort`
 do
     [ -f ../gen-docs/$f ] && [ ../gen-docs/$f -nt $f ] && continue
     echo -n >&2 $f...
-    ../bin/mkdocs.pre-build.mkd-filter < $f > ../gen-docs/$f
+    ../bin/mkdocs.pre-build.md-filter < $f > ../gen-docs/$f
     echo >&2 "done"
 done
 

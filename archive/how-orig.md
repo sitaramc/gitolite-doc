@@ -2,6 +2,11 @@
 
 % authentication and authorization in gitolite
 
+<!-- THIS file is the raw original of docs/how.md.  Unfortunately the
+post-processing that I normally use to convert stuff like the ".#d" and the
+"@@blue" below, is not something I am ready to release until I clean it up and
+make it less quirky and idiosyncratic, like many of my home grown tools. -->
+
 # (viewing this slideshow)
 
 This presentation uses [HTML

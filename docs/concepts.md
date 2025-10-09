@@ -33,6 +33,9 @@ succeeds, sshd or httpd will pass control to gitolite, which then performs the
 authorisation check -- i.e., figure out whether to allow you to do whatever it
 is you want to whatever repo you decided to touch.
 
+[Here](how.html) is a slightly more "slideshow-y" presentation on this
+concept, if it helps.
+
 ## ssh mode and http mode
 
 Git allows authenticated remote access using these two mechanisms: ssh and

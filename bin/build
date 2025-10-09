@@ -1,10 +1,26 @@
 #!/bin/bash
 
-# this can only be done from a terminal; do not try to run it from cron or
-# some other headless mechanism
+# **IMPORTANT**
+# **IMPORTANT** -- please read docs/build-docs.md before running this script!
+# **IMPORTANT**
 
-# note: how.html is built manually, using
-#   cd docs; pdh -i how.md -o how.html -t html-N
+# This can only be done from a terminal; do not try to run it from cron or
+# some other headless mechanism.  See "docs/build-docs.md" for why.
+
+# Also, run it from the project root as "bin/build".
+
+# how.html is special; it's a slide show that uses pandoc's "slidy" output
+# format, so it's not part of the mkdocs thing at all.
+cd how
+[[ how.md -nt how.html ]] && {
+    pandoc --embed-resources --standalone \
+        -t slidy  \
+        -H basic.css  \
+        -H font-size.meta  \
+        -o how.html \
+        how.md
+}
+cd - >/dev/null
 
 # also, a lot of things in here are kinda hardcoded to my setup; if someone
 # really wants me to clean it up so that it is more generic, I'll work on it
@@ -19,8 +35,8 @@ die() { echo "$@"; exit 1; }
 mkdir -p gen-docs/{code,contrib,css}
 rsync -a docs/code gen-docs
 rsync -a docs/css  gen-docs
-# temp cp docs/gitweb.conf.html gen-docs
-# temp cp docs/how.html gen-docs
+cp docs/gitweb.conf.html gen-docs
+cp how/how.html gen-docs
 
 cd docs
 
@@ -49,37 +65,4 @@ done
 cd ..
 mkdocs build
 
-# 2023-03-07 somehow this is overwriting how.html, despite it not being listed in the yml, so we need to copy it again
-# temp cp docs/how.html site
-
-# move them out of my way for normal use (some of my scripts are not
-# gitignore-aware)
-# temp mv gen-docs .git
-
-# # cater for people holding on to old links
-# cd site
-# for i in `find -type f -name index.html -printf "%h\n" | sort | cut -c3-`
-# do
-#     j=$(basename $i)
-#     sed -e "s,%BASE,$i,g" <<EOF > $j.html
-# <html>
-#     <head>
-#         <title>redirecting...</title>
-#         <meta http-equiv="refresh" content="2;URL='https://gitolite.com/gitolite/%BASE/index.html'" />
-#     </head>
-#     <body>
-#         <p>This page has moved; redirecting...</p>
-#     </body>
-# </html>
-# EOF
-# done
-#
-# cd ..
-
-# temp rm -rf ../sitaramc.github.com/gitolite
-# temp mv site ../sitaramc.github.com/gitolite
-# temp cd ../sitaramc.github.com
-# temp git add -u
-# temp read -p "hit enter to start 'gs' followed by a push:"
-# temp vim -s <(echo gs; echo :only)
-# temp # git pall -f
+# DONE.  Now use the "site/" directory however you want

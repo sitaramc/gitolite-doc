@@ -5,7 +5,7 @@
 ----
 
 <span class="box-r">You might recall from the [basic
-administration](basic-admin) page that this file is part of the gitolite-admin
+administration](basic-admin.md) page that this file is part of the gitolite-admin
 repo.  You need to clone that repo, make and commit changes to this file, and
 push the commits back.</span>
 
@@ -16,7 +16,7 @@ access rules, as well as repo options of various kinds and git-config values.
 Pretty much all day-to-day management, except [managing users][users], happens
 from this file.
 
-[users]: basic-admin#addremove-users
+[users]: basic-admin.md#addremove-users
 
 We'll use the following example to describe it's features.  <span class="gray">(A tip of
 the hat to Teemu Matilainen's gitolite vim-syntax file for the
@@ -58,7 +58,7 @@ As the example above shows, the syntax is fairly straightforward and simple.
     have them, you can optionally enable them; look for "continuation-lines"
     in `~/.gitolite.rc`).</span>
 
-[groups]: conf#group-definitions
+[groups]: conf.md#group-definitions
 
 # include files
 
@@ -86,7 +86,7 @@ will include the contents of the file "conf/foo.conf".
 <font color="gray">Advanced users: `subconf`, a command that is very closely
 related to `include`, is documented [here][subconf].</font>
 
-[subconf]: deleg#the-subconf-command
+[subconf]: deleg.md#the-subconf-command
 
 **Please note** that whenever you see "the `conf/gitolite.conf` file" or "the
 conf file" in gitolite documentation, it means the combined text after the
@@ -158,7 +158,7 @@ warning or move the definition up.
 Note that these warnings do NOT appear if you're [getting user group info from
 LDAP][ldap].
 
-[ldap]: conf#getting-user-group-info-from-ldap
+[ldap]: conf.md#getting-user-group-info-from-ldap
 
 ## getting user group info from LDAP
 
@@ -168,7 +168,7 @@ similar (or sufficient) information in their LDAP store.
 Gitolite can tap into that information, with a little help.  Write a program
 which, given a username, queries your LDAP store and returns a space-separated
 list of groups that the user is a member of.  Then put the full path to this
-program in an [rc](rc) variable called `GROUPLIST_PGM`, like so:
+program in an [rc](rc.md) variable called `GROUPLIST_PGM`, like so:
 
     GROUPLIST_PGM           =>  '/home/git/bin/ldap-query-groups',
 
@@ -207,7 +207,7 @@ is to be allowed or denied.
 ## what does a rule look like?
 
 You've seen some simple rules so far, for example in the [basic
-administration](basic-admin) page.  Here's a slightly more complex one, just
+administration](basic-admin.md) page.  Here's a slightly more complex one, just
 for illustration.
 
 ```gitolite
@@ -227,8 +227,8 @@ specified in the repo line -- in this example, the 'foo' and 'bar' repos.  If
 there are no rule, [config][gc], or [option][go] lines before the next "repo"
 line, the repo line is silently ignored.
 
-[gc]: git-config
-[go]: options
+[gc]: git-config.md
+[go]: options.md
 
 Each rule line has a "permission" field, zero or more "refex"es, and one or
 more user or user group name after the equal sign.
@@ -268,13 +268,13 @@ commonly used permissions are:
 !!! danger ""
     There are also other, less commonly used, [types of permissions][write-types].
 
-[write-types]: conf-2#appendix-1-different-types-of-write-operations
+[write-types]: conf-2.md#appendix-1-different-types-of-write-operations
 
 ### the "refex" field
 
 You cannot write rules for all possible branch and tag names (i.e., refs) that
 users will push.  The only sensible way to do this is to use [regular
-expressions](regex) instead.
+expressions](regex.md) instead.
 
 A refex is a word I made up to mean "a regex that matches a ref".
 
@@ -313,7 +313,7 @@ In addition:
 
         RW  master$     =   alice
 
-<span class="gray">You can also use [virtual refs](vref) to perform extra checks and
+<span class="gray">You can also use [virtual refs](vref.md) to perform extra checks and
 controls that you can't do with just the normal ref (like refs/heads/master)
 being pushed.  The most common example is restricting pushes by dir/file name,
 but there are lots of other possibilities.</span>

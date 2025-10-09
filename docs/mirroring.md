@@ -111,14 +111,14 @@ Here's a more complete description of what gitolite can do:
     then read one of the copies immediately -- you will need to add a few
     seconds of sleep in your script.
 
-[bypass]: emergencies#bypassing-gitolite
+[bypass]: emergencies.md#bypassing-gitolite
 
 # setting up mirroring
 
 This is in two parts: the initial setup and the rc file, followed by the conf
 file settings and syntax.
 
-## the initial setup and the [rc file](rc)
+## the initial setup and the [rc file](rc.md)
 
 For **each** server:
 
@@ -189,12 +189,12 @@ For **each** server:
     command that is not enabled by default; see [gitolite commands][commands]
     for how.
 
-[ssh-ha]: sts#appendix-4-ssh-host-aliases
-[commands]: non-core#gitolite-commands
+[ssh-ha]: sts.md#appendix-4-ssh-host-aliases
+[commands]: non-core.md#gitolite-commands
 
 ## conf file settings and syntax
 
-Mirroring is defined by the following [options](options).  You can have different
+Mirroring is defined by the following [options](options.md).  You can have different
 settings for different repos, and of course some repos may not have any mirror
 options at all -- they are then purely local.
 
@@ -347,7 +347,7 @@ second one trusts only some copies.
 
 *   You cannot redirect gitolite commands (like perms, etc).
 
-[rules]: conf#access-rules
+[rules]: conf.md#access-rules
 
 # appendix A: HOSTNAME substitution
 
@@ -360,7 +360,7 @@ different servers, by saying something like:
 include "%HOSTNAME/*.conf"
 ```
 
-(See [include](conf#include-files) for more on the 'include' command).
+(See [include](conf.md#include-files) for more on the 'include' command).
 
 You can use it in other places also, for example:
 

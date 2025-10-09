@@ -6,9 +6,9 @@
 scripts.  *Installing* them, including "where and how", is described
 [here][localcode]**.
 
-[localcode]: non-core#for-your-non-core-programs
+[localcode]: non-core.md#for-your-non-core-programs
 
-Note: the [non-core](non-core) page is the starting point for all information about
+Note: the [non-core](non-core.md) page is the starting point for all information about
 customising gitolite.
 
 # environment variables and other inputs
@@ -28,15 +28,15 @@ In addition, commands invoked by a remote client also have `GL_USER`, while
 hooks have `GL_USER` as well as `GL_REPO` (which is the [logical
 reponame][lrepo]).
 
-[lrepo]: concepts#the-logical-repo-name
+[lrepo]: concepts.md#the-logical-repo-name
 
-A special form of the [option](options) syntax can be used to set
+A special form of the [option](options.md) syntax can be used to set
 [repo-specific environment variables][rsev].
 
-[rsev]: dev-notes#appendix-1-repo-specific-environment-variables
+[rsev]: dev-notes.md#appendix-1-repo-specific-environment-variables
 
 Finally, note that triggers get a lot of relevant information from gitolite as
-arguments; see [here](triggers) for details.
+arguments; see [here](triggers.md) for details.
 
 # APIs
 
@@ -115,7 +115,7 @@ ignore the extra args.
 ## ...trigger programs
 
 Trigger programs run at specific points in gitolite's execution, with specific
-arguments being passed to them.  See the [triggers](triggers) page for details.
+arguments being passed to them.  See the [triggers](triggers.md) page for details.
 
 You can write programs that are both manually runnable as well as callable by
 trigger events, especially if they don't *need* any arguments.
@@ -125,14 +125,14 @@ trigger events, especially if they don't *need* any arguments.
 Syntactic sugar helpers are NOT complete, standalone, programs.  They must
 include a perl sub called `sugar_script` that takes in a listref, and returns
 a listref.  The listrefs point to a list that contains the entire conf file
-(with all [include](conf#include-files) processing already done).  You create a new list with
+(with all [include](conf.md#include-files) processing already done).  You create a new list with
 contents modified as you like and return a ref to it.
 
 There are a couple of examples in src/syntactic-sugar.
 
 # appendix 1: repo-specific environment variables
 
-A special form of the [option](options) syntax can be used to set
+A special form of the [option](options.md) syntax can be used to set
 repo-specific environment variables that are visible to gitolite triggers and
 any git hooks you may install.
 
@@ -321,9 +321,9 @@ The various log line formats are:
       * field 4: 'gitolite'
       * field 5 to end: arguments supplied to gitolite command, one per field
 
-[giving-shell]: sts#giving-shell-access-to-gitolite-users
-[write-types]: conf-2#appendix-1-different-types-of-write-operations
-[bypass]: emergencies#bypassing-gitolite
+[giving-shell]: sts.md#giving-shell-access-to-gitolite-users
+[write-types]: conf-2.md#appendix-1-different-types-of-write-operations
+[bypass]: emergencies.md#bypassing-gitolite
 
 # appendix 3: sending log lines to syslog
 

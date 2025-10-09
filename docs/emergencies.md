@@ -15,7 +15,7 @@ Most install/setup issues in ssh mode are caused by lack of ssh knowledge.
 Ssh is a complex beast, and can cause problems for people who are not familiar
 with its quirks.
 
-**Be prepared to spend some time reading the [ssh](ssh) documentation that comes
+**Be prepared to spend some time reading the [ssh](ssh.md) documentation that comes
 with gitolite**.
 
 # lost admin key/access
@@ -79,7 +79,7 @@ by the [perms][] command in a file called "gl-perms".  If these files got
 deleted, you may have to manually recreate them.  The format is very simple
 and guessable by looking at those files on any other wild repo.
 
-[perms]: user#setget-additional-permissions-for-repos-you-created
+[perms]: user.md#setget-additional-permissions-for-repos-you-created
 
 ## cleaning out a botched install
 
@@ -123,9 +123,9 @@ Here's a list of files and directories to deal with:
     use the same key to get shell access as well as access gitolite repos.
 
     Solution: use a different keypair for gitolite.  There's a wee bit more on
-    this in the [setup](install#setup) section of the install page.  Also see
+    this in the [setup](install.md#setup) section of the install page.  Also see
     [why bypassing causes a problem][ybpfail] and both the pages linked from
-    [ssh](ssh) for background.
+    [ssh](ssh.md) for background.
 
   * `Empty compile time value given to use lib at hooks/update line 6`
 
@@ -143,7 +143,7 @@ Here's a list of files and directories to deal with:
     **BUT**... this defeats all gitolite access control, so if you're going to
     do this often, maybe you don't need gitolite!
 
-[ybpfail]: sts#appendix-5-why-bypassing-gitolite-causes-a-problem
+[ybpfail]: sts.md#appendix-5-why-bypassing-gitolite-causes-a-problem
 
 # uncommon errors
 
@@ -182,7 +182,7 @@ Here's a list of files and directories to deal with:
   * If the default shell is something like /bin/false, and/or not listed in
     /etc/shells, there might be problems.
 
-[hu]: concepts#the-hosting-user
+[hu]: concepts.md#the-hosting-user
 
 # things that are not gitolite problems
 
@@ -206,7 +206,7 @@ lot more patience than I do, bless 'em!)
     The *superstar* of the "not a gitolite problem" category is actually ssh.
 
     Surprised?  It's a common misunderstanding; see [this section][auth] in
-    the concepts page, and then [this page](ssh) for details.
+    the concepts page, and then [this page](ssh.md) for details.
 
     Everything I know is in that latter link, and the two more pages it points
     to.  Please email me about ssh ONLY if you find something wrong or missing
@@ -239,6 +239,6 @@ lot more patience than I do, bless 'em!)
         cd worktree
         <...try stuff>
 
-[contact]: index.html#contactsupport
-[auth]: concepts#authentication-and-authorisation
+[contact]: index.md#contactsupport
+[auth]: concepts.md#authentication-and-authorisation
 

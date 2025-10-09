@@ -12,7 +12,7 @@ you get the right one; it's often called `gitolite3`.</span>
 
 Source code is at <https://github.com/sitaramc/gitolite>.
 
-If your Unix-fu and ssh-fu are good, take a look at the [quick install](quick_install)
+If your Unix-fu and ssh-fu are good, take a look at the [quick install](quick_install.md)
 page.  Otherwise follow the documentation flow, skipping whatever you think
 you don't need.
 
@@ -31,15 +31,15 @@ links on a first pass.
 
 !!! danger "In addition:"
 
-    There's a **[fool proof setup](fool_proof_setup)** guide with detailed help showing one
+    There's a **[fool proof setup](fool_proof_setup.md)** guide with detailed help showing one
     fool-proof way to install, as long as you follow instructions faithfully!
 
-    Once you've installed and setup, there's the **[cookbook](cookbook)** with recipes
+    Once you've installed and setup, there's the **[cookbook](cookbook.md)** with recipes
     for common tasks.
 
 # TROUBLESHOOTING
 
-The [emergencies](emergencies) page helps with all sorts of install/setup issues,
+The [emergencies](emergencies.md) page helps with all sorts of install/setup issues,
 recovering from lost keys and other self-inflicted wounds, lists some common
 (and some uncommon!) errors and non-standard configs that may trip you up.
 
@@ -115,7 +115,7 @@ you use them wherever and however you can use gitolite itself.
     GIT is a trademark of Software Freedom Conservancy and my use of
     "Gitolite" is under license.
 
-[basic]: basic.html
-[advanced]: advanced.html
+[basic]: basic.md
+[advanced]: advanced.md
 [book]: https://www.packtpub.com/en-us/product/gitolite-essentials-9781783282388
 

@@ -7,11 +7,11 @@ gitolite directly on the server, i.e., without cloning the gitolite-admin
 repo, you can -- [here's how][ssa].  This is likely to be of interest mainly
 to puppet/chef type installations.</span>
 
-[ssa]: odds-and-ends#administering-gitolite-directly-on-the-server
+[ssa]: odds-and-ends.md#administering-gitolite-directly-on-the-server
 
 Day-to-day management of a gitolite site is done by cloning the special
 'gitolite-admin' repo, making appropriate changes to it, and pushing it back
-to the server.  The [concepts and terminology](concepts) page has a section
+to the server.  The [concepts and terminology](concepts.md) page has a section
 with some details on what happens after the push.
 
 <span class="red">In other words, do **NOT** add new repos or users manually on the
@@ -28,11 +28,11 @@ NOTE that (1) you must not include the `repositories/` part (gitolite handles
 that internally), and (2) you may include the ".git" at the end but it is
 optional.
 
-If this step fails, be sure to look at the two pages linked from the [ssh](ssh)
+If this step fails, be sure to look at the two pages linked from the [ssh](ssh.md)
 page before asking for help.  A very basic first step is to run the `info`
 command (`ssh git@host info`); [this][info] page tells you what to expect.
 
-[info]: user#the-info-command
+[info]: user.md#the-info-command
 
 # add/remove users
 
@@ -41,7 +41,7 @@ gitolite in http mode, adding and removing users is outside the scope of
 gitolite.</span>
 
 Strictly speaking, gitolite doesn't know where users come from.  (If that
-surprises you, go back to the [concepts](concepts) page and read the section on
+surprises you, go back to the [concepts](concepts.md) page and read the section on
 "authentication and authorisation"). However, gitolite does help with
 ssh-based authentication, by making it easy to add and remove users from
 `~/.ssh/authorized_keys`.
@@ -100,7 +100,7 @@ program `src/triggers/post-compile/ssh-authkeys-split` in the source.)
 
 # add, remove, and rename repos
 
-[existing]: basic-admin#appendix-1-bringing-existing-repos-into-gitolite
+[existing]: basic-admin.md#appendix-1-bringing-existing-repos-into-gitolite
 
 !!! warning ""
 
@@ -108,7 +108,7 @@ program `src/triggers/post-compile/ssh-authkeys-split` in the source.)
     existing repos under gitolite's control, click [here][existing].
 
 To **add** a new repo, you have to clone the gitolite-admin repository, then
-edit the [`conf/gitolite.conf`](conf) file. In that file, add the repo, along
+edit the [`conf/gitolite.conf`](conf.md) file. In that file, add the repo, along
 with at least one user with some permissions.
 
 You can add the new repo in its own paragraph,
@@ -143,7 +143,7 @@ repo bar    # WRONG; 'foo' is now forgotten
 If you have too many to fit on one line comfortably, you can create and use a
 [repo group][groups]:
 
-[groups]: conf#group-definitions
+[groups]: conf.md#group-definitions
 
 ```gitolite
 @myrepos    =   foo
@@ -180,13 +180,13 @@ important):
 !!! danger "Warning!"
 
     Gitolite **will clobber** any existing `update` hook in your repos when
-    you do this.  Please see either the [cookbook](cookbook) or the [non-core](non-core) page
+    you do this.  Please see either the [cookbook](cookbook.md) or the [non-core](non-core.md) page
     for information on how to make your existing update hook work with
     gitolite.
 
     Gitolite *may clobber* any existing "git-daemon-export-ok" file in your
     repo; see the page on [allowing access to gitweb and
-    git-daemon](gitweb-daemon) for how to enable that via gitolite.
+    git-daemon](gitweb-daemon.md) for how to enable that via gitolite.
 
 With that out of the way, here's how to do this:
 
@@ -206,7 +206,7 @@ With that out of the way, here's how to do this:
 
     Either way, don't forget to re-enable access at the end of this process!
 
-[dr]: conf-2#read-access-respecting-deny-rules
+[dr]: conf-2.md#read-access-respecting-deny-rules
 
 First, on the server:
 
@@ -227,7 +227,7 @@ First, on the server:
         gitolite setup --hooks-only
         gitolite trigger POST_COMPILE
 
-  * If the repos are [wildcard](wild) repos that already match some repo regex
+  * If the repos are [wildcard](wild.md) repos that already match some repo regex
     in the conf file, you need to manually create the gl-creator file, like
     so:
 
@@ -236,8 +236,8 @@ First, on the server:
     I haven't yet found this to be common enough to bother wrapping it in a
     nice interface or command.
 
-[hu]: concepts#the-hosting-user
-[dw]: odds-and-ends#disabling-pushes-to-take-backups
+[hu]: concepts.md#the-hosting-user
+[dw]: odds-and-ends.md#disabling-pushes-to-take-backups
 
 However, if the repos are normal repos, then, back on your workstation:
 

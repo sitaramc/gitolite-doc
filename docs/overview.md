@@ -147,7 +147,7 @@ administrators or users or both.  They also offer a lot of enterprise features
 (for example LDAP integration), and social coding features (issue trackers,
 discussions, comments on code, pull requests, etc.)
 
-However, they are unlikely to be as [customisable](non-core) as gitolite is,
+However, they are unlikely to be as [customisable](non-core.md) as gitolite is,
 if you care about that sort of thing.
 
 # how does it work?
@@ -227,7 +227,7 @@ the "admin defined commands" were also inspired by KDE's needs.  See [section
 [kdera]: https://permalink.gmane.org/gmane.comp.kde.scm-interest/1437
 
 **Prof. Hiren Patel** of the University of Waterloo is responsible for the
-existence of the fairly popular "[wildrepos](wild)" feature.  The
+existence of the fairly popular "[wildrepos](wild.md)" feature.  The
 documentation was pretty much written with his use case in mind, but of course
 it turns out to be useful for a lot of people, as you can see from the
 previous para on KDE's use of gitolite.
@@ -298,6 +298,6 @@ that gitolite benefits as much as they do; possibly more.
     GIT is a trademark of Software Freedom Conservancy and my use of
     "Gitolite" is under license.
 
-[basic]: basic.html
-[advanced]: advanced.html
+[basic]: basic.md
+[advanced]: advanced.md
 

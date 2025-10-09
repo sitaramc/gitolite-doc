@@ -8,7 +8,7 @@ VREFs are a mechanism to add additional constraints to a push.
 
 They are also the simplest way to add your old update hooks to gitolite --
 they'll just work, no coding changes needed.  If that's all you need, you
-should head over to the [cookbook](cookbook) and look for the section on "adding your
+should head over to the [cookbook](cookbook.md) and look for the section on "adding your
 own update hooks".
 
 !!! danger "IMPORTANT:"
@@ -60,9 +60,9 @@ on the `VREF/COUNT/5` rule in the rule list above.
     for a regular ref, fallthru does not result in failure, but
     success.**</span>
 
-[c1c2]: conf-2#putting-it-all-together
-[refex]: conf#the-refex-field
-[vref-args]: vref#what-arguments-are-passed-to-the-vref-maker
+[c1c2]: conf-2.md#putting-it-all-together
+[refex]: conf.md#the-refex-field
+[vref-args]: vref.md#what-arguments-are-passed-to-the-vref-maker
 
 # basic use and understanding
 
@@ -135,7 +135,7 @@ above example) and calls a VREF-maker for each of them.
 We'll take the COUNT example rule above.
 
 When gitolite sees that rule, it calls the "COUNT" VREF-maker.  Specifically,
-this is the `VREF/COUNT` program (See [here](non-core) for actual locations on
+this is the `VREF/COUNT` program (See [here](non-core.md) for actual locations on
 disk).
 
 Gitolite passes it the string "5" as an argument (actually, as the *eighth*
@@ -170,7 +170,7 @@ later) are also the same that a plain 'update' hook receives, you can actually
 use any existing update hook as a VREF-maker.
 
 To repurpose an existing update hook as a VREF-maker, just copy it to the VREF
-directory (again, see [here](non-core) for actual locations on disk).  Then
+directory (again, see [here](non-core.md) for actual locations on disk).  Then
 add this rule to your repos:
 
 ```gitolite

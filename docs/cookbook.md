@@ -52,7 +52,7 @@ very convenient "batch" mode if you need to check many repos at once).
 **Perl interface**: A good intro to this, including a link to code, using
 gitweb as an example can be found by looking for 'repo-specific authorisation
 in gitweb' in the page on [allowing access to gitweb and
-git-daemon](gitweb-daemon). Some notes:
+git-daemon](gitweb-daemon.md). Some notes:
 
   * be sure to read the comments in the code to learn exactly how to adapt it
     to your needs
@@ -82,7 +82,7 @@ just 'master' won't do.</span>
 
 Giving external tools (like apache) access to gitolite repositories involves
 making sure that the unix owner/group and permissions settings allow this.
-This is all described in the UMASK section in the page on the [rc file](rc),
+This is all described in the UMASK section in the page on the [rc file](rc.md),
 because that's the only setting that gitolite controls; every thing else is
 pure Unix.
 
@@ -113,7 +113,7 @@ available to remote users (as `ssh git@host foo`), add the line:
 
 Note: the main documentation for this feature starts [here][hooks].
 
-[hooks]: non-core#hooks-and-gitolite
+[hooks]: non-core.md#hooks-and-gitolite
 
 ## adding your own update hooks
 
@@ -182,7 +182,7 @@ Say you want other hooks, like a post-receive hook.  Here's how:
     effectively be able to run any arbitrary command on the server.**  See
     [gitolite admin and shell access][privesc] for more background.
 
-[privesc]: rc#security-note-gitolite-admin-and-shell-access
+[privesc]: rc.md#security-note-gitolite-admin-and-shell-access
 
 If you want to maintain these update hooks (VREFs) or non-update hooks
 (post-update, pre-receive, post-receive) in the gitolite-admin repo, instead
@@ -250,14 +250,14 @@ to apply them only to certain repos:
 
 5.  add, commit, and push the admin repo.
 
-[addtrig]: triggers#adding-your-own-scripts-to-a-trigger
-[addtrigp]: triggers#adding-a-perl-module-as-a-trigger
+[addtrig]: triggers.md#adding-your-own-scripts-to-a-trigger
+[addtrigp]: triggers.md#adding-a-perl-module-as-a-trigger
 
 # triggers
 
 ## adding your own triggers
 
-First, write your trigger code, using the documentation [here](triggers).
+First, write your trigger code, using the documentation [here](triggers.md).
 Note especially the sections "common arguments" and "trigger-specific
 arguments".  Look in the shipped triggers for ideas.
 
@@ -322,7 +322,7 @@ doc on [VREF arguments][vref-args] as you look at these.
     in `contrib/triggers/IP-check` in the gitolite source tree that may be
     useful as a template.
 
-[vref-args]: vref#what-arguments-are-passed-to-the-vref-maker
+[vref-args]: vref.md#what-arguments-are-passed-to-the-vref-maker
 
 ### example 1: restricting by day of week
 
@@ -429,8 +429,8 @@ The repo will be created as a **normal** (not wild) repo as soon as you push,
 which means you can't run the [perms][] command on it to add people to the
 READERS and WRITERS [roles][], or do other things that wild repos allow.
 
-[perms]: user#setget-additional-permissions-for-repos-you-created
-[roles]: wild#roles
+[perms]: user.md#setget-additional-permissions-for-repos-you-created
+[roles]: wild.md#roles
 
 The mental nudge you need to deal with this is to think what you would do if
 you had to write the same rule for more than one repo, say, any repo starting
@@ -454,13 +454,13 @@ of the previous one (`foo/..*`), everything there applies to this repo also.
 If you're not sure why that is, you may need to read up on [rule
 accumulation][accum].
 
-[accum]: conf#rule-accumulation
+[accum]: conf.md#rule-accumulation
 
 # moving stuff around
 
 ## moving a gitolite install from one machine to another
 
-[moving]: install#moving-servers
+[moving]: install.md#moving-servers
 
 See [moving servers][moving].
 

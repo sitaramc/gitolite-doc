@@ -3,7 +3,7 @@
 ----
 
 Gitolite runs trigger code at several different times.  The features you
-enable in the [rc](rc) file determine what commands to run (or functions in perl
+enable in the [rc](rc.md) file determine what commands to run (or functions in perl
 modules to call) at each trigger point.  Example of trigger points are
 `INPUT`, `PRE_GIT`, `POST_COMPILE`, etc.; the full list is examined later in
 this page.
@@ -99,7 +99,7 @@ in as an argument, it is without the '.git' suffix).
       * old SHA
       * new SHA
 
-    `ACCESS_2` also runs on each [VREF](vref) that gets checked.  In this case
+    `ACCESS_2` also runs on each [VREF](vref.md) that gets checked.  In this case
     the "ref" argument will start with "VREF/", and the last two arguments
     won't be passed.
 
@@ -167,7 +167,7 @@ problem when you want to add your own.
 
 Here's how to do that: Let's say you wrote yourself a trigger script called
 'foo', to be invoked from the `POST_CREATE` trigger list.  To do that, just
-add the following to the [rc](rc) file, just before the ENABLE section:
+add the following to the [rc](rc.md) file, just before the ENABLE section:
 
     POST_CREATE                 =>
         [
@@ -277,8 +277,8 @@ you do:
     brand new env var that contains the *comment* field of the ssh pubkey that
     was used to gain access, using the information [here][kfn].
 
-[lff]: dev-notes#appendix-2-log-file-format
-[kfn]: sts#distinguishing-one-key-from-another
+[lff]: dev-notes.md#appendix-2-log-file-format
+[kfn]: sts.md#distinguishing-one-key-from-another
 
 <!--
 

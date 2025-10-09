@@ -17,7 +17,7 @@
   * I have tested this only on stock Fedora (whatever is the current version);
     YDMV.
 
-[auth]: concepts#authentication-and-authorisation
+[auth]: concepts.md#authentication-and-authorisation
 
 # assumptions:
 
@@ -70,7 +70,7 @@ userid at all, please let me know.
 # Making repositories available to both ssh and http mode clients
 
 This section has been contributed by Thomas Hager (duke at sigsegv dot at),
-and is available [here](contrib/ssh-and-http).
+and is available [here](contrib/ssh-and-http.md).
 
 # usage
 

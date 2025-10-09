@@ -43,7 +43,7 @@ Run this from cron or however you want.
 
 # giving users their own repos
 
-(Please see [this](wild) for background on the ideas in this section).
+(Please see [this](wild.md) for background on the ideas in this section).
 
 It's very easy to give users their own set of repos to create, with the
 username at the top level.  The simplest setup is:
@@ -60,11 +60,11 @@ Now users can create any repo under their own name simply by cloning it or
 pushing to it, then use the [perms][] command to add other users to their
 WRITERS and READERS lists.
 
-[perms]: user#setget-additional-permissions-for-repos-you-created
+[perms]: user.md#setget-additional-permissions-for-repos-you-created
 
 Of course you can get much more creative if you add a few more [roles][].
 
-[roles]: wild#roles
+[roles]: wild.md#roles
 
 <font color="gray">(I prefer using some prefix, say "u", as in
 `repo u/CREATOR/..*`.  This helps to keep user-created repos separate, and
@@ -88,9 +88,9 @@ puppet or similar software quite easily).
 
 First the one-time stuff:
 
-  * [install](install) the software as normal
+  * [install](install.md) the software as normal
 
-  * run `gitolite setup -a dummy` instead of the normal [setup](install#setup)
+  * run `gitolite setup -a dummy` instead of the normal [setup](install.md#setup)
     command
 
   * delete (or move away) `~/repositories/gitolite-admin.git`

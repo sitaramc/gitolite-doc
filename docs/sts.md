@@ -15,7 +15,7 @@ tricks that gitolite can do.
 ## caveats
 
   * Before reading this page, it is **mandatory** to read and **completely
-    understand** [this](glssh), which is a very detailed look at how gitolite
+    understand** [this](glssh.md), which is a very detailed look at how gitolite
     uses ssh's features on the server side.  Don't assume you know all that;
     if you did, you wouldn't be needing *this* page either!
 
@@ -31,7 +31,7 @@ tricks that gitolite can do.
 
     Surprised?  [This][auth] might help explain better.
 
-[auth]: concepts#authentication-and-authorisation
+[auth]: concepts.md#authentication-and-authorisation
 
 ## naming conventions used
 
@@ -202,7 +202,7 @@ to distinguish one key from another.  Sshd does not tell you even the
 fingerprint of the key that finally matched, so normally all you have is the
 `GL_USER` env var.
 
-[multi-key]: basic-admin#multiple-keys-per-user
+[multi-key]: basic-admin.md#multiple-keys-per-user
 
 However, if you replace
 
@@ -291,7 +291,7 @@ used them for any kind of git access).  If you have unusual ssh problems that
 just don't seem to have any explanation, try removing all traces of
 putty/plink, including environment variables, etc., and then try again.
 
-Thankfully, someone contributed [this](contrib/putty).
+Thankfully, someone contributed [this](contrib/putty.md).
 
 # appendix 1: ssh daemon asks for a password
 
@@ -543,8 +543,8 @@ This means that, you get 2 kinds of errors if you bypass gitolite
     gitolite's **update hook** kicks in, and fails to run because some of the
     environment variables it is expecting are not present.
 
-[stsapp1]: sts#appendix-1-ssh-daemon-asks-for-a-password
-[stsapp3]: sts#appendix-3-ssh-client-may-not-be-offering-the-right-key
-[sshkeys-lint]: sts#appendix-2-which-key-is-which-running-sshkeys-lint
-[ybpfail]: sts#appendix-5-why-bypassing-gitolite-causes-a-problem
-[ssh-ha]: sts#appendix-4-ssh-host-aliases
+[stsapp1]: sts.md#appendix-1-ssh-daemon-asks-for-a-password
+[stsapp3]: sts.md#appendix-3-ssh-client-may-not-be-offering-the-right-key
+[sshkeys-lint]: sts.md#appendix-2-which-key-is-which-running-sshkeys-lint
+[ybpfail]: sts.md#appendix-5-why-bypassing-gitolite-causes-a-problem
+[ssh-ha]: sts.md#appendix-4-ssh-host-aliases

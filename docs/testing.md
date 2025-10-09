@@ -9,7 +9,7 @@ userid**.</font>
 Running gitolite's test suite is really just a superset of [trying it out
 safely][trying].
 
-[trying]: install#trying-out-gitolite-safely
+[trying]: install.md#trying-out-gitolite-safely
 
 To run the full test suite, create a **throw-away userid**, log in to it, then
 run these commands:
@@ -60,5 +60,5 @@ and directories in your \$HOME are potentially clobbered.
     repositories/
     .ssh/
 
-[auth]: concepts#authentication-and-authorisation
-[clobber]: testing#appendix-1-the-clobber-list
+[auth]: concepts.md#authentication-and-authorisation
+[clobber]: testing.md#appendix-1-the-clobber-list

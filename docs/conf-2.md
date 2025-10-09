@@ -78,7 +78,7 @@ After adding a default refex and expanding the supplied ones (see the
 [refex][] section earlier), this is what it looks like.  We've added line
 numbers for convenience; we'll see why later.
 
-[refex]: conf#the-refex-field
+[refex]: conf.md#the-refex-field
 
 ```gitolite-nu
 # managers should be able to read any repo
@@ -255,7 +255,7 @@ repo @all
 ```
 
 This is done by adding *one* line, line 4 in this example.  This sets a
-gitolite ["option"](options) that says you want "deny rules" to be applicable
+gitolite ["option"](options.md) that says you want "deny rules" to be applicable
 even for read access.
 
 Once you do that, all you need to do is to ensure that the first rule
@@ -280,8 +280,8 @@ repo @open
     option deny-rules = 0
 ```
 
-To see why this works, you need to understand that for [options](options) and
-[config](git-config) lines, a later setting [overrides][override_conf] earlier
+To see why this works, you need to understand that for [options](options.md) and
+[config](git-config.md) lines, a later setting [overrides][override_conf] earlier
 ones.  So we set it to 1 for all repos, then selectively set it to 0 for some.
 
 This means the "deny-rules" option applies to *all the repos except the "open"
@@ -290,7 +290,7 @@ so they are denied read access.  The "open" repos, on the other hand, get the
 normal default behaviour, which is to ignore deny rules for read access, and
 thus they only see the "R" permission.
 
-[override_conf]: git-config#overriding-config-values
+[override_conf]: git-config.md#overriding-config-values
 
 ----
 
@@ -316,7 +316,7 @@ rewind, but not *delete* a ref.  The `C` and `D` qualifiers help here.
   * If a rule specifies `RWD` or `RW+D`, then *rules that do NOT have the D
     qualifier will no longer permit **deleting** a ref in that repo*.
 
-[create]: wild#user-creating-a-specific-repo
+[create]: wild.md#user-creating-a-specific-repo
 
 Note: These two can be combined, so you can have `RWCD` and `RW+CD` as well.
 
@@ -380,7 +380,7 @@ gitolite sets the "oper" field to "W" or "+", respectively.
 to git-receive-pack (in the form of an exit code; again, see 'man githooks'),
 and the push fails or succeeds based on that.
 
-[c1c2]: conf#putting-it-all-together
+[c1c2]: conf.md#putting-it-all-together
 
 ## putting it all together
 
@@ -404,7 +404,7 @@ At this point, we have the following pieces of information:
 permissions][write-types], but for our discussion these are enough.  The
 others are rare, and anyway it is easy to extrapolate to them.</span>
 
-[write-types]: conf-2#appendix-1-different-types-of-write-operations
+[write-types]: conf-2.md#appendix-1-different-types-of-write-operations
 
 With that background, here's the flow.  The one on the left is for check #1
 (ref is unknown) while the one on the right is for check #2 (ref is known).

@@ -30,7 +30,7 @@ use it.  Depending on context, we use one of the following names:
   * [Workflow][imwf] context: blessed repo and developer repos
 
 <font color="gray">In addition, in the gitolite context you could say that the
-blessed repo is a normal (not "wild") repo and the logical repos are [wild](wild)
+blessed repo is a normal (not "wild") repo and the logical repos are [wild](wild.md)
 repos, since that is the most convenient way to set this up.  However, it is
 not mandatory -- you can have a wild repo as a backing repo, and/or a normal
 repo as a logical repo if you wish.</font>
@@ -72,7 +72,7 @@ repo    CREATOR/[a-zA-Z0-9].*
 # use
 
 A developer doesn't have to do anything differently.  She will still run,
-e.g., `git clone git@host:alice/linux` to auto-create and clone a [wild](wild)
+e.g., `git clone git@host:alice/linux` to auto-create and clone a [wild](wild.md)
 repo for herself, then add a remote to the "backing" repo, fetch it, start
 working, and eventually push her work to alice/linux.
 
@@ -225,10 +225,10 @@ the client point of view, **the only features guaranteed to work on logical
 repos are**:
 
   * normal git operations (clone, fetch, push)
-  * creating a new [wild](wild) repo
+  * creating a new [wild](wild.md) repo
   * the [perms][] command (except the "-c" flag)
 
-[perms]: user#setget-additional-permissions-for-repos-you-created
+[perms]: user.md#setget-additional-permissions-for-repos-you-created
 
 From a server/admin point of view, **the following will not work for logical
 repos, and may even fail silently!**:
@@ -249,7 +249,7 @@ of this for proper mirroring.
 
 # other notes
 
-The "backing repo" needs to exist.  If it is itself a [wild](wild) repo, it must
+The "backing repo" needs to exist.  If it is itself a [wild](wild.md) repo, it must
 be auto-created *before* a logical repo that hangs off of it is accessed.
 
 The logical repo must also be mentioned in the gitolite.conf file in some way,

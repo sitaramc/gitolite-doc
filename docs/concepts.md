@@ -6,7 +6,7 @@
 itself.  If not, the ["before you start..."][req] page has a list of topics
 that you need to be familiar with, in order to use gitolite.)</span>
 
-[req]: install#before-you-start-pre-requisites
+[req]: install.md#before-you-start-pre-requisites
 
 This page will help newcomers get used to what we're talking about elsewhere.
 It also explains the special `gitolite-admin` repo and how it is used to do te
@@ -53,7 +53,7 @@ conceptually easier for users.
 # The "hosting user"
 
 <span class="box-r">If you're wondering how it distinguishes between different
-users when they are all logging into "git", [this page](glssh) has answers!</span>
+users when they are all logging into "git", [this page](glssh.md) has answers!</span>
 
 When you install gitolite in ssh mode, you pick one specific user on the Unix
 system to be the "hosting user".  This is the user whose name goes into the
@@ -85,7 +85,7 @@ allows it, and we'd like to be as transparent as possible.  The
 `$HOME/repositories` prefix should never be specified.  If you do specify it,
 and things appear to work, [something is wrong!][ybpfail].
 
-[ybpfail]: sts#appendix-5-why-bypassing-gitolite-causes-a-problem
+[ybpfail]: sts.md#appendix-5-why-bypassing-gitolite-causes-a-problem
 
 # the special gitolite-admin repo
 
@@ -130,7 +130,7 @@ process (in the [overview](overview.md) page), we'll start off from
 
 2.  Gitolite looks at the keys in keydir, and updates ssh's authorized keys
     file using those keys, so ssh knows who the valid users are.  A ton of
-    detail about this is in the [ssh pages](ssh).
+    detail about this is in the [ssh pages](ssh.md).
 
 3.  It then updates some internal files in `~/.gitolite`
 

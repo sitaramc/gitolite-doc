@@ -20,14 +20,14 @@ The following repos are deemed to be readable by gitweb:
         config gitweb.category      =   some category
 
     Side note: the following shorter forms are available as [syntactic
-    sugar](non-core#syntactic-sugar) for the above longer forms:
+    sugar](non-core.md#syntactic-sugar) for the above longer forms:
 
         owner       =   owner name
         desc        =   some description
         category    =   some category
 
 The list of gitweb-readable repos is written to a file whose name is given by
-the [rc](rc) file variable `GITWEB_PROJECTS_LIST`.  The default value of this
+the [rc](rc.md) file variable `GITWEB_PROJECTS_LIST`.  The default value of this
 variable, if it is not specified or empty, is `$HOME/projects.list`.
 
 In addition, each of the config variables described above is written to the
@@ -38,7 +38,7 @@ repo to which it pertains, so that gitweb can use them.
 Gitweb (or cgit, redmine, etc.) typically runs under a different userid, and
 the default permissions that gitolite sets make them unreadable.
 
-See the section on the `UMASK` variable in the page for the [rc file](rc).
+See the section on the `UMASK` variable in the page for the [rc file](rc.md).
 
 ## repo-specific authorisation in gitweb
 
@@ -51,7 +51,7 @@ repository access.
 If you want to use gitolite's access rules in making this determination, you
 will first have to ensure that the HTTP username (i.e., the username known to
 apache/gitweb) is the same as the gitolite username.  If you're using
-gitolite's [http](http) mode, this is probably already true, but if you're using
+gitolite's [http](http.md) mode, this is probably already true, but if you're using
 the more widely used ssh mode, you'll have to make sure they match.
 
 You then need to add [this code][gwch] to your gitweb.conf.
@@ -78,5 +78,5 @@ assuming you have other means of setting 'gitweb.description' and
 
 Also see [this][deny-rules] for a twist on that.
 
-[deny-rules]: conf-2#read-access-respecting-deny-rules
+[deny-rules]: conf-2.md#read-access-respecting-deny-rules
 

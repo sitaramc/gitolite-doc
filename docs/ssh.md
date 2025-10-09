@@ -3,18 +3,18 @@
 ----
 
 If you're installing gitolite, you're a "system admin", like it or not.  If
-you're using the default ssh mode (i.e., not [http](http) mode), ssh is a
+you're using the default ssh mode (i.e., not [http](http.md) mode), ssh is a
 necessary skill.  Please take the time to learn at least enough to get
 passwordless access working.
 
 <span class="red">You **must** read both these pages before asking for
 help:</span>
 
-  * [Gitolite and ssh](glssh) explains how gitolite uses openssh features to
+  * [Gitolite and ssh](glssh.md) explains how gitolite uses openssh features to
     create any number of virtual users over just one actual (unix) user, and
     distinguish between them by their public keys.
 
-  * [Ssh troubleshooting](sts) is a rather long page that, as far as I know,
+  * [Ssh troubleshooting](sts.md) is a rather long page that, as far as I know,
     covers almost every known ssh related issue.  If you find something
     missing, send me an email with details so I can update it.
 
@@ -23,11 +23,11 @@ help:</span>
 This section will explain why an "ssh issue" is almost never a "gitolite
 issue", and, indirectly, why I dont get too excited about the former.
 
-To start with, as [this][auth] section of the [concepts](concepts) page explained,
+To start with, as [this][auth] section of the [concepts](concepts.md) page explained,
 <font color="red">**Gitolite does not do authentication.  It only does
 authorisation**.</font>
 
-[auth]: concepts#authentication-and-authorisation
+[auth]: concepts.md#authentication-and-authorisation
 
 Let's recap the definition of those words:
 
@@ -39,7 +39,7 @@ Let's recap the definition of those words:
 >   **Authorisation** is the process of asking what you want to do and
 >   deciding if you're allowed to do it or not.
 
-Now, if you managed to read the [gitolite and ssh](glssh) link above, you know
+Now, if you managed to read the [gitolite and ssh](glssh.md) link above, you know
 that gitolite is meant to be invoked as:
 
     /full/path/to/gitolite-shell some-authenticated-gitolite-username
@@ -58,7 +58,7 @@ ssh-based authentication **as a convenience to you**.  But in fact it is a
 *completely* separate program that you can disable (in the rc file) or replace
 with something else of your choice.
 
-For example, in both [smart http](http) and ldap-backed sshd, gitolite has no
+For example, in both [smart http](http.md) and ldap-backed sshd, gitolite has no
 role to play in creating users, setting up their passwords/keys, etc.
 
 ## so you're basically saying you won't support "X"
@@ -74,7 +74,7 @@ Even if you [lost the admin key][lost-key], the docs tell you how to recover
 from such errors.  You do need some password based method to get a shell
 command line on the server, of course.
 
-[lost-key]: emergencies#lost-admin-keyaccess
+[lost-key]: emergencies.md#lost-admin-keyaccess
 
 # using other authentication systems with gitolite
 
@@ -85,7 +85,7 @@ authentication scheme you want.
 
 It also expects the `SSH_ORIGINAL_COMMAND` environment variable to contain the
 full command (typically starting with git-receive-pack or git-upload-pack)
-that the client sent.  Also, when using [smart http](http), things are somewhat
+that the client sent.  Also, when using [smart http](http.md), things are somewhat
 different: gitolite uses certain environment variables that it expects httpd
 to have set up.  Even the user name comes from the `REMOTE_USER` environment
 variable instead of as a command line argument in this case.

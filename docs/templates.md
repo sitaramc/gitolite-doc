@@ -108,7 +108,7 @@ There are a few advantages with this approach:
 
 ## a repo and its users
 
-The [wildcard](wild) repos feature already has a way to dissociate the actual
+The [wildcard](wild.md) repos feature already has a way to dissociate the actual
 user names from the rule set in gitolite.conf.  For example, you can say
 
 ```gitolite
@@ -317,13 +317,13 @@ thank God I did not publish that!)
 
 # miscellanea
 
-This feature is not the same as [wild]() repos; repos here are created by the
+This feature is not the same as [wild](wild.md) repos; repos here are created by the
 gitolite admin or a server-side backend, *not* by a gitolite user.  (However,
 this feature piggy-backs on a lot of the code for wild repos, adding just a
 wee bit -- the "duh" comment earlier in this document -- to complete it).
 
-[perms]: user#setget-additional-permissions-for-repos-you-created
-[perbr]: user#personal-branches
-[group]: conf#group-definitions
-[accum]: conf#rule-accumulation
+[perms]: user.md#setget-additional-permissions-for-repos-you-created
+[perbr]: user.md#personal-branches
+[group]: conf.md#group-definitions
+[accum]: conf.md#rule-accumulation
 

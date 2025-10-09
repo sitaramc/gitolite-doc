@@ -4,7 +4,7 @@
 
 **Important Notes on "non-core" features**:
 
-1.  The ["non-core" gitolite](non-core) page is the starting point for all
+1.  The ["non-core" gitolite](non-core.md) page is the starting point for all
     information about ... non-core gitolite :)
 
 2.  This page decribes many of the non-core features that come with gitolite.
@@ -12,7 +12,7 @@
     is not found in this page, it can be found within the source code; please
     look there.
 
-    [Commands](non-core#gitolite-commands), however, have some extra magic,
+    [Commands](non-core.md#gitolite-commands), however, have some extra magic,
     which is not available to the other types of non-core programs:
 
       * Running the command with a single `-h` option (i.e., `gitolite <command> -h`
@@ -27,8 +27,8 @@
     you don't like what the shipped version does.  You can even maintain it
     [within your gitolite-admin repo][pushcode] if you wish.
 
-[localcode]: non-core#for-your-non-core-programs
-[pushcode]: non-core#using-the-gitolite-admin-repo-to-manage-non-core-code
+[localcode]: non-core.md#for-your-non-core-programs
+[pushcode]: non-core.md#using-the-gitolite-admin-repo-to-manage-non-core-code
 
 # commands
 
@@ -55,7 +55,7 @@ Also note that not all of these commands are available remotely.
   * **help** -- see note 1 at the top of this page
   * *htpasswd* -- sets your htpasswd
   * **[info][]** -- print git/gitolite version, list repos you have access to
-  * *[lock](locking)* -- lock binary files for exclusive use (in combination
+  * *[lock](locking.md)* -- lock binary files for exclusive use (in combination
     with the 'lock' VREF)
   * *[mirror][sync]* -- manually mirror a repo to a copy
   * *motd* <span class="gray">(v3.6.1+)</span> -- set/remove a message of the day, per repo or for the whole
@@ -67,7 +67,7 @@ Also note that not all of these commands are available remotely.
   * *rsync* -- resumable downloads of git bundles (bundles are auto-created as
     needed)
   * *sshkeys-lint* -- look for potential problems in ssh keys
-  * *[sskm](contrib/sskm)* -- self-service key management
+  * *[sskm](contrib/sskm.md)* -- self-service key management
   * *sudo* -- allows an admin (i.e., someone who has push rights to the
     'gitolite-admin' repo) to run any remote command as some other user.  This
     is useful, for example, when a user claims he is unable to access a repo,
@@ -78,10 +78,10 @@ Also note that not all of these commands are available remotely.
   * *writable* -- disable/enable writes to specific repo (or all repos, if
     you're an admin)
 
-[info]: user#the-info-command
-[sync]: mirroring#manually-synchronising-a-copy-repo
-[perms]: user#setget-additional-permissions-for-repos-you-created
-[bypass]: emergencies#bypassing-gitolite
+[info]: user.md#the-info-command
+[sync]: mirroring.md#manually-synchronising-a-copy-repo
+[perms]: user.md#setget-additional-permissions-for-repos-you-created
+[bypass]: emergencies.md#bypassing-gitolite
 
 # syntactic sugar
 
@@ -95,7 +95,7 @@ The following "sugar" programs are available:
 
 # triggers
 
-Here's a list of **features** that are enabled by [triggers](triggers), or a
+Here's a list of **features** that are enabled by [triggers](triggers.md), or a
 combination of a trigger and something else, like a command.
 
   * *Alias* -- allow repos to have aliases
@@ -103,7 +103,7 @@ combination of a trigger and something else, like a command.
   * *bg* -- allow long running post-compile/post-create jobs to be
     backgrounded
   * *CpuTime* -- CPU and elapsed times for gitolite+git
-  * **[Mirroring](mirroring)** -- mirroring all or some repos
+  * **[Mirroring](mirroring.md)** -- mirroring all or some repos
   * *Motd* <span class="gray">(v3.6.1+)</span> -- allows printing a message of the day to
     STDERR in ssh mode
   * *[partial-copy][]* -- simulated read control for branches (in combination
@@ -114,7 +114,7 @@ combination of a trigger and something else, like a command.
   * *renice* -- renice the git operation
   * *RepoUmask* -- repo-specific umask settings
   * *Shell* -- see "giving shell access to gitolite users" in the [ssh
-    troubleshooting and tips](sts) page.  (Internally enables the
+    troubleshooting and tips](sts.md) page.  (Internally enables the
     'ssh-authkeys-shell-users' trigger also).
   * *ssh-authkeys-split* -- split pubkey files with multiple keys into
     separate files with one pubkey each
@@ -136,16 +136,16 @@ disable them:
   * update-gitweb-access-list -- create the "projects.list" file that gitweb
     uses to determine what repos to show/not show
 
-[partial-copy]: list-non-core#partial-copy-selective-read-control-for-branches
+[partial-copy]: list-non-core.md#partial-copy-selective-read-control-for-branches
 
 # VREFs
 
-VREFs are a complex topic and have their [own page](vref) with lots more
+VREFs are a complex topic and have their [own page](vref.md) with lots more
 details.  However, here's a list of VREFs shipped with gitolite:
 
   * *[COUNT][]* -- restrict pushes by number of changed or new files pushed
   * *EMAIL-CHECK* -- check if all new commits are authored by the person pushing
-  * *[lock](locking)* -- lock binary files for exclusive use (in combination
+  * *[lock](locking.md)* -- lock binary files for exclusive use (in combination
     with the 'lock' command)
   * *MAX\_NEWBIN\_SIZE* -- restrict by size of new binary files (helps catch
     people checking in random PDFs, JARs, WARs, etc.)
@@ -157,9 +157,9 @@ details.  However, here's a list of VREFs shipped with gitolite:
     changing file 'foo' but not on 'master' branch)
   * *[VOTES][votes]* -- voting on commits a la gerrit
 
-[COUNT]: vref-2#number-of-changed-or-new-files
-[NAME]: vref-2#restricting-pushes-by-dirfile-name
-[votes]: vref-2#voting-on-commits
+[COUNT]: vref-2.md#number-of-changed-or-new-files
+[NAME]: vref-2.md#restricting-pushes-by-dirfile-name
+[votes]: vref-2.md#voting-on-commits
 
 # details on some non-core programs
 

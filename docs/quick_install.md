@@ -36,4 +36,4 @@ Notes:
     the path, you can use that if you like.
 3.  Substitute your name for "yourname" :-)
 
-[hu]: concepts#the-hosting-user
+[hu]: concepts.md#the-hosting-user

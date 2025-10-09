@@ -4,7 +4,7 @@
 
 The wildrepos feature allows you to specify access control rules using regular
 expression patterns, so you can have many actual repos being served by a
-single set of rules in the config file.  The [regex](regex) can also include the
+single set of rules in the config file.  The [regex](regex.md) can also include the
 word `CREATOR` in it, allowing you to parametrise the name of the user
 creating the repo.
 
@@ -43,7 +43,7 @@ Most of this is fixed, but the creator (user 'u1') *can* use the [perms][]
 command to add other users as 'READERS' or 'WRITERS'.  For example he could
 add 'u2' as a writer and 'u3' and 'u5' as readers:
 
-[perms]: user#setget-additional-permissions-for-repos-you-created
+[perms]: user.md#setget-additional-permissions-for-repos-you-created
 
 This is the effective rule list that applies to the repo if he does that:
 
@@ -82,7 +82,7 @@ users the right to *create a repo*.  <span class="gray">This is not to be confus
 the "RWC" permission or its variants described [elsewhere][write-types], which
 are about creating *branches*, not *repos*.</span>
 
-[write-types]: conf-2#appendix-1-different-types-of-write-operations
+[write-types]: conf-2.md#appendix-1-different-types-of-write-operations
 
 # (**user**) creating a specific repo
 
@@ -123,7 +123,7 @@ and have a TA create the repos in advance.
 
 Due to projects like `gtk+`, the `+` character is now considered a valid
 character for an *ordinary* repo.  Therefore, a regex like `foo/.+` does not
-look like a [regex](regex) to gitolite.  Use `foo/..*` if you want that.
+look like a [regex](regex.md) to gitolite.  Use `foo/..*` if you want that.
 
 Also, `..*` by itself is not considered a valid repo regex.  Try
 `[a-zA-Z0-9].*`.  `CREATOR/..*` will also work.
@@ -152,7 +152,7 @@ metacharacters.
     a branch!  You can anchor both sides if you really care, by using
     `master$` instead of `master`, but that is *not* the default for refexes.
 
-[refex]: conf#the-refex-field
+[refex]: conf.md#the-refex-field
 
 # roles
 
@@ -169,7 +169,7 @@ more detail.
 
 If you want to have more than just the 2 default roles, say something like:
 
-You can add the new names to the ROLES hash in the [rc file](rc); see comments
+You can add the new names to the ROLES hash in the [rc file](rc.md); see comments
 in that file for how to do that.  Be sure to run the 2 commands mentioned
 there after you have added the roles.
 
@@ -222,7 +222,7 @@ affects newly created wild repos, despite the '@all' name).
 
 ## specifying owners
 
-See the section on `OWNER_ROLENAME` in the [rc file page](rc).
+See the section on `OWNER_ROLENAME` in the [rc file page](rc.md).
 
 # listing wild repos
 

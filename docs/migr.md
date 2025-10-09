@@ -49,7 +49,7 @@ navigation bar at the top.
 Smoke test the installation by cloning the `testing` repo and pushing some
 minor change to it.
 
-[hu]: concepts#the-hosting-user
+[hu]: concepts.md#the-hosting-user
 
 ## step 3: add existing repos
 
@@ -59,7 +59,7 @@ existing repos.
 At the point where it talks about adding repos to the gitolite.conf file, you
 can copy relevant bits from your old gitolite-admin repo.
 
-[existing]: basic-admin#appendix-1-bringing-existing-repos-into-gitolite
+[existing]: basic-admin.md#appendix-1-bringing-existing-repos-into-gitolite
 
 ## step 4: identify any remaining changes needed
 
@@ -89,7 +89,7 @@ lines to the end of the gitolite-admin rules in your conf/gitolite.conf file:
     subconf "fragments/*.conf"
 
 The first part compensates for fallthru now being a success when processing
-[VREF](vref) rules (NAME rules are just one specific VREF).  Although,
+[VREF](vref.md) rules (NAME rules are just one specific VREF).  Although,
 **ideally**, you should change your rule list so that you no longer require
 that line.
 
@@ -103,7 +103,7 @@ main conf file, and was hardcoded to that specific glob.)
 
 There are **several** important differences in mirroring; if you're using
 mirroring **please start from a clean slate on all copies**, using the v3
-documentation on [mirroring](mirroring).
+documentation on [mirroring](mirroring.md).
 
 If you're not willing to do that, you may be able to use the older, more
 detailed, documentation [here][arch] to manage the migration.  However, I
@@ -131,8 +131,8 @@ most of them, but some of them cause a significant change to behaviour:
 
 *   `ADMIN_POST_UPDATE_CHAINS_TO` and `UPDATE_CHAINS_TO`:
 
-    For the former, add your script to the `POST_COMPILE` [trigger](triggers)
-    chain.  For the latter, use a [vref](vref).  Don't forget to add a rule that
+    For the former, add your script to the `POST_COMPILE` [trigger](triggers.md)
+    chain.  For the latter, use a [vref](vref.md).  Don't forget to add a rule that
     references the new VREF!
 
 ### wild repos

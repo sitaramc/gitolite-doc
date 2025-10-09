@@ -2,7 +2,7 @@
 
 ----
 
-**IMPORTANT**: if you have a v3.0-v3.3 rc file it is documented [here](rc-33),
+**IMPORTANT**: if you have a v3.0-v3.3 rc file it is documented [here](rc-33.md),
 and it will still work.  Please see appendix A below for details.
 
 ----
@@ -29,7 +29,7 @@ As you can see there are 3 types of variables in it:
 
 This page documents only some of them; for most of them it's best to look in
 the actual rc file or in each of their individual documentation files around;
-start with ["non-core" gitolite](non-core).  If a setting is used by a command
+start with ["non-core" gitolite](non-core.md).  If a setting is used by a command
 then running that command with '-h' may give you additional information.
 
 # specific variables
@@ -58,7 +58,7 @@ then running that command with '-h' may give you additional information.
     This setting allows the repo admin to define acceptable gitconfig keys.
 
     Gitolite allows you to set git config values using the "config" keyword;
-    see [here](git-config) for details and syntax.
+    see [here](git-config.md) for details and syntax.
 
     You have 3 choices.  By default `$GIT_CONFIG_KEYS` is left empty, which
     completely disables this feature (meaning you cannot set git configs via
@@ -66,7 +66,7 @@ then running that command with '-h' may give you additional information.
 
     The second choice is to give it a space separated list of settings you
     consider safe.  (These are actually treated as a set of [regular
-    expressions](regex), and any one of them must match).
+    expressions](regex.md), and any one of them must match).
 
     For example:
 
@@ -83,7 +83,7 @@ then running that command with '-h' may give you additional information.
   * `ROLES`, hash, default keys 'READERS' and 'WRITERS'
 
     This specifies the role names allowed to be used by users running the
-    [perms][] command.  The [wild](wild) repos doc has more info on roles.
+    [perms][] command.  The [wild](wild.md) repos doc has more info on roles.
 
   * `OWNER_ROLENAME`, string, default undef
 
@@ -111,10 +111,10 @@ then running that command with '-h' may give you additional information.
     This is described in more detail [here][localcode].  Please be aware
     **this must be a FULL path**, not a relative path.
 
-[privesc]: rc#security-note-gitolite-admin-and-shell-access
-[perms]: user#setget-additional-permissions-for-repos-you-created
-[roles]: wild#roles
-[localcode]: non-core#for-your-non-core-programs
+[privesc]: rc.md#security-note-gitolite-admin-and-shell-access
+[perms]: user.md#setget-additional-permissions-for-repos-you-created
+[roles]: wild.md#roles
+[localcode]: non-core.md#for-your-non-core-programs
 
 # security note: gitolite admin and shell access
 
@@ -147,7 +147,7 @@ releases, in the sense that the lines you need to add may already be present
 (commented out) in the rc file, so you just need to uncomment them instead of
 typing them in yourself.
 
-If you have a v3.0-v3.3 rc file it is documented [here](rc-33), and it will
+If you have a v3.0-v3.3 rc file it is documented [here](rc-33.md), and it will
 still work.  In fact internally the v3.4 rc file data gets converted to the
 v3.3 format.  There's a simple program to help you upgrade a v3.3 (or prior)
 rc file (in <span class="gray">v3.6.1+</span>, see contrib/utils/rc-format-v3.4), but it has
@@ -187,7 +187,7 @@ use this to confirm you did not miss something during the manual rc upgrade.
 For most purposes, the section on [adding your own scripts to a
 trigger][addtrig] works fine.
 
-[addtrig]: triggers#adding-your-own-scripts-to-a-trigger
+[addtrig]: triggers.md#adding-your-own-scripts-to-a-trigger
 
 But triggers added that way, run *before* the built-in triggers, which you can
 also confirm by running `gitolite query-rc -d` and looking for your trigger in
@@ -233,7 +233,7 @@ Apart from [`UNSAFE_PATT`][unsafepatt], there are other patterns that
 gitolite uses to prevent various attacks.  They're all defined in `Rc.pm` in
 the source, but you can override any of them in `~/.gitolite.rc` if needed.
 
-[unsafepatt]: git-config.html#compensating-for-unsafe_patt-and-other-patterns
+[unsafepatt]: git-config.md#compensating-for-unsafe_patt-and-other-patterns
 
 !!! danger "DANGER!"
 

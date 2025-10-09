@@ -10,21 +10,21 @@
 !!! danger ""
     This page is about an ssh mode installation.  It should work for most
     people, but if you are an absolute newbie to Unix etc., you may want to
-    click [here](fool_proof_setup) for a very detailed, step-by-step,
+    click [here](fool_proof_setup.md) for a very detailed, step-by-step,
     hopefully fool-proof set of instructions.
 
-    If ssh is not your thing, there's a different page for [http mode](http)
+    If ssh is not your thing, there's a different page for [http mode](http.md)
     installation.
 
 # before you start... (pre-requisites)
 
 ## your skills
 
-*   Please DO read the [concepts and terminology](concepts) page before doing
+*   Please DO read the [concepts and terminology](concepts.md) page before doing
     anything here.
 
 *   If you're installing gitolite, you're a "system admin", like it or not.
-    Since most people use the ssh mode, **[ssh](ssh)** is therefore a necessary
+    Since most people use the ssh mode, **[ssh](ssh.md)** is therefore a necessary
     skill.  Please take the time to learn at least enough to get passwordless
     access working.
 
@@ -42,7 +42,7 @@
 
 *   Some familiarity with Unix and shells is probably required.
 
-*   [Regular expressions](regex) are a big part of gitolite in many places but
+*   [Regular expressions](regex.md) are a big part of gitolite in many places but
     familiarity is not necessary to do *basic* access control.
 
 ## your server
@@ -51,7 +51,7 @@
 *   Git version 1.6.6 or later.
 *   Perl 5.8.8 or later (see <https://lwn.net/Articles/348084/> if this does
     not seem to be enough).
-*   Openssh (almost any version).  Optional if you're using [smart http](http).
+*   Openssh (almost any version).  Optional if you're using [smart http](http.md).
     *   **IMPORTANT**: although a default openssh config will not do this (AFAIK),
         **do not** allow the user to set environment variables if you care about
         security at all.
@@ -76,7 +76,7 @@
 *   Gitolite expects all the directories and files it manages/uses to be owned
     by the [hosting user][hu] and not have strange permissions and ownerships.
 
-*   Gitolite does NOT like it if you fiddle with [files and directories it cares about](files) in any way except as directed in the documentation.
+*   Gitolite does NOT like it if you fiddle with [files and directories it cares about](files.md) in any way except as directed in the documentation.
 
 *   Gitolite depends on several system-installed packages: openssh, git, perl,
     sh being the main ones.  They should all be configured sensibly and with
@@ -84,7 +84,7 @@
     authorized keys file should be placed in some directory other than the
     default, expect trouble).
 
-[existing]: basic-admin#appendix-1-bringing-existing-repos-into-gitolite
+[existing]: basic-admin.md#appendix-1-bringing-existing-repos-into-gitolite
 [hu]: concepts.md#the-hosting-user
 
 # trying out gitolite safely
@@ -98,7 +98,7 @@ system permanently.
 directories][clobber] in your `$HOME`.  Ideally, you should use a throwaway
 userid**.</font>
 
-[clobber]: testing#appendix-1-the-clobber-list-clobber
+[clobber]: testing.md#appendix-1-the-clobber-list
 
 Just create a **throw-away userid**, log in to it, then run these commands:
 
@@ -115,7 +115,7 @@ their attention better!
 If it doesn't work, re-read this page to see if you may have missed something
 that gitolite requires, or ask for [support][].
 
-[support]: index.html#contactsupport
+[support]: index.md#contactsupport
 
 If it works, you get a gitolite installation with 7 gitolite users ("admin",
 and "u1" through "u6").
@@ -249,9 +249,9 @@ If that completes without any warnings, you are done.  If it had a warning,
 you probably supplied a key which already has shell access to the server.
 That won't work; you'll have to generate and use a different key pair for
 gitolite access and use [host aliases][ssh-ha] to distinguish between the two.
-While you're there, read both the [ssh](ssh) pages.  Twice.
+While you're there, read both the [ssh](ssh.md) pages.  Twice.
 
-[ssh-ha]: sts#appendix-4-ssh-host-aliases
+[ssh-ha]: sts.md#appendix-4-ssh-host-aliases
 
 # upgrades
 
@@ -261,7 +261,7 @@ While you're there, read both the [ssh](ssh) pages.  Twice.
   * Run `gitolite setup`.
 
 After you upgrade gitolite, you may also want to upgrade your rc file
-(`~/.gitolite.rc`).  See the [rc file](rc) documentation for that.
+(`~/.gitolite.rc`).  See the [rc file](rc.md) documentation for that.
 
 # moving servers
 
@@ -279,7 +279,7 @@ servers is this:
 2.  Install gitolite on the new server, using the same key for the admin as
     for the old server.
 
-3.  Copy the [rc](rc) file from the old server, overwriting this one.
+3.  Copy the [rc](rc.md) file from the old server, overwriting this one.
 
 4.  [Disable][writable] the old server so people won't push to it.
 
@@ -295,4 +295,4 @@ servers is this:
 
 7.  Run `gitolite setup` on the server.
 
-[writable]: odds-and-ends#disabling-pushes-to-take-backups
+[writable]: odds-and-ends.md#disabling-pushes-to-take-backups

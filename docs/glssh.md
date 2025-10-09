@@ -6,7 +6,7 @@ Although other forms of authentications exist (see the section on
 [authentication versus authorisation][auth]), ssh is the one that most git
 users use.
 
-[auth]: concepts#authentication-and-authorisation
+[auth]: concepts.md#authentication-and-authorisation
 
 ***Therefore, gitolite is (usually) heavily dependent on ssh***.
 
@@ -90,7 +90,7 @@ from somewhere, or maybe buy the OReilly ssh book.
     **This is the backbone of what makes gitolite work; please make sure you
     understand this**.
 
-[users]: basic-admin#addremove-users
+[users]: basic-admin.md#addremove-users
 
 # how does gitolite use all this ssh magic?
 

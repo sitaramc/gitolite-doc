@@ -24,7 +24,7 @@ means *any* URL syntax listed in 'man git-clone' for ssh and/or http will
 work.  The only things to note are:
 
   * In ssh mode, you *must* use key-based authentication (i.e., passwords
-    won't work; see the two pages linked from the [ssh](ssh) page for why).
+    won't work; see the two pages linked from the [ssh](ssh.md) page for why).
   * The path of the repo is what you put into the conf file (e.g., "testing",
     and not "repositories/testing" or "/home/git/repositories/testing" or
     such).  A good rule of thumb is to use the exact name the `info` command
@@ -49,7 +49,7 @@ names in the config file.  "Wildcard" repos are specified by a regex in the
 config file.  Try the [`info` command][info] and see if it shows any lines
 that look like regex patterns, (with a "C" permission).
 
-[info]: user#the-info-command
+[info]: user.md#the-info-command
 
 If you see any, it means you are allowed to create brand new repos whose names
 fit that regex.  Normally, you create such repos simply by cloning them or
@@ -87,7 +87,7 @@ To give some flexibility to users, the admin could add rules like this:
     R       =   READERS
 ```
 
-<span class="gray">(he could also add other [roles](wild#roles) but then he
+<span class="gray">(he could also add other [roles](wild.md#roles) but then he
 needs to read the documentation).</span>
 
 Once he does this, you can then use the `perms` command (run `ssh git@host perms -h`

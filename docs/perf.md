@@ -54,8 +54,8 @@ A lot of the following discussion involves understanding these factors:
 
     This mapping is saved in a file called `gl-perms` in the repo directory.
 
-[role]: wild#roles
-[perms]: user#setget-additional-permissions-for-repos-you-created
+[role]: wild.md#roles
+[perms]: user.md#setget-additional-permissions-for-repos-you-created
 
 # types of performance issues
 
@@ -112,7 +112,7 @@ couple of attempts to mitigate this.
     really (**really!**) need it.  Instructions and caveats are in the source
     file itself.
 
-[templates]: templates
+[templates]: templates.md
 
 ### `gitolite trigger POST_COMPILE`
 
@@ -120,8 +120,8 @@ The second part runs all the `POST_COMPILE` triggers scripts.  On a default
 installation, this includes maintaining `~/.ssh/authorised_keys`, updating
 [gitweb and daemon][gwd] permissions, and updating ["config"][gc] values.
 
-[gc]: git-config
-[gwd]: gitweb-daemon
+[gc]: git-config.md
+[gwd]: gitweb-daemon.md
 
 This is influenced by the total number of repos in the system (normal *and*
 other repos), *and* what options are enabled in your `~/.gitolite.rc` file.
@@ -173,9 +173,9 @@ takes time.  And depends on how fast your disk is, too.
 The appendix has a solution for this, using a perl module called Memoize
 (comes standard with perl); check down there for details.
 
-[agds]: odds-and-ends#administering-gitolite-directly-on-the-server
-[rsag]: gitweb-daemon#repo-specific-authorisation-in-gitweb
-[lff]: dev-notes#appendix-2-log-file-format
+[agds]: odds-and-ends.md#administering-gitolite-directly-on-the-server
+[rsag]: gitweb-daemon.md#repo-specific-authorisation-in-gitweb
+[lff]: dev-notes.md#appendix-2-log-file-format
 
 # appendix 1: using `memoize`
 

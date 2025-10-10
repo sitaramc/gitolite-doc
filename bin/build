@@ -29,9 +29,8 @@ die() { echo "$@"; exit 1; }
 
 [ -f mkdocs.yml ] || die "are you sure you're in the right directory?"
 
-[ -d .git/gen-docs ] && mv .git/gen-docs .
+[ "$1" = "clean" ] && rm -rf gen-docs site
 
-[ "$1" = "clean" ] && rm -rf gen-docs
 mkdir -p gen-docs/{code,contrib,css}
 rsync -a docs/code gen-docs
 rsync -a docs/css  gen-docs

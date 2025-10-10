@@ -13,21 +13,27 @@ anything else like it).  The gitolite documentation is now:
         within mkdocs, so I kludged it.  See below for more on this
 -   easy to view just by pointing a browser at the site that is built, or copy
     that entire directory as is to any web server you want to.
+-   for convenience, the "site" is downloadable as a ZIP file from
+    <https://codeberg.org/sitaramc/gitolite-doc/releases> -- just pick the
+    latest one.
 
-For convenience, with no promises of long term availability, it will also be
-available at https://gitolite.com.
+As before, it will also be available at <https://gitolite.com>, except there is
+no promise of long term availability because this is currently hosted by
+github pages.
 
 ### Side note: why "move away from github"
 
-First, I'm not deleting anything in github -- I'm only making my stuff **not**
-dependent on github's features, beyond what the command line git client needs.
-In fact, at the moment, gitolite.com is still being served by github pages.
+First, I'm not deleting anything in github.  Yet.
+
+I'm only making my stuff **not** dependent on github's features, beyond what
+the command line git client needs.  In fact, at the moment, gitolite.com is
+still being served by github pages (as I mentioned above).
 
 The point is, it was always the intent that the documentation, once "built"
 (by `mkdocs build`) would stand on its own.
 
 But a few days ago I suddenly realised that this was not the case.  Many of
-the links were broken, when I tried to access the "site" directly with a
+the **links were broken**, when I tried to access the "site" directly with a
 browser, or put it behind some other web server.
 
 It seems that github silently allows "URL/ending/in/foo" to resolve to

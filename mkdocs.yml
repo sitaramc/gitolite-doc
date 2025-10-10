@@ -67,7 +67,6 @@ nav:
 
 - other docs:
     - miscellaneous features: odds-and-ends.md
-    - using git namespaces: namespaces.md
     - locking binary files: locking.md
     - testing gitolite: testing.md
     - packaging gitolite: package.md

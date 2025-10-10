@@ -1,7 +1,10 @@
 # namespace support in gitolite
 
-*This feature is only available in the 'namespaces' branch until enough people
-test it and tell me it works fine*.
+~~*This feature is only available in the 'namespaces' branch until enough people
+test it and tell me it works fine*.~~
+
+2025-10-10 -- This document is now archived.  Namespaces have not had either
+interest, or testing, since about 2014.  RIP.
 
 ----
 

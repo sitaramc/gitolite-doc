@@ -10,7 +10,13 @@ fine-grained access control and many more powerful features.
 <span class="box-r">If you're installing via your package manager, make sure
 you get the right one; it's often called `gitolite3`.</span>
 
-Source code is at <https://github.com/sitaramc/gitolite>.
+Source code is at <https://codeberg.org/sitaramc/gitolite>.
+
+!!! note "Note"
+
+    Wherever the documentation mentions the above URL, you can also use the
+    alternative URL <https://github.com/sitaramc/gitolite>.  If that ever
+    changes this section will be updated.
 
 If your Unix-fu and ssh-fu are good, take a look at the [quick install](quick_install.md)
 page.  Otherwise follow the documentation flow, skipping whatever you think

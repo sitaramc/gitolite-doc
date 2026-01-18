@@ -102,7 +102,7 @@ userid**.</font>
 
 Just create a **throw-away userid**, log in to it, then run these commands:
 
-    git clone https://github.com/sitaramc/gitolite
+    git clone https://codeberg.org/sitaramc/gitolite
     cd gitolite
     prove t/ssh*
 
@@ -149,7 +149,7 @@ complete the installation.
     "gitolite" also exists.  If you want to know what the latest gitolite
     version is, the gitolite [CHANGELOG][cl] will tell you.
 
-[cl]: https://github.com/sitaramc/gitolite/blob/master/CHANGELOG
+[cl]: https://codeberg.org/sitaramc/gitolite/src/branch/master/CHANGELOG
 
 ### (a graphical overview)
 
@@ -164,7 +164,7 @@ have to do anything to them yourself; in fact you should not!  You only need
 the command for each numbered step shown:
 
 1.  Copy the admin's pubkey to the server as "alice.pub".
-2.  Run `git clone https://github.com/sitaramc/gitolite` or equivalent.
+2.  Run `git clone https://codeberg.org/sitaramc/gitolite` or equivalent.
 3.  Run `gitolite/install -ln`.
 4.  Run `gitolite setup -pk alice.pub`.
 
@@ -193,7 +193,7 @@ not an ssh guru, you should probably play safe.</span>
 Get the software using git-clone:
 
 ```sh
-git clone https://github.com/sitaramc/gitolite
+git clone https://codeberg.org/sitaramc/gitolite
 ```
 
 You can use this as is, or you can check out the latest tag to make sure

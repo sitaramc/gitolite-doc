@@ -13,7 +13,7 @@
     detailed, documentation [here][arch] to manage the migration.  However, I
     cannot support that (mainly due to lack of time).
 
-[arch]: https://github.com/sitaramc/gitolite-doc/tree/master/archive
+[arch]: https://codeberg.org/sitaramc/gitolite-doc/src/branch/master/archive
 
 ----
 

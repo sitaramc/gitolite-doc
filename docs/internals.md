@@ -254,11 +254,11 @@ Finally, a note on a couple of related items:
 ## appendix A: accessing the documentation offline
 
 The source code for the documentation is in
-<https://github.com/sitaramc/gitolite-doc>.  Rendering it requires some work
-(TBD: details).
+<https://codeberg.org/sitaramc/gitolite-doc>.  Rendering it requires some
+work; see the file docs/build-docs.md (online at
+<https://codeberg.org/sitaramc/gitolite-doc/src/branch/master/docs/build-docs.md>).
 
-For most purposes, it's simpler to clone
-<https://github.com/sitaramc/sitaramc.github.com> and use the 'gitolite'
-subdirectory within as your pre-rendered document base.  Open it in a
-JS-enabled browser and you can even do searches.
-
+If you want a pre-rendered copy, go to
+<https://codeberg.org/sitaramc/gitolite-doc/releases> and grab the latest
+"site.zip" file.  Unzip it anywhere and point your browser to
+"site/index.html" in the unzipped location.

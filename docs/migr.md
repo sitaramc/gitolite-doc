@@ -18,7 +18,7 @@ the active document hierarchy.
 Despite all that, this document *does* list some of the more important issues,
 mainly those that cause a significant change in behaviour.
 
-[arch]: https://github.com/sitaramc/gitolite-doc/tree/master/archive
+[arch]: https://codeberg.org/sitaramc/gitolite-doc/src/branch/master/archive
 
 ## step 1: backups
 

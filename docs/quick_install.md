@@ -20,7 +20,7 @@ your workstation to the hosting user, then do something like this:
 su - git
 mkdir -p ~/bin
 
-git clone https://github.com/sitaramc/gitolite
+git clone https://codeberg.org/sitaramc/gitolite
 gitolite/install -ln ~/bin          # please use absolute path here
 gitolite setup -pk yourname.pub
 ```

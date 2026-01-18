@@ -13,7 +13,7 @@ theme:
 plugins:
   - search
   - offline
-# repo_url: https://github.com/sitaramc/gitolite-doc
+# repo_url: https://codeberg.org/sitaramc/gitolite-doc
 
 nav:
 

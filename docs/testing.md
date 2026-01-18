@@ -15,7 +15,7 @@ To run the full test suite, create a **throw-away userid**, log in to it, then
 run these commands:
 
     git config --global include.path ~/.gitconfig.local
-    git clone https://github.com/sitaramc/gitolite
+    git clone https://codeberg.org/sitaramc/gitolite
     cd gitolite
     prove
 
@@ -38,7 +38,7 @@ Gitolite's test suite is mostly written using [tsh][] -- the "testing shell".
 Take a look at some of the scripts and you will see what it looks like.  It
 has a few quirks and nuances, but it's fine for what I need here.
 
-[tsh]: https://github.com/sitaramc/tsh
+[tsh]: https://codeberg.org/sitaramc/tsh
 
 The tests also use a somewhat convoluted system of environment variables in
 order to run *entirely* as a local user, without going through ssh at all.

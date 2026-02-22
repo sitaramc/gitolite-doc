@@ -22,9 +22,6 @@ cd how
 }
 cd - >/dev/null
 
-# also, a lot of things in here are kinda hardcoded to my setup; if someone
-# really wants me to clean it up so that it is more generic, I'll work on it
-
 die() { echo "$@"; exit 1; }
 
 [ -f mkdocs.yml ] || die "are you sure you're in the right directory?"

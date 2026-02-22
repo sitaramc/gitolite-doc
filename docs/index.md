@@ -18,9 +18,10 @@ Source code is at <https://codeberg.org/sitaramc/gitolite>.
     alternative URL <https://github.com/sitaramc/gitolite>.  If that ever
     changes this section will be updated.
 
-If your Unix-fu and ssh-fu are good, take a look at the [quick install](quick_install.md)
-page.  Otherwise follow the documentation flow, skipping whatever you think
-you don't need.
+If your Unix-fu and ssh-fu are good, take a look at the [quick
+install](quick_install.md) page.  Otherwise follow the documentation flow
+(using the "next"/"previous" buttons at the bottom of each page), skipping
+whatever you think you don't need.
 
 ## documentation
 
@@ -88,7 +89,7 @@ source distribution.
 
 Our IRC channel is `#gitolite` on libera.chat.  I live in India (UTC+0530 time
 zone), but there are a few regulars (*thanks, guys, you know who you are!*)
-from other times zones.  That said, it's not heavy traffic and you may have to
+from other timezones.  That said, it's not heavy traffic and you may have to
 wait a while for an answer, depending on the time of day and day of week.
 
 There are also many gitolite-knowledgeable people on the git channel `#git`.

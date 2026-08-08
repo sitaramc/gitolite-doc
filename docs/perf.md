@@ -139,13 +139,6 @@ If you use only the default set of options enabled in the rc file, this
 should be pretty fast, though some of the non-default options may still be
 slow.
 
-!!! note ""
-    However, the commit that *finally* fixed this issue for the default
-    options is pretty recent as of the time of writing.  In tag terms, you
-    should see it in 3.6.8.  If you're really affected by this, bug me on the
-    mailing list to make a release, and then bug your package maintainers :-)
-    Or just upgrade from github!
-
 How can you tell which program is slowing you down?  Look in the log file
 after a user runs a wild repo create -- any subtask of that 'create' that
 takes more than a second is a problem.  Send details to the mailing list so we

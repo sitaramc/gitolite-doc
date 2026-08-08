@@ -3,8 +3,7 @@
 ----
 
 This feature was added late September 2017, after 3.6.7.  In terms of
-versioning, it will be part of 3.6.8, or you could just grab the latest from
-github.
+versioning, it is part of 3.6.8.
 
 ## overview
 

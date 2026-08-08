@@ -198,6 +198,8 @@ A more detailed explanation, with figures, is [here](how.html).
 
 -   Linux distributions:
     -   Fedora <https://fedoraproject.org/wiki/Package_Source_Control#Authorization>
+        -   as of 2026 July, I'm not sure if this is true anymore; they
+            appear to be moving to forgejo.
     -   KDE Neon <https://community.kde.org/Neon/Git>
     -   Gentoo (can't find a decent link, but <https://wiki.gentoo.org/wiki/User:Robbat2> has made several commits to gitolite over the years, e.g., <https://github.com/gitolite/gitolite/commit/766fd7d46ebb82f9d0134886a3fc5228b4df3936>, or <https://codeberg.org/sitaramc/gitolite/commit/766fd7d46ebb82f9d0134886a3fc5228b4df3936>)
     -   Mageia <https://wiki.mageia.org/en/Git_Migration#Git_Authentication>
